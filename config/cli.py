@@ -33,8 +33,7 @@ def typing_effect(message, delay=0.04):
 
 def add_subtree(framework, key, folder):
     url = f'{MAP[key]}Software-Engineering-Assistantship/{MAP[framework]}-ess.git'
-    # os.system(f'git subtree add --prefix {folder} {url} main --squash')
-    print(f'git subtree add --prefix {folder} {url} main --squash')
+    os.system(f'git subtree add --prefix {folder} {url} main --squash')
 
 if __name__ == '__main__':
     os.system('clear') or None
