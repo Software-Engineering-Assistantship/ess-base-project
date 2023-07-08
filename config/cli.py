@@ -2,16 +2,24 @@ import select
 import sys
 import time
 import inquirer
+import platform
 import os
+import msvcrt
 
 from constants import MAP, FRAMEWORKS
 
 def create_clickable_link(url, text):
     return f'\033]8;;{url}\033\\{text}\033]8;;\033\\'
 
+def clear():
+    if platform.system() == 'Windows':
+        os.system('cls') or None
+    else:
+        os.system('clear') or None
+
 def wait_and_clear(s=1):
     wait(s)
-    os.system('clear') or None
+    clear()
     print()
 
 def wait(s=1):
@@ -19,16 +27,29 @@ def wait(s=1):
 
 def typing_effect(message, delay=0.04):
     index = 0
-    for char in message:
-        print(char, end='', flush=True)
-        if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-            if sys.stdin.readline().strip() == '':
-                print('\033[F', end='', flush=True)
-                print(' 🗂  🛠  ', end='')
-                print(message)
+    if platform.system() == 'Windows':
+        for char in message:
+            sys.stdout.write(char)
+            sys.stdout.flush()
+            if msvcrt.kbhit() and msvcrt.getch() == b'\r':
+                sys.stdout.write('\033[F')
+                sys.stdout.write(' 🗂  🛠  ')
+                sys.stdout.write(message)
+                sys.stdout.flush()
                 return
-        time.sleep(delay)
-        index += 1
+            time.sleep(delay)
+            index += 1
+    else:
+        for char in message:
+            print(char, end='', flush=True)
+            if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+                if sys.stdin.readline().strip() == '':
+                    print('\033[F', end='', flush=True)
+                    print(' 🗂  🛠  ', end='')
+                    print(message)
+                    return
+            time.sleep(delay)
+            index += 1
     print()
 
 def add_subtree(framework, key, folder):
@@ -36,7 +57,7 @@ def add_subtree(framework, key, folder):
     os.system(f'git subtree add --prefix {folder} {url} main --squash')
 
 if __name__ == '__main__':
-    os.system('clear') or None
+    clear()
     print('\n 🗂  🛠  ', end='')
     
     while(True):
@@ -120,5 +141,5 @@ if __name__ == '__main__':
         
             typing_effect('Reiniciando CLI... 🔄')
             wait(2)
-            os.system('clear') or None
+            clear()
             continue
