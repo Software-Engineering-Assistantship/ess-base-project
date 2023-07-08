@@ -4,7 +4,6 @@ import time
 import inquirer
 import platform
 import os
-import msvcrt
 
 from constants import MAP, FRAMEWORKS
 
@@ -28,6 +27,8 @@ def wait(s=1):
 def typing_effect(message, delay=0.04):
     index = 0
     if platform.system() == 'Windows':
+        import msvcrt
+
         for char in message:
             sys.stdout.write(char)
             sys.stdout.flush()
