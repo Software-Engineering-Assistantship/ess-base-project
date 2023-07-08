@@ -40,10 +40,16 @@ Certifique-se de que todos estejam alinhados na escolha dos *frameworks* antes d
 ### Crie o Projeto Base 📁
 
 Para criar o projeto, execute o comando abaixo:
-```
+```sh
 pip install inquirer && python3 ./config/cli.py
 
 ```
+ou, caso o comando ```python3``` não exista em sua máquina, execute:
+
+```sh
+pip install inquirer && python ./config/cli.py
+```
+
 Esse comando instalará a biblioteca [inquirer](https://python-inquirer.readthedocs.io/en/latest/) e executará o arquivo cli.py localizado na pasta config. A partir desse momento, você terá acesso a um processo interativo que irá guiá-lo durante a configuração do projeto.
 
 ### Comece a desenvolver! 🚀
