@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+  # TODO: add a service for the backend
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - api-network
+    env_file:
+      - ./.env
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_URL=${DB_URL}
+
+networks:
+  api-network:
+    driver: overlay
+    attachable: true
+
+volumes:
+  mongodb-data:
