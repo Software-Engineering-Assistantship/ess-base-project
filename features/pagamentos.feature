@@ -16,4 +16,5 @@ Given: I am on the "Shopping Cart" page.
 When: I select "Add a new payment method".
 And: I fill all my payment details.
 Then: I am still at the “Shopping Cart” page.
-And: I receive a message about the success of the operation
+And: I receive a message about the success of the operation.
+And: I can see the added card on the screen.
