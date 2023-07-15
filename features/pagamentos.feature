@@ -1,3 +1,5 @@
+Scenario: removing a payment method.
+
 Given: I am on the "Payment Methods" page.
 And: I have a card that finishes with “0032” added at my payment methods.
 When: I locate the payment card that finishes with "0032" that I want to remove.
