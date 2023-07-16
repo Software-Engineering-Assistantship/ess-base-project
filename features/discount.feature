@@ -23,3 +23,5 @@ And: I enter the “FELIPENEIVA” discount code.
 Then: The system verifies the new discount code for validity and applicability to the items in my cart. 
 And: If the new discount code is valid and meets the requirements, the system replaces the previous discount code with the new one. 
 And: The updated total price reflecting the new discount code is displayed. 
+
+
