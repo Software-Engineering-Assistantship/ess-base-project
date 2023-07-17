@@ -15,9 +15,4 @@ WHEN o usuário “Ana” clicar no ícone “filtros”
 AND escolher um gênero musical dentre as opções listadas
 THEN o usuário “Ana” deve ser redirecionado à uma nova página com uma lista das músicas em alta apenas no gênero selecionado
 
-Scenario: Busca por gênero musical
-GIVEN o usuário “Ana” está na página de “Reviews”
-AND o usuário “Ana” quer achar a review de uma música “Cruel Summer” do género POP
-WHEN o usuário “Ana” clica no “filtro” de busca
-AND o usuário “Ana” escolhe o gênero POP na categoria de “Gêneros” no filtro
-THEN é exibida uma lista de resultados onde ela visualiza a música de título " “Cruel Summer"
+Scenario 3
