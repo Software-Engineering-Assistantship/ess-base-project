@@ -19,3 +19,9 @@ GIVEN “Ana” está na página inicial
 AND está na seção "Mais Escutados" ou "Mais Bem Avaliadas"
 WHEN “Ana” seleciona múltiplos critérios de filtragem (como gênero, artista, data de lançamento)
 THEN a lista é atualizada para mostrar apenas as músicas que correspondem a todos os critérios selecionados
+
+Cenário: Mais Escutados entre amigos
+
+Given "Ana" está na seção de "Mais Escutados"
+And "Ana" clica para no filtro para "Apenas Amigos"
+Then "Ana" vê que a música "132" é a mais escutada entre seus amigos
