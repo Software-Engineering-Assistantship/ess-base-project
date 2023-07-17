@@ -28,4 +28,4 @@ GIVEN que o usuário “Ana” está na página de “Em alta”
 AND o sistema possui a música "123"
 WHEN o usuário “Ana’ clicar em “buscar”
 AND o usuário “Ana” digitar no campo de busca a música "123"
-THEN a página deve exibir os resultados correspondentes à busca, incluindo a música de título "123"
+THEN a página deve exibir todos os resultados correspondentes à busca, incluindo a música de título "123"
