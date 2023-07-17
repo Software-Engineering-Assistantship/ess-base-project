@@ -13,3 +13,5 @@ AND o usuário “Ana” quer achar a review de uma música “Cruel Summer” d
 WHEN o usuário “Ana” clica no “filtro” de busca
 AND o usuário “Ana” escolhe o gênero POP na categoria de “Gêneros” no filtro
 THEN é exibida uma lista de resultados onde ela visualiza a música de título " “Cruel Summer"
+
+*mudança*
