@@ -18,7 +18,7 @@ And o usuário “Ana” quer achar a review de uma música da “Taylor Swift�
 When o usuário “Ana” insere o nome da Taylor Swift em “buscar”
 Then a interface apresenta os resultados filtrados, exibindo as músicas e álbuns da “Taylor Swift”
 
-Scenario: Busca avançada com múltiplos filtros
+Scenario: Busca avançada com múltiplos filtros 
 
 Given o usuário “Ana” está na página de “Reviews”
 And o usuário”Ana” quer achar a review de uma música da “Taylor Swift” que é POP e está nas mais bem avaliadas
