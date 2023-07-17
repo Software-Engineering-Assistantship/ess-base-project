@@ -4,9 +4,8 @@ Feature: Em Alta
 
 Scenario: Exibir informações sobre as músicas em alta
 GIVEN que o usuário “Ana” está na página de “Reviews” 
-AND que existem músicas disponíveis no sistema
-WHEN o usuário “Ana” clicar no “em alta”
-THEN o usuário “Ana” deve ser redirecionado à uma página de “em alta”
+WHEN o usuário “Ana” clicar no “Em alta”
+THEN o usuário “Ana” deve ser redirecionado à uma página de “Em alta”
 AND o usuário “Ana” deve visualizar uma lista das músicas em alta com algumas informações sobre a música (título, cantor, capa do álbum)
 
 Scenario: Filtrar músicas em alta por gênero musical
