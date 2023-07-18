@@ -21,3 +21,13 @@ Then o review “123” é removido da aplicação
 And “Ana” é redirecionada para a página de reviews
 And o review “123” removido não é mais exibido na página de reviews
 And uma mensagem de confirmação é exibida informando que o review “123” foi removido com sucesso
+
+# NEW SCENARIO FOR TESTING
+Given “Ana” está logada na aplicação
+And “Ana” tem permissão de ““edição/remoção””
+And “Ana” está na aba “músicas” da página de conteúdos
+When “Ana” localiza uma música de ID “123” e deseja remover
+And “Ana” clica em um botão de remoção próximo à música de ID “123”
+And “Ana” confirma a remoção no pop-up
+Then A música de ID “123” é removida da aplicação 
+And A música de ID “123” não é mais exibida na página de conteúdos
