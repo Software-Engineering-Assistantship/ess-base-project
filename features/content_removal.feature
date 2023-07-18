@@ -21,8 +21,9 @@ Then o review “123” é removido da aplicação
 And “Ana” é redirecionada para a página de reviews
 And o review “123” removido não é mais exibido na página de reviews
 And uma mensagem de confirmação é exibida informando que o review “123” foi removido com sucesso
+Then test test test
 
-# NEW SCENARIO FOR TESTING
+# DEV NEW SCENARIO
 Given “Ana” está logada na aplicação
 And “Ana” tem permissão de ““edição/remoção””
 And “Ana” está na aba “músicas” da página de conteúdos
