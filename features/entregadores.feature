@@ -9,6 +9,14 @@ Cadastro e manutenção de entregadores (inserir, remover, atualizar)
 	And: Eu clico no botão "Sign Up"
 	Then: Eu recebo um Pop-up confirmando a realização do cadastro eficientemente
 
+	Scenario: Modificação do valor do frete
+        Given: Eu estou logada no meu perfil "brenda" do website HenriqueMeloE-Commerce.com
+        And: Estou na minha página de perfil
+        When: EU clico no campo FRETE
+        And: Eu altero o valor do campo de "10,00" para "8,00"
+        And: Eu clico no botão "Update"
+        Then: Eu recebo um Pop-up informando que as alterações foram realizadas com sucesso
+
 
 FALHAS
 
