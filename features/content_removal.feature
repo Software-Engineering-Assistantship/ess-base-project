@@ -32,3 +32,4 @@ And “Ana” clica em um botão de remoção próximo à música de ID “123�
 And “Ana” confirma a remoção no pop-up
 Then A música de ID “123” é removida da aplicação 
 And A música de ID “123” não é mais exibida na página de conteúdos
+Then AJUSTANDO CENARIO TESTE
