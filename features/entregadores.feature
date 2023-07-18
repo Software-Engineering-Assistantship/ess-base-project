@@ -28,5 +28,5 @@ FALHAS
 	And: Eu altero o valor do campo de "10,00" para "-8,00"
 	And: Eu clico no botão "Update"
 	Then: Eu recebo um Pop-up informando que o valor do frete não é válido
-	And: As alterações não foram realizadas
+	And: Aparece uma mensagem de alteração não realizada
 
