@@ -9,7 +9,7 @@ Given o usuário “Ana” está na página de “Reviews”
 And o usuário “Ana” quer achar a review de uma música do género POP
 When o usuário “Ana” clica no “filtro” de busca
 And o usuário “Ana” escolhe o gênero POP na categoria de “Gêneros” no filtro
-Then a interface exibe os resultados filtrados de acordo com o gênero POP, mostrando as músicas e álbuns correspondentes.
+Then a interface exibe os resultados filtrados de acordo com o gênero POP, mostrando as músicas "Lover" and "Cruel Summer" e álbuns correspondentes.
 
 Scenario: Busca por artista
 
