@@ -24,6 +24,6 @@ THEN é exibida uma lista de resultados onde ela visualiza a música de título 
 
 Scenario: Busca por artista 
 GIVEN o usuário “Ana” está na página de “Reviews”
-AND o usuário “Ana” quer achar a review da música  “Cruel Summer”  da “Taylor Swift”
+AND o usuário “Ana” quer achar a review da música  “Lover”  da “Taylor Swift”
 WHEN o usuário “Ana” insere o nome da Taylor Swift em “buscar”
 THEN é exibida uma lista de resultados, exibindo as músicas e álbuns da “Taylor Swift”
