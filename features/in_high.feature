@@ -27,3 +27,10 @@ GIVEN o usuário “Ana” está na página de “Reviews”
 AND o usuário “Ana” quer achar a review da música  “Lover”  da “Taylor Swift”
 WHEN o usuário “Ana” insere o nome da Taylor Swift em “buscar”
 THEN é exibida uma lista de resultados, exibindo as músicas e álbuns da “Taylor Swift”
+
+Scenario: Busca avançada com múltiplos filtros
+GIVEN o usuário “Ana” está na página de “Reviews”
+AND o usuário”Ana” quer achar a review da música “Lover” da “Taylor Swift” que é POP e está nas mais bem avaliadas
+WHEN o usuário “Ana” clica no “filtro” de busca
+AND o usuário “Ana” escolhe o gênero POP na categoria de “Gêneros” no filtro e clica do mais popular pro menos popular na categoria “popularidade”, buscando por “Taylor Swift” no “Buscar” 
+THEN os resultados são apresentados com base nos critérios escolhidos, fornecendo uma lista personalizada de músicas e álbuns da “Taylor Swift”, do mais popular para o menos popular que são do gênero POP.
