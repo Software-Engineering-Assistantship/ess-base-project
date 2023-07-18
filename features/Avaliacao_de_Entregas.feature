@@ -4,17 +4,18 @@ Feature: Avaliacao de Entregas
     So that eu possa informar os demais usuarios e futuros compradores
 
 Cenário: Avaliação de Entrega Bem sucedida
-    Given eu "cliente" recentemente recebi uma compra de um "HyperX alloy fps pro" pela empresa "JAMEF"
-    And eu estou na area de realizar avaliação da empresa de entregas "JAMEF" 
+    Given eu "cliente" logado no usuario"Bruno" 
+    And recentemente recebi uma compra de um "HyperX alloy fps pro" pela empresa "JAMEF"
+    And eu estou na area de realizar avaliação da empresa "JAMEF" 
     When eu seleciono "5" estrelas
     And adciono um comentário "muito bom"
     And confirmo
     Then minha avaliação é publicada
-    Then eu vejo minha avaliação na área de avaliações da "JAMEF"
+    And eu vejo minha avaliação contendo "Bruno","5" estrelas e "muito bom" na área de avaliações da "JAMEF"
 
 Cenário: Avaliação de entrega mal sucedida sem estrela
     Given eu "cliente" recentemente recebi uma compra de um "HyperX alloy fps pro" pela empresa "JAMEF"
-    And eu estou na area de realizar avaliação da empresa de entregas "JAMEF"
+    And eu estou na area de realizar avaliação da empresa "JAMEF"
     And o campo das estrelas não esta preenchido
     When adciono um comentário "otimo"
     And eu confirmo
@@ -23,7 +24,7 @@ Cenário: Avaliação de entrega mal sucedida sem estrela
 
 Cenário: Avaliação de Entrega Mal sucedida sem comentario
     Given eu "cliente" recentemente recebi uma compra de um "HyperX alloy fps pro" pela empresa "JAMEF"
-    And eu estou na area de realizar avaliação da empresa de entregas "JAMEF"
+    And eu estou na area de realizar avaliação da empresa "JAMEF"
     And o campo de comentario não esta preenchido
     When eu seleciono "3" estrelas
     And eu confirmo
