@@ -36,7 +36,7 @@ Then a interface exibe as músicas da “Taylor Swift” do álbum “Lover” d
 
 Scenario: Busca por artista inexistente
 
-Given o usuário “Ana” está na página de “em alta”
+Given o usuário “Ana” está na página de “em alta” 
 And o usuário quer achar a review da música  “Cruel Summer”  da “Taylor Swift” do álbum “Lover”
 When o usuário “Ana” insere o nome errado da “Taylor Swift” na barra de “buscar”
 Then a interface exibe uma mensagem informando que o artista não foi encontrado e sugere a revisão do nome digitado ou a tentativa de uma busca por outro artista.
