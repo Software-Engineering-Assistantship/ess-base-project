@@ -27,7 +27,8 @@ FALHAS
         And: Eu digito o valor do frete "10,00" no campo FRETE
         And: Eu faço o upload da minha foto no campo FOTO
         And: Eu clico no botão "Sign Up"
-	Then: Eu recebo um Pop-up informando que o CPF é invalido e o cadastro não foi completado
+	Then: Eu recebo um Pop-up informando que o CPF é invalido 
+	And: Informando que o cadastro não foi completado
 
 	Scenario: Modificação do valor do frete para um valor inválido
 	Given: Eu estou logada no meu perfil "brenda" do website HenriqueMeloE-Commerce.com
@@ -38,3 +39,13 @@ FALHAS
 	Then: Eu recebo um Pop-up informando que o valor do frete não é válido
 	And: As alterações não foram realizadas
 
+	Scenario: Preenchimento de um novo cadastro de entregador, com um CPF inexistente
+        Given: Eu estou na página de realização de cadastro do website HenriqueMeloE-commerce.com
+        When: Eu digito meu nome "brenda" no campo NOME
+        And: Eu digito meu cpf "XXX.XXX.XXX-XX" no campo CPF
+        And: Eu digito o valor do frete "10,00" no campo FRETE
+        And: Eu faço o upload da minha foto no campo FOTO
+        And: Eu clico no botão "Sign Up"
+	Then: Eu recebo um Pop-up informando que o CPF é invalido 
+	And: Informando que o cadastro não foi completado
+	
