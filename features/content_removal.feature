@@ -21,3 +21,4 @@ Then o review “123” é removido da aplicação
 And “Ana” é redirecionada para a página de reviews
 And o review “123” removido não é mais exibido na página de reviews
 And uma mensagem de confirmação é exibida informando que o review “123” foi removido com sucesso
+Then test test test
