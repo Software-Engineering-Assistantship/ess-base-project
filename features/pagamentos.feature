@@ -8,13 +8,26 @@ Then: The system asks for confirmation.
 And: I confirm the removal of the payment method.
 And: The payment method is successfully removed.
 
+Scenario: adding a new valid payment method.
 
+Given: I am on the "Shopping Cart" page and I have a valid credit card.  
+When: I select the "Add a new payment method" option. 
+And: I enter "Ian Gabriel Braga Trinta" in the "Cardholder" field. 
+And: I enter "753" in the "CVV" field. 
+And: I enter "07/30" in the "Expiration date" field. 
+And: I enter "4646 2600 0118 7816" in the "Card number" field. 
+And: I select "Confirmar compra".  
+Then: I remain on the "Shopping Cart" page. 
+And: I can see the message "Adição confirmada" confirming the success of the operation.
 
-Scenario: adding a new payment method.
+Scenario: adding a new invalid payment method.
 
-Given: I am on the "Shopping Cart" page.
-When: I select "Add a new payment method".
-And: I fill all my payment details.
-Then: I am still at the “Shopping Cart” page.
-And: I receive a message about the success of the operation.
-And: I can see the added card on the screen.
+Given: I am on the "Shopping Cart" page and I have an invalid credit card.  
+When: I select the "Add a new payment method" option. 
+And: I enter "Ian Gabriel Braga Trinta" in the "Cardholder" field. 
+And: I enter "753" in the "CVV" field. 
+And: I enter "07/30" in the "Expiration date" field. 
+And: I enter "4646 2600 0118 7816" in the "Card number" field. 
+And: I select "Confirmar compra".  
+Then: I remain on the "Shopping Cart" page. 
+And: I can see the message "Operação não realizada" confirming the failure of the operation.
