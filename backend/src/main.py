@@ -190,6 +190,7 @@ def atualizar_cupom_existente(nome: str, cupom: discount_coupom, db: Session = D
 def deletar_cupom(nome: str, db: Session = Depends(get_db)):
     repo = RepositorioCupoms(db)
     repo.remover(nome)
+    
 
     
 
