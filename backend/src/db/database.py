@@ -123,7 +123,7 @@ class Database():
         collection: Collection = self.db[collection_name]
 
         items = list(collection.find({}, {"_id": 0}))
-
+        print(items)
         return items
 
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
