@@ -124,7 +124,7 @@ class Database():
         collection: Collection = self.db[collection_name]
 
         items = list(collection.find({}, {"_id": 0}))
-
+        print(items)
         return items
     
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
@@ -209,3 +209,100 @@ class Database():
             A list of all items in the collection.
 
         """
+
+    def get_by_id(self, collection_name: str, item_id: str) -> dict:
+        """
+        Retrieve an item by its ID from a collection
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item will be stored
+        - item_id: str
+            The ID of the item to retrieve
+        Returns:
+        - dict or None:
+            The item if found, None otherwise
+        """
+        collection: Collection = self.db[collection_name]
+        print("------------")
+        print(collection)
+        print(item_id)
+        print("------------")
+        # Convert the item_id to ObjectId
+        # object_id = ObjectId(item_id)
+        item = collection.find_one({"title": item_id})
+        del item["_id"] 
+        print(item)
+        return item
+
+    def get_all_reviews(self, collection_name: str) -> list:
+        collection: Collection = self.db[collection_name]
+
+        reviews = list(collection.find({}, {"_id": 0}))
+
+        return reviews
+    
+    def get_review_by_id(self, collection_name: str, review_id: str) -> dict:
+        collection: Collection = self.db[collection_name]
+
+        review = collection.find_one({"id": str(review_id)}, {"_id": 0})
+        return review
+    
+    def insert_review(self, collection_name: str, review: dict) -> dict:
+        # TODO: test if this method works
+
+        review["id"] = str(uuid4())[:self.ID_LENGTH]
+
+        collection: Collection = self.db[collection_name]
+
+        review_id = collection.insert_one(review).inserted_id
+        return {
+            "id": str(review_id),
+            **review
+        }
+    
+    def add(self, collection_name: str, item: dict) -> dict:
+        """
+        Insert an item into a collection
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item will be stored
+        - item: dict
+            The item to insert
+        Returns:
+        - dict:
+            The inserted item
+        """
+
+        collection: Collection = self.db[collection_name]
+        print("------------")
+        item = dict(item)
+        print(collection)
+        print(item)
+        print("------------")
+        item_id = collection.insert_one(item).inserted_id
+        item["_id"] = str(item["_id"])
+        return {
+            "id": str(item_id),
+            **item
+        }
+
+    def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
+        collection: Collection = self.db[collection_name]
+
+        print("------------")
+        print(collection)
+        print(item_id)
+        print(item)
+        print("------------")
+
+        # Convert the item to a dictionary if it's an instance of SongCreateModel
+        # if isinstance(item, SongCreateModel):
+        item = dict(item)
+
+        item_id = collection.update_one({"title": item_id}, {"$set": item})
+
+        # item["_id"] = str(item["_id"])
+
+        return {
+            **item
+        }
