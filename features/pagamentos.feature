@@ -31,3 +31,8 @@ And: I enter "4646 2600 0118 7816" in the "Card number" field.
 And: I select "Confirmar compra".  
 Then: I remain on the "Shopping Cart" page. 
 And: I can see the message "Operação não realizada" confirming the failure of the operation.
+
+
+------------------------------ SERVICE SCENARIOS ---------------------------------------------------
+
+Scenario
