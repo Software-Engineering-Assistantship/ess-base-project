@@ -14,7 +14,7 @@ class Database():
     def __init__(self):
         self.db = None
         self.connect()
-        
+
 
     def connect(self):
         try:
@@ -44,10 +44,10 @@ class Database():
 
     def get_db(self):
         return self.db
-    
+
 
     def create_collection(
-        self, 
+        self,
         name: str,
         indexes: List[IndexModel] = [],
         validation_schema: Dict = {}
@@ -57,11 +57,11 @@ class Database():
 
         Parameters
         - name : str
-            The name of the collection to create    
+            The name of the collection to create
         - indexes : List[IndexModel]
             The indexes to create in the collection
         - validation_schema : dict
-            The validation schema used to validate data inserted into the 
+            The validation schema used to validate data inserted into the
             collection. It should be a dictionary representing a JSON Schema
 
         Returns
@@ -72,9 +72,9 @@ class Database():
         - TypeError: If indexes is not a list of pymongo.IndexModel
 
         """
-            
+
         collection_options = { "validator": { "$jsonSchema": validation_schema } }
-            
+
         collection: Collection = self.db.create_collection(
             name,
             **collection_options
@@ -106,7 +106,7 @@ class Database():
             return True
 
         return False
-    
+
     def get_all_items(self, collection_name: str) -> list:
         """
         Get all items from a collection
@@ -123,10 +123,10 @@ class Database():
 
         collection: Collection = self.db[collection_name]
 
-        items = list(collection.find({}, {"_id": 0}))
+        items = list(collection.find({}, {"_id": 0})) # RUIM
 
         return items
-    
+
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
         """
         Retrieve an item by its ID from a collection
@@ -146,7 +146,7 @@ class Database():
 
         item = collection.find_one({"id": str(item_id)}, {"_id": 0})
         return item
-    
+
     def insert_item(self, collection_name: str, item: dict) -> dict:
         """
         Insert an item into a collection
@@ -173,7 +173,7 @@ class Database():
             "id": str(item_id),
             **item
         }
-    
+
     # TODO: implement update_item method
     # def update_item(self, collection_name: str, item_id: str, item: dict) -> dict:
         """
@@ -209,3 +209,20 @@ class Database():
             A list of all items in the collection.
 
         """
+def get_reviews_by_song_id(self, song_id: str) -> list:
+    """
+    Get all reviews of a song
+
+    Parameters:
+    - song_id: str
+        The ID of the song
+
+    Returns:
+    - list:
+        A list of all reviews of the song
+
+    """
+
+    reviews = self.db.get_all_items('reviews')
+
+    return [review for review in reviews if review['song_id'] == song_id]
