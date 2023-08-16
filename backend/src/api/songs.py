@@ -66,6 +66,22 @@ def add_song(song: SongCreateModel):
 
     return song_add_response
 
+@router.get(
+    "/songs",
+    response_model=SongList,
+    response_class=JSONResponse,
+    summary="get all songs",
+)
+def get_songs():
+    songs_get_response = SongService.get_songs()
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print(songs_get_response)
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    return {
+        "musics": songs_get_response
+    }
+
+
 
 @router.delete(
     "/{song_id}",
@@ -76,6 +92,18 @@ def add_song(song: SongCreateModel):
 def delete_song(song_id: str):
     song_delete_response = SongService.delete_song(song_id)
     return song_delete_response
+
+@router.get(
+    "/higlighted",
+    response_model=SongList,
+    response_class=JSONResponse,
+    summary="get highlighted songs",
+)
+def get_highlighted():
+    highlighted_response = SongService.get_highlighted()
+    return {
+        "musics": highlighted_response
+    }
 
 # Edit a song's genre
 # @router.put(
