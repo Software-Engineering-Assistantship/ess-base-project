@@ -35,4 +35,49 @@ And: I can see the message "Operação não realizada" confirming the failure of
 
 ------------------------------ SERVICE SCENARIOS ---------------------------------------------------
 
-Scenario
+
+Funcionalidade: Cadastro e manutenção de itens no menu(Vitor)
+Scenario 1: Adicionar um Produto ao menu geral com um ID ainda não utilizado
+Given:  Sou um Usuário Logado no sistema com o cpf igual a "12345678910” e email 123@gmail.com
+And: Quero adicionar o produto com ID 3, com a loja de cnpj 56789012345678, com o nome igual a “camisa de linho”, da marca “ciao”, preço “500” e especificações “100% Linho” 
+And: Não existe um produto com ID 3
+And: Existe uma loja com cnpj 56789012345678
+When: Faço uma Requisição POST para a rota /produtos/3, usando o ID do produto que quero inserir como parâmetro path
+Then: O produto é adicionado a entidade “produto” 
+And: É retornado o produto criado
+
+class cartao_credito(Base):
+    __tablename__ = 'cartao_credito'
+    nome = Column(String)
+    numero_cartao = Column(String, primary_key=True, index=True)
+    cvv = Column(Integer)
+    validade = Column(String)
+
+Scenario 1: Adding a valid credit card to the system
+
+Given: I want to add an credit card with "nome" as "Ian Gabriel Braga Trinta", "numero_cartao" as "4646 2600 0118 7816", "cvv" as "753" and "validade" as 03/30.
+And: There is no card in the system with "numero_cartao" equal to "4646 2600 0118 7816".
+When: I make a "POST" request to "/cartoes".
+Then: The card is added to the system.
+And: I receive a JSONResponse with "cartão criado com sucesso"
+And: The response status code is 201 Created.
+
+Scenario 2: Failing to add a credit card to the system due to the existance of another card
+
+Given: I want to add an credit card with "nome" as "Ian Gabriel Braga Trinta", "numero_cartao" as "4646 2600 0118 7816", "cvv" as "753" and "validade" as 03/30.
+And: There is a card in the system with "numero_cartao" equal to "4646 2600 0118 7816".
+When: I make a "POST" request to "/cartoes".
+Then: The card is not added to the system.
+And: I receive a JSONResponse with "cartão criado com sucesso"
+And: The response status code is 201 Created.
+
+
+Scenario 3: Reading the full registry of credit cards
+
+Given: I want to see all the credit cards added to the system.
+When: I make a "GET" request to "/cartoes".
+Then: The server returns a list of credit cards.
+And: The response status code is 200 OK.
+
+Scenario 3: Changing 
+

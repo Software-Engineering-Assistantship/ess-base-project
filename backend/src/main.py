@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -23,6 +24,27 @@ engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+class Lojas(BaseModel):
+    email: str
+    nome: str
+    cnpj: str
+    endereco: str
+    senha: str
+
+    class config:
+        orm_mode =  True
+
+class Stores(Base):
+
+    __tablename__ = 'lojas'
+
+    email = Column(String, primary_key=True, index=True)
+    nome = Column(String)
+    cnpj = Column(String)
+    endereco = Column(String)
+    senha = Column(String)
+        
+        
 class credit_card(BaseModel):
     nome: str
     numero_cartao: str
@@ -138,12 +160,41 @@ class RepositorioCupoms():
     def relatorio(self):
         return self.db.query(cupom_desconto).all()
 
+class RepositorioLojas():
+    def __init__(self, db: Session):
+        self.db = db
+    
+    def criar(self, loja: Lojas):
+        db_loja = Stores(email=loja.email, 
+                         nome=loja.nome,
+                         cnpj=loja.cnpj, 
+                         endereco=loja.endereco, 
+                         senha=loja.senha)
+        self.db.add(db_loja)
+        self.db.commit()
+        self.db.refresh(db_loja)
+        return db_loja
+
+    def check_lojas(self, emailcheck: str):
+        return self.db.query(Stores).filter(Stores.email == emailcheck).first()
+
+    def listar(self):
+        lojas = self.db.query(Stores).all()
+        return lojas
+
+    def obter(self):
+        pass
+
+    def deletar(self):
+        pass
+
 criar_banco()
 
 @app.post('/cartoes', response_model=credit_card, status_code=status.HTTP_201_CREATED)
 def criar_cartao(card: credit_card, db: Session = Depends(get_db)):
     card_temp = RepositorioCartao(db).criar(card)
-    return card_temp
+    response_message = {"message": "Cartão criado com sucesso"}
+    return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 @app.get('/cartoes', response_model=list[credit_card], status_code=status.HTTP_200_OK)
 def acessar_cartoes(db: Session = Depends(get_db)):
@@ -190,6 +241,23 @@ def atualizar_cupom_existente(nome: str, cupom: discount_coupom, db: Session = D
 def deletar_cupom(nome: str, db: Session = Depends(get_db)):
     repo = RepositorioCupoms(db)
     repo.remover(nome)
+    
+    
+@app.post('/lojas', status_code=status.HTTP_201_CREATED)
+def criar_lojas(lojas: Lojas, db: Session = Depends(get_db)):
+    loja_criada = RepositorioLojas(db).criar(lojas)
+    return loja_criada
+
+
+@app.get('/lojas')
+def listar_lojas(db: Session = Depends(get_db)):
+    lojas = RepositorioLojas(db).listar() 
+    return lojas
+
+#@app.delete('/lojas/{email}', status_code=status.HTTP_204_NO_CONTENT)
+#def deletar_email(email: str, db: Session = Depends(get_db)):
+    repo = RepositorioLojas(db)
+    repo.deletar(email)
     
 
     
