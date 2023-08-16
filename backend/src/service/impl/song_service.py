@@ -15,7 +15,6 @@ class SongService:
 
         return song
 
-
     @staticmethod
     def add_song(song: SongCreateModel):
         added_song = db.add('songs', song)
@@ -68,4 +67,6 @@ class SongService:
     #     songs = db.get_by_album('musicas', album)
         
     #     return songs
+    
+    
     

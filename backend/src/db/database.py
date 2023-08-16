@@ -321,7 +321,27 @@ class Database():
         """
 
         reviews = self.db.get_all_items('reviews')
-        return [review for review in reviews if review['song_id'] == song_id]
+        return [review for review in reviews if review['song_id'] == song_id] 
+
+    def get_by_year(self, collection_name: str, year: int) -> list:
+        """
+        Retrieve all items of a collection by year
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item is stored
+        - year: str
+            The year of the item to retrieve
+
+        Returns:
+        - list:
+            A list of all items in the collection.
+
+        """
+
+        collection: Collection = self.db[collection_name]
+        year = int(year) 
+        items = list(collection.find({"release_year": year}))
     
     def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
         """
@@ -417,6 +437,42 @@ class Database():
 
         collection: Collection = self.db[collection_name]
         items = list(collection.find({"artist": artist}))
+        
+        for itm in items:
+            del itm["_id"]
+        
+        return {
+            "musics": items
+        }
+ 
+    # collection: Collection = self.db[collection_name]
+    # items = list(collection.find({"artist": artist}))
+    
+    # for itm in items:
+    #     del itm["_id"]
+    
+    # return {
+    #     "musics": items
+    # }
+    
+    def get_by_album(self, collection_name: str, album: str) -> list:
+        """
+        Retrieve all items of a collection by album
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item is stored
+        - album: str
+            The album of the item to retrieve
+
+        Returns:
+        - list:
+            A list of all items in the collection.
+
+        """
+
+        collection: Collection = self.db[collection_name]
+        items = list(collection.find({"title": album}))
         
         for itm in items:
             del itm["_id"]

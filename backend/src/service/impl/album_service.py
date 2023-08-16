@@ -35,3 +35,13 @@ class AlbumService:
         deleted_album = db.delete('albuns', id)
         return deleted_album
     
+    @staticmethod
+    def get_by_album(album: str):
+        songs = db.get_by_album('musicas', album)
+        
+        return songs
+    
+    @staticmethod
+    def gey_album_by_name(album: str):
+        album = db.get_by_name('albuns', album)
+        return album
