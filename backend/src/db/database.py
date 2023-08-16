@@ -212,15 +212,11 @@ class Database():
 
         """
         collection: Collection = self.db[collection_name]
-        print("------------")
-        print(collection)
-        print(item_id)
+        
         item_id = ObjectId(item_id)
-        print("------------")
-        # Convert the item_id to ObjectId
-        # object_id = ObjectId(item_id)
+      
         item = collection.find_one({"_id": item_id})
-        # del item["_id"] 
+        
         return item
 
     def add(self, collection_name: str, item: dict) -> dict:
@@ -240,11 +236,9 @@ class Database():
         """
 
         collection: Collection = self.db[collection_name]
-        print("------------")
+     
         item = dict(item)
-        print(collection)
-        print(item)
-        print("------------")
+       
         item_id = collection.insert_one(item).inserted_id
         item["_id"] = str(item["_id"])
         return {
@@ -255,19 +249,9 @@ class Database():
     def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
         collection: Collection = self.db[collection_name]
 
-        print("------------")
-        print(collection)
-        print(item_id)
-        print(item)
-        print("------------")
-
-        # Convert the item to a dictionary if it's an instance of SongCreateModel
-        # if isinstance(item, SongCreateModel):
         item = dict(item)
 
         item_id = collection.update_one({"_id": item_id}, {"$set": item})
-
-        # item["_id"] = str(item["_id"])
 
         return {
             **item
@@ -275,11 +259,6 @@ class Database():
 
     def delete(self, collection_name: str, item_id: str) -> dict:
         collection: Collection = self.db[collection_name]
-
-        print("------------")
-        print(collection)
-        print(item_id)
-        print("------------")
 
         item = collection.delete_one({"title": item_id})
         if item.deleted_count == 0:
@@ -342,8 +321,8 @@ class Database():
         """
 
         reviews = self.db.get_all_items('reviews')
-
         return [review for review in reviews if review['song_id'] == song_id]
+    
     def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
         """
         Retrieve music links for a song
@@ -366,3 +345,82 @@ class Database():
         }
 
         return song_links
+ 
+    def get_by_year(self, collection_name: str, year: int) -> list:
+        """
+        Retrieve all items of a collection by year
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item is stored
+        - year: str
+            The year of the item to retrieve
+
+        Returns:
+        - list:
+            A list of all items in the collection.
+
+        """
+
+        collection: Collection = self.db[collection_name]
+        year = int(year) 
+        items = list(collection.find({"release_year": year}))
+        
+        for itm in items:
+            del itm["_id"]
+        
+        return {
+            "musics": items
+        }
+
+    def get_by_genre(self, collection_name: str, genre: str) -> list:
+        """
+        Retrieve all items of a collection by genre
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item is stored
+        - genre: str
+            The genre of the item to retrieve
+
+        Returns:
+        - list:
+            A list of all items in the collection.
+
+        """
+
+        collection: Collection = self.db[collection_name]
+        items = list(collection.find({"genre": genre}))
+        
+        for itm in items:
+            del itm["_id"]
+        
+        return {
+            "musics": items
+        }
+
+    def get_by_artist(self, collection_name: str, artist: str) -> list:
+        """
+        Retrieve all items of a collection by artist
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item is stored
+        - artist: str
+            The artist of the item to retrieve
+
+        Returns:
+        - list:
+            A list of all items in the collection.
+
+        """
+
+        collection: Collection = self.db[collection_name]
+        items = list(collection.find({"artist": artist}))
+        
+        for itm in items:
+            del itm["_id"]
+        
+        return {
+            "musics": items
+        }

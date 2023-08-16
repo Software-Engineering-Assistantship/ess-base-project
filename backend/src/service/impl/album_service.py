@@ -34,3 +34,4 @@ class AlbumService:
     def delete_album(id: str):
         deleted_album = db.delete('albuns', id)
         return deleted_album
+    
