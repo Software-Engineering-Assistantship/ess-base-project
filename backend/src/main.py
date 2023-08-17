@@ -133,6 +133,23 @@ class cupom_desconto(Base):
     __tablename__ = 'cupom_desconto'
     nome = Column(String, primary_key=True, index=True)
     desconto = Column(Integer)  # Change this to an 'Integer'
+    
+class Review(Base):
+    __tablename__ = "reviews"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user = Column(String)
+    company = Column(String)
+    stars = Column(Integer)
+    comment = Column(String)
+
+
+class ReviewCreate(BaseModel):
+    user: str
+    company: str
+    stars: int
+    comment: str
+
 
 # Function to create the database tables
 def criar_banco():
@@ -314,23 +331,6 @@ def deletar_cupom(nome: str, db: Session = Depends(get_db)):
     repo = RepositorioCupoms(db)
     repo.remover(nome)
     
-class Review(Base):
-    __tablename__ = "reviews"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user = Column(String)
-    company = Column(String)
-    stars = Column(Integer)
-    comment = Column(String)
-
-Base.metadata.create_all(bind=engine)
-
-class ReviewCreate(BaseModel):
-    user: str
-    company: str
-    stars: int
-    comment: str
-
 @app.post("/submit_review")
 async def submit_review(review: ReviewCreate):
     if review.stars < 1 or review.stars > 5:
