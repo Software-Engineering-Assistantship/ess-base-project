@@ -5,6 +5,7 @@ from datetime import datetime
 from src.service.impl.review_service import ReviewService
 from src.schemas.review import ReviewCreateModel, ReviewModel, ReviewList
 from starlette.responses import JSONResponse
+from fastapi import HTTPException
 
 router = APIRouter()
 
@@ -15,6 +16,25 @@ class Review(BaseModel):
     author: str
     song: str
     created_at: datetime
+    timestamp: datetime
+      
+def get_reviews_by_song_id(song_id: int):
+    """
+    Get reviews by song ID.
+
+    Args:
+    - song_id (int): The ID of the song to retrieve reviews for.
+
+    Returns:
+    - A list of reviews for the specified song.
+
+    Raises:
+    - HTTPException(404) if the song is not found.
+    """
+    reviews = db.get_reviews_by_song_id(song_id) # fazer uma função dessa no db.py
+    if not reviews:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Song not found")
+    return reviews
 
 @router.post(
     "/create",
@@ -60,5 +80,3 @@ def edit_review(review_id: str, review: ReviewCreateModel):
 # @router.delete(
 #     "/{review_id}",
 # )
-
-

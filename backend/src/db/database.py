@@ -56,11 +56,11 @@ class Database():
 
         Parameters
         - name : str
-            The name of the collection to create    
+            The name of the collection to create
         - indexes : List[IndexModel]
             The indexes to create in the collection
         - validation_schema : dict
-            The validation schema used to validate data inserted into the 
+            The validation schema used to validate data inserted into the
             collection. It should be a dictionary representing a JSON Schema
 
         Returns
@@ -302,3 +302,21 @@ class Database():
             A list of all items in the collection.
 
         """
+
+def get_reviews_by_song_id(self, song_id: str) -> list:
+    """
+    Get all reviews of a song
+
+    Parameters:
+    - song_id: str
+        The ID of the song
+
+    Returns:
+    - list:
+        A list of all reviews of the song
+
+    """
+
+    reviews = self.db.get_all_items('reviews')
+
+    return [review for review in reviews if review['song_id'] == song_id]
