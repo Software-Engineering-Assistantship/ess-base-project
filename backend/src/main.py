@@ -172,6 +172,87 @@ class RepositorioEntregadores():
     def relatorio(self):
         return self.db.query(Entregadores).all()
 
+
+class Lojas(BaseModel):
+    email: str
+    nome: str
+    cnpj: str
+    endereco: str
+    senha: str
+
+    class config:
+        orm_mode =  True
+
+class Stores(Base):
+
+    __tablename__ = 'lojas'
+
+    email = Column(String, primary_key=True, index=True)
+    nome = Column(String)
+    cnpj = Column(String)
+    endereco = Column(String)
+    senha = Column(String)
+        
+        
+class credit_card(BaseModel):
+    nome: str
+    numero_cartao: str
+    cvv: int
+    validade: str
+
+class discount_coupom(BaseModel):
+    nome: str
+    desconto: int  # Change this to an 'int'
+
+class cartao_credito(Base):
+    __tablename__ = 'cartao_credito'
+    nome = Column(String)
+    numero_cartao = Column(String, primary_key=True, index=True)
+    cvv = Column(Integer)
+    validade = Column(String)
+    
+class cupom_desconto(Base):
+    __tablename__ = 'cupom_desconto'
+    nome = Column(String, primary_key=True, index=True)
+    desconto = Column(Integer)  # Change this to an 'Integer'
+
+
+class Entrega(BaseModel):
+
+    id: int
+    nomeProduto: str
+    quantidade: int
+    marca: str
+    tipoDoProduto: str
+    enderecoDeEntrega: str
+    preco: float
+    status: str
+    
+class Entregas(Base):
+    __tablename__ = 'entregas'
+    id = Column(Integer, primary_key=True, index=True)
+    nomeProduto = Column(String)
+    quantidade = Column(Integer)
+    marca = Column(String)
+    tipoDoProduto = Column(String)
+    enderecoDeEntrega = Column(String)
+    preco = Column(Float)
+    status = Column(String)
+
+
+# Function to create the database tables
+def criar_banco():
+    Base.metadata.create_all(bind=engine)
+
+# Dependency to get a database session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 class RepositorioCartao():
     def __init__(self, db: Session):
         self.db = db
@@ -435,6 +516,7 @@ def criar_entrega(id: Entrega, db: Session = Depends(get_db)):
     id_temp = RepositorioEntregas(db).criar(id)
     response_message = {"message": "Entrega criada com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
+
 
 @app.get('/entregas/{emailEntregador}', response_model=list[Entrega], status_code=status.HTTP_200_OK)
 def acessar_entregas(db: Session = Depends(get_db)):
