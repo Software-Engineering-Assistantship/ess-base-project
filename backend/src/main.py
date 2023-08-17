@@ -1,7 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -134,6 +134,30 @@ class cupom_desconto(Base):
     nome = Column(String, primary_key=True, index=True)
     desconto = Column(Integer)  # Change this to an 'Integer'
 
+
+class Entrega(BaseModel):
+
+    id: int
+    nomeProduto: str
+    quantidade: int
+    marca: str
+    tipoDoProduto: str
+    enderecoDeEntrega: str
+    preco: float
+    status: str
+    
+class Entregas(Base):
+    __tablename__ = 'entregas'
+    id = Column(Integer, primary_key=True, index=True)
+    nomeProduto = Column(String)
+    quantidade = Column(Integer)
+    marca = Column(String)
+    tipoDoProduto = Column(String)
+    enderecoDeEntrega = Column(String)
+    preco = Column(Float)
+    status = Column(String)
+
+
 # Function to create the database tables
 def criar_banco():
     Base.metadata.create_all(bind=engine)
@@ -258,6 +282,37 @@ class RepositorioLojas():
     def deletar(self):
         pass
 
+
+class RepositorioEntregas():
+    def __init__(self, db: Session):
+        self.db = db
+    
+    def check_entrega(self, id: str):
+        return self.db.query(Entregas).filter(Entregas.id == id).first() is not None
+
+    def criar(self, entrega: Entrega):
+        if self.check_entrega(entrega.id):
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Entrega já existente")
+        
+        db_entrega = Entregas(
+            id=entrega.id,
+            nomeProduto=entrega.nomeProduto,
+            quantidade=entrega.quantidade,
+            marca=entrega.marca,
+            tipoDoProduto=entrega.tipoDoProduto,
+            enderecoDeEntrega=entrega.enderecoDeEntrega,
+            preco=entrega.preco,
+            status=entrega.status
+        )
+        self.db.add(db_entrega)
+        self.db.commit()
+        self.db.refresh(db_entrega)
+        return db_entrega
+    
+    def relatorio(self):
+        return self.db.query(Entregas).all()
+
+
 criar_banco()
 
 @app.post('/cartoes', response_model=credit_card, status_code=status.HTTP_201_CREATED)
@@ -357,7 +412,19 @@ def deletar_entregador(email: str, db: Session = Depends(get_db)):
     return JSONResponse(content=response_message, status_code=status.HTTP_200_OK)
 
 
+@app.post('/entregas', response_model=Entrega, status_code=status.HTTP_201_CREATED)
+def criar_entrega(id: Entrega, db: Session = Depends(get_db)):
+    id_temp = RepositorioEntregas(db).criar(id)
+    response_message = {"message": "Entrega criada com sucesso"}
+    return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
+@app.get('/entregas', response_model=list[Entrega], status_code=status.HTTP_200_OK)
+def acessar_entregas(db: Session = Depends(get_db)):
+    repo = RepositorioEntregas(db)
+    entregas = repo.relatorio()
+    return entregas
+
+    
 #@app.delete('/lojas/{email}', status_code=status.HTTP_204_NO_CONTENT)
 #def deletar_email(email: str, db: Session = Depends(get_db)):
     repo = RepositorioLojas(db)
