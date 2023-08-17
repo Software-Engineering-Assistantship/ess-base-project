@@ -110,6 +110,7 @@ class Entrega(BaseModel):
     enderecoDeEntrega: str
     preco: float
     status: str
+    emailEntregador: str
     
 class Entregas(Base):
     __tablename__ = 'entregas'
@@ -121,6 +122,7 @@ class Entregas(Base):
     enderecoDeEntrega = Column(String)
     preco = Column(Float)
     status = Column(String)
+    emailEntregador = Column(String)
         
 
     
@@ -311,7 +313,8 @@ class RepositorioEntregas():
             tipoDoProduto=entrega.tipoDoProduto,
             enderecoDeEntrega=entrega.enderecoDeEntrega,
             preco=entrega.preco,
-            status=entrega.status
+            status=entrega.status,
+            emailEntregador=entrega.emailEntregador
         )
         self.db.add(db_entrega)
         self.db.commit()
@@ -433,7 +436,7 @@ def criar_entrega(id: Entrega, db: Session = Depends(get_db)):
     response_message = {"message": "Entrega criada com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
-@app.get('/entregas', response_model=list[Entrega], status_code=status.HTTP_200_OK)
+@app.get('/entregas/{emailEntregador}', response_model=list[Entrega], status_code=status.HTTP_200_OK)
 def acessar_entregas(db: Session = Depends(get_db)):
     repo = RepositorioEntregas(db)
     entregas = repo.relatorio()
