@@ -396,8 +396,6 @@ def deletar_entregador(email: str, db: Session = Depends(get_db)):
     response_message = {"message": "Entregador removido"}
     return JSONResponse(content=response_message, status_code=status.HTTP_200_OK)
 
-
-
 #@app.delete('/lojas/{email}', status_code=status.HTTP_204_NO_CONTENT)
 #def deletar_email(email: str, db: Session = Depends(get_db)):
     #repo = RepositorioLojas(db)
