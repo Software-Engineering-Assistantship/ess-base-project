@@ -144,6 +144,7 @@ class Entrega(BaseModel):
     tipoDoProduto: str
     enderecoDeEntrega: str
     preco: float
+    status: str
     
 class Entregas(Base):
     __tablename__ = 'entregas'
@@ -154,6 +155,7 @@ class Entregas(Base):
     tipoDoProduto = Column(String)
     enderecoDeEntrega = Column(String)
     preco = Column(Float)
+    status = Column(String)
 
 
 # Function to create the database tables
@@ -299,7 +301,8 @@ class RepositorioEntregas():
             marca=entrega.marca,
             tipoDoProduto=entrega.tipoDoProduto,
             enderecoDeEntrega=entrega.enderecoDeEntrega,
-            preco=entrega.preco
+            preco=entrega.preco,
+            status=entrega.status
         )
         self.db.add(db_entrega)
         self.db.commit()
