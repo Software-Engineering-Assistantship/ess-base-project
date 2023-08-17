@@ -27,3 +27,6 @@ class ReviewCreateModel(BaseModel):
     rating: int
     author: str
     song: str
+
+class ReviewDeleteModel(BaseModel):
+    id: str

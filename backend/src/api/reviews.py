@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from src.db import database as db
 from datetime import datetime
 from src.service.impl.review_service import ReviewService
-from src.schemas.review import ReviewCreateModel, ReviewModel, ReviewList
+from src.schemas.review import ReviewCreateModel, ReviewModel, ReviewList, ReviewDeleteModel
 from starlette.responses import JSONResponse
 from fastapi import HTTPException
 
@@ -77,6 +77,20 @@ def edit_review(review_id: str, review: ReviewCreateModel):
     review_edit_response = ReviewService.update_review(review_id, review)
     return review_edit_response
 
+<<<<<<< Updated upstream
 # @router.delete(
 #     "/{review_id}",
 # )
+=======
+
+@router.delete(
+    "/{review_id}",
+    response_model=ReviewDeleteModel,
+    response_class=JSONResponse
+)
+def delete_review(review_id: str):
+    review_delete_response = ReviewService.delete_review(review_id)
+    return {
+        'review': review_delete_response
+    }
+>>>>>>> Stashed changes
