@@ -191,7 +191,43 @@ def deletar_cupom(nome: str, db: Session = Depends(get_db)):
     repo = RepositorioCupoms(db)
     repo.remover(nome)
     
+class Review(Base):
+    __tablename__ = "reviews"
 
-    
+    id = Column(Integer, primary_key=True, index=True)
+    user = Column(String)
+    company = Column(String)
+    stars = Column(Integer)
+    comment = Column(String)
 
+Base.metadata.create_all(bind=engine)
 
+class ReviewCreate(BaseModel):
+    user: str
+    company: str
+    stars: int
+    comment: str
+
+@app.post("/submit_review")
+async def submit_review(review: ReviewCreate):
+    if review.stars < 1 or review.stars > 5:
+        raise HTTPException(status_code=400, detail="Stars should be between 1 and 5")
+
+    if not review.comment:
+        raise HTTPException(status_code=400, detail="Comment cannot be empty")
+
+    db_review = Review(**review.dict())
+    db = SessionLocal()
+    db.add(db_review)
+    db.commit()
+    db.refresh(db_review)
+    db.close()
+
+    return {"message": "Review submitted successfully"}
+
+@app.get("/get_reviews/{company}")
+async def get_reviews(company: str):
+    db = SessionLocal()
+    company_reviews = db.query(Review).filter(Review.company == company).all()
+    db.close()
+    return company_reviews
