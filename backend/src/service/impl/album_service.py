@@ -5,6 +5,11 @@ from src.db.__init__ import database as db
 class AlbumService:
 
     @staticmethod
+    def get_albums():
+        albums = db.get_all_items('albuns')
+        return albums
+
+    @staticmethod
     def get_album(album_id: str):
         album = db.get_by_id('albuns', album_id)
         print('*******************')

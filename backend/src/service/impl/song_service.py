@@ -1,13 +1,13 @@
 from src.schemas.response import HTTPResponses, HttpResponseModel
-from src.schemas.music import SongCreateModel
+from src.schemas.song import SongCreateModel
 from src.db.__init__ import database as db
 
 
-class MusicService:
+class SongService:
 
     @staticmethod
     def get_song(song_id: str):
-        song = db.get_by_id('musicas', song_id)
+        song = db.get_by_id('songs', song_id)
         print('*******************')
         print(song)
         print('*******************')
@@ -16,13 +16,13 @@ class MusicService:
 
     @staticmethod
     def add_song(song: SongCreateModel):
-        added_song = db.add('musicas', song)
+        added_song = db.add('songs', song)
 
         return added_song
 
     @staticmethod
     def edit_song(id: str, song: SongCreateModel):
-        edited_song = db.edit('musicas', id, song)
+        edited_song = db.edit('songs', id, song)
         print('*******************')
         print(edited_song)
         print('*******************')
@@ -31,6 +31,6 @@ class MusicService:
 
     @staticmethod
     def delete_song(id: str):
-        deleted_song = db.delete('musicas', id)
+        deleted_song = db.delete('songs', id)
 
         return deleted_song
