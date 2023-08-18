@@ -4,7 +4,6 @@ from pymongo import MongoClient, errors
 from pymongo.collection import Collection, IndexModel
 from src.config.config import env
 from typing import Dict
-
 from logging import INFO, WARNING, getLogger
 from bson.objectid import ObjectId
 logger = getLogger('uvicorn')
