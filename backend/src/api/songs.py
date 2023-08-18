@@ -2,20 +2,12 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, Path, status
 from pydantic import BaseModel
 from src.db import database as db
-from src.schemas.song import SongGet, SongModel, SongDelete
+from src.schemas.song import SongGet, SongModel, SongDelete,SongList
 from starlette.responses import JSONResponse
 from src.service.impl.song_service import SongService
 from src.schemas.song import SongCreateModel
 
 router = APIRouter()
-
-class Song(BaseModel):
-    id: int
-    title: str
-    artist: str
-    release_year: int
-    gender: str
-    timestamp: datetime
 
 # Get a specific song
 @router.get(
@@ -32,7 +24,7 @@ def get_song(song_id: str):
 
 @router.get(
     "/",
-    response_model=list[Song],
+    response_model=SongList,
     description="Retrieve all songs",
     tags=["songs"],
 )

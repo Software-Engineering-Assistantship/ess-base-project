@@ -9,15 +9,6 @@ from fastapi import HTTPException
 
 router = APIRouter()
 
-class Review(BaseModel): #PRECISA DE UMA CLASSE REVIEW AQUI?
-    rating: int
-    title: str
-    description: str
-    author: str
-    song: str
-    created_at: datetime
-    timestamp: datetime
-
 
 @router.get(
     "/",

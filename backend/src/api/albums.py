@@ -9,13 +9,6 @@ from src.db import database as db
 
 router = APIRouter()
 
-class Album(BaseModel): #PRECISA DE UMA CLASSE ALBUM AQUI?
-    id: int
-    title: str
-    artist: str
-    release_date: datetime
-    created_date: datetime
-
 @router.get(
     "/",
     response_model=AlbumList,
