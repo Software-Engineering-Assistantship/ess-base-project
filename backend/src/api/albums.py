@@ -14,20 +14,14 @@ router = APIRouter()
     response_model=AlbumList,
     response_class=JSONResponse,
     description="Retrieve all albums",
-    tags=["albums"],
 )
 def get_albums():
-    """
-    Get all albums.
-    Returns:
-    - A list of all albums.
-    """
     albums_get_response = AlbumService.get_albums()
-    return albums_get_response
+    return { 'albums': albums_get_response }
 
 # Get a specific album
 @router.get(
-    "/album/{album_id}",
+    "/{album_id}",
     response_model=AlbumModel,
     response_class=JSONResponse,
     summary="Get a specific album",
@@ -38,7 +32,7 @@ def get_album(album_id: str):
     return album_get_response
 
 @router.put(
-    "/album/{album_id}",
+    "/{album_id}",
     response_model=AlbumModel,
     response_class=JSONResponse,
     summary="update an album",
@@ -50,7 +44,7 @@ def edit_album(album_id: str, album: AlbumCreateModel):
 
 # Add an album
 @router.post(
-    "/album",
+    "/create",
     response_model=AlbumModel,
     response_class=JSONResponse,
     summary="create an album",
@@ -61,7 +55,7 @@ def add_album(album: AlbumCreateModel):
     return album_add_response
 
 @router.delete(
-    "/album/{album_id}",
+    "/{album_id}",
     response_model=AlbumDelete,
     response_class=JSONResponse,
     summary="delete an album",

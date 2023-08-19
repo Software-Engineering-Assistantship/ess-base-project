@@ -3,18 +3,22 @@ from datetime import datetime
 from pydantic import BaseModel
 
 class AlbumModel(BaseModel):
+    id: str
     title: str
     artist: str
-    year_released: int
+    release_year: int
 
 class AlbumGet(BaseModel):
-    name: str
-    artist: str
-
-class AlbumCreateModel(BaseModel):
+    id: str
     title: str
     artist: str
-    year_released: int
+    release_year: int
+
+class AlbumCreateModel(BaseModel):
+    id: str
+    title: str
+    artist: str
+    release_year: int
 
 class AlbumList(BaseModel):
     albums: list[AlbumGet]
