@@ -9,7 +9,7 @@ router = APIRouter()
 
 # Get a specific song
 @router.get(
-    "/song/{song_id}",
+    "/{song_id}",
     response_model=SongModel,
     response_class=JSONResponse,
     summary="Get a specific song",
@@ -32,7 +32,7 @@ def get_songs():
     }
 
 @router.put(
-    "/song/{song_id}",
+    "/{song_id}",
     response_model=SongModel,
     response_class=JSONResponse,
     summary="update a song",
@@ -54,21 +54,8 @@ def add_song(song: SongCreateModel):
 
     return song_add_response
 
-@router.get(
-    "/songs",
-    response_model=SongList,
-    response_class=JSONResponse,
-    summary="get all songs",
-)
-def get_songs():
-    songs_get_response = SongService.get_songs()
-
-    return {
-        "musics": songs_get_response
-    }
-
 @router.delete(
-    "/song/{song_id}",
+    "/{song_id}",
     response_model=SongDelete,
     response_class=JSONResponse,
     summary="delete a song",
@@ -134,17 +121,3 @@ def get_by_album(album):
     return song_get_response
 
 
-# Edit a song's genre
-# @router.put(
-#     "/song/{song_id}/genre",
-#     response_model=HttpResponseModel,
-#     status_code=status.HTTP_200_OK,
-#     responses={
-#         status.HTTP_404_NOT_FOUND: {
-#             "description": "Song not found",
-#         }
-#     },
-# )
-# def edit_genre(song_id: str, genre: str) -> HttpResponseModel:
-#     edit_genre_response = SongService.edit_genre(song_id, genre)
-#     return edit_genre_response

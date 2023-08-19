@@ -5,13 +5,13 @@ from src.service.impl.song_service import SongService
 
 client = TestClient(app)
 
-def test_buscar_musicas_por_genero_existente():
+def test_search_songs_by_genre_existent():
     # Dado que o SongService retorna as músicas "Lover", "Vampire" e "August"
     SongService.get_by_genre= MagicMock(return_value={
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020},
-            {"title": "Vampire", "artist": "John Doe", "genre": "Pop", "release_year": 2020},
-            {"title": "August", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"},
+            {"title": "Vampire", "artist": "John Doe", "genre": "Pop", "release_year": 2020, "id":"x"},
+            {"title": "August", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"}
         ]
     })
 
@@ -25,21 +25,21 @@ def test_buscar_musicas_por_genero_existente():
     # E o JSON da resposta deve conter uma lista de músicas do gênero "Pop", "release_year": "2020" com os nomes "Lover", "Vampire" e "August"
     expected_json = {
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020},
-            {"title": "Vampire", "artist": "John Doe", "genre": "Pop", "release_year": 2020},
-            {"title": "August", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"},
+            {"title": "Vampire", "artist": "John Doe", "genre": "Pop", "release_year": 2020, "id":"x"},
+            {"title": "August", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"}
         ]
     }
     print(expected_json)
     assert response.json() == expected_json
 
-def test_buscar_musicas_por_ano_de_lancamento():
+def test_search_songs_by_year():
     # Dado que o SongService retorna as músicas "Lover" e "Cruel Summer" para o ano de lançamento 2019
 
     SongService.get_by_year = MagicMock(return_value={
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019},
-            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"},
+            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"}
         ]
     })
 
@@ -53,20 +53,20 @@ def test_buscar_musicas_por_ano_de_lancamento():
     # E o JSON da resposta deve conter uma lista de músicas com o ano de lançamento "2019" com os nomes "Lover" e "Cruel Summer"
     expected_json = {
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019},
-            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"},
+            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"}
         ]
     }
     print(expected_json)
     assert response.json() == expected_json
 
-def test_buscar_musicas_por_nome_de_artista():
+def test_search_songs_bt_artist():
 
     # Dado que o SongService retorna as músicas "Lover" e "Cruel Summer" para o artista "Taylor Swift"
     SongService.get_by_artist = MagicMock(return_value={
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019},
-            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"},
+            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"}
         ]
     })
 
@@ -80,20 +80,20 @@ def test_buscar_musicas_por_nome_de_artista():
     # E o JSON da resposta deve conter uma lista de músicas da "Taylor Swift" com os nomes "Lover" e "Cruel Summer"
     expected_json = {
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019},
-            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"},
+            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"}
         ]
     }
     print(expected_json)
     assert response.json() == expected_json
 
-def test_buscar_artista_inexistente():
+def test_search_artist_unexistent():
 
     # Dado que o SongService não possui a música "NX Zero"
     SongService.get_by_artist = MagicMock(return_value={
         "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019},
-            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019}
+            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"},
+            {"title": "Cruel Summer", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2019, "id":"x"}
         ]
     })
 
