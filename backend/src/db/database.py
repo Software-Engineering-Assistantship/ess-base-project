@@ -3,6 +3,7 @@ from uuid import uuid4
 from pymongo import MongoClient, errors
 from pymongo.collection import Collection, IndexModel
 from src.config.config import env
+from typing import Dict
 
 from logging import INFO, WARNING, getLogger
 from bson.objectid import ObjectId
@@ -122,9 +123,31 @@ class Database():
 
         collection: Collection = self.db[collection_name]
 
-        items = list(collection.find({}, {"_id": 0}))
+        items = list(collection.find())
+        for itm in items:
+            itm["id"] = str(itm["_id"])
         print(items)
         return items
+
+    def get_by_name(self, collection_name: str, item_name: str) -> dict:
+        """
+        Retrieve an item by its ID from a collection
+
+        Parameters:
+        - collection_name: str
+            The name of the collection where the item will be stored
+        - item_id: str
+            The ID of the item to retrieve
+
+        Returns:
+        - dict or None:
+            The item if found, None otherwise
+
+        """
+        collection: Collection = self.db[collection_name]
+
+        item = collection.find_one({"title": str(item_name)}, {"_id": 0})
+        return item
 
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
         """
@@ -192,11 +215,12 @@ class Database():
         print("------------")
         print(collection)
         print(item_id)
+        item_id = ObjectId(item_id)
         print("------------")
         # Convert the item_id to ObjectId
         # object_id = ObjectId(item_id)
-        item = collection.find_one({"title": item_id})
-        del item["_id"] 
+        item = collection.find_one({"_id": item_id})
+        # del item["_id"] 
         return item
 
     def add(self, collection_name: str, item: dict) -> dict:
@@ -241,7 +265,7 @@ class Database():
         # if isinstance(item, SongCreateModel):
         item = dict(item)
 
-        item_id = collection.update_one({"title": item_id}, {"$set": item})
+        item_id = collection.update_one({"_id": item_id}, {"$set": item})
 
         # item["_id"] = str(item["_id"])
 
@@ -303,20 +327,42 @@ class Database():
 
         """
 
-def get_reviews_by_song_id(self, song_id: str) -> list:
-    """
-    Get all reviews of a song
+    def get_reviews_by_song_id(self, song_id: str) -> list:
+        """
+        Get all reviews of a song
 
-    Parameters:
-    - song_id: str
-        The ID of the song
+        Parameters:
+        - song_id: str
+            The ID of the song
 
-    Returns:
-    - list:
-        A list of all reviews of the song
+        Returns:
+        - list:
+            A list of all reviews of the song
 
-    """
+        """
 
-    reviews = self.db.get_all_items('reviews')
+        reviews = self.db.get_all_items('reviews')
 
-    return [review for review in reviews if review['song_id'] == song_id]
+        return [review for review in reviews if review['song_id'] == song_id]
+    def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
+        """
+        Retrieve music links for a song
+
+        Parameters:
+        - song_id: str
+            The ID of the song for which to retrieve the music links
+
+        Returns:
+        - dict:
+            A dictionary containing music links for the song
+
+        """
+
+        # Simulate fetching music links for the song
+        # Replace these with your actual logic to fetch the links from the database
+        song_links = {
+            "Spotify": f"https://spotify.com/song/{song_id}",
+            "Apple Music": f"https://apple.com/song/{song_id}",
+        }
+
+        return song_links

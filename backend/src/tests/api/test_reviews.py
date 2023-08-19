@@ -34,8 +34,6 @@ def test_get_reviews(client: TestClient):
 
         response = client.get("/reviews")
 
-    print(response)
-
     assert response.status_code == 200
     assert response.json() == { "reviews": [
             {

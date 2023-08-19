@@ -8,7 +8,21 @@ class ReviewService:
     @staticmethod
     def create_review(review: ReviewCreateModel):
         """Create item method implementation"""
+        song_id = review.song
+        song = db.get_by_id('musicas', song_id)
+
+        print('*******************')
+        print(song)
+        print('*******************')
+
         review = db.add('reviews', review)
+        song['popularity'] += 1
+
+        print("######################33")
+        print(song)
+        print("######################33")
+        db.edit('musicas', song['_id'], song)
+
         return review
 
     @staticmethod

@@ -9,6 +9,7 @@ class SongModel(BaseModel):
     genre: str
     artist: str
     release_year: int
+    popularity: int
 
 class SongGet(BaseModel):
     id: str
@@ -16,6 +17,7 @@ class SongGet(BaseModel):
     genre: str
     artist: str
     release_year: int
+    popularity: int
 
 class SongCreateModel(BaseModel):
     id: str
@@ -23,6 +25,7 @@ class SongCreateModel(BaseModel):
     genre: str
     artist: str
     release_year: int
+    popularity: int
 
 class SongList(BaseModel):
     songs: list[SongGet]
