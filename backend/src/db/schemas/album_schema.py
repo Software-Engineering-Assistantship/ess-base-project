@@ -2,7 +2,7 @@ from src.db.schemas.model_schema import ModelSchema
 
 class AlbumSchema(ModelSchema):
     bson_type: str = "object"
-    required: list = ["id", "title", "artist", "year_released"]
+    required: list = ["id", "title", "artist", "release_year"]
     properties: dict = {
         "id": {
             "bson_type": "string",
@@ -16,14 +16,14 @@ class AlbumSchema(ModelSchema):
             "bson_type": "string",
             "description": "The artist of the album"
         },
-        "year_released": {
+        "release_year": {
             "bson_type": "integer",
             "description": "The release year of the album"
         },
-        "created_at": {
-            "bson_type": "string",
-            "description": "The album's creation time"
-        }
+        # "created_at": {
+        #     "bson_type": "string",
+        #     "description": "The album's creation time"
+        # }
     }
 
     def get(self) -> dict:

@@ -1,58 +1,81 @@
-from fastapi import APIRouter, status, HTTPException
-from src.schemas.music import MusicGet, MusicModel, MusicDelete
+from datetime import datetime
+from fastapi import APIRouter, HTTPException, Path, status
+from pydantic import BaseModel
+from src.db import database as db
+from src.schemas.song import SongGet, SongModel, SongDelete,SongList
 from starlette.responses import JSONResponse
-
-from src.service.impl.music_service import MusicService
-from src.schemas.music import SongCreateModel
+from src.service.impl.song_service import SongService
+from src.schemas.song import SongCreateModel
 
 router = APIRouter()
 
+# class Song(BaseModel):
+#     id: str
+#     title: str
+#     artist: str
+#     release_year: int
+#     genre: str
+
 # Get a specific song
 @router.get(
-    "/song/{song_id}",
-    response_model=MusicModel,
+    "/{song_id}",
+    response_model=SongModel,
     response_class=JSONResponse,
     summary="Get a specific song",
 )
 def get_song(song_id: str):
-    song_get_response = MusicService.get_song(song_id)
+    song_get_response = SongService.get_song(song_id)
 
     return song_get_response
 
+
+@router.get(
+    "/",
+    response_model=SongList,
+    response_class=JSONResponse,
+    description="Retrieve all songs"
+)
+def get_songs():
+    songs = db.get_all_items('songs')
+    return {
+        'songs': songs
+    }
+
+
 @router.put(
-    "/song/{song_id}",
-    response_model=MusicModel,
+    "/{song_id}",
+    response_model=SongModel,
     response_class=JSONResponse,
     summary="update a song",
 )
 def edit_song(song_id: str, song: SongCreateModel):
-    song_edit_response = MusicService.edit_song(song_id, song)
+    song_edit_response = SongService.edit_song(song_id, song)
 
     return song_edit_response
 
 
 # Add a song
 @router.post(
-    "/song",
-    response_model=MusicModel,
+    "/create",
+    response_model=SongModel,
     response_class=JSONResponse,
     summary="create a song",
 )
 def add_song(song: SongCreateModel):
-    song_add_response = MusicService.add_song(song)
+    song_add_response = SongService.add_song(song)
 
     return song_add_response
 
+
 @router.delete(
-    "/song/{song_id}",
-    response_model=MusicDelete,
+    "/{song_id}",
+    response_model=SongDelete,
     response_class=JSONResponse,
     summary="delete a song",
 )
 def delete_song(song_id: str):
-    song_delete_response = MusicService.delete_song(song_id)
+    song_delete_response = SongService.delete_song(song_id)
     return song_delete_response
-
 
 # Edit a song's genre
 # @router.put(

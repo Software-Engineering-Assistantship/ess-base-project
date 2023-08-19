@@ -1,15 +1,27 @@
 from fastapi import APIRouter, status, HTTPException
-from src.schemas.album import AlbumGet, AlbumModel, AlbumDelete
+from src.schemas.album import AlbumGet, AlbumModel, AlbumDelete, AlbumList
 from starlette.responses import JSONResponse
-
 from src.service.impl.album_service import AlbumService
 from src.schemas.album import AlbumCreateModel
+from datetime import datetime
+from pydantic import BaseModel
+from src.db import database as db
 
 router = APIRouter()
 
+@router.get(
+    "/",
+    response_model=AlbumList,
+    response_class=JSONResponse,
+    description="Retrieve all albums",
+)
+def get_albums():
+    albums_get_response = AlbumService.get_albums()
+    return { 'albums': albums_get_response }
+
 # Get a specific album
 @router.get(
-    "/album/{album_id}",
+    "/{album_id}",
     response_model=AlbumModel,
     response_class=JSONResponse,
     summary="Get a specific album",
@@ -20,7 +32,7 @@ def get_album(album_id: str):
     return album_get_response
 
 @router.put(
-    "/album/{album_id}",
+    "/{album_id}",
     response_model=AlbumModel,
     response_class=JSONResponse,
     summary="update an album",
@@ -32,7 +44,7 @@ def edit_album(album_id: str, album: AlbumCreateModel):
 
 # Add an album
 @router.post(
-    "/album",
+    "/create",
     response_model=AlbumModel,
     response_class=JSONResponse,
     summary="create an album",
@@ -43,7 +55,7 @@ def add_album(album: AlbumCreateModel):
     return album_add_response
 
 @router.delete(
-    "/album/{album_id}",
+    "/{album_id}",
     response_model=AlbumDelete,
     response_class=JSONResponse,
     summary="delete an album",

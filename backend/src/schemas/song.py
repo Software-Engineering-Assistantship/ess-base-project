@@ -3,25 +3,29 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class MusicModel(BaseModel):
+class SongModel(BaseModel):
+    id: str
     title: str
     genre: str
     artist: str
     release_year: int
 
-class MusicGet(BaseModel):
-    name: str
+class SongGet(BaseModel):
+    id: str
+    title: str
     genre: str
     artist: str
+    release_year: int
 
 class SongCreateModel(BaseModel):
+    id: str
     title: str
-    artist: str
     genre: str
+    artist: str
     release_year: int
 
-class MusicList(BaseModel):
-    musics: list[MusicGet]
+class SongList(BaseModel):
+    songs: list[SongGet]
 
-class MusicDelete(BaseModel):
+class SongDelete(BaseModel):
     id: str

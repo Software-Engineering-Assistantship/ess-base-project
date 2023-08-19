@@ -1,7 +1,7 @@
 from src.db.schemas.model_schema import ModelSchema
 
 
-class MusicSchema(ModelSchema):
+class SongSchema(ModelSchema):
     bson_type: str = "object"
     required: list = ["id", "title", "artist", "genre", "release_year"]
     properties: dict = {
