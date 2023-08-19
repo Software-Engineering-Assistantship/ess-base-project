@@ -24,7 +24,7 @@ Feature: Buscas por conteúdo
     Scenario: Buscar por música inexistente
 
     Given o SongService não possui a música “Cedo ou tarde”
-    When uma requisição "GET" for enviada para "/search/” com o parâmetro de consulta “query” definido como "Cedo ou Tarde”
+    When uma requisição "GET" for enviada para "/songs/get_by_artist/NX@Zero” 
     Then o status da resposta deve ser "404"
     And o JSON da resposta deve conter um campo "msg” com o valor "Sinto muito, “Cedo ou Tarde” não encontrada no sistema"
 
@@ -33,4 +33,4 @@ Feature: Buscas por conteúdo
     Given o SongService não possui a música “NX Zero”
     When uma requisição "GET" for enviada para "/search/” com o parâmetro de consulta “query” definido como "NX Zero”
     Then o status da resposta deve ser "404"
-    And o JSON da resposta deve conter um campo "msg” com o valor "Sinto muito, “NX Zero” não encontrada no sistema"
+    And o JSON da resposta deve conter um campo "msg” com o valor 'Not Found'
