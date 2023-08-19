@@ -75,4 +75,8 @@ class SongService:
     #     return songs
     
     
-    
+    @staticmethod
+    def delete_song(id: str):
+        deleted_song = db.delete('musicas', id)
+
+        return deleted_song

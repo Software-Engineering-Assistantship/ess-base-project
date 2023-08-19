@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Path, status
-from src.db import database as db
-from src.schemas.song import SongGet, SongModel, SongDelete,SongList
 from starlette.responses import JSONResponse
+from fastapi import APIRouter, status, HTTPException
+from src.schemas.song import SongGet, SongModel, SongDelete, SongList, SongNameList, SongCreateModel
+from src.db import database as db
 from src.service.impl.song_service import SongService
-from src.schemas.song import SongCreateModel
 
 router = APIRouter()
 
@@ -108,15 +108,34 @@ def get_by_artist(artist):
 
     return song_get_response
 
-@router.get(
-    "/songs_by_album/{album}",
-    response_model=SongList,
-    response_class=JSONResponse,
-    summary="get all songs",
-)
-def get_by_album(album):
-    song_get_response = SongService.get_by_album(album)
+def get_top_rated_songs(limit: int = 5):
+    """
+    Get the top-rated songs based on average rating.
 
-    return song_get_response
+    Args:
+    - limit (int): How many top-rated songs to retrieve. Default is 10.
+
+    Returns:
+    - A list of top-rated songs.
+    """
+    print('teste')
+    songs = db.get_top_rated_songs('songs', limit)
+    print('TESTE2 ')
+    print(songs)
+    return {'songs':songs}
 
 
+# Edit a song's genre
+# @router.put(
+#     "/song/{song_id}/genre",
+#     response_model=HttpResponseModel,
+#     status_code=status.HTTP_200_OK,
+#     responses={
+#         status.HTTP_404_NOT_FOUND: {
+#             "description": "Song not found",
+#         }
+#     },
+# )
+# def edit_genre(song_id: str, genre: str) -> HttpResponseModel:
+#     edit_genre_response = SongService.edit_genre(song_id, genre)
+#     return edit_genre_response
