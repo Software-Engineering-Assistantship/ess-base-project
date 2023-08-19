@@ -12,14 +12,11 @@ def test_get_song(client: TestClient):
                 "genre": "Pop",
                 "artist": "Test Artist",
                 "release_year": 2023,
+                "popularity": 10,
             }
         ]
 
-        print(mock_get_all_items.return_value)
-
         response = client.get("/songs")
-
-    print(response)
 
     assert response.status_code == 200
     assert response.json() == { 'songs': [   
@@ -29,6 +26,7 @@ def test_get_song(client: TestClient):
                 "genre": "Pop",
                 "artist": "Test Artist",
                 "release_year": 2023,
+                "popularity": 10,
             }, 
         ]
     }

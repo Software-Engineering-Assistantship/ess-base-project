@@ -18,7 +18,6 @@ def test_get_albums(client: TestClient):
         ]
 
         response = client.get("/albums")
-        print(response)
 
     assert response.status_code == 200
     assert response.json() == { 'albums': [
