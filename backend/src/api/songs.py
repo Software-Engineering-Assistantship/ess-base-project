@@ -9,9 +9,16 @@ from src.schemas.song import SongCreateModel
 
 router = APIRouter()
 
+# class Song(BaseModel):
+#     id: str
+#     title: str
+#     artist: str
+#     release_year: int
+#     genre: str
+
 # Get a specific song
 @router.get(
-    "/song/{song_id}",
+    "/{song_id}",
     response_model=SongModel,
     response_class=JSONResponse,
     summary="Get a specific song",
@@ -25,16 +32,18 @@ def get_song(song_id: str):
 @router.get(
     "/",
     response_model=SongList,
-    description="Retrieve all songs",
-    tags=["songs"],
+    response_class=JSONResponse,
+    description="Retrieve all songs"
 )
 def get_songs():
     songs = db.get_all_items('songs')
-    return songs
+    return {
+        'songs': songs
+    }
 
 
 @router.put(
-    "/song/{song_id}",
+    "/{song_id}",
     response_model=SongModel,
     response_class=JSONResponse,
     summary="update a song",
@@ -47,7 +56,7 @@ def edit_song(song_id: str, song: SongCreateModel):
 
 # Add a song
 @router.post(
-    "/song",
+    "/create",
     response_model=SongModel,
     response_class=JSONResponse,
     summary="create a song",
@@ -59,7 +68,7 @@ def add_song(song: SongCreateModel):
 
 
 @router.delete(
-    "/song/{song_id}",
+    "/{song_id}",
     response_model=SongDelete,
     response_class=JSONResponse,
     summary="delete a song",

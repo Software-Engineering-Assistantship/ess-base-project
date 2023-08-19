@@ -16,6 +16,11 @@ router = APIRouter()
     response_class=JSONResponse
 )
 def get_reviews():
+    # review_list_response = ReviewService.get_reviews()
+    # return {
+    #     'reviews': review_list_response,
+    # }
+
     review_list_response = db.get_all_items("reviews")
     return {
         'reviews': review_list_response,

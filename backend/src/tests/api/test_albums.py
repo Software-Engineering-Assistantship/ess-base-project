@@ -1,43 +1,31 @@
 from fastapi.testclient import TestClient
 from src.db import database as db
+from src.api import albums
+from src.service.impl.album_service import AlbumService
+
 from datetime import datetime, timezone
 from unittest.mock import patch
 
 def test_get_albums(client: TestClient):
-    with patch.object(db, "get_all_items") as mock_get_all_items:
+    with patch.object(AlbumService, "get_albums") as mock_get_all_items:
         mock_get_all_items.return_value = [
             {
-                "id": 1,
+                "id": "teste1",
                 "title": "Album 1",
                 "artist": "Artist 1",
-                "release_date": datetime(2021, 8, 15, 0, 0, tzinfo=timezone.utc),
-                "created_date": datetime(2021, 8, 10, 0, 0, tzinfo=timezone.utc),
-            },
-            {
-                "id": 2,
-                "title": "Album 2",
-                "artist": "Artist 2",
-                "release_date": datetime(2022, 4, 25, 0, 0, tzinfo=timezone.utc),
-                "created_date": datetime(2022, 4, 20, 0, 0, tzinfo=timezone.utc),
-            },
+                "release_year": 2019,
+            }
         ]
 
         response = client.get("/albums")
+        print(response)
 
     assert response.status_code == 200
-    assert response.json() == [
+    assert response.json() == { 'albums': [
         {
-            "id": 1,
+            "id": "teste1",
             "title": "Album 1",
             "artist": "Artist 1",
-            "release_date": "2021-08-15T00:00:00Z",
-            "created_date": "2021-08-10T00:00:00Z",
+            "release_year": 2019,
         },
-        {
-            "id": 2,
-            "title": "Album 2",
-            "artist": "Artist 2",
-            "release_date": "2022-04-25T00:00:00Z",
-            "created_date": "2022-04-20T00:00:00Z",
-        },
-    ]
+    ] }
