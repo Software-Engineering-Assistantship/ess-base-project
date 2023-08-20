@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, HTTPException
 from src.schemas.album import AlbumGet, AlbumModel, AlbumDelete
 from starlette.responses import JSONResponse
 
-from src.service.impl.search import FiltersService
+from src.service.impl.search_service import FiltersService
 
 
 router = APIRouter()
