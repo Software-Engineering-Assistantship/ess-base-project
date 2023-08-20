@@ -108,6 +108,11 @@ def get_by_artist(artist):
 
     return song_get_response
 
+@router.get(
+    "/get_top_rated_songs",
+    response_model=SongNameList,  # Assuming Song model has a field for average rating
+    description="Retrieve top-rated songs"
+)
 def get_top_rated_songs(limit: int = 5):
     """
     Get the top-rated songs based on average rating.
