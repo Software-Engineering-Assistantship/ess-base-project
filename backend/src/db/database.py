@@ -308,8 +308,40 @@ class Database():
             A list of all items in the collection.
 
         """
- 
+
+    def get_reviews_by_song_id(self, song_id: str) -> list:
+        """
+        Get all reviews of a song
+
+        Parameters:
+        - song_id: str
+            The ID of the song
+
+        Returns:
+        - list:
+            A list of all reviews of the song
+
+        """
+
+        reviews = self.db.get_all_items('reviews')
+
+        return [review for review in reviews if review['song_id'] == song_id]
     def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
+        """
+        Retrieve music links for a song
+
+        Parameters:
+        - song_id: str
+            The ID of the song for which to retrieve the music links
+
+        Returns:
+        - dict:
+            A dictionary containing music links for the song
+
+        """
+
+        # Simulate fetching music links for the song
+        # Replace these with your actual logic to fetch the links from the database
         song_links = {
             "Spotify": f"https://spotify.com/song/{song_id}",
             "Apple Music": f"https://apple.com/song/{song_id}",
