@@ -483,51 +483,21 @@ class Database():
         collection: Collection = self.db['reviews']
         all_reviews = list(collection.find({}, {"_id": 0}))
         print(all_reviews)
-        
         grouped_reviews = {}
         for review in all_reviews:
             if review['song'] not in grouped_reviews:
                 grouped_reviews[review['song']] = {'avg_rating': 0, 'count': 0}
-            
+
             grouped_reviews[review['song']]['avg_rating'] += review['rating']
             grouped_reviews[review['song']]['count'] += 1
-            
+
         for song in grouped_reviews:
             grouped_reviews[song]['avg_rating'] = grouped_reviews[song]['avg_rating'] / grouped_reviews[song]['count']
-            
+
         # top_rated_songs = sorted(grouped_reviews, key=lambda x: x['avg_rating'], reverse=True)[:limit]
         top_rated_songs = sorted(grouped_reviews.items(), key=lambda x: x[1]['avg_rating'], reverse=True)[:limit]
         top_song_names = [song[0] for song in top_rated_songs]
         print(top_song_names)
         print(top_rated_songs)
-        
+
         return top_song_names
-    
-        collection: Collection = self.db[collection_name]
-        # Again, this is pseudo-code. The exact function calls will depend on your database system.
-        
-        
-        ratings = collection.find("rating")  # Assuming you can specify collection this way
-        
-        print(ratings)
-        
-        # Aggregate ratings to calculate average rating per song
-        aggregated_ratings = ratings.aggregate([
-            {
-                "$group": {
-                    "_id": "$song_id",
-                    "average_rating": {"$avg": "$rating_value"}
-                }
-            },
-            {
-                "$sort": {"average_rating": -1}  # Sort in descending order
-            },
-            {
-                "$limit": limit
-            }
-        ])
-        print(aggregated_ratings)
-        song_ids = [rating["_id"] for rating in aggregated_ratings]
-        top_rated_songs = collection.find("songs").find({"_id": {"$in": song_ids}})
-        
-        return top_rated_songs
