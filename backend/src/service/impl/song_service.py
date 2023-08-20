@@ -12,18 +12,35 @@ class SongService:
     @staticmethod
     def get_song(song_id: str):
         song = db.get_by_id('songs', song_id)
+<<<<<<< HEAD
         print("#########222222###########")
+=======
+        print('*******************')
+        print(song)
+        print('*******************')
+>>>>>>> 3f13de1 (merging changes from other devs)
         return song
 
     @staticmethod
     def add_song(song: SongCreateModel):
         added_song = db.add('songs', song)
+<<<<<<< HEAD
+=======
+        # song['popularity'] = 0
+        added_song = db.add('musicas', song)
+>>>>>>> 3f13de1 (merging changes from other devs)
 
         return added_song
 
     @staticmethod
     def edit_song(id: str, song: SongCreateModel):
         edited_song = db.edit('songs', id, song)
+<<<<<<< HEAD
+=======
+        print('*******************')
+        print(edited_song)
+        print('*******************')
+>>>>>>> 3f13de1 (merging changes from other devs)
 
         return edited_song
 
@@ -43,6 +60,7 @@ class SongService:
         highlighted.sort(key=lambda x: x['popularity'], reverse=True)[:10]
 
         return highlighted
+<<<<<<< HEAD
     
     @staticmethod
     def get_by_year(year: int):
@@ -80,3 +98,5 @@ class SongService:
         deleted_song = db.delete('musicas', id)
 
         return deleted_song
+=======
+>>>>>>> 3f13de1 (merging changes from other devs)
