@@ -37,8 +37,18 @@ class SongCreateModel(BaseModel):
 
 
 class SongList(BaseModel):
-    songs: list[SongModel]
+    songs: list[SongGet]      # Mudando de musics para songs
 
 
 class SongDelete(BaseModel):
     id: str
+    
+class SongNameList(BaseModel):
+    songs: list[SongGet]   
+
+class SongTopRated(BaseModel):
+    song: str
+    average_rating: float
+    
+class GetSongsTopRated(BaseModel):
+    songs: list[SongTopRated]

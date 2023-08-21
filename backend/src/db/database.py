@@ -324,31 +324,24 @@ class Database():
         """
 
         reviews = self.db.get_all_items('reviews')
-        return [review for review in reviews if review['song_id'] == song_id] 
 
-    def get_by_year(self, collection_name: str, year: int) -> list:
+        return [review for review in reviews if review['song_id'] == song_id]
+    def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
         """
-        Retrieve all items of a collection by year
+        Retrieve music links for a song
 
         Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - year: str
-            The year of the item to retrieve
+        - song_id: str
+            The ID of the song for which to retrieve the music links
 
         Returns:
-        - list:
-            A list of all items in the collection.
+        - dict:
+            A dictionary containing music links for the song
 
         """
 
-        collection: Collection = self.db[collection_name]
-        year = int(year) 
-        items = list(collection.find({"release_year": year}))
-        return {
-            "songs": items
-        }   
-    def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
+        # Simulate fetching music links for the song
+        # Replace these with your actual logic to fetch the links from the database
         song_links = {
             "Spotify": f"https://spotify.com/song/{song_id}",
             "Apple Music": f"https://apple.com/song/{song_id}",
@@ -438,35 +431,11 @@ class Database():
     # collection: Collection = self.db[collection_name]
     # items = list(collection.find({"artist": artist}))
     
-    # for itm in items:
-    #     del itm["_id"]
-    
-    # return {
-    #     "musics": items
-    # }
-    
-    def get_by_album(self, collection_name: str, album: str) -> list:
-        """
-        Retrieve all items of a collection by album
+    def get_top_rated_songs(self, collection_name: str, limit: int = 5):
+        """Fetch top-rated songs ordered by their average rating."""
+        print("get_top_rated_songs")
+        collection: Collection = self.db['reviews']
+        all_reviews = list(collection.find({}, {"_id": 0}))
+        print(all_reviews)
 
-        Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - album: str
-            The album of the item to retrieve
-
-        Returns:
-        - list:
-            A list of all items in the collection.
-
-        """
-
-        collection: Collection = self.db[collection_name]
-        items = list(collection.find({"title": album}))
-        
-        for itm in items:
-            del itm["_id"]
-        
-        return {
-            "musics": items
-        }
+        return result
