@@ -3,6 +3,7 @@ from src.db import database as db
 from datetime import datetime, timezone
 from unittest.mock import patch
 
+
 def test_get_song(client: TestClient):
     with patch.object(db, "get_all_items") as mock_get_all_items:
         mock_get_all_items.return_value = [
@@ -19,17 +20,19 @@ def test_get_song(client: TestClient):
         response = client.get("/songs")
 
     assert response.status_code == 200
-    assert response.json() == { 'songs': [   
-            {
-                "id": "teste",
-                "title": "Test Song",
-                "genre": "Pop",
-                "artist": "Test Artist",
-                "release_year": 2023,
-                "popularity": 10,
-            }, 
-        ]
+    assert response.json() == {'songs': [
+        {
+            "id": "teste",
+            "title": "Test Song",
+            "genre": "Pop",
+            "artist": "Test Artist",
+            "release_year": 2023,
+            "popularity": 10,
+        },
+    ]
     }
+
+
 def test_get_song_by_id(client: TestClient):
     song_id = 1
     with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
