@@ -108,3 +108,4 @@ def test_search_artist_unexistent():
         'detail': 'Not Found'
     }
     assert response.json() == expected_json
+
