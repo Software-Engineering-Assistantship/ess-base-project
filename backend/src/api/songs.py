@@ -72,16 +72,15 @@ def delete_song(song_id: str):
 
 
 @router.get(
-    "/higlighted",
+    "/songs_h/highlighted",
     response_model=SongList,
     response_class=JSONResponse,
     summary="get highlighted songs",
 )
 def get_highlighted():
     highlighted_response = SongService.get_highlighted()
-    return {
-        "musics": highlighted_response
-    }
+
+    return highlighted_response
 
 
 @router.get(
