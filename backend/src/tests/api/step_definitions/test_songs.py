@@ -117,3 +117,27 @@ def test_get_top_rated_songs(client: TestClient):
     print("-----------------------------------------")
     assert response.status_code == 200
     assert response.json() == {'songs': expected_top_rated_songs}
+
+def test_get_top_rated_songs_empty_database(client: TestClient):
+    # Mock an empty review data
+    mock_reviews = []
+
+    # Expected return when there are no reviews
+    expected_response = []
+
+    client = TestClient(app)
+    # Patch the method used to fetch reviews to return the mock_reviews
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
+
+    # Making a request to the API endpoint that fetches top rated songs
+    response = client.get("songs/songs_r/top-rated")
+
+    # Debugging prints
+    print("===== START OF DEBUGGING OUTPUT =====")
+    print("Expected:", expected_response)
+    print("Received:", response.json())
+    print("===== END OF DEBUGGING OUTPUT =====")
+
+    # Assert that the response status is 200 (OK) and the returned data matches the expected top rated songs
+    assert response.status_code == 200
+    assert response.json() == {'songs': expected_response}

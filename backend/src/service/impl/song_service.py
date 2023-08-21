@@ -2,6 +2,7 @@ from src.schemas.response import HTTPResponses, HttpResponseModel
 from src.schemas.song import SongCreateModel
 from src.db.__init__ import database as db
 from src.service.impl.review_service import ReviewService
+from unittest.mock import patch
 
 
 class SongService:
@@ -106,3 +107,23 @@ class SongService:
         print("***********************************")
 
         return result
+    
+    @staticmethod
+    def get_top_rated_songs_empty_database(limit: int):
+        
+        # Now when we call get_top_rated_songs, it will internally call the mocked get_reviews method 
+        # which will return an empty list instead of fetching real reviews
+        with patch(ReviewService.get_reviews, return_value=[]):
+            
+            # when using get_top_rated_songs, it will internally call the mocked get_reviews method
+            # and return an empty list instead of fetching real reviews
+            result = SongService.get_top_rated_songs(limit=5)
+            
+            if not result:
+                print("Nao achou musicas pois o banco esta vazio")
+            else:
+                print(f"Inesperado: Achou musicas: {result}")
+            
+            assert result == [] # expect result to be an empty list
+            
+            return result
