@@ -221,6 +221,7 @@ class Database():
 
         item = collection.find_one({"_id": item_id})
 
+        print(item)
         return item
 
     def add(self, collection_name: str, item: dict) -> dict:
@@ -351,21 +352,6 @@ class Database():
         }
 
     def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
-        """
-        Retrieve music links for a song
-
-        Parameters:
-        - song_id: str
-            The ID of the song for which to retrieve the music links
-
-        Returns:
-        - dict:
-            A dictionary containing music links for the song
-
-        """
-
-        # Simulate fetching music links for the song
-        # Replace these with your actual logic to fetch the links from the database
         song_links = {
             "Spotify": f"https://spotify.com/song/{song_id}",
             "Apple Music": f"https://apple.com/song/{song_id}",

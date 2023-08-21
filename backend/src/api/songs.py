@@ -16,7 +16,8 @@ router = APIRouter()
 )
 def get_song(song_id: str):
     song_get_response = SongService.get_song(song_id)
-
+    print("####################")
+    print(song_get_response)
     return song_get_response
 
 @router.get(
@@ -26,10 +27,8 @@ def get_song(song_id: str):
     description="Retrieve all songs"
 )
 def get_songs():
-    songs = db.get_all_items('songs')
-    return {
-        'songs': songs
-    }
+    songs = SongService.get_songs()
+    return { 'songs': songs, }
 
 @router.put(
     "/{song_id}",

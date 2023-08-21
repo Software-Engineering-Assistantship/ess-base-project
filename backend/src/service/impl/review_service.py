@@ -35,7 +35,8 @@ class ReviewService:
     @staticmethod
     def get_reviews():
         """Get items method implementation"""
-        reviews = db.get_all_reviews('reviews')
+        reviews = db.get_all_items('reviews')
+        return reviews
 
     @staticmethod
     def update_review(review_id: str, review: ReviewCreateModel):
