@@ -34,3 +34,14 @@ class AlbumService:
     def delete_album(id: str):
         deleted_album = db.delete('albuns', id)
         return deleted_album
+    
+    @staticmethod
+    def get_by_album(album: str):
+        albums = db.get_by_album('albums', album)
+        
+        return albums
+    
+    @staticmethod
+    def gey_album_by_name(album: str):
+        album = db.get_by_name('albuns', album)
+        return album
