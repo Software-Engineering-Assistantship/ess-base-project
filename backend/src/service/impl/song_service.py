@@ -64,15 +64,15 @@ class SongService:
 
     @staticmethod
     def get_available_on_for_song(song_id: str):
-        song = db.get_available_on_for_song('songs', song_id)
+        # song = db.get_available_on_for_song('songs', song_id)
 
-        return song['available_on']
+        # return song['available_on']
 
-    # @staticmethod
-    # def get_by_album(album: str):
-    #     songs = db.get_by_album('musicas', album)
+        # @staticmethod
+        # def get_by_album(album: str):
+        #     songs = db.get_by_album('musicas', album)
 
-    #     return songs
+        #     return songs
 
         highlighted = SongService.get_songs()['songs']
         for song in highlighted:
