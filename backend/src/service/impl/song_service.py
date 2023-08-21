@@ -8,7 +8,7 @@ class SongService:
     def get_songs():
         songs = db.get_all_items('songs')
         return songs
-    
+
     @staticmethod
     def get_song(song_id: str):
         song = db.get_by_id('songs', song_id)
@@ -43,36 +43,47 @@ class SongService:
         highlighted.sort(key=lambda x: x['popularity'], reverse=True)[:10]
 
         return highlighted
-    
+
     @staticmethod
     def get_by_year(year: int):
         songs = db.get_by_year('songs', year)
-        
+
         return songs
-    
+
     @staticmethod
     def get_by_genre(genre: str):
         songs = db.get_by_genre('songs', genre)
-        
+
         return songs
-    
+
     @staticmethod
     def get_by_artist(artist: str):
         songs = db.get_by_artist('songs', artist)
-        
+
         return songs
-    
+
     @staticmethod
     def get_available_on_for_song(song_id: str):
-        song = db.get_available_on_for_song('songs', song_id)
-        
-        return song['available_on']
-    
-    # @staticmethod
-    # def get_by_album(album: str):
-    #     songs = db.get_by_album('musicas', album)
-        
-    #     return songs
-    
-    
-    
+        # song = db.get_available_on_for_song('songs', song_id)
+
+        # return song['available_on']
+
+        # @staticmethod
+        # def get_by_album(album: str):
+        #     songs = db.get_by_album('musicas', album)
+
+        #     return songs
+
+        highlighted = SongService.get_songs()['songs']
+        for song in highlighted:
+            song['id'] = str(song['_id'])
+            del song['_id']
+        print("!!!!!!!!!!!!!!!!!!!!!")
+        print(highlighted)
+        print("!!!!!!!!!!!!!!!!!!!!!")
+        highlighted = sorted(
+            highlighted, key=lambda k: k['popularity'], reverse=True)
+        print("!!!!!!!!!!!!!!!!!!!!!")
+        print(highlighted)
+        print("!!!!!!!!!!!!!!!!!!!!!")
+        return {"songs": highlighted}

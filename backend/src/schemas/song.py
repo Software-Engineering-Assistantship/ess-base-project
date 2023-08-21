@@ -2,6 +2,7 @@ from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel
 
+
 class SongModel(BaseModel):
     id: str
     title: str
@@ -11,6 +12,7 @@ class SongModel(BaseModel):
     popularity: int
     available_on: object
     created_at: datetime
+
 
 class SongGet(BaseModel):
     id: str
@@ -22,6 +24,7 @@ class SongGet(BaseModel):
     available_on: object
     created_at: datetime
 
+
 class SongCreateModel(BaseModel):
     id: str
     title: str
@@ -32,8 +35,10 @@ class SongCreateModel(BaseModel):
     available_on: object
     created_at: datetime
 
+
 class SongList(BaseModel):
     songs: list[SongModel]
+
 
 class SongDelete(BaseModel):
     id: str
