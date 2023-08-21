@@ -12,7 +12,7 @@ class SongService:
     @staticmethod
     def get_song(song_id: str):
         song = db.get_by_id('songs', song_id)
-
+        print("#########222222###########")
         return song
 
     @staticmethod
@@ -61,6 +61,12 @@ class SongService:
         songs = db.get_by_artist('songs', artist)
         
         return songs
+    
+    @staticmethod
+    def get_available_on_for_song(song_id: str):
+        song = db.get_available_on_for_song('songs', song_id)
+        
+        return song['available_on']
     
     # @staticmethod
     # def get_by_album(album: str):

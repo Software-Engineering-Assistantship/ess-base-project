@@ -25,13 +25,17 @@ class SongSchema(ModelSchema):
             "bson_type": "integer",
             "description": "The release year of the music"
         },
-        "created_at": {
-            "bson_type": "string",
-            "description": "The music's creation time"
-        },
         "popularity": {
             "bson_type": "integer",
             "description": "The music's popularity"
+        },
+        "available_on": {
+            "bson_type": "object",
+            "description": "The music's available on"
+        },
+        "created_at": {
+            "bson_type": "string",
+            "description": "The music's creation time"
         },
     }
 

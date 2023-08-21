@@ -9,19 +9,13 @@ from fastapi import HTTPException
 
 router = APIRouter()
 
-
 @router.get(
     "/",
     response_model=ReviewList,
     response_class=JSONResponse
 )
 def get_reviews():
-    # review_list_response = ReviewService.get_reviews()
-    # return {
-    #     'reviews': review_list_response,
-    # }
-
-    review_list_response = db.get_all_items("reviews")
+    review_list_response = ReviewService.get_reviews()
     return {
         'reviews': review_list_response,
     }
@@ -70,18 +64,6 @@ def delete_review(review_id: str):
 
 
 def get_reviews_by_song_id(song_id: int): #PRECISA DE UMA FUNÇÃO DESSA AQUI? -> SERIA UM SERVICE
-    """
-    Get reviews by song ID.
-
-    Args:
-    - song_id (int): The ID of the song to retrieve reviews for.
-
-    Returns:
-    - A list of reviews for the specified song.
-
-    Raises:
-    - HTTPException(404) if the song is not found.
-    """
     reviews = db.get_reviews_by_song_id(song_id) # fazer uma função dessa no db.py
     if not reviews:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Song not found")
