@@ -10,8 +10,8 @@ class SongModel(BaseModel):
     artist: str
     release_year: int
     popularity: Optional[int] = 0
-    available_on: object
-    created_at: datetime
+    available_on: Optional[object] = {}
+    created_at: Optional[datetime] = None
 
 
 class SongGet(BaseModel):
@@ -21,8 +21,8 @@ class SongGet(BaseModel):
     artist: str
     release_year: int
     popularity: Optional[int] = 0
-    available_on: object
-    created_at: datetime
+    available_on: Optional[object] = {}
+    created_at: Optional[datetime] = None
 
 
 class SongCreateModel(BaseModel):
@@ -32,8 +32,8 @@ class SongCreateModel(BaseModel):
     artist: str
     release_year: int
     popularity: Optional[int] = 0
-    available_on: object
-    created_at: datetime
+    available_on: Optional[object] = {}
+    created_at: Optional[datetime] = None
 
 
 class SongList(BaseModel):
