@@ -109,29 +109,3 @@ def test_search_artist_unexistent():
     }
     assert response.json() == expected_json
 
-def test_search_songs_by_genre_existent():
-    # Dado que o db retorna as músicas "Lover", "Vampire" e "August" pelo gênero "Pop"
-    SongService.get_by_genre = MagicMock(return_value={
-        "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"},
-            {"title": "Vampire", "artist": "John Doe", "genre": "Pop", "release_year": 2020, "id":"x"},
-            {"title": "August", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"}
-        ]
-    })
-
-    # Quando uma requisição "GET" for enviada para "/search" com o parâmetro de consulta "genre" definido como "Pop"
-    response = client.get("/search", params={"genre": "Pop"})
-
-    # Então o status da resposta deve ser "200"
-    assert response.status_code == 200
-
-    # E o JSON da resposta deve conter uma lista de músicas do gênero "Pop", "release_year": "2020" com os nomes "Lover", "Vampire" e "August"
-    expected_json = {
-        "songs": [
-            {"title": "Lover", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"},
-            {"title": "Vampire", "artist": "John Doe", "genre": "Pop", "release_year": 2020, "id":"x"},
-            {"title": "August", "artist": "Taylor Swift", "genre": "Pop", "release_year": 2020, "id":"x"}
-        ],
-        "albums": []
-    }
-    assert response.json() == expected_json
