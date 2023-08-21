@@ -122,9 +122,12 @@ class Database():
 
         collection: Collection = self.db[collection_name]
 
+        items = list(collection.find({}, {"_id": 0}))
         items = list(collection.find())
+
         for itm in items:
             itm["id"] = str(itm["_id"])
+
         print(items)
         return items
 
@@ -341,7 +344,9 @@ class Database():
         collection: Collection = self.db[collection_name]
         year = int(year) 
         items = list(collection.find({"release_year": year}))
-    
+        return {
+            "songs": items
+        }   
     def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
         """
         Retrieve music links for a song
