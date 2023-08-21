@@ -110,7 +110,16 @@ def get_by_year(year):
 #   description="Retrieve all songs",
 #    tags=["songs"],
 # )
-
+@router.get(
+    "/songs_by_album/{album}",
+    response_model=SongList,
+    response_class=JSONResponse,
+    summary="get all songs",
+)
+def get_by_album(album):
+    song_get_response = SongService.get_by_album(album)
+    
+    return song_get_response
 
 def get_songs():
     """
