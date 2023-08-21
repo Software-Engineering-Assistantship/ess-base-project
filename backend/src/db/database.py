@@ -431,73 +431,11 @@ class Database():
     # collection: Collection = self.db[collection_name]
     # items = list(collection.find({"artist": artist}))
     
-    # for itm in items:
-    #     del itm["_id"]
-    
-    # return {
-    #     "musics": items
-    # }
-    
-    def get_by_album(self, collection_name: str, album: str) -> list:
-        """
-        Retrieve all items of a collection by album
-
-        Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - album: str
-            The album of the item to retrieve
-
-        Returns:
-        - list:
-            A list of all items in the collection.
-
-        """
-
-        collection: Collection = self.db[collection_name]
-        items = list(collection.find({"title": album}))
-        
-        for itm in items:
-            del itm["_id"]
-        
-        return {
-            "musics": items
-        }
-    
-    def get_reviews_by_song_id(self, collection_name: str, song_id: str):
-        """Fetch all reviews for a particular song."""
-        # collection: Collection = self.db[collection_name]
-        # reviews = collection.find("reviews")
-        
-        reviews = self.db.get_all_items(collection_name)
-
-        reviews_by_song_id = [review for review in reviews if review["song"] == song_id]
-        
-        print(reviews_by_song_id)
-        
-        return reviews_by_song_id
-    
     def get_top_rated_songs(self, collection_name: str, limit: int = 5):
         """Fetch top-rated songs ordered by their average rating."""
         print("get_top_rated_songs")
         collection: Collection = self.db['reviews']
         all_reviews = list(collection.find({}, {"_id": 0}))
         print(all_reviews)
-        grouped_reviews = {}
-        for review in all_reviews:
-            if review['song'] not in grouped_reviews:
-                grouped_reviews[review['song']] = {'avg_rating': 0, 'count': 0}
 
-            grouped_reviews[review['song']]['avg_rating'] += review['rating']
-            grouped_reviews[review['song']]['count'] += 1
-
-        for song in grouped_reviews:
-            grouped_reviews[song]['avg_rating'] = grouped_reviews[song]['avg_rating'] / grouped_reviews[song]['count']
-
-        # top_rated_songs = sorted(grouped_reviews, key=lambda x: x['avg_rating'], reverse=True)[:limit]
-        top_rated_songs = sorted(grouped_reviews.items(), key=lambda x: x[1]['avg_rating'], reverse=True)[:limit]
-        top_song_names = [song[0] for song in top_rated_songs]
-        print(top_song_names)
-        print(top_rated_songs)
-
-        return top_song_names
+        return result

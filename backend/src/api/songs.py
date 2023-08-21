@@ -2,7 +2,7 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, Path, status
 from starlette.responses import JSONResponse
 from fastapi import APIRouter, status, HTTPException
-from src.schemas.song import SongGet, SongModel, SongDelete, SongList, SongNameList, SongCreateModel
+from src.schemas.song import SongGet, SongModel, SongDelete, SongList, SongNameList, SongCreateModel, GetSongsTopRated
 from src.db import database as db
 from src.service.impl.song_service import SongService
 
@@ -202,8 +202,8 @@ def get_song_by_id(song_id: int = Path(..., description="The ID of the song to r
     return song
 
 @router.get(
-    "/songs/top-rated",
-    response_model=list[str],  # Assuming Song model has a field for average rating
+    "/songs_r/top-rated",
+    response_model=GetSongsTopRated,  # Assuming Song model has a field for average rating
     description="Retrieve top-rated songs"
 )
 def get_top_rated_songs(limit: int = 5):
@@ -214,5 +214,10 @@ def get_top_rated_songs(limit: int = 5):
     Returns:
     - A list of top-rated songs.
     """
-    songs = db.get_top_rated_songs('songs', limit)
-    return songs
+    songs = SongService.get_top_rated_songs(limit)
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    print(songs)
+    response = {
+        "songs": songs
+    }
+    return response

@@ -1,6 +1,7 @@
 from src.schemas.response import HTTPResponses, HttpResponseModel
 from src.schemas.song import SongCreateModel
 from src.db.__init__ import database as db
+from src.service.impl.review_service import ReviewService
 
 
 class SongService:
@@ -12,35 +13,18 @@ class SongService:
     @staticmethod
     def get_song(song_id: str):
         song = db.get_by_id('songs', song_id)
-<<<<<<< HEAD
         print("#########222222###########")
-=======
-        print('*******************')
-        print(song)
-        print('*******************')
->>>>>>> 3f13de1 (merging changes from other devs)
         return song
 
     @staticmethod
     def add_song(song: SongCreateModel):
         added_song = db.add('songs', song)
-<<<<<<< HEAD
-=======
-        # song['popularity'] = 0
-        added_song = db.add('musicas', song)
->>>>>>> 3f13de1 (merging changes from other devs)
 
         return added_song
 
     @staticmethod
     def edit_song(id: str, song: SongCreateModel):
         edited_song = db.edit('songs', id, song)
-<<<<<<< HEAD
-=======
-        print('*******************')
-        print(edited_song)
-        print('*******************')
->>>>>>> 3f13de1 (merging changes from other devs)
 
         return edited_song
 
@@ -60,7 +44,6 @@ class SongService:
         highlighted.sort(key=lambda x: x['popularity'], reverse=True)[:10]
 
         return highlighted
-<<<<<<< HEAD
     
     @staticmethod
     def get_by_year(year: int):
@@ -98,5 +81,28 @@ class SongService:
         deleted_song = db.delete('musicas', id)
 
         return deleted_song
-=======
->>>>>>> 3f13de1 (merging changes from other devs)
+    
+    @staticmethod
+    def get_top_rated_songs(limit: int):
+        reviews = ReviewService.get_reviews()
+        
+        grouped_reviews = {}
+        for review in reviews:
+            if review['song'] not in grouped_reviews:
+                grouped_reviews[review['song']] = {'avg_rating': 0, 'count': 0}
+
+            grouped_reviews[review['song']]['avg_rating'] += review['rating']
+            grouped_reviews[review['song']]['count'] += 1
+
+        for song in grouped_reviews:
+            grouped_reviews[song]['avg_rating'] = grouped_reviews[song]['avg_rating'] / grouped_reviews[song]['count']
+
+        # top_rated_songs = sorted(grouped_reviews, key=lambda x: x['avg_rating'], reverse=True)[:limit]
+        top_rated_songs = sorted(grouped_reviews.items(), key=lambda x: x[1]['avg_rating'], reverse=True)[:limit]
+        #top_song_names = [song[0] for song in top_rated_songs]
+        result = [{"song": song[0], "average_rating": song[1]['avg_rating']} for song in top_rated_songs]
+        print("***********************************")
+        print(result)
+        print("***********************************")
+
+        return result
