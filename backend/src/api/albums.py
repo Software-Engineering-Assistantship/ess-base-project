@@ -63,3 +63,14 @@ def add_album(album: AlbumCreateModel):
 def delete_album(album_id: str):
     album_delete_response = AlbumService.delete_album(album_id)
     return album_delete_response
+
+@router.get(
+    "/album_name/{name}",
+    response_model=AlbumModel,
+    response_class=JSONResponse,
+    summary="Get a specific album by name",
+)
+def get_album_by_name(name: str):
+    album_get_response = AlbumService.get_album_by_name(name)
+
+    return album_get_response
