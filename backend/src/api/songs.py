@@ -173,7 +173,7 @@ def get_songs():
 
 @router.get(
     "/{song_id}",
-    response_model=Song,
+    response_model=SongModel,
     description="Retrieve a song by ID",
     tags=["songs"],
 )
