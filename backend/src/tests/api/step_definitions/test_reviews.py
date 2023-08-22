@@ -3,6 +3,26 @@ from src.db import database as db
 from datetime import datetime, timezone
 from unittest.mock import patch, MagicMock
 from src.service.impl.review_service import ReviewService
+from src.service.impl.song_service import SongService
+
+
+def test_add_review(client: TestClient):
+    review_create_data = {
+        "title": "Great Song",
+        "description": "This song is fantastic. I loved it!",
+        "rating": 5,
+        "author": "Reviewer Name",
+        "song": "id",
+    }
+
+    mock_response = review_create_data.copy()
+    ReviewService.create_review = MagicMock(return_value=mock_response)
+
+    # Adjust the endpoint as needed
+    response = client.post("/reviews/create", json=review_create_data)
+
+    assert response.status_code == 200
+    assert response.json() == mock_response
 
 
 def test_get_reviews(client: TestClient):
@@ -38,27 +58,27 @@ def test_get_reviews(client: TestClient):
     response = client.get("/reviews")
 
     assert response.status_code == 200
-    assert response.json() == { "reviews": [
-            {
-                "title": "Review 1",
-                "description": "Description 1",
-                "rating": 5,
-                "author": "Author 1",
-                "song": "Song 1",
-            },
-            {
-                "title": "Review 2",
-                "description": "Description 2",
-                "rating": 4,
-                "author": "Author 2",
-                "song": "Song 2",
-            },
-            {
-                "title": "Review 3",
-                "description": "Description 3",
-                "rating": 3,
-                "author": "Author 3",
-                "song": "Song 3",
-            },
-        ]
+    assert response.json() == {"reviews": [
+        {
+            "title": "Review 1",
+            "description": "Description 1",
+            "rating": 5,
+            "author": "Author 1",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 2",
+            "description": "Description 2",
+            "rating": 4,
+            "author": "Author 2",
+            "song": "Song 2",
+        },
+        {
+            "title": "Review 3",
+            "description": "Description 3",
+            "rating": 3,
+            "author": "Author 3",
+            "song": "Song 3",
+        },
+    ]
     }
