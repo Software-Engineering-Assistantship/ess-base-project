@@ -1,6 +1,7 @@
 from src.schemas.response import HTTPResponses, HttpResponseModel
 from src.schemas.album import AlbumCreateModel
 from src.db.__init__ import database as db
+from fastapi import HTTPException
 
 
 class AlbumService:
@@ -13,9 +14,6 @@ class AlbumService:
     @staticmethod
     def get_album(album_id: str):
         album = db.get_by_id('albums', album_id)
-        print('*******************')
-        print(album)
-        print('*******************')
         return album
 
     @staticmethod
@@ -26,9 +24,6 @@ class AlbumService:
     @staticmethod
     def edit_album(id: str, album: AlbumCreateModel):
         edited_album = db.edit('albums', id, album)
-        print('*******************')
-        print(edited_album)
-        print('*******************')
         return edited_album
 
     @staticmethod

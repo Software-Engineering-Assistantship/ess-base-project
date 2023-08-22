@@ -123,3 +123,46 @@ def test_get_reviews_empty_list(client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == {"reviews": []}
+
+def test_edit_review(client: TestClient):
+    review_id = "id"
+    review_edit_data = {
+        "title": "Great Song",
+        "description": "This song is fantastic. I loved it!",
+        "rating": 5,
+        "author": "Reviewer Name",
+        "song": "id",
+    }
+
+    mock_response = review_edit_data.copy()
+    ReviewService.update_review = MagicMock(return_value=mock_response)
+
+    # Adjust the endpoint as needed
+    response = client.put(f"/reviews/{review_id}", json=review_edit_data)
+    
+    assert response.status_code == 200
+    assert response.json() == mock_response
+
+def test_delete_review(client: TestClient):
+    review_id = "teste_id"
+    mock_response = {"id": review_id,}
+
+    ReviewService.delete_review = MagicMock(return_value=mock_response)
+
+    # Adjust the endpoint as needed
+    response = client.delete(f"/reviews/{review_id}")
+    
+    assert response.status_code == 200
+    assert response.json() == mock_response
+
+def test_delete_review_not_found(client: TestClient):
+    review_id = "teste_id"
+    mock_response = {"id": review_id,}
+
+    ReviewService.delete_review = MagicMock(return_value=None)
+
+    # Adjust the endpoint as needed
+    response = client.delete(f"/reviews/{review_id}")
+    
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Item not found"}

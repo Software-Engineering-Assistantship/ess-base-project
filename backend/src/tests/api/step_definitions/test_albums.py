@@ -26,9 +26,6 @@ def test_add_album(client: TestClient):
     assert response.status_code == 200
     assert response.json() == album_create_data
 
-
-# Your existing test code...
-
 def test_get_albums(client: TestClient):
     with patch.object(AlbumService, "get_albums") as mock_get_all_items:
         mock_get_all_items.return_value = [
@@ -84,3 +81,59 @@ def test_get_albums_empty_list(client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == {'albums': []}
+
+def test_update_album(client: TestClient):
+    album_id = "new-album"
+    album_update_data = {
+        "title": "New Album",
+        "artist": "New Artist",
+        "release_year": 2023,
+    }
+
+    body = album_update_data.copy()
+    AlbumService.edit_album = MagicMock(return_value=album_update_data)
+
+    response = client.put(f"/albums/{album_id}", json=body)
+
+    assert response.status_code == 200
+    assert response.json() == album_update_data
+
+def test_delete_album(client: TestClient):
+    album_id = "new-album"
+    album_delete_data = {
+        "id": album_id,
+    }
+
+    AlbumService.delete_album = MagicMock(return_value=album_delete_data)
+
+    response = client.delete(f"/albums/{album_id}")
+
+    assert response.status_code == 200
+    assert response.json() == album_delete_data
+
+def test_delete_album_not_found(client: TestClient):
+    album_id = "new-album"
+
+    AlbumService.delete_album = MagicMock(return_value=None)
+
+    response = client.delete(f"/albums/{album_id}")
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Item not found"}
+
+
+def test_edit_album_invalid_data(client: TestClient):
+    album_id = "new-album"
+    album_update_data = {
+        "title": "",
+        "artist": "",
+        "release_year": 0,
+    }
+
+    body = album_update_data.copy()
+    AlbumService.edit_album = MagicMock(return_value=None)
+
+    response = client.put(f"/albums/{album_id}", json=body)
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Invalid data"}

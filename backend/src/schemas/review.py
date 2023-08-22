@@ -16,10 +16,9 @@ class ReviewGet(BaseModel):
     rating: int
     author: str
     song: str
-    # created_at: Optional[datetime]
 
 class ReviewList(BaseModel):
-    reviews: list[ReviewModel]
+    reviews: list[ReviewGet]
 
 class ReviewCreateModel(BaseModel):
     title: str

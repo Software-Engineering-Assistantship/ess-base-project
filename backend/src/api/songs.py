@@ -17,8 +17,6 @@ router = APIRouter()
 )
 def get_song(song_id: str):
     song_get_response = SongService.get_song(song_id)
-    print("#########222222###########")
-    print(song_get_response)
 
     return song_get_response
 
@@ -42,12 +40,13 @@ def get_songs():
 )
 def edit_song(song_id: str, song: SongCreateModel):
     song_edit_response = SongService.edit_song(song_id, song)
-
-    return song_edit_response
+    
+    if not song_edit_response:
+        raise HTTPException(status_code=400, detail="Invalid data")
+    else:
+        return song_edit_response
 
 # Add a song
-
-
 @router.post(
     "/create",
     response_model=SongModel,
@@ -56,8 +55,6 @@ def edit_song(song_id: str, song: SongCreateModel):
 )
 def add_song(song: SongCreate):
     song_add_response = SongService.add_song(song)
-    print("####################")
-    print(song_add_response)
 
     return song_add_response
 
@@ -70,7 +67,11 @@ def add_song(song: SongCreate):
 )
 def delete_song(song_id: str):
     song_delete_response = SongService.delete_song(song_id)
-    return song_delete_response
+
+    if not song_delete_response:
+        raise HTTPException(status_code=404, detail="Item not found")
+    else:
+        return song_delete_response
 
 
 @router.get(
@@ -115,9 +116,8 @@ def get_by_album(album):
 
     return song_get_response
 
+
 # WHICH ROUTE HERE???
-
-
 def get_songs_with_links():
     songs = db.get_all_items('songs')
 
