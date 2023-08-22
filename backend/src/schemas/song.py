@@ -51,3 +51,16 @@ class SongList(BaseModel):
 
 class SongDelete(BaseModel):
     id: str
+
+
+class SongNameList(BaseModel):
+    songs: list[SongGet]
+
+
+class SongTopRated(BaseModel):
+    song: str
+    average_rating: float
+
+
+class GetSongsTopRated(BaseModel):
+    songs: list[SongTopRated]

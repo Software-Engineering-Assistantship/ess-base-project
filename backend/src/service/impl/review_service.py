@@ -2,7 +2,7 @@ from src.schemas.response import HTTPResponses, HttpResponseModel
 # from src.service.meta.review_service_meta import ReviewServiceMeta
 from src.schemas.review import ReviewCreateModel
 from src.db.__init__ import database as db
-from src.service.impl.song_service import SongService
+# from src.service.impl.song_service import SongService
 
 
 class ReviewService:
@@ -11,11 +11,11 @@ class ReviewService:
     def create_review(review: ReviewCreateModel):
         """Create item method implementation"""
         song_id = review.song
-        song = SongService.get_song(song_id)
+        song = db.get_item_by_id('songs', song_id)
 
         review = db.add('reviews', review)
 
-        song = SongService.edit_song(song['_id'], song)
+        song = db.edit('songs', song['_id'], song)
         if song:
             song['popularity'] += 1
         else:
