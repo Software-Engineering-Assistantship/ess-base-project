@@ -121,6 +121,17 @@ def test_get_song_by_id(client: TestClient):
 client = TestClient(app)
 
 
+def test_song_not_found(client: TestClient):
+    song_id = '2'  # Use a different song_id here
+    with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
+        mock_get_item_by_id.return_value = None
+
+        response = client.get(f"/songs/{song_id}")
+
+    assert response.status_code == 404
+    assert "detail: Not Found"
+
+
 def test_get_highlights():
     SongService.get_songs = MagicMock(return_value={
         "songs": [
