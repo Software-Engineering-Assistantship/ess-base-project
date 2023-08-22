@@ -255,8 +255,7 @@ class Database():
         collection: Collection = self.db[collection_name]
 
         item = dict(item)
-
-        item_id = collection.update_one({"_id": item_id}, {"$set": item})
+        item_id = collection.update_one({"_id": ObjectId(item_id)}, {"$set": item})
 
         return {
             **item
@@ -265,7 +264,12 @@ class Database():
     def delete(self, collection_name: str, item_id: str) -> dict:
         collection: Collection = self.db[collection_name]
 
-        item = collection.delete_one({"title": item_id})
+        print("TRYING TO DELETE -> ", item_id)
+
+        item = collection.delete_one({"_id": ObjectId(item_id)})
+
+        print("RESPONSE -> ", item)
+
         if item.deleted_count == 0:
             return {
                 "id": None
@@ -275,41 +279,6 @@ class Database():
             'id': item_id
         }
 
-    # TODO: implement update_item method
-    # def update_item(self, collection_name: str, item_id: str, item: dict) -> dict:
-        """
-        Update an item in a collection
-
-        Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - item_id: str
-            The ID of the item to update
-        - item: dict
-            New item data
-
-        Returns:
-        - dict:
-            The updated item
-
-        """
-
-    # TODO: implement delete_item method
-    # def delete_item(self, collection_name: str, item_id: str) -> list:
-        """
-        Delete an item of a collection
-
-        Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - item_id: str
-            The ID of the item to delete
-
-        Returns:
-        - list:
-            A list of all items in the collection.
-
-        """
 
     def get_reviews_by_song_id(self, song_id: str) -> list:
         """

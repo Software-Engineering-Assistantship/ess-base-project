@@ -69,7 +69,9 @@ def add_album(album: AlbumCreateModel):
     summary="delete an album",
 )
 def delete_album(album_id: str):
+    print("CALLED DELETE ALBUM")
     album_delete_response = AlbumService.delete_album(album_id)
+    print("ALBUM DELETED -> ", album_delete_response)
     return album_delete_response
 
 
