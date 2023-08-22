@@ -439,3 +439,134 @@ def test_get_top_rated_songs_empty_database(client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == {'songs': expected_response}
+
+
+def test_get_top_rated_songs_with_limit(client: TestClient):
+    # Mock data for reviews
+    mock_reviews = [
+        {
+            "title": "Review 1",
+            "description": "Description 1",
+            "rating": 5,
+            "author": "Author 1",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 2",
+            "description": "Description 2",
+            "rating": 4,
+            "author": "Author 2",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 3",
+            "description": "Description 3",
+            "rating": 3,
+            "author": "Author 3",
+            "song": "Song 2",
+        },
+        {
+            "title": "Review 4",
+            "description": "Description 4",
+            "rating": 2,
+            "author": "Author 4",
+            "song": "Song 3",
+        }
+    ]
+
+    # Mock data for songs
+    mock_songs = ["Song 1", "Song 2", "Song 3", "Song 4", "Song 5"]
+
+    # Mock expected top-rated songs based on the mock_reviews
+    expected_top_rated_songs = [
+        {"song": "Song 1", "average_rating": 4.5},
+        {"song": "Song 2", "average_rating": 3},
+        {"song": "Song 3", "average_rating": 2}  
+    ]
+    client = TestClient(app)
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
+    SongService.get_songs = MagicMock(return_value=mock_songs) 
+    
+    # Making a request to the API endpoint that fetches top rated songs with a limit
+    response = client.get("songs/songs_r/top-rated?limit=5")
+
+    assert response.status_code == 200
+    assert response.json() == {'songs': expected_top_rated_songs}
+
+
+def test_edit_song(client: TestClient):
+    song_id = "new-song"
+    mock_song = {
+        "id": song_id,
+        "title": "New Song",
+        "genre": "Rock",
+        "artist": "New Artist",
+        "release_year": 2023,
+        "popularity": 0,
+        "available_on": {},
+        "created_at": str(datetime(2023, 8, 20, 12, 0, 0, tzinfo=timezone.utc)),
+    }
+
+    body = mock_song.copy()
+
+    SongService.edit_song = MagicMock(return_value=mock_song)
+
+    response = client.put(f"/songs/{song_id}", json=body)
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": "new-song",
+        "title": "New Song",
+        "genre": "Rock",
+        "artist": "New Artist",
+        "release_year": 2023,
+        "popularity": 0,
+        "available_on": {},
+        "created_at": "2023-08-20T12:00:00Z",
+    }
+
+def test_delete_song(client: TestClient):
+    song_id = "new-song"
+    mock_song = {
+        "id": song_id,
+    }
+
+    SongService.delete_song = MagicMock(return_value=mock_song)
+
+    response = client.delete(f"/songs/{song_id}")
+
+    assert response.status_code == 200
+    assert response.json() == mock_song
+
+
+def test_delete_song_not_found(client: TestClient):
+    song_id = "new-song"
+
+    SongService.delete_song = MagicMock(return_value=None)
+
+    response = client.delete(f"/songs/{song_id}")
+
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Item not found"}
+
+def test_edit_song_invalid_data(client: TestClient):
+    song_id = "new-song"
+    mock_song = {
+        "id": song_id,
+        "title": "New Song",
+        "genre": "Rock",
+        "artist": "New Artist",
+        "release_year": 2023,
+        "popularity": 0,
+        "available_on": {},
+        "created_at": str(datetime(2023, 8, 20, 12, 0, 0, tzinfo=timezone.utc)),
+    }
+
+    body = mock_song.copy()
+
+    SongService.edit_song = MagicMock(return_value=None)
+
+    response = client.put(f"/songs/{song_id}", json=body)
+
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Invalid data"}
