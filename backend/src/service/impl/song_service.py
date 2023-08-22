@@ -42,6 +42,7 @@ class SongService:
         for song in highlighted:
             song['id'] = str(song['_id'])
             del song['_id']
+            
         highlighted.sort(key=lambda x: x['popularity'], reverse=True)[:10]
 
         return highlighted

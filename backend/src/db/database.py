@@ -431,11 +431,11 @@ class Database():
     # collection: Collection = self.db[collection_name]
     # items = list(collection.find({"artist": artist}))
     
-    def get_top_rated_songs(self, collection_name: str, limit: int = 5):
-        """Fetch top-rated songs ordered by their average rating."""
-        print("get_top_rated_songs")
-        collection: Collection = self.db['reviews']
-        all_reviews = list(collection.find({}, {"_id": 0}))
-        print(all_reviews)
+    # def get_top_rated_songs(self, collection_name: str, limit: int = 5):
+    #     """Fetch top-rated songs ordered by their average rating."""
+    #     print("get_top_rated_songs")
+    #     collection: Collection = self.db['reviews']
+    #     all_reviews = list(collection.find({}, {"_id": 0}))
+    #     print(all_reviews)
 
-        return result
+    #     return result

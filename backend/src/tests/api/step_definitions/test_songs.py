@@ -5,9 +5,9 @@ from unittest.mock import patch, MagicMock
 from src.service.impl.song_service import SongService, ReviewService
 from src.main import app
 
+client = TestClient(app)
 
 def test_get_song(client: TestClient):
-
     mock_get_all_items = [
         {
             "id": "teste",
@@ -26,17 +26,17 @@ def test_get_song(client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == {'songs': [
-        {
-            "id": "teste",
-            "title": "Test Song",
-            "genre": "Pop",
-            "artist": "Test Artist",
-            "release_year": 2023,
-            "popularity": 10,
-            "available_on": {},
-            "created_at": "2023-08-15T12:00:00Z",
-        },
-    ]
+            {
+                "id": "teste",
+                "title": "Test Song",
+                "genre": "Pop",
+                "artist": "Test Artist",
+                "release_year": 2023,
+                "popularity": 10,
+                "available_on": {},
+                "created_at": "2023-08-15T12:00:00Z",
+            },
+        ]
     }
 
 
@@ -76,7 +76,6 @@ def test_get_song_by_id(client: TestClient):
     }
 
 def test_get_top_rated_songs(client: TestClient):
-    # Mock data for reviews
     mock_reviews = [
         {
             "title": "Review 1",
@@ -101,52 +100,35 @@ def test_get_top_rated_songs(client: TestClient):
         },
     ]
 
-    # Mock expected top-rated songs based on the mock_reviews
     expected_top_rated_songs = [
         {"song": "Song 1", "average_rating": 4.5},
         {"song": "Song 2", "average_rating": 3}
     ]
     client = TestClient(app)
-    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)  # Patch the method used to fetch reviews
-    # Patch the method used to fetch reviews (assuming `get_all_items` fetches reviews)
-        
-    # Making a request to the API endpoint that fetches top rated songs
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
+
     response = client.get("songs/songs_r/top-rated")
 
-    # Assert that the response status is 200 (OK) and the returned data matches the expected top rated songs
-    print(response.json())
-    print("-----------------------------------------")
     assert response.status_code == 200
     assert response.json() == {'songs': expected_top_rated_songs}
 
 def test_get_top_rated_songs_empty_database(client: TestClient):
-    # Mock an empty review data
     mock_reviews = []
-
-    # Expected return when there are no reviews
     expected_response = []
 
     client = TestClient(app)
-    # Patch the method used to fetch reviews to return the mock_reviews
-    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
 
-    # Making a request to the API endpoint that fetches top rated songs
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
     response = client.get("songs/songs_r/top-rated")
 
-    # Debugging prints
-    print("===== START OF DEBUGGING OUTPUT =====")
-    print("Expected:", expected_response)
-    print("Received:", response.json())
-    print("===== END OF DEBUGGING OUTPUT =====")
-
-    # Assert that the response status is 200 (OK) and the returned data matches the expected top rated songs
     assert response.status_code == 200
     assert response.json() == {'songs': expected_response}
 
+
+# TESTE ERRADO
 def test_song_not_found(client: TestClient):
     song_id = 2  # Use a different song_id here
     with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
-        # Mock the response indicating that the song is not found
         mock_get_item_by_id.return_value = None
 
         response = client.get(f"/music/details/{song_id}")
@@ -155,6 +137,7 @@ def test_song_not_found(client: TestClient):
     assert "detail: Not Found"
 
 
+# TESTE ERRADO
 def test_unavailable_external_service(client: TestClient):
     song_id = 3
     with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
@@ -190,3 +173,183 @@ def test_unavailable_external_service(client: TestClient):
             "timestamp": datetime(2023, 8, 15, 12, 0, 0, tzinfo=timezone.utc),
             "msg": f"A música '{song_id}' não está disponível em nenhum serviço externo no momento"
         }
+
+
+def test_get_highlights():
+    SongService.get_songs = MagicMock(
+        return_value = {
+            "songs": [
+                {
+                    "id": "1",
+                    "title": "Song 2",
+                    "artist": "Artist 2",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 101,
+                },
+                {
+                    "id": "3",
+                    "title": "Song 3",
+                    "artist": "Artist 3",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 102,
+                },
+                {
+                    "id": "4",
+                    "title": "Song 4",
+                    "artist": "Artist 4",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 103,
+                },
+                {
+                    "id": "5",
+                    "title": "Song 5",
+                    "artist": "Artist 5",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 104,
+                },
+                {
+                    "id": "6",
+                    "title": "Song 6",
+                    "artist": "Artist 6",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 105,
+                },
+                {
+                    "id": "7",
+                    "title": "Song 7",
+                    "artist": "Artist 7",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 106,
+                },
+                {
+                    "id": "8",
+                    "title": "Song 8",
+                    "artist": "Artist 8",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 107,
+                },
+                {
+                    "id": "9",
+                    "title": "Song 9",
+                    "artist": "Artist 9",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 108,
+                },
+                {
+                    "id": "10",
+                    "title": "Song 10",
+                    "artist": "Artist 10",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 109,
+                },
+                {
+                    "id": "11",
+                    "title": "Song 11",
+                    "artist": "Artist 11",
+                    "release_year": 2021,
+                    "genre": "Pop",
+                    "popularity": 110,
+                },
+            ]
+        }
+    )
+
+    response = client.get("songs/songs_h/highlighted")
+
+    expected_json = {
+        "songs": [
+            {
+                "id": "11",
+                "title": "Song 11",
+                "artist": "Artist 11",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 110,
+            },
+            {
+                "id": "10",
+                "title": "Song 10",
+                "artist": "Artist 10",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 109,
+            },
+            {
+                "id": "9",
+                "title": "Song 9",
+                "artist": "Artist 9",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 108,
+            },
+            {
+                "id": "8",
+                "title": "Song 8",
+                "artist": "Artist 8",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 107,
+            },
+            {
+                "id": "7",
+                "title": "Song 7",
+                "artist": "Artist 7",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 106,
+            },
+            {
+                "id": "6",
+                "title": "Song 6",
+                "artist": "Artist 6",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 105,
+            },
+            {
+                "id": "5",
+                "title": "Song 5",
+                "artist": "Artist 5",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 104,
+            },
+            {
+                "id": "4",
+                "title": "Song 4",
+                "artist": "Artist 4",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 103,
+            },
+            {
+                "id": "3",
+                "title": "Song 3",
+                "artist": "Artist 3",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 102,
+            },
+            {
+                "id": "1",
+                "title": "Song 2",
+                "artist": "Artist 2",
+                "release_year": 2021,
+                "genre": "Pop",
+                "popularity": 101,
+
+            },
+        ]
+    }
+
+    assert response.json() == expected_json
+    assert response.status_code == 200
