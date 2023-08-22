@@ -77,9 +77,17 @@ def delete_song(song_id: str):
     summary="get highlighted songs",
 )
 def get_highlighted():
-    highlighted_response = SongService.get_highlighted()
+    songs = SongService.get_songs()['songs']
 
-    return highlighted_response
+    for song in songs:
+        song['id'] = str(song['_id'])
+        del song['_id']
+
+    songs = sorted(songs, key=lambda x: x['popularity'], reverse=True)
+
+    return {
+        "songs": songs
+    }
 
 
 @router.get(
