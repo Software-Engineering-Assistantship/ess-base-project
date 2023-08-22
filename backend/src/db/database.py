@@ -6,6 +6,7 @@ from src.config.config import env
 from typing import Dict
 from logging import INFO, WARNING, getLogger
 from bson.objectid import ObjectId
+from fastapi import HTTPException
 logger = getLogger('uvicorn')
 
 
@@ -170,7 +171,8 @@ class Database():
         """
         collection: Collection = self.db[collection_name]
 
-        item = collection.find_one({"id": str(item_id)}, {"_id": 0})
+        item = collection.find_one({"_id": ObjectId(item_id)})
+        print(item)
         return item
 
     def insert_item(self, collection_name: str, item: dict) -> dict:
@@ -253,22 +255,21 @@ class Database():
 
     def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
         collection: Collection = self.db[collection_name]
+        # item = dict(item)
 
-        item = dict(item)
-        item_id = collection.update_one({"_id": ObjectId(item_id)}, {"$set": item})
+        if any(value == "" for value in item.values()):
+            return None
 
-        return {
-            **item
-        }
+        else:
+            item_id = collection.update_one({"_id": ObjectId(item_id)}, {"$set": item})
+            return {
+                **item
+            }
 
     def delete(self, collection_name: str, item_id: str) -> dict:
         collection: Collection = self.db[collection_name]
 
-        print("TRYING TO DELETE -> ", item_id)
-
         item = collection.delete_one({"_id": ObjectId(item_id)})
-
-        print("RESPONSE -> ", item)
 
         if item.deleted_count == 0:
             return {

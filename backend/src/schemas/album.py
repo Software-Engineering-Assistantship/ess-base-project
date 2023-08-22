@@ -18,6 +18,7 @@ class AlbumGet(BaseModel):
 
 
 class AlbumCreateModel(BaseModel):
+    # id: str
     title: str
     artist: str
     release_year: int
