@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Path, status
 from src.db import database as db
-from src.schemas.song import SongGet, SongModel, SongDelete,SongList
+from src.schemas.song import SongCreate, SongModel, SongDelete, SongList
 from starlette.responses import JSONResponse
 from src.service.impl.song_service import SongService
 from src.schemas.song import SongCreateModel
@@ -8,6 +8,8 @@ from src.schemas.song import SongCreateModel
 router = APIRouter()
 
 # Get a specific song
+
+
 @router.get(
     "/{song_id}",
     response_model=SongModel,
@@ -20,6 +22,7 @@ def get_song(song_id: str):
     print(song_get_response)
     return song_get_response
 
+
 @router.get(
     "/",
     response_model=SongList,
@@ -28,7 +31,8 @@ def get_song(song_id: str):
 )
 def get_songs():
     songs = SongService.get_songs()
-    return { 'songs': songs, }
+    return {'songs': songs, }
+
 
 @router.put(
     "/{song_id}",
@@ -42,16 +46,21 @@ def edit_song(song_id: str, song: SongCreateModel):
     return song_edit_response
 
 # Add a song
+
+
 @router.post(
     "/create",
     response_model=SongModel,
     response_class=JSONResponse,
     summary="create a song",
 )
-def add_song(song: SongCreateModel):
+def add_song(song: SongCreate):
     song_add_response = SongService.add_song(song)
+    print("####################")
+    print(song_add_response)
 
     return song_add_response
+
 
 @router.delete(
     "/{song_id}",
@@ -62,6 +71,7 @@ def add_song(song: SongCreateModel):
 def delete_song(song_id: str):
     song_delete_response = SongService.delete_song(song_id)
     return song_delete_response
+
 
 @router.get(
     "/higlighted",
@@ -75,6 +85,7 @@ def get_highlighted():
         "musics": highlighted_response
     }
 
+
 @router.get(
     "/songs_by_year/{year}",
     response_model=SongList,
@@ -85,6 +96,7 @@ def get_by_year(year):
     song_get_response = SongService.get_by_year(year)
 
     return song_get_response
+
 
 @router.get(
     "/songs_by_genre/{genre}",
@@ -97,6 +109,7 @@ def get_by_genre(genre):
 
     return song_get_response
 
+
 @router.get(
     "/songs_by_artist/{artist}",
     response_model=SongList,
@@ -108,6 +121,7 @@ def get_by_artist(artist):
 
     return song_get_response
 
+
 @router.get(
     "/songs_by_album/{album}",
     response_model=SongList,
@@ -118,5 +132,3 @@ def get_by_album(album):
     song_get_response = SongService.get_by_album(album)
 
     return song_get_response
-
-

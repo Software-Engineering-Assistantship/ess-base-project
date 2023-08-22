@@ -5,6 +5,45 @@ from unittest.mock import patch, MagicMock
 from src.service.impl.song_service import SongService
 
 
+def test_add_song(client: TestClient):
+    mock_song = {
+        "id": "new-song",
+        "title": "New Song",
+        "genre": "Rock",
+        "artist": "New Artist",
+        "release_year": 2023,
+        "popularity": 0,
+        "available_on": {
+            "Spotify": "https://spotify.com/new-song",
+            "Apple Music": "https://apple.com/new-song",
+        },
+        "created_at": str(datetime(2023, 8, 20, 12, 0, 0, tzinfo=timezone.utc)),
+    }
+
+    body = mock_song.copy()
+
+    SongService.add_song = MagicMock(return_value=mock_song)
+    del body["id"]
+    del body["created_at"]
+
+    response = client.post("/songs/create", json=body)
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "id": "new-song",
+        "title": "New Song",
+        "genre": "Rock",
+        "artist": "New Artist",
+        "release_year": 2023,
+        "popularity": 0,
+        "available_on": {
+            "Spotify": "https://spotify.com/new-song",
+            "Apple Music": "https://apple.com/new-song",
+        },
+        "created_at": "2023-08-20T12:00:00Z",
+    }
+
+
 def test_get_song(client: TestClient):
 
     mock_get_all_items = [

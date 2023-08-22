@@ -3,6 +3,15 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+class SongCreate(BaseModel):
+    title: str
+    genre: str
+    artist: str
+    release_year: int
+    popularity: Optional[int] = 0
+    available_on: Optional[object] = {}
+
+
 class SongModel(BaseModel):
     id: str
     title: str
