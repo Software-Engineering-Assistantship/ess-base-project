@@ -351,14 +351,6 @@ class Database():
             "songs": items
         }
 
-    def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
-        song_links = {
-            "Spotify": f"https://spotify.com/song/{song_id}",
-            "Apple Music": f"https://apple.com/song/{song_id}",
-        }
-
-        return song_links
-
     def get_by_year(self, collection_name: str, year: int) -> list:
         """
         Retrieve all items of a collection by year

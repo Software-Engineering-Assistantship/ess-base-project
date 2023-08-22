@@ -17,6 +17,9 @@ router = APIRouter()
 )
 def get_song(song_id: str):
     song_get_response = SongService.get_song(song_id)
+    print("#########222222###########")
+    print(song_get_response)
+
     return song_get_response
 
 
@@ -120,11 +123,12 @@ def get_songs_with_links():
 
     # Fetch music links for each song and add them to the response
     songs_with_links = []
-    for song in songs:
-        song_links = db.get_available_on_for_song(song.id)
-        song_with_links = song.dict()
-        song_with_links['available_on'] = song_links
-        songs_with_links.append(song_with_links)
+    # for song in songs:
+    #     if song['available_on'] is not None:
+    #         song_links = db.get_available_on_for_song(song.id)
+    #         song_with_links = song.dict()
+    #         song_with_links['available_on'] = song_links
+    #         songs_with_links.append(song_with_links)
 
     return songs_with_links
 

@@ -6,6 +6,7 @@ from src.db import database as db
 from datetime import datetime, timezone
 from unittest.mock import patch, MagicMock
 from src.service.impl.song_service import SongService
+from src.service.impl.review_service import ReviewService
 
 
 def test_add_song(client: TestClient):
@@ -320,3 +321,110 @@ def test_get_highlights():
     print("@#!@#@!#!@#!@#")
 
     assert response.json() == expected_json
+
+
+def test_get_songs_empty_list(client: TestClient):
+    SongService.get_songs = MagicMock(return_value=[])  # Simulate empty list
+    response = client.get("/songs")
+
+    assert response.status_code == 200
+    assert response.json() == {"songs": []}
+
+
+def test_unavailable_external_service(client: TestClient):
+    song_id = '3'
+    SongService.get_song = MagicMock(return_value={
+        "id": song_id,
+        "title": "Test Song",
+        "artist": "Test Artist",
+        "release_year": 2023,
+        "genre": "Pop",
+        "popularity": 10,
+        "available_on": {},
+        "created_at": datetime(2023, 8, 15, 12, 0, 0, tzinfo=timezone.utc),
+
+    })
+
+    # Mock the available_on links for the song
+    # with patch.object(db, "get_available_on_for_song") as mock_get_available_on:
+    #     mock_get_available_on.return_value = None
+
+    response = client.get(f"/songs/{song_id}")
+
+    assert response.status_code == 200
+    expected_json = {
+        "id": song_id,
+        "title": "Test Song",
+        "artist": "Test Artist",
+        "release_year": 2023,
+        "genre": "Pop",
+        "popularity": 10,
+        "available_on": {},
+        "created_at": "2023-08-15T12:00:00Z",
+    }
+    print("#########")
+    print(response.json())
+    print(expected_json)
+    assert response.json() == expected_json
+
+
+def test_song_not_found(client: TestClient):
+    song_id = 2  # Use a different song_id here
+    with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
+        mock_get_item_by_id.return_value = None
+
+        response = client.get(f"/music/details/{song_id}")
+
+    assert response.status_code == 404
+    assert "detail: Not Found"
+
+
+def test_get_top_rated_songs(client: TestClient):
+    mock_reviews = [
+        {
+            "title": "Review 1",
+            "description": "Description 1",
+            "rating": 5,
+            "author": "Author 1",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 2",
+            "description": "Description 2",
+            "rating": 4,
+            "author": "Author 2",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 3",
+            "description": "Description 3",
+            "rating": 3,
+            "author": "Author 3",
+            "song": "Song 2",
+        },
+    ]
+
+    expected_top_rated_songs = [
+        {"song": "Song 1", "average_rating": 4.5},
+        {"song": "Song 2", "average_rating": 3}
+    ]
+    client = TestClient(app)
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
+
+    response = client.get("songs/songs_r/top-rated")
+
+    assert response.status_code == 200
+    assert response.json() == {'songs': expected_top_rated_songs}
+
+
+def test_get_top_rated_songs_empty_database(client: TestClient):
+    mock_reviews = []
+    expected_response = []
+
+    client = TestClient(app)
+
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
+    response = client.get("songs/songs_r/top-rated")
+
+    assert response.status_code == 200
+    assert response.json() == {'songs': expected_response}
