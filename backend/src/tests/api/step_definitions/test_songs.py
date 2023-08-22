@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 from unittest.mock import patch, MagicMock
 from src.service.impl.song_service import SongService
 
+# Your existing test code...
+
 def test_get_song(client: TestClient):
 
     mock_get_all_items = [
@@ -23,7 +25,7 @@ def test_get_song(client: TestClient):
     response = client.get("/songs")
 
     assert response.status_code == 200
-    assert response.json() == { 'songs': [   
+    assert response.json() == { 'songs': [
             {
                 "id": "teste",
                 "title": "Test Song",
@@ -33,14 +35,13 @@ def test_get_song(client: TestClient):
                 "popularity": 10,
                 "available_on": {},
                 "created_at": "2023-08-15T12:00:00Z",
-            }, 
+            },
         ]
     }
 
-
 def test_get_song_by_id(client: TestClient):
     song_id = "64e03abb59d8ca2bdee4b3c8"
-    
+
     mock_get_item_by_id = {
         "id": song_id,
         "title": "Test Song",
@@ -72,3 +73,10 @@ def test_get_song_by_id(client: TestClient):
         "popularity": 10,
         "created_at": "2023-08-15T12:00:00Z",
     }
+
+def test_get_songs_empty_list(client: TestClient):
+    SongService.get_songs = MagicMock(return_value=[])  # Simulate empty list
+    response = client.get("/songs")
+
+    assert response.status_code == 200
+    assert response.json() == { "songs": [] }

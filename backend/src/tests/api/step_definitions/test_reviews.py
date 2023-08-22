@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from unittest.mock import patch, MagicMock
 from src.service.impl.review_service import ReviewService
 
+# Your existing test code...
 
 def test_get_reviews(client: TestClient):
 
@@ -14,7 +15,6 @@ def test_get_reviews(client: TestClient):
             "rating": 5,
             "author": "Author 1",
             "song": "Song 1",
-            # "timestamp": datetime(2021, 8, 15, 21, 34, 56, tzinfo=timezone.utc),
         },
         {
             "title": "Review 2",
@@ -22,7 +22,6 @@ def test_get_reviews(client: TestClient):
             "rating": 4,
             "author": "Author 2",
             "song": "Song 2",
-            # "timestamp": datetime(2023, 2, 14, 11, 12, 13, tzinfo=timezone.utc),
         },
         {
             "title": "Review 3",
@@ -30,7 +29,6 @@ def test_get_reviews(client: TestClient):
             "rating": 3,
             "author": "Author 3",
             "song": "Song 3",
-            # "timestamp": datetime(2022, 5, 19, 19, 15, 22, tzinfo=timezone.utc),
         },
     ]
 
@@ -62,3 +60,10 @@ def test_get_reviews(client: TestClient):
             },
         ]
     }
+
+def test_get_reviews_empty_list(client: TestClient):
+    ReviewService.get_reviews = MagicMock(return_value=[])  # Simulate empty list
+    response = client.get("/reviews")
+
+    assert response.status_code == 200
+    assert response.json() == { "reviews": [] }
