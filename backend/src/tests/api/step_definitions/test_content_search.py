@@ -135,20 +135,20 @@ def test_search_songs_by_genre_existent_search():
     SongService.get_by_genre = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1"},
+                "genre": "Pop", "release_year": 2020, "id": "x1", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Vampire", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2020, "id": "x2"}
+                "genre": "Pop", "release_year": 2020, "id": "x2", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ]
     })
 
     SongService.get_songs = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1"},
+                "genre": "Pop", "release_year": 2020, "id": "x1", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Vampire", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2020, "id": "x2"},
+                "genre": "Pop", "release_year": 2020, "id": "x2", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "August", "artist": "Taylor Swift",
-                "genre": "Rock", "release_year": 2020, "id": "x3"}
+                "genre": "Rock", "release_year": 2020, "id": "x3", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ]
     })
     # Quando uma requisição "GET" for enviada para "/search" com o parâmetro de consulta "genre" definido como "Pop"
@@ -161,9 +161,9 @@ def test_search_songs_by_genre_existent_search():
     expected_json = {
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1", "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Vampire", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2020, "id": "x2", "popularity": None}
+                "genre": "Pop", "release_year": 2020, "id": "x2", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ],
         "albums": []
     }
@@ -176,19 +176,19 @@ def test_search_songs_by_year_existent_search():
     SongService.get_by_year = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Vampire", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2020, "id": "x2",  "popularity": None}
+                "genre": "Pop", "release_year": 2020, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ]
     })
     SongService.get_songs = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Vampire", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2020, "id": "x2",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "August", "artist": "Taylor Swift",
-                "genre": "Rock", "release_year": 2019, "id": "x3",  "popularity": None}
+                "genre": "Rock", "release_year": 2019, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ]
     })
     # Quando uma requisição "GET" for enviada para "/search" com o parâmetro de consulta "year" definido como "2020"
@@ -201,9 +201,9 @@ def test_search_songs_by_year_existent_search():
     expected_json = {
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Vampire", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2020, "id": "x2",  "popularity": None}
+                "genre": "Pop", "release_year": 2020, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ],
         "albums": []
     }
@@ -216,20 +216,20 @@ def test_search_songs_by_name_existent_search():
     SongService.gey_songs_by_name = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": None},
+                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
         ]
     })
 
     SongService.get_songs = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": None},
+                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "August", "artist": "Taylor Swift",
-                "genre": "Rock", "release_year": 2019, "id": "x3",  "popularity": None}
+                "genre": "Rock", "release_year": 2019, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ]
     })
 
@@ -243,9 +243,9 @@ def test_search_songs_by_name_existent_search():
     expected_json = {
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": None}
+                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ],
         "albums": []
     }
@@ -258,45 +258,45 @@ def test_search_songs_by_name_and_year_and_genre_existent_search():
     SongService.gey_songs_by_name = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": None},
+                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "Mila",
-             "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": None},
+             "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
         ]
     })
     SongService.get_by_year = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": None},
+                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "Mila",
-                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": None},
+                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
         ]
     })
 
     SongService.get_by_genre = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Mila",
-                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": None},
+                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
         ]
     })
 
     SongService.get_songs = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
-                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": None},
+                "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "John Doe",
-                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": None},
+                "genre": "Pop", "release_year": 2077, "id": "x2",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "Lover", "artist": "Mila",
-                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": None},
+                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "August", "artist": "Taylor Swift",
-                "genre": "Rock", "release_year": 2019, "id": "x4",  "popularity": None},
+                "genre": "Rock", "release_year": 2019, "id": "x4",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "August", "artist": "Taylor Swift",
-                "genre": "Rock", "release_year": 2019, "id": "x5",  "popularity": None},
+                "genre": "Rock", "release_year": 2019, "id": "x5",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "the devil in i", "artist": "Slipknot", "genre": "Rock",
-                "release_year": 2014, "id": "x9", "popularity": None},
+                "release_year": 2014, "id": "x9", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "The sound of silence", "artist": "Disturbed",
-                "genre": "Rock", "release_year": 2015, "id": "x6", "popularity": None}
+                "genre": "Rock", "release_year": 2015, "id": "x6", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"}
         ]
     })
 
@@ -308,7 +308,7 @@ def test_search_songs_by_name_and_year_and_genre_existent_search():
     expected_json = {
         "songs": [
             {"title": "Lover", "artist": "Mila",
-                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": None},
+                "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
         ],
         "albums": []
     }
