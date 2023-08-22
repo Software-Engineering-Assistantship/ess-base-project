@@ -25,7 +25,7 @@ def test_get_song(client: TestClient):
     response = client.get("/songs")
 
     assert response.status_code == 200
-    assert response.json() == {'songs': [
+    assert response.json() == { 'songs': [
             {
                 "id": "teste",
                 "title": "Test Song",
@@ -38,7 +38,6 @@ def test_get_song(client: TestClient):
             },
         ]
     }
-
 
 def test_get_song_by_id(client: TestClient):
     song_id = "64e03abb59d8ca2bdee4b3c8"
@@ -353,3 +352,10 @@ def test_get_highlights():
 
     assert response.json() == expected_json
     assert response.status_code == 200
+
+def test_get_songs_empty_list(client: TestClient):
+    SongService.get_songs = MagicMock(return_value=[])  # Simulate empty list
+    response = client.get("/songs")
+
+    assert response.status_code == 200
+    assert response.json() == { "songs": [] }
