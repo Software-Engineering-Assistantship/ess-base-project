@@ -1,9 +1,8 @@
 from fastapi import APIRouter, HTTPException, Path, status
-from src.db import database as db
-from src.schemas.song import SongGet, SongModel, SongDelete,SongList
 from starlette.responses import JSONResponse
+from src.schemas.song import SongGet, SongModel, SongDelete, SongList, SongNameList, SongCreateModel, GetSongsTopRated
+from src.db import database as db
 from src.service.impl.song_service import SongService
-from src.schemas.song import SongCreateModel
 
 router = APIRouter()
 
@@ -16,9 +15,8 @@ router = APIRouter()
 )
 def get_song(song_id: str):
     song_get_response = SongService.get_song(song_id)
-    print("####################")
-    print(song_get_response)
     return song_get_response
+
 
 @router.get(
     "/",
@@ -28,7 +26,8 @@ def get_song(song_id: str):
 )
 def get_songs():
     songs = SongService.get_songs()
-    return { 'songs': songs, }
+    return {'songs': songs, }
+
 
 @router.put(
     "/{song_id}",
@@ -53,6 +52,7 @@ def add_song(song: SongCreateModel):
 
     return song_add_response
 
+
 @router.delete(
     "/{song_id}",
     response_model=SongDelete,
@@ -63,17 +63,18 @@ def delete_song(song_id: str):
     song_delete_response = SongService.delete_song(song_id)
     return song_delete_response
 
+
 @router.get(
-    "/higlighted",
+    "/songs_h/highlighted",
     response_model=SongList,
     response_class=JSONResponse,
     summary="get highlighted songs",
 )
 def get_highlighted():
     highlighted_response = SongService.get_highlighted()
-    return {
-        "musics": highlighted_response
-    }
+
+    return highlighted_response
+
 
 @router.get(
     "/songs_by_year/{year}",
@@ -83,8 +84,33 @@ def get_highlighted():
 )
 def get_by_year(year):
     song_get_response = SongService.get_by_year(year)
-
     return song_get_response
+
+@router.get(
+    "/songs_by_album/{album}",
+    response_model=SongList,
+    response_class=JSONResponse,
+    summary="get all songs",
+)
+def get_by_album(album):
+    song_get_response = SongService.get_by_album(album)
+    
+    return song_get_response
+
+#WHICH ROUTE HERE???
+def get_songs_with_links():
+    songs = db.get_all_items('songs')
+
+    # Fetch music links for each song and add them to the response
+    songs_with_links = []
+    for song in songs:
+        song_links = db.get_available_on_for_song(song.id)
+        song_with_links = song.dict()
+        song_with_links['available_on'] = song_links
+        songs_with_links.append(song_with_links)
+
+    return songs_with_links
+
 
 @router.get(
     "/songs_by_genre/{genre}",
@@ -97,6 +123,7 @@ def get_by_genre(genre):
 
     return song_get_response
 
+
 @router.get(
     "/songs_by_artist/{artist}",
     response_model=SongList,
@@ -108,15 +135,95 @@ def get_by_artist(artist):
 
     return song_get_response
 
+
 @router.get(
-    "/songs_by_album/{album}",
-    response_model=SongList,
-    response_class=JSONResponse,
-    summary="get all songs",
+    "/get_top_rated_songs",
+    response_model=SongNameList,  # Assuming Song model has a field for average rating
+    description="Retrieve top-rated songs"
 )
-def get_by_album(album):
-    song_get_response = SongService.get_by_album(album)
+def get_top_rated_songs(limit: int = 5):
+    """
+    Get the top-rated songs based on average rating.
 
-    return song_get_response
+    Args:
+    - limit (int): How many top-rated songs to retrieve. Default is 10.
+
+    Returns:
+    - A list of top-rated songs.
+    """
+    songs = db.get_top_rated_songs('songs', limit)
+    return {'songs':songs}
 
 
+
+# def get_songs():
+#     """
+#     Get all songs.
+
+#     Returns:
+#     - A list of all songs.
+#     """
+
+#     songs = db.get_all_items('songs')
+
+#     # Fetch music links for each song and add them to the response
+#     songs_with_links = []
+#     for song in songs:
+#         song_links = db.get_available_on_for_song(song.id)  # Substitua pela função real para obter os links
+#         song_with_links = song.dict()
+#         song_with_links['available_on'] = song_links
+#         songs_with_links.append(song_with_links)
+
+#     return songs_with_links
+
+
+
+# @router.get(
+#     "/{song_id}",
+#     response_model=SongModel,
+#     description="Retrieve a song by ID",
+#     tags=["songs"],
+# )
+# def get_song_by_id(song_id: int = Path(..., description="The ID of the song to retrieve")):
+#     """
+#     Get a song by its ID.
+
+#     Args:
+#     - song_id (int): The ID of the song to retrieve.
+
+#     Returns:
+#     - The requested song.
+
+#     Raises:
+#     - HTTPException(404) if the song is not found.
+#     """
+
+#     song = db.get_item_by_id('songs', song_id)
+#     if song is None:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Song not found")
+
+#     # Fetch music links for the song and add them to the response
+#     song_links = db.get_available_on_for_song(song_id)  # Substitua pela função real para obter os links
+#     song['available_on'] = song_links
+
+#     return song
+
+@router.get(
+    "/songs_r/top-rated",
+    response_model=GetSongsTopRated,  # Assuming Song model has a field for average rating
+    description="Retrieve top-rated songs"
+)
+def get_top_rated_songs(limit: int = 5):
+    """
+    Get the top-rated songs based on average rating.
+    Args:
+    - limit (int): How many top-rated songs to retrieve. Default is 10.
+    Returns:
+    - A list of top-rated songs.
+    """
+    songs = SongService.get_top_rated_songs(limit)
+    print(songs)
+    response = {
+        "songs": songs
+    }
+    return response
