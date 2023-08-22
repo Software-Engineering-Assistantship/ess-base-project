@@ -9,6 +9,7 @@ from src.db import database as db
 
 router = APIRouter()
 
+
 @router.get(
     "/",
     response_model=AlbumList,
@@ -17,9 +18,11 @@ router = APIRouter()
 )
 def get_albums():
     albums_get_response = AlbumService.get_albums()
-    return { 'albums': albums_get_response }
+    return {'albums': albums_get_response}
 
 # Get a specific album
+
+
 @router.get(
     "/{album_id}",
     response_model=AlbumModel,
@@ -30,6 +33,7 @@ def get_album(album_id: str):
     album_get_response = AlbumService.get_album(album_id)
 
     return album_get_response
+
 
 @router.put(
     "/{album_id}",
@@ -43,6 +47,8 @@ def edit_album(album_id: str, album: AlbumCreateModel):
     return album_edit_response
 
 # Add an album
+
+
 @router.post(
     "/create",
     response_model=AlbumModel,
@@ -51,8 +57,10 @@ def edit_album(album_id: str, album: AlbumCreateModel):
 )
 def add_album(album: AlbumCreateModel):
     album_add_response = AlbumService.add_album(album)
+    print(album_add_response)
 
     return album_add_response
+
 
 @router.delete(
     "/{album_id}",
@@ -63,6 +71,7 @@ def add_album(album: AlbumCreateModel):
 def delete_album(album_id: str):
     album_delete_response = AlbumService.delete_album(album_id)
     return album_delete_response
+
 
 @router.get(
     "/album_name/{name}",
