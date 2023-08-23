@@ -58,9 +58,11 @@ def edit_review(review_id: str, review: ReviewCreateModel):
 )
 def delete_review(review_id: str):
     review_delete_response = ReviewService.delete_review(review_id)
-    return {
-        'review': review_delete_response
-    }
+
+    if not review_delete_response:
+        raise HTTPException(status_code=404, detail="Item not found")
+    else:
+        return review_delete_response
 
 
 def get_reviews_by_song_id(song_id: int): #PRECISA DE UMA FUNÇÃO DESSA AQUI? -> SERIA UM SERVICE

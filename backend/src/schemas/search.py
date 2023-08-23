@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 from typing import Optional, List
 
+
 class SearchModel(BaseModel):
     albums: Optional[List[AlbumModel]]
-    songs: List[SongModel]
+    songs: Optional[List[SongModel]]
