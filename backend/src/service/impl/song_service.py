@@ -14,7 +14,7 @@ class SongService:
     @staticmethod
     def get_song(song_id: str):
         song = db.get_by_id('songs', song_id)
-        print("#########222222###########")
+
         return song
 
     @staticmethod
