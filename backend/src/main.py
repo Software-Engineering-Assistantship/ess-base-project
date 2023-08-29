@@ -307,7 +307,7 @@ class RepositorioLojas():
     def check_lojas(self, emailcheck: str):
         return self.db.query(Stores).filter(Stores.email == emailcheck).first()
     
-    def criar(self, loja: Lojas):
+    def criar_loja(self, loja: Lojas):
         if self.check_lojas(loja.email):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Loja já registrada")
         db_loja = Stores(email=loja.email, 
@@ -426,7 +426,7 @@ def deletar_cupom(nome: str, db: Session = Depends(get_db)):
 @app.post('/lojas', status_code=status.HTTP_201_CREATED)
 def criar_lojas(lojas: Lojas, db: Session = Depends(get_db)):
     lojas.senha = gerarhash(lojas.senha)
-    loja_criada = RepositorioLojas(db).criar(lojas)
+    loja_criada = RepositorioLojas(db).criar_loja(lojas)
     return loja_criada
 
 
@@ -507,7 +507,7 @@ async def get_reviews(company: str):
     db.close()
     return company_reviews
 
-@app.post('/lojas')
+@app.post('/loginlojas')
 def aceitar( logindata: LoginLojas, sessions: Session =  Depends(get_db)):
         email = logindata.email
         senha = logindata.senha
