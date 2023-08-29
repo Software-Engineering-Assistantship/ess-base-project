@@ -7,6 +7,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from fastapi.responses import JSONResponse
+from passlib.context import CryptContext 
+
 
 app = FastAPI()
 
@@ -35,7 +37,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
 
 
 
@@ -123,7 +124,40 @@ class Entregas(Base):
     preco = Column(Float)
     status = Column(String)
     emailEntregador = Column(String)
-        
+
+
+class Review(Base):
+    __tablename__ = "reviews"
+    id = Column(Integer, primary_key=True, index=True)
+    user = Column(String)
+    company = Column(String)
+    stars = Column(Integer)
+    comment = Column(String)
+
+
+Base.metadata.create_all(bind=engine)
+
+class ReviewCreate(BaseModel):
+    user: str
+    company: str
+    stars: int
+    comment: str
+
+class LoginLojas(BaseModel):
+    email: str
+    senha: str
+
+
+
+pwd_content = CryptContext(schemes=['bcrypt'])
+
+
+def gerarhash(senha):
+    return pwd_content.hash(senha)
+
+def verificarsenha(senha, hash):
+    return pwd_content.verify(senha, hash)
+
 
     
 class RepositorioEntregadores():
@@ -171,74 +205,8 @@ class RepositorioEntregadores():
     
     def relatorio(self):
         return self.db.query(Entregadores).all()
-
-
-class Lojas(BaseModel):
-    email: str
-    nome: str
-    cnpj: str
-    endereco: str
-    senha: str
-
-    class config:
-        orm_mode =  True
-
-class Stores(Base):
-
-    __tablename__ = 'lojas'
-
-    email = Column(String, primary_key=True, index=True)
-    nome = Column(String)
-    cnpj = Column(String)
-    endereco = Column(String)
-    senha = Column(String)
-        
-        
-class credit_card(BaseModel):
-    nome: str
-    numero_cartao: str
-    cvv: int
-    validade: str
-
-class discount_coupom(BaseModel):
-    nome: str
-    desconto: int  # Change this to an 'int'
-
-class cartao_credito(Base):
-    __tablename__ = 'cartao_credito'
-    nome = Column(String)
-    numero_cartao = Column(String, primary_key=True, index=True)
-    cvv = Column(Integer)
-    validade = Column(String)
+       
     
-class cupom_desconto(Base):
-    __tablename__ = 'cupom_desconto'
-    nome = Column(String, primary_key=True, index=True)
-    desconto = Column(Integer)  # Change this to an 'Integer'
-
-
-class Entrega(BaseModel):
-
-    id: int
-    nomeProduto: str
-    quantidade: int
-    marca: str
-    tipoDoProduto: str
-    enderecoDeEntrega: str
-    preco: float
-    status: str
-    
-class Entregas(Base):
-    __tablename__ = 'entregas'
-    id = Column(Integer, primary_key=True, index=True)
-    nomeProduto = Column(String)
-    quantidade = Column(Integer)
-    marca = Column(String)
-    tipoDoProduto = Column(String)
-    enderecoDeEntrega = Column(String)
-    preco = Column(Float)
-    status = Column(String)
-
 
 # Function to create the database tables
 def criar_banco():
@@ -350,29 +318,11 @@ class RepositorioLojas():
         self.db.add(db_loja)
         self.db.commit()
         self.db.refresh(db_loja)
-        return db_loja
+        return db_loja   
     
-    def aceitar(self, emaillogin: str, senha: str, loja : Lojas):
-        email = self.db.query(Lojas).filter(loja.email == emaillogin).first()
-        senha = self.db.query(Lojas).filter(loja.senha == senha).first()
-        if email is not None and senha is not None:
-            return {'msg': 'Login realizado com sucesso'}
-        else:
-            return {'msg': 'Falha no login'}
-    
-
-    def check_lojas(self, emailcheck: str):
-        return self.db.query(Stores).filter(Stores.email == emailcheck).first()
-
     def listar(self):
         lojas = self.db.query(Stores).all()
         return lojas
-
-    def obter(self):
-        pass
-
-    def deletar(self):
-        pass
 
 
 class RepositorioEntregas():
@@ -414,11 +364,13 @@ def criar_cartao(card: credit_card, db: Session = Depends(get_db)):
     response_message = {"message": "Cartão criado com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
+
 @app.get('/cartoes', response_model=list[credit_card], status_code=status.HTTP_200_OK)
 def acessar_cartoes(db: Session = Depends(get_db)):
     repo = RepositorioCartao(db)
     cartoes = repo.relatorio()
     return cartoes
+
 
 @app.delete('/cartoes/{numero_cartao}', status_code=status.HTTP_200_OK)
 def deletar_cartao(numero_cartao: str, db: Session = Depends(get_db)):
@@ -426,6 +378,7 @@ def deletar_cartao(numero_cartao: str, db: Session = Depends(get_db)):
     repo.remover(numero_cartao)
     response_message = {"message": f"Cartão de número '{numero_cartao}' removido"}
     return JSONResponse(content=response_message, status_code=status.HTTP_200_OK)
+
 
 @app.put('/cartoes/{numero_cartao}', response_model=credit_card)
 def atualizar_cartao_existente(numero_cartao: str, card: credit_card, db: Session = Depends(get_db)):
@@ -438,17 +391,17 @@ def atualizar_cartao_existente(numero_cartao: str, card: credit_card, db: Sessio
     return updated_card
 
 
-
-    
 @app.post('/cupom', response_model=discount_coupom, status_code=status.HTTP_201_CREATED)
 def cadastro_cupom(cupom: discount_coupom, db: Session = Depends(get_db)):
     cupom_temp = RepositorioCupoms(db).criar(cupom)
     response_message = {"message": "Cupom criado com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
+
 @app.get('/cupom', response_model= list[discount_coupom], status_code=status.HTTP_200_OK)
 def acessar_cupoms(db: Session = Depends(get_db)):
     return RepositorioCupoms(db).relatorio()
+
 
 @app.put('/cupom/{nome}', response_model=discount_coupom)
 def atualizar_cupom_existente(nome: str, cupom: discount_coupom, db: Session = Depends(get_db)):
@@ -461,6 +414,7 @@ def atualizar_cupom_existente(nome: str, cupom: discount_coupom, db: Session = D
     response_message = {"message": f"Cupom de nome {nome} teve seu desconto alterado para {cupom.desconto}"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
+
 @app.delete('/cupom/{nome}', status_code=status.HTTP_204_NO_CONTENT)
 def deletar_cupom(nome: str, db: Session = Depends(get_db)):
     repo = RepositorioCupoms(db)
@@ -469,9 +423,9 @@ def deletar_cupom(nome: str, db: Session = Depends(get_db)):
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
     
 
-    
 @app.post('/lojas', status_code=status.HTTP_201_CREATED)
 def criar_lojas(lojas: Lojas, db: Session = Depends(get_db)):
+    lojas.senha = gerarhash(lojas.senha)
     loja_criada = RepositorioLojas(db).criar(lojas)
     return loja_criada
 
@@ -481,17 +435,20 @@ def listar_lojas(db: Session = Depends(get_db)):
     lojas = RepositorioLojas(db).listar() 
     return lojas
 
+
 @app.post('/entregadores', response_model=Entregador, status_code=status.HTTP_201_CREATED)
 def criar_entregador(entregador: Entregador, db: Session = Depends(get_db)):
     entregador_temp = RepositorioEntregadores(db).criar(entregador)
     response_message = {"message": "Entregador criado com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
+
 @app.get('/entregadores', response_model=list[Entregador], status_code=status.HTTP_200_OK)
 def acessar_entregadores(db: Session = Depends(get_db)):
     repo = RepositorioEntregadores(db)
     entregadores = repo.relatorio()
     return entregadores
+
 
 @app.put('/entregadores/{email}', response_model=Entregador)
 def atualizar_entregador_existente(email: str, entregador: Entregador, db: Session = Depends(get_db)):
@@ -502,6 +459,7 @@ def atualizar_entregador_existente(email: str, entregador: Entregador, db: Sessi
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Entregador não cadastrado")
     updated_entregador = repo.atualizar(email, entregador)
     return updated_entregador
+
 
 @app.delete('/entregadores/{email}', status_code=status.HTTP_200_OK)
 def deletar_entregador(email: str, db: Session = Depends(get_db)):
@@ -524,28 +482,6 @@ def acessar_entregas(db: Session = Depends(get_db)):
     entregas = repo.relatorio()
     return entregas
 
-    
-#@app.delete('/lojas/{email}', status_code=status.HTTP_204_NO_CONTENT)
-#def deletar_email(email: str, db: Session = Depends(get_db)):
-    repo = RepositorioLojas(db)
-    repo.deletar(email)
-    
-class Review(Base):
-    __tablename__ = "reviews"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user = Column(String)
-    company = Column(String)
-    stars = Column(Integer)
-    comment = Column(String)
-
-Base.metadata.create_all(bind=engine)
-
-class ReviewCreate(BaseModel):
-    user: str
-    company: str
-    stars: int
-    comment: str
 
 @app.post("/submit_review")
 async def submit_review(review: ReviewCreate):
@@ -571,7 +507,20 @@ async def get_reviews(company: str):
     db.close()
     return company_reviews
 
-@app.post('/loginlojas', response_model=Lojas)
-def aceitar(emaillogin: str, senha: str, db: Session = Depends(get_db)):
-    decisao = RepositorioLojas(db).aceitar(emaillogin, senha)
-    return decisao
+@app.post('/lojas')
+def aceitar( logindata: LoginLojas, sessions: Session =  Depends(get_db)):
+        email = logindata.email
+        senha = logindata.senha
+
+        usuario_loja = RepositorioLojas(sessions).check_lojas(email) 
+
+        if not usuario_loja: 
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail= 'Email ou senha estão incorretos')
+        
+        senhavalida = verificarsenha(senha, usuario_loja.senha)
+        if not senhavalida:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                                detail= 'Email ou senha estão incorretos')
+        
+        return usuario_loja
