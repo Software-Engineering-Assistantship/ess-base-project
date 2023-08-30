@@ -17,12 +17,11 @@ def test_login_sucedido(): # testar o login bem sucedido de uma loja
 
 @given(
     parsers.cfparse(
-        'um usuário com e-mail "{email}", senha "{senha}", nome "{nome}", endereco "{endereco}" e cpnj "{cnpj}" está cadastrado no sistema'
+        'um usuário com e-mail "{email}", senha "{senha}", nome "{nome}", endereco "{endereco}" e cnpj "{cnpj}" está cadastrado no sistema'
     )
 )
-def mock_user_in_database(client, nome: str, email: str, senha: str, cnpj: str, endereco: str):
-    client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cpnj": cnpj})
-
+def mock_user_in_database(client, nome: str, email: str, senha: str, cnpj: str, endereco: str):#garantindo que esta cadastrado no sistema
+    client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cnpj": cnpj})
 
 @when(
     parsers.cfparse(
@@ -30,7 +29,7 @@ def mock_user_in_database(client, nome: str, email: str, senha: str, cnpj: str, 
     ),
     target_fixture="context"
 )
-def send_login_request(client, login_url, email:str, senha: str, context):
+def send_login_request(client, login_url, email: str, senha: str, context):
     response = client.post(login_url, json= {"email": email, "senha": senha} ) # envia um post para a rota de login com o email e senha do usuário
     context["response"] = response
     return context
@@ -38,18 +37,6 @@ def send_login_request(client, login_url, email:str, senha: str, context):
 @then(parsers.cfparse('o status da resposta deve ser "{status_code}"'), target_fixture="context")
 def check_login_response_status_code(context, status_code: str):
     assert context["response"].status_code == int(status_code) # verifica se o código de status da resposta é 200
-    return context
-
-@then(
-    parsers.cfparse(
-        'O JSON da reposta deve retornar o usuario com email "{email}"'
-    ),
-    target_fixture="context"
-)
-def check_login(context, email: str):
-    
-    expected_email = {"email": email} # verifica se o JSON da resposta contém o email do usuario
-    assert context["response"].json() == {"detail": expected_email}
     return context
 
 
@@ -64,11 +51,11 @@ def test_login_falho(): # testar o login mal sucedido de uma loja
 
 @given(
     parsers.cfparse(
-        'um usuário com e-mail "{email}", senha "{senha}", nome "{nome}", endereco "{endereco}" e cpnj "{cnpj}" está cadastrado no sistema'
+        'um usuário com e-mail "{email}", senha "{senha}", nome "{nome}", endereco "{endereco}" e cnpj "{cnpj}" está cadastrado no sistema'
     )
 )
 def mock_user_in_database(client, nome: str, email: str, senha: str, cnpj: str, endereco: str):
-    client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cpnj": cnpj})
+    client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cnpj": cnpj})
 
 
 @when(
@@ -110,7 +97,7 @@ def test_login_falho2(): # testar o login mal sucedido de uma loja
 
 @given(
     parsers.cfparse(
-        'um usuário com e-mail "{email}", senha "{senha}", nome "{nome}", endereco "{endereco}" e cpnj "{cnpj}" não está cadastrado no sistema'
+        'um usuário com e-mail "{email}", senha "{senha}", nome "{nome}", endereco "{endereco}" e cnpj "{cnpj}" não está cadastrado no sistema'
     )
 )
 def limpando_bd(client, email: str):

@@ -10,7 +10,7 @@ criar_banco()
     scenario_name="Cadastrar uma nova loja",
     feature_name="../features/cadastro_lojas_testes.feature"
 )
-def cadastro_bemsucedido(): # testar o cadastro bem sucedido de uma loja
+def test_cadastro(): # testar o cadastro bem sucedido de uma loja
     pass
 
 @given(
@@ -18,18 +18,18 @@ def cadastro_bemsucedido(): # testar o cadastro bem sucedido de uma loja
         'a loja com email "{email}" ainda não foi cadastrada'
     )
 )
-def limpando_banco(client):#caso ela exista, apagando do banco de dados
-    client.delete('/lojas/{email}')
+def limpando_banco(client, email: str):#caso ela exista, apagando do banco de dados
+    response = client.delete(f"/lojas/{email}")
 
 @when(
     parsers.cfparse(
-        'uma solicitação "POST" é feita para "{login_url}" com email "{email}", senha "{senha}", nome "{nome}", localicazao "{endereco}" e cnpj "{cnpj}" '
+        'uma solicitação POST é feita para "{login_url}" com email "{email}", senha "{senha}", nome "{nome}", localicazao "{endereco}" e cnpj "{cnpj}"'
     ),
     target_fixture="context"
 )
 def cadastrando_no_banco(client, nome: str, email: str, senha: str, cnpj: str, endereco: str, context):
-    response = client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cpnj": cnpj})
-    context["response"] = response
+    response = client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cnpj": cnpj})
+    context["response"] = response 
     return context
 
 
@@ -48,25 +48,25 @@ def checandocodigodereposta(context, status_code: str):
     scenario_name="Tentar cadastrar uma loja ja cadastrada",
     feature_name="../features/cadastro_lojas_testes.feature"
 )
-def cadastro_malsucedido(): # testar o cadastro bem sucedido de uma loja
+def test_cadastro_malsucedido(): # testar o cadastro bem sucedido de uma loja
     pass
 
 @given(
     parsers.cfparse(
-        'a loja com email "{email}", senha "{senha}", nome "{nome}", localicazao "{endereco}" e cnpj "{cpnj}" ja foi cadastrada'
+        'a loja com email "{email}", senha "{senha}", nome "{nome}", localicazao "{endereco}" e cnpj "{cnpj}" ja foi cadastrada'
     )
 )
 def criandoessaloja(client, email:str, senha:str, nome:str, endereco:str, cnpj:str ):#criando ela no bd
-    client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cpnj": cnpj})
+    client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cnpj": cnpj})
 
 @when(
     parsers.cfparse(
-        'uma solicitação "POST" é feita para "{login_url}" com email "{email}", senha "{senha}", nome "{nome}", localicazao "{endereco}" e cnpj "{cnpj}" '
+        'uma solicitação POST é feita para "{login_url}" com email "{email}", senha "{senha}", nome "{nome}", localicazao "{endereco}" e cnpj "{cnpj}"'
     ),
     target_fixture="context"
 )
 def cadastrandomaisumavez(client, nome: str, email: str, senha: str, cnpj: str, endereco: str, context):
-    response = client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cpnj": cnpj})
+    response = client.post("/lojas", json={"nome": nome, "email": email, "senha": senha, "endereco": endereco, "cnpj": cnpj})
     context["response"] = response
     return context
 
@@ -86,3 +86,4 @@ def checandocodigodereposta(context, status_code: str):
 def checkmensagem(context, mensagem: str):
     assert context["response"].json() == {"detail": mensagem}
     return context
+ 
