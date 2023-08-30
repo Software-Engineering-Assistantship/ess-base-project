@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from fastapi.responses import JSONResponse
 from passlib.context import CryptContext 
-
+from sqlalchemy.orm import declarative_base
 
 app = FastAPI()
 
@@ -323,6 +323,15 @@ class RepositorioLojas():
     def listar(self):
         lojas = self.db.query(Stores).all()
         return lojas
+    
+    def remover(self, email: str):
+        loja_remover = self.db.query(Stores).filter(Stores.email == email).first()
+        if loja_remover is not None:
+            self.db.delete(loja_remover)
+            self.db.commit()
+            return None
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cupom não encontrado")
 
 
 class RepositorioEntregas():
@@ -429,6 +438,12 @@ def criar_lojas(lojas: Lojas, db: Session = Depends(get_db)):
     loja_criada = RepositorioLojas(db).criar_loja(lojas)
     return loja_criada
 
+@app.delete('/lojas/{email}')
+def remover_lojas(email: str, db: Session = Depends(get_db)):
+    repo = RepositorioLojas(db)
+    repo.remover(email)
+    response_message = {"message": f"Loja de nome {email} deletada com sucesso"}
+    return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 @app.get('/lojas')
 def listar_lojas(db: Session = Depends(get_db)):
