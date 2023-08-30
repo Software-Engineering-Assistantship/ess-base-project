@@ -101,7 +101,7 @@ def test_login_falho2(): # testar o login mal sucedido de uma loja
     )
 )
 def limpando_bd(client, email: str):
-    client.delete('/lojas/{email}')
+    client.delete(f'/lojas/{email}')
 
 @when(
     parsers.cfparse(
