@@ -34,3 +34,5 @@ And: Preencho o CNPJ como '21. 123. 456/0001-55';
 And: Preencho a localização da loja como 'Fortaleza - Ceará, Rua do Tuezin, número 777-666';
 And: Confirmo o envio do questionário;
 Then: Aparece uma mensagem: 'Sua loja já foi registrada no nosso site! Por favor realize o login.'.
+
+
