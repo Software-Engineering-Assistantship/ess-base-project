@@ -103,25 +103,25 @@ class Stores(Base):
     
 class Entrega(BaseModel):
 
-    id: int
+    id: str
     nomeProduto: str
-    quantidade: int
+    quantidade: str
     marca: str
     tipoDoProduto: str
     enderecoDeEntrega: str
-    preco: float
+    preco: str
     status: str
     emailEntregador: str
     
 class Entregas(Base):
     __tablename__ = 'entregas'
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True)
     nomeProduto = Column(String)
-    quantidade = Column(Integer)
+    quantidade = Column(String)
     marca = Column(String)
     tipoDoProduto = Column(String)
     enderecoDeEntrega = Column(String)
-    preco = Column(Float)
+    preco = Column(String)
     status = Column(String)
     emailEntregador = Column(String)
 
@@ -169,7 +169,7 @@ class RepositorioEntregadores():
     
     def criar(self, entregador: Entregador):
         if self.check_entregador(entregador.email):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Erro no cadastro do email '{entregador.email}'")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f'Erro no cadastro do email {entregador.email}')
         
         db_entregador = Entregadores(
             email=entregador.email,
@@ -454,7 +454,7 @@ def listar_lojas(db: Session = Depends(get_db)):
 @app.post('/entregadores', response_model=Entregador, status_code=status.HTTP_201_CREATED)
 def criar_entregador(entregador: Entregador, db: Session = Depends(get_db)):
     entregador_temp = RepositorioEntregadores(db).criar(entregador)
-    response_message = {"message": "Entregador criado com sucesso"}
+    response_message = {"detail": "Entregador criado com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 
@@ -480,14 +480,14 @@ def atualizar_entregador_existente(email: str, entregador: Entregador, db: Sessi
 def deletar_entregador(email: str, db: Session = Depends(get_db)):
     repo = RepositorioEntregadores(db)
     repo.remover(email)
-    response_message = {"message": "Entregador removido"}
+    response_message = {"detail": "Entregador removido"}
     return JSONResponse(content=response_message, status_code=status.HTTP_200_OK)
 
 
 @app.post('/entregas', response_model=Entrega, status_code=status.HTTP_201_CREATED)
 def criar_entrega(id: Entrega, db: Session = Depends(get_db)):
     id_temp = RepositorioEntregas(db).criar(id)
-    response_message = {"message": "Entrega criada com sucesso"}
+    response_message = {"detail": "Entrega criada com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 
