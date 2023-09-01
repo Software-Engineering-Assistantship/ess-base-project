@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from fastapi.responses import JSONResponse
 from passlib.context import CryptContext 
-
+from sqlalchemy.orm import declarative_base
 
 app = FastAPI()
 
@@ -103,25 +103,25 @@ class Stores(Base):
     
 class Entrega(BaseModel):
 
-    id: int
+    id: str
     nomeProduto: str
-    quantidade: int
+    quantidade: str
     marca: str
     tipoDoProduto: str
     enderecoDeEntrega: str
-    preco: float
+    preco: str
     status: str
     emailEntregador: str
     
 class Entregas(Base):
     __tablename__ = 'entregas'
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True)
     nomeProduto = Column(String)
-    quantidade = Column(Integer)
+    quantidade = Column(String)
     marca = Column(String)
     tipoDoProduto = Column(String)
     enderecoDeEntrega = Column(String)
-    preco = Column(Float)
+    preco = Column(String)
     status = Column(String)
     emailEntregador = Column(String)
 
@@ -169,7 +169,7 @@ class RepositorioEntregadores():
     
     def criar(self, entregador: Entregador):
         if self.check_entregador(entregador.email):
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Erro no cadastro do email '{entregador.email}'")
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f'Erro no cadastro do email {entregador.email}')
         
         db_entregador = Entregadores(
             email=entregador.email,
@@ -323,6 +323,15 @@ class RepositorioLojas():
     def listar(self):
         lojas = self.db.query(Stores).all()
         return lojas
+    
+    def remover(self, email: str):
+        loja_remover = self.db.query(Stores).filter(Stores.email == email).first()
+        if loja_remover is not None:
+            self.db.delete(loja_remover)
+            self.db.commit()
+            return None
+        else:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cupom não encontrado")
 
 
 class RepositorioEntregas():
@@ -388,7 +397,8 @@ def atualizar_cartao_existente(numero_cartao: str, card: credit_card, db: Sessio
     if not existing_card:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cartão não cadastrado")
     updated_card = repo.atualizar(numero_cartao, card)
-    return updated_card
+    response_message = {"message": f"Cartão de numero {numero_cartao} foi alterado"}
+    return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 
 @app.post('/cupom', response_model=discount_coupom, status_code=status.HTTP_201_CREATED)
@@ -429,6 +439,12 @@ def criar_lojas(lojas: Lojas, db: Session = Depends(get_db)):
     loja_criada = RepositorioLojas(db).criar_loja(lojas)
     return loja_criada
 
+@app.delete('/lojas/{email}')
+def remover_lojas(email: str, db: Session = Depends(get_db)):
+    repo = RepositorioLojas(db)
+    repo.remover(email)
+    response_message = {"message": f"Loja de nome {email} deletada com sucesso"}
+    return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 @app.get('/lojas')
 def listar_lojas(db: Session = Depends(get_db)):
@@ -439,7 +455,7 @@ def listar_lojas(db: Session = Depends(get_db)):
 @app.post('/entregadores', response_model=Entregador, status_code=status.HTTP_201_CREATED)
 def criar_entregador(entregador: Entregador, db: Session = Depends(get_db)):
     entregador_temp = RepositorioEntregadores(db).criar(entregador)
-    response_message = {"message": "Entregador criado com sucesso"}
+    response_message = {"detail": "Entregador criado com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 
@@ -465,14 +481,14 @@ def atualizar_entregador_existente(email: str, entregador: Entregador, db: Sessi
 def deletar_entregador(email: str, db: Session = Depends(get_db)):
     repo = RepositorioEntregadores(db)
     repo.remover(email)
-    response_message = {"message": "Entregador removido"}
+    response_message = {"detail": "Entregador removido"}
     return JSONResponse(content=response_message, status_code=status.HTTP_200_OK)
 
 
 @app.post('/entregas', response_model=Entrega, status_code=status.HTTP_201_CREATED)
 def criar_entrega(id: Entrega, db: Session = Depends(get_db)):
     id_temp = RepositorioEntregas(db).criar(id)
-    response_message = {"message": "Entrega criada com sucesso"}
+    response_message = {"detail": "Entrega criada com sucesso"}
     return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 
