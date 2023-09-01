@@ -507,14 +507,14 @@ async def submit_review(review: ReviewCreate):
     if not review.comment:
         raise HTTPException(status_code=400, detail="Comentários vazios não são permitidos")
 
-    db_review = Review(**review.dict())
+    db_review = Review(user=review.user, company=review.company, stars=review.stars, comment=review.comment)
     db = SessionLocal()
     db.add(db_review)
     db.commit()
     db.refresh(db_review)
     db.close()
 
-    return {"message": "Avaliação submetida com sucesso"}
+    return {"detail": "Avaliação submetida com sucesso"}
 
 @app.get("/get_reviews/{company}")
 async def get_reviews(company: str):
