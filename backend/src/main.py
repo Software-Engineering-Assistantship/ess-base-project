@@ -397,7 +397,8 @@ def atualizar_cartao_existente(numero_cartao: str, card: credit_card, db: Sessio
     if not existing_card:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Cartão não cadastrado")
     updated_card = repo.atualizar(numero_cartao, card)
-    return updated_card
+    response_message = {"message": f"Cartão de numero {numero_cartao} foi alterado"}
+    return JSONResponse(content=response_message, status_code=status.HTTP_201_CREATED)
 
 
 @app.post('/cupom', response_model=discount_coupom, status_code=status.HTTP_201_CREATED)
