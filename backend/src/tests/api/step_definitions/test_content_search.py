@@ -291,8 +291,6 @@ def test_search_songs_by_name_and_year_and_genre_existent_search():
                 "genre": "Trap", "release_year": 2077, "id": "x3",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "August", "artist": "Taylor Swift",
                 "genre": "Rock", "release_year": 2019, "id": "x4",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
-            {"title": "August", "artist": "Taylor Swift",
-                "genre": "Rock", "release_year": 2019, "id": "x5",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "the devil in i", "artist": "Slipknot", "genre": "Rock",
                 "release_year": 2014, "id": "x9", "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
             {"title": "The sound of silence", "artist": "Disturbed",

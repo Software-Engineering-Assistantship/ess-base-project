@@ -30,7 +30,7 @@ Feature: Buscas por conteúdo
 
     Scenario: Buscar por nome da música, genero e ano 
 
-    Given o SongService não possui a música "Lover" do gênero "Pop" lançada em 2020 da artista "Taylor Swift", a música "Lover" do gênero "Pop" lançada em 2077 do artsta "John Doe", a música "Lover" do gênero "Trap" lançada em 2077 da artista "Mila", a música "August" do gênero "Rock" lançada em 2019 da artista "Taylor Swift", a música "The Devil in i" do gênero "Rock" lançada em 2014 do artista "Slipknot" e a música "The Sound of Silence" do gênero "Rock" lançada em 2015 do artista "Disturbed"
+    Given o SongService possui a música "Lover" do gênero "Pop" lançada em 2020 da artista "Taylor Swift", a música "Lover" do gênero "Pop" lançada em 2077 do artsta "John Doe", a música "Lover" do gênero "Trap" lançada em 2077 da artista "Mila", a música "August" do gênero "Rock" lançada em 2019 da artista "Taylor Swift", a música "The Devil in i" do gênero "Rock" lançada em 2014 do artista "Slipknot" e a música "The Sound of Silence" do gênero "Rock" lançada em 2015 do artista "Disturbed"
     When uma requisição "GET" for enviada para "/songs/search/?name=Lover&year=2077&genre=Trap”
     Then o status da resposta deve ser "200"
     And o JSON da resposta deve conter a música "Lover" lançada em 2077 do gênero "Trap" da artista "Mila"
