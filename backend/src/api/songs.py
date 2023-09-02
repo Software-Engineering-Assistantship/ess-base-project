@@ -18,6 +18,9 @@ router = APIRouter()
 def get_song(song_id: str):
     song_get_response = SongService.get_song(song_id)
 
+    if not song_get_response:
+        raise HTTPException(status_code=404, detail="Song not found")
+
     return song_get_response
 
 

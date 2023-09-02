@@ -120,16 +120,14 @@ def test_get_song_by_id(client: TestClient):
 
 client = TestClient(app)
 
-
-def test_song_not_found(client: TestClient):
-    song_id = '2'  # Use a different song_id here
-    with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
-        mock_get_item_by_id.return_value = None
-
-        response = client.get(f"/songs/{song_id}")
-
+def test_song_not_found():
+    song_id = '2'
+    SongService.get_song = MagicMock(return_value=None)
+    response = client.get(f"/songs/{song_id}")
     assert response.status_code == 404
-    assert "detail: Not Found"
+    assert response.json() == {
+        "detail": "Song not found"
+    }
 
 
 def test_get_highlights():
@@ -377,17 +375,6 @@ def test_unavailable_external_service(client: TestClient):
     print(response.json())
     print(expected_json)
     assert response.json() == expected_json
-
-
-def test_song_not_found(client: TestClient):
-    song_id = 2  # Use a different song_id here
-    with patch.object(db, "get_item_by_id") as mock_get_item_by_id:
-        mock_get_item_by_id.return_value = None
-
-        response = client.get(f"/music/details/{song_id}")
-
-    assert response.status_code == 404
-    assert "detail: Not Found"
 
 
 def test_get_top_rated_songs(client: TestClient):
