@@ -1,11 +1,11 @@
-import ReviewsPage from "./app/home/pages/Header";
+import Home from "./app/home/pages/Home";
 // import React from "react";
 
 
 function App() {
   return (
     <div className="App">
-      <ReviewsPage />
+      <Home />
 
     </div>
   );

@@ -9,7 +9,7 @@ export const PageWrapper = styled.div`
 export const TopBar = styled.div`
   display: flex;
   align-items: center;
-  gap: 10%;
+  //gap: 20%;
 `;
 
 export const LogoImage = styled.img`
@@ -25,7 +25,7 @@ export const UserImage = styled.img`
 
 export const NavButtons = styled.div`
   display: flex;
-  gap: 8%;
+  gap: 10%;
   align-items: center;
 
 `;
