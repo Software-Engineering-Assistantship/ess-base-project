@@ -16,14 +16,14 @@ const Header: React.FC = () => {
     backgroundColor: 'transparent',
     border: 'none',
     margin: '0px',
-    width: '30%',
-    height: '30%',
+    width: '40%',
+    height: '40%',
   };
 
   const customButtonUser = {
     backgroundColor: 'transparent',
     border: 'none',
-    width: 'auto',
+    width: '100%',
     fontSize: '20px',
   };
 
@@ -36,7 +36,6 @@ const Header: React.FC = () => {
             <LogoImage src={Logo} alt="Logo" /> 
           </ButtonComponent>
 
-          <ButtonComponent customStyle={customButtonStyle}>Reviews</ButtonComponent>
           <ButtonComponent customStyle={customButtonStyle}>Em Alta</ButtonComponent>
           <ButtonComponent customStyle={customButtonStyle}>Mais Escutadas</ButtonComponent>
 
