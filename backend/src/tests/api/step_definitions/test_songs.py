@@ -354,10 +354,6 @@ def test_unavailable_external_service(client: TestClient):
 
     })
 
-    # Mock the available_on links for the song
-    # with patch.object(db, "get_available_on_for_song") as mock_get_available_on:
-    #     mock_get_available_on.return_value = None
-
     response = client.get(f"/songs/{song_id}")
 
     assert response.status_code == 200
