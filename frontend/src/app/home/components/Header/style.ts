@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const PageWrapper = styled.div`
   background: transparent; /*linear-gradient(to bottom, #ff66c4, #ffde59)*/
@@ -9,23 +9,35 @@ export const PageWrapper = styled.div`
 export const TopBar = styled.div`
   display: flex;
   align-items: center;
-  //gap: 20%;
 `;
 
 export const LogoImage = styled.img`
-  width: 80%;
-  height: 80%;
+  width: 100%;
+  max-width: 300px;
+  margin-right: 70px;
+`;
+
+export const ButtonsDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 45vw;
+  gap: 12%;
+  margin-right: 100px;
 `;
 
 export const UserImage = styled.img`
-  width: 6%;
-  height: 6%;
+  width: 40px;
   padding-right: 10px;
-`;
+`; 
 
 export const NavButtons = styled.div`
+  padding-top: 20px;
+  width: 100%;
   display: flex;
-  gap: 10%;
   align-items: center;
-
+  justify-content: space-around;
+  position: fixed;
+  top: 0;
+  left: 0;
 `;
