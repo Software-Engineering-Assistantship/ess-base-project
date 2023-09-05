@@ -308,7 +308,7 @@ class Database():
         items = list(collection.find({"release_year": year}))
         return {
             "songs": items
-        }
+            }
 
     def get_by_year(self, collection_name: str, year: int) -> list:
         """
@@ -439,3 +439,4 @@ class Database():
         return {
             "musics": items
         }
+  
