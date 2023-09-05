@@ -55,7 +55,7 @@
     "jsdom": "^22.1.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.0.2",
-    "vite": "^4.3.2",
+    "vite": "^4.4.9",
     "vite-plugin-istanbul": "^4.1.0",
     "vitest": "^0.31.1"
   }
