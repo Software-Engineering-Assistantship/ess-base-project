@@ -1,22 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreateTest from "./app/home/pages/CreateTest";
-import ListTests from "./app/home/pages/ListTests";
+import Home from "./app/home/pages/Home";
+// import React from "react";
 
-const router = createBrowserRouter([
-  {
-    path: "*",
-    Component: CreateTest,
-  },
-  {
-    path: "/create-test",
-    Component: CreateTest,
-  },
-  {
-    path: "/tests",
-    Component: ListTests,
-  },
-]);
 
-export default function App() {
-  return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+function App() {
+  return (
+    <div className="App">
+      <Home />
+
+    </div>
+  );
 }
+
+export default App;

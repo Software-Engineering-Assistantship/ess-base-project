@@ -129,7 +129,6 @@ class Database():
 
         for itm in items:
             itm["id"] = str(itm["_id"])
-            del itm["_id"]
 
         print(items)
         return items

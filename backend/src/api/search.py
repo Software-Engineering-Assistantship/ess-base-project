@@ -6,7 +6,6 @@ from src.schemas.search import SearchModel
 
 router = APIRouter()
 
-
 @router.get(
     "/search",
     response_model=SearchModel,
