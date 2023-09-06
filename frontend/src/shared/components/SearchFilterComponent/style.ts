@@ -1,39 +1,73 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
+export const SearchMainDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
 export const SearchFilterWrapper = styled.div`
   display: flex;
   align-items: center;
   background-color: #f0f0f0;
   padding: 5px;
-  border-radius: 10px;
-  width: 50%;
-  margin-left: 25%;
+  border-radius: 40px;
+  width: 100%;
+  max-width: 700px;
 `;
 
 export const SearchInput = styled.input`
-  flex: 1;
-  padding: 5px;
+  width: 90%;
+  padding: 5px 5px 5px 12px;
   border: none;
-  border-radius: 3px;
+  border-radius: 40px;
+  background-color: transparent;
+
+  // O '&:focus' é o mesmo que 'SearchInput:focus' (se não me engano, é uma funcionalidade do styled-components)
+  &:focus-visible,
+  :focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
 `;
 
 export const FilterButton = styled.button`
-  background-color: white;
-  color: white;
+  background-color: transparent;
   border: none;
-  border-radius: 3px;
-  padding: 0px 0px;
-  cursor: pointer;
-  width: 15%;
-  height: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+
+  position: relative;
 `;
 
 export const FilterImage = styled.img`
-  background-color: white;
+  background-color: transparent;
   border: none;
-  width: 20%;
-  height: 10%;
-  border-radius: 3px;
-  padding: 0px 0px;
+  width: 20px;
   cursor: pointer;
+`;
+export const LupaImage = styled.img`
+  background-color: transparent;
+  border: none;
+  width: 30px;
+  cursor: pointer;
+`;
+
+
+export const DropdownFilter = styled.div`
+  position: absolute;
+  top: 22px;
+
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  text-align: left;
+
+  background-color: pink;
+
+  border-radius: 10px;
+  padding: 10px;
+  width: 150px
 `;

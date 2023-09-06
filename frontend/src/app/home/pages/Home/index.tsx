@@ -17,8 +17,16 @@ const Home: React.FC = () => {
   };
 
   return (
+    
     <Wallpaper>
-      <SearchFilterComponent onSearch={handleSearch} onFilter={handleFilter} searchQuery={searchQuery} />
+      <Header />
+      {/* A div abaixo serve para dar um espaçamento após o Header, dado que ele está com position fixed */}
+      <div style={{ marginBottom: "180px" }}></div>
+      <SearchFilterComponent
+        onSearch={handleSearch}
+        onFilter={handleFilter}
+        searchQuery={searchQuery}
+      />
     </Wallpaper>
   );
 };
