@@ -1,5 +1,6 @@
 import React from 'react';
-import { SearchFilterWrapper, SearchInput, FilterButton } from './style';
+import { SearchFilterWrapper, SearchInput, FilterButton, FilterImage } from './style';
+import filter from "../../assets/filter.png";
 
 interface SearchFilterProps {
   onSearch: (query: string) => void;
@@ -18,7 +19,10 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({ onSearch, onFilter
     return (
       <SearchFilterWrapper>
         <SearchInput type="text" placeholder="Pesquisar" onChange={handleSearch} />
-        <FilterButton onClick={onFilter}>Filtrar</FilterButton>
+        <FilterButton
+        onClick={onFilter} >
+        <FilterImage src={filter} alt="User" />
+        </FilterButton>
       </SearchFilterWrapper>
     );
   };

@@ -25,6 +25,10 @@ export const ButtonWrapper = styled.button<ButtonWrapperProps>`
   border: 2px solid blue;
   border-radius: 3px;
   cursor: pointer;
+
+  &:active {
+    border-bottom: 2px solid blue; /* Adicione uma linha embaixo do botão quando ele for clicado */
+  }
 `;
 
 

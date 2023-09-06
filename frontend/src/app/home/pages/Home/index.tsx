@@ -18,7 +18,6 @@ const Home: React.FC = () => {
 
   return (
     <Wallpaper>
-      <Header />
       <SearchFilterComponent onSearch={handleSearch} onFilter={handleFilter} searchQuery={searchQuery} />
     </Wallpaper>
   );

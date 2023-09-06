@@ -18,10 +18,22 @@ export const SearchInput = styled.input`
 `;
 
 export const FilterButton = styled.button`
-  background-color: #007bff;
+  background-color: white;
   color: white;
   border: none;
   border-radius: 3px;
-  padding: 5px 10px;
+  padding: 0px 0px;
+  cursor: pointer;
+  width: 15%;
+  height: 10%;
+`;
+
+export const FilterImage = styled.img`
+  background-color: white;
+  border: none;
+  width: 20%;
+  height: 10%;
+  border-radius: 3px;
+  padding: 0px 0px;
   cursor: pointer;
 `;

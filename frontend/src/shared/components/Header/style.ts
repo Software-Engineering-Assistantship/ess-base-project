@@ -39,3 +39,4 @@ export const NavButtons = styled.div`
   top: 0;
   left: 0;
 `;
+

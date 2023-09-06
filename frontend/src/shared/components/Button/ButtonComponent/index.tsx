@@ -6,11 +6,19 @@ interface ButtonProps {
   customStyle?: React.CSSProperties;
   children: React.ReactNode;
   onClick?: () => void;
+  isActive?: boolean;
 }
 
-const ButtonComponent: React.FC<ButtonProps> = ({ primary, customStyle, children, onClick }) => {
+const ButtonComponent: React.FC<ButtonProps> = ({ primary, customStyle, children, onClick, isActive }) => {
   return (
-    <ButtonWrapper primary={primary} style={customStyle} onClick={onClick}>
+    <ButtonWrapper 
+    
+    primary={primary} 
+    style={{
+      ...(isActive ? { borderBottom: "2px solid black" } : {}), // Aplica a linha quando isActive for verdadeiro
+      ...customStyle,
+    }} 
+    onClick={onClick}>
       {children}
     </ButtonWrapper>
   );
