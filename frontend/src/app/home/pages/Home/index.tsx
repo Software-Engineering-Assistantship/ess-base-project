@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Header from '../../../../shared/components/Header';
 import SearchFilterComponent from '../../../../shared/components/SearchFilterComponent';
 import { Wallpaper } from './style';
 
@@ -19,9 +18,8 @@ const Home: React.FC = () => {
   return (
     
     <Wallpaper>
-      <Header />
       {/* A div abaixo serve para dar um espaçamento após o Header, dado que ele está com position fixed */}
-      <div style={{ marginBottom: "180px" }}></div>
+      <div style={{ paddingBottom: "180px" }}></div>
       <SearchFilterComponent
         onSearch={handleSearch}
         onFilter={handleFilter}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ButtonComponent from "../Button/ButtonComponent";
+import ButtonComponent from "../ButtonComponent";
 import {
   PageWrapper,
   TopBar,
@@ -15,14 +15,17 @@ import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
+  
+  const [showLine, setShowLine] = useState(false);
 
   const handleButtonClick = (buttonName: string) => {
     if (buttonName === activeButton) {
-      // Se o botão clicado já estiver ativo, desative-o
-      setActiveButton(null);
+      // Se o botão clicado já estiver ativo, mantenha a linha visível
+      setShowLine(true);
     } else {
-      // Caso contrário, ative-o
+      // Caso contrário, ative-o e mostre a linha
       setActiveButton(buttonName);
+      setShowLine(true);
     }
   };
 
@@ -44,7 +47,10 @@ const Header: React.FC = () => {
       <TopBar>
         <NavButtons>
           <Link to="/">
-            <ButtonComponent customStyle={customButtonLogo}>
+            <ButtonComponent customStyle={customButtonLogo}
+             isActive={activeButton === "Logo"} 
+             onClick={() => handleButtonClick("Logo")}
+             >
               <LogoImage src={Logo} alt="Logo" />
             </ButtonComponent>
           </Link>
@@ -102,7 +108,9 @@ const Header: React.FC = () => {
           </ButtonsDiv>
           
           <Link to="/edition">
-            <ButtonComponent customStyle={customButtonUser}>
+            <ButtonComponent customStyle={customButtonUser}
+            isActive={activeButton === "User"} 
+            onClick={() => handleButtonClick("User")} >
               <UserImage src={user} alt="User" />
               Ana
             </ButtonComponent>

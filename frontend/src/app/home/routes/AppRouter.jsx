@@ -1,23 +1,38 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Header from '../../../shared/components/Header';
+import {createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from '../../../shared/components/Layout';
 import Home from '../pages/Home';
 import InHigh from '../pages/InHigh';
 import MostListened from '../pages/MostListened';
 import Edition from '../pages/Edition';
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout/>,
+    children: [
+    {
+      path: "/",
+      Component: Home,
+    },
+    {
+      path: "/in-high",
+      Component: InHigh,
+    },
+    {
+      path: "/most-listened",
+      Component: MostListened,
+    },
+    {
+      path: "/edition",
+      Component: Edition,
+    },]
+  },
+  
+]);
+
 const AppRouter = () => {
-  return (
-    <Router>
-      <Header />
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/in-high" component={InHigh} />
-        <Route path="/most-listened" component={MostListened} />
-        <Route path="/edition" component={Edition} />
-      </Switch>
-    </Router>
-  );
+  return <RouterProvider router={router}/>
 };
 
 export default AppRouter;

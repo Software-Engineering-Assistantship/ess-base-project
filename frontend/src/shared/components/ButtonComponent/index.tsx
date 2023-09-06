@@ -15,7 +15,6 @@ const ButtonComponent: React.FC<ButtonProps> = ({ primary, customStyle, children
     
     primary={primary} 
     style={{
-      ...(isActive ? { borderBottom: "2px solid black" } : {}), // Aplica a linha quando isActive for verdadeiro
       ...customStyle,
     }} 
     onClick={onClick}>
