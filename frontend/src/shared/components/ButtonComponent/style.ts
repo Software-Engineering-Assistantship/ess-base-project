@@ -25,6 +25,7 @@ export const ButtonWrapper = styled.button<ButtonWrapperProps>`
   border: 2px solid blue;
   border-radius: 3px;
   cursor: pointer;
+
 `;
 
 
