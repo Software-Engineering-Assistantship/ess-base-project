@@ -4,9 +4,9 @@ class ReviewSchema(ModelSchema):
     bson_type: str = "object"
     required: list = [
         "id",
-        "title", 
-        "author", 
-        "description", 
+        "title",
+        "author",
+        "description",
         "song",
         "rating",
         "created_at"
