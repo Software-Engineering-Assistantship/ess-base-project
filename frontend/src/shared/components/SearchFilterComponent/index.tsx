@@ -7,14 +7,14 @@ import {
   FilterImage,
   DropdownFilter,
   LupaImage,
-} from "./style";
-import filter from "../../assets/filter.png";
-import Lupa from "../../assets/Lupa.png";
+} from "./style"; // Importando estilos e elementos visuais
+import filter from "../../assets/filter.png"; // Importando a imagem do ícone de filtro
+import Lupa from "../../assets/Lupa.png"; // Importando a imagem da lupa
 
 interface SearchFilterProps {
-  onSearch: (query: string) => void;
-  onFilter: () => void;
-  searchQuery: string; // Adicione esta propriedade
+  onSearch: (query: string) => void; // Função de busca
+  onFilter: () => void; // Função de filtro
+  searchQuery: string; // Consulta de busca
 }
 
 const SearchFilterComponent: React.FC<SearchFilterProps> = ({
@@ -22,12 +22,16 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
   onFilter,
   searchQuery,
 }) => {
+  // Função chamada quando o input de pesquisa é alterado
   const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
     const query = e.currentTarget.value;
     onSearch(query);
   };
 
+  // Estado para controlar a visibilidade do dropdown
   const [showDropdown, setShowDropdown] = React.useState(false);
+
+  // Função chamada quando o botão de filtro é clicado
   const handleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -35,22 +39,31 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
   return (
     <SearchMainDiv>
       <SearchFilterWrapper>
-      <LupaImage src={Lupa} alt="lupa" />
+        {/* Imagem da lupa */}
+        <LupaImage src={Lupa} alt="lupa" />
+
+        {/* Input de pesquisa */}
         <SearchInput
           type="text"
           placeholder="Pesquisar"
           onChange={handleSearch}
         />
+
+        {/* Botão de filtro */}
         <FilterButton onClick={onFilter}>
+          {/* Ícone de filtro */}
           <FilterImage onClick={handleDropdown} src={filter} alt="filter" />
+
+          {/* Dropdown de filtros */}
           <DropdownFilter
             style={showDropdown ? { display: "flex" } : { display: "none" }}
           >
             <div>
-            
+              {/* Dropdown para selecionar gênero */}
               <label htmlFor="cars1">Gênero</label>
               <div style={{ marginBottom: "5px" }}></div>
               <select name="cars1" id="cars1">
+                {/* Opções de gênero */}
                 <option value="Pop">Pop</option>
                 <option value="MPB">MPB</option>
                 <option value="Rap">Rap</option>
@@ -71,10 +84,12 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
             </div>
 
             <div>
+              {/* Dropdown para selecionar ano de lançamento */}
               <div style={{ marginBottom: "5px" }}></div>
               <label htmlFor="cars2">Ano de Lançamento</label>
               <div style={{ marginBottom: "5px" }}></div>
               <select name="cars2" id="cars2">
+                {/* Opções de ano de lançamento */}
                 <option value="Anos 80">Anos 60</option>
                 <option value="Anos 80">Anos 70</option>
                 <option value="Anos 80">Anos 80</option>
