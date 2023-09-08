@@ -15,7 +15,7 @@ body {
   min-height: 100vh;
   max-width: 100%;
   max-height: 100%; 
-  /*background: url('wp4.jpg') ;*/
+  background: url('../components/cool-background.png');
 
 }
 
