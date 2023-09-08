@@ -1,5 +1,3 @@
-
-
 <script setup>
 import Navegacao from './components/navegacao.vue';
 import telainicialbox from './components/telainicialbox.vue';
