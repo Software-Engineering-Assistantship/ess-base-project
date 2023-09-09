@@ -3,19 +3,33 @@
 
 <template>
     <div class="boxtelainicial">
-        <div class="subboxtelainicial">
+        <div >
             <div class="textbox">O gerente</div>
             <div class="smalltextbox">ficou completamente maluco!</div>
             <div>
                 <div class="evensmallertext">agradeçam à lenda Ian Gabriel Braga Trinta</div>
                 <div class="evensmallertext2">e ao seu fiel ajudante Luiz Mamals</div>
             </div>
-            <div class="botao">AAAAAAAAAAA</div>
+            
 
     </div>
         <div class="produto">
-            <img  class= "imagem" src="../components/lmao.png" alt="Descrição da imagem">
+        <!-- First line of products -->
+        <div class="product-row">
+          <img class="moldura" src="../components/lmao.png" alt="Descrição da imagem" width="200" height="200">
+          <img class="moldura" src="../components/fonts/whey.png" alt="Descrição da imagem" width="200" height="200">
+          
         </div>
+
+        <!-- Second line of products -->
+        <div class="product-row">
+          <img class="moldura" src="../components/pc gamer.png" alt="Descrição da imagem" width="200" height="200">
+          <img class="moldura" src="../components/one piece.png" alt="Descrição da imagem" width="200" height="200">
+          <span>
+            <img class="moldura" src="../components/pc.png" alt="Descrição da imagem" width="200" height="200">
+          </span>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -34,6 +48,16 @@
     margin: 0;
     padding: 0;
     font-family: 'ZZYZX', sans-serif;
+  }
+  .moldura {
+      border-radius: 10px;
+      border: 5px solid #fff; /* Add a white border */
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Add a shadow effect */
+      transition: transform 0.3s ease-in-out; /* Add a smooth transition */
+  }
+
+  .moldura:hover {
+      transform: scale(1.05); /* Scale up the image on hover for a cool effect */
   }
   .botao{
     width: 50px;
@@ -68,6 +92,7 @@
         text-decoration: none;
         text-transform: uppercase;
         letter-spacing: 2px;
+        z-index: 999;
         font-weight: bold;
         margin-bottom: 0;
         transition: all 0.6s ease-in-out;
@@ -81,6 +106,7 @@
         margin-top: 0;
         font-size: 45px;
         font-weight: 600;
+        z-index: 1000;
         text-decoration: none;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -123,14 +149,14 @@
   
   .boxtelainicial {
     width: 95%;
-    height: 70%;
-    background-color: transparent;
+    height: 700px;
+    background-color: #dcdcdc;
     color: #aa9a9a;
-    position: fixed;
-    top: 8vh;
+    position: relative;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%); /* Use transform to center horizontally */
-    z-index: 999;
+    z-index: 100;
     display: flex;
     align-items: center;
     padding: 0 50px;

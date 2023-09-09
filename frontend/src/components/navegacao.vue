@@ -12,10 +12,12 @@
 }
 
 body {
-  min-height: 100vh;
+  min-height: 10vh;
   max-width: 100%;
   max-height: 100%; 
   background: url('../components/cool-background.png');
+  
+  
 
 }
 
@@ -37,7 +39,7 @@ body {
 
 .header{
   height: 60px;
-  position: fixed; /* fixa o elemento no topo da página, teste no scroll */
+  position: sticky; /* fixa o elemento no topo da página, teste no scroll */
   top: 0;
   left: 0; 
   width: 100%; /* 100% da horizontal */
@@ -106,7 +108,7 @@ body {
     </a>
     
     <nav class="navbar">
-        <a href="">Home  </a>
+        <a href="../../carrinho.html">Home  </a>
         <a href="">Carrinho </a>
         <a href="">Lojas </a>
         
