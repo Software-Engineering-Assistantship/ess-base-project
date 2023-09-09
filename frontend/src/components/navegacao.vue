@@ -15,7 +15,7 @@ body {
   min-height: 10vh;
   max-width: 100%;
   max-height: 100%; 
-  background: url('../components/cool-background.png');
+  background: url('../components/imagens/cool-background.png');
   
   
 

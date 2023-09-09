@@ -17,17 +17,17 @@
         <div class="produto">
         <!-- First line of products -->
         <div class="product-row">
-          <img class="moldura" src="../components/lmao.png" alt="Descrição da imagem" width="200" height="200">
-          <img class="moldura" src="../components/fonts/whey.png" alt="Descrição da imagem" width="200" height="200">
+          <img class="moldura" src="../components/imagens/lmao.png" alt="Descrição da imagem" width="200" height="200">
+          <img class="moldura" src="../components/imagens/whey.png" alt="Descrição da imagem" width="200" height="200">
           
         </div>
 
         <!-- Second line of products -->
         <div class="product-row">
-          <img class="moldura" src="../components/pc gamer.png" alt="Descrição da imagem" width="200" height="200">
-          <img class="moldura" src="../components/one piece.png" alt="Descrição da imagem" width="200" height="200">
+          <img class="moldura" src="../components/imagens/pc gamer.png" alt="Descrição da imagem" width="200" height="200">
+          <img class="moldura" src="../components/imagens/one piece.png" alt="Descrição da imagem" width="200" height="200">
           <span>
-            <img class="moldura" src="../components/pc.png" alt="Descrição da imagem" width="200" height="200">
+            <img class="moldura" src="../components/imagens/pc.png" alt="Descrição da imagem" width="200" height="200">
           </span>
         </div>
       </div>

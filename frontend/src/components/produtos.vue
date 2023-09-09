@@ -2,18 +2,18 @@
     <div class="secao">
       <div class="tituloprod">Lorem ipsum dolor sit amet consectetur adipis.</div>
       <div class="produtos-container">
-        <div class="produtos"><img class="moldura" src="../components/pc gamer.png" alt="Descrição da imagem" width="200" height="200"></div>
-        <div class="produtos"><img class="moldura" src="../components/other-product.png" alt="Descrição da imagem" width="200" height="200"></div>
-        <div class="produtos"><img class="moldura" src="../components/pc gamer.png" alt="Descrição da imagem" width="200" height="200"></div>
-        <div class="produtos"><img class="moldura" src="../components/other-product.png" alt="Descrição da imagem" width="200" height="200"></div>
+        <div class="produtos"><img class="moldura" src="../components/imagens/pc gamer.png" alt="Descrição da imagem" width="200" height="200"></div>
+        <div class="produtos"><img class="moldura" src="../components/imagens/other-product.png" alt="Descrição da imagem" width="200" height="200"></div>
+        <div class="produtos"><img class="moldura" src="../components/imagenspc gamer.png" alt="Descrição da imagem" width="200" height="200"></div>
+        <div class="produtos"><img class="moldura" src="../components/imagensother-product.png" alt="Descrição da imagem" width="200" height="200"></div>
         <!-- Add more "produtos" elements as needed -->
       </div>
     </div>
     <div class="featured">
       <div class="tituloprod">Featured itens</div>
       <div class="bannercontainer">
-        <div class="produtosbannerred"><img class="moldurabanner" src="../components/pc gamer.png" alt="Descrição da imagem" width="400" height="400">Pc Gamer Pichau</div>
-        <div class="produtosbannergreen"><img class="moldurabanner" src="../components/fonts/whey.png" alt="Descrição da imagem" width="400" height="400">Fake Natty Plus</div>
+        <div class="produtosbannerred"><img class="moldurabanner" src="../components/imagens/pc gamer.png" alt="Descrição da imagem" width="400" height="400">Pc Gamer Pichau</div>
+        <div class="produtosbannergreen"><img class="moldurabanner" src="../components/imagens/karambit.png" alt="Descrição da imagem" width="400" height="400">Fake Natty Plus</div>
       </div>
     </div>
   </template>
