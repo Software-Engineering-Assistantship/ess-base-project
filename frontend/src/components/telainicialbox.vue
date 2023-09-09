@@ -9,6 +9,7 @@
             <div>
                 <div class="evensmallertext">agradeçam à lenda Ian Gabriel Braga Trinta</div>
                 <div class="evensmallertext2">e ao seu fiel ajudante Luiz Mamals</div>
+                <div class="botao">Compre agora</div>
             </div>
             
 
@@ -153,7 +154,6 @@
     background-color: #dcdcdc;
     color: #aa9a9a;
     position: relative;
-    top: 50px;
     left: 50%;
     transform: translateX(-50%); /* Use transform to center horizontally */
     z-index: 100;
@@ -163,5 +163,40 @@
     
     border-radius: 10px;
   }
+  .botao{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    padding: 8px 20px;
+    background: linear-gradient(315deg, #00ccff, #d400d4);
+    border-radius: 20px;
+    margin-top: 30px;
+    text-decoration: none;
+    color: #fff;
+    width: 200px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: 0.5s;
+  }
+  .botao:hover{
+    background: linear-gradient(315deg, #00ccff, #d400d4);
+    transform: scale(1.05);
+    transition: 0.5s;
+  }
+  .integrante a{
+    
+    display: inline-block;
+    padding: 8px 20px;
+    background: linear-gradient(315deg, #00ccff, #d400d4);
+    border-radius: 20px;
+    margin-top: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: 0.5s;
+}
   </style>
   
