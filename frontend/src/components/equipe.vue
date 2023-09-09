@@ -32,6 +32,22 @@
                         <a href="https://www.instagram.com/luizschmalz/" target="_blank">Sobre mim</a>
                     </div>
                 </div>
+        <div class="containerequipe">
+                    <!-- Team Member 1 -->
+                    <div class="integrante">
+                        <img src="../components/luiz.jpg" alt="">
+                        <h1>Luiz Eduardo Freitas<br><span>Von Schmalz</span></h1>
+                        <a href="https://www.instagram.com/luizschmalz/" target="_blank">Sobre mim</a>
+                    </div>
+                </div>
+        <div class="containerequipe">
+                    <!-- Team Member 1 -->
+                    <div class="integrante">
+                        <img src="../components/luiz.jpg" alt="">
+                        <h1>Luiz Eduardo Freitas<br><span>Von Schmalz</span></h1>
+                        <a href="https://www.instagram.com/luizschmalz/" target="_blank">Sobre mim</a>
+                    </div>
+                </div>
         <div class="textoequipe">  
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
             
@@ -74,8 +90,9 @@
   align-items: center; /* Center items horizontally */
   justify-content: center;
   min-height: 100vh;
-  background: transparent;
+  background: url('../components/cool-background.png');
   top: 500px;
+  position: relative;
 }
 .integrante{
     flex: 1;
