@@ -92,7 +92,8 @@
   min-height: 100vh;
   background: url('../components/imagens/cool-background.png');
   top: 500px;
-  position: relative;
+  margin-top: 50px;
+  position: static;
 }
 .integrante{
     flex: 1;
