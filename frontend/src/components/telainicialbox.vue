@@ -34,16 +34,12 @@
     </div>
   </template>
   
-  <style>
+  <style scoped>
   
     @font-face {
         font-family: ZZYZX;
         src: url(../components/fonts/ZZYZX.TTF);
     }
-
-
-
-
 
   * {
     margin: 0;
