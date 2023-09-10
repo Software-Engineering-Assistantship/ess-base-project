@@ -56,12 +56,13 @@
 </template>
 
   
-<style>
+<style scoped>
 *{
     margin: 0;
     padding: 0;
     font-family: 'ZZYZX', sans-serif;
     box-sizing: border-box;
+
 }
 @font-face {
     font-family: ZZYZX;
