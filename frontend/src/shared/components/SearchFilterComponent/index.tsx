@@ -7,9 +7,24 @@ import {
   FilterImage,
   DropdownFilter,
   LupaImage,
+  Results,
+  ResultItem,
 } from "./style"; // Importando estilos e elementos visuais
 import filter from "../../assets/filter.png"; // Importando a imagem do ícone de filtro
 import Lupa from "../../assets/Lupa.png"; // Importando a imagem da lupa
+import axios from "axios";
+
+interface SearchResult {
+  id: number;
+  title: string;
+  artist: string;
+}
+
+interface SearchFilterProps {
+  onSearch: (query: string) => void;
+  onFilter: () => void;
+  searchQuery: string;
+}
 
 interface SearchFilterProps {
   onSearch: (query: string) => void; // Função de busca
@@ -23,13 +38,44 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
   searchQuery,
 }) => {
   // Função chamada quando o input de pesquisa é alterado
-  const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
+  const [searchResults, setSearchResults] = React.useState<SearchResult[]>([]);
+
+  const handleSearch = async (e: React.FormEvent<HTMLInputElement>) => {
     const query = e.currentTarget.value;
-    onSearch(query);
+    onSearch(query); // Se ainda quiser usar onSearch para alguma lógica
+    await fetchData();
   };
 
   // Estado para controlar a visibilidade do dropdown
   const [showDropdown, setShowDropdown] = React.useState(false);
+
+  const [selectedGenre, setSelectedGenre] = React.useState('');
+  const [selectedYear, setSelectedYear] = React.useState('');
+
+  const handleGenreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedGenre(e.currentTarget.value);
+  };
+  
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear(e.currentTarget.value);
+  };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/search', {
+        params: {
+          query: searchQuery,
+          genre: selectedGenre,
+          year: selectedYear,
+        },
+      });
+      
+      const data: SearchResult[] = response.data;
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  };
 
   // Função chamada quando o botão de filtro é clicado
   const handleDropdown = () => {
@@ -62,7 +108,7 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
               {/* Dropdown para selecionar gênero */}
               <label htmlFor="cars1">Gênero</label>
               <div style={{ marginBottom: "5px" }}></div>
-              <select name="cars1" id="cars1">
+              <select name="cars1" id="cars1" onChange={handleGenreChange}>
                 {/* Opções de gênero */}
                 <option value="Pop">Pop</option>
                 <option value="MPB">MPB</option>
@@ -88,7 +134,7 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
               <div style={{ marginBottom: "5px" }}></div>
               <label htmlFor="cars2">Ano de Lançamento</label>
               <div style={{ marginBottom: "5px" }}></div>
-              <select name="cars2" id="cars2">
+              <select name="cars2" id="cars2"  onChange={handleYearChange}>
                 {/* Opções de ano de lançamento */}
                 <option value="Anos 80">Anos 60</option>
                 <option value="Anos 80">Anos 70</option>
@@ -108,6 +154,26 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
           </DropdownFilter>
         </FilterButton>
       </SearchFilterWrapper>
+
+      <Results>
+        {searchResults.length > 0 ? (
+          <div>
+            <h2>Resultados da Pesquisa:</h2>
+            <ul>
+              {searchResults.map(result => (
+                <ResultItem key={result.id}>
+                  <strong>Título:</strong> {result.title} <br />
+                  <strong>Artista:</strong> {result.artist}
+                  {/* Renderize outros campos conforme necessário */}
+                </ResultItem>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div>Nenhum resultado encontrado</div>
+        )}
+      </Results>
+
     </SearchMainDiv>
   );
 };
