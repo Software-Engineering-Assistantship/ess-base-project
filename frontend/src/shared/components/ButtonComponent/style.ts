@@ -25,6 +25,12 @@ export const ButtonWrapper = styled.button<ButtonWrapperProps>`
   border: 2px solid blue;
   border-radius: 3px;
   cursor: pointer;
+  
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    color: white !important;
+  }
 
 `;
 
