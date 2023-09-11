@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import ButtonComponent from "../ButtonComponent";
 import {
   PageWrapper,
@@ -11,11 +11,11 @@ import {
 
 import Logo from "../../assets/Logo.png";
 import user from "../../assets/user.png";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [activeButton, setActiveButton] = useState<string | null>(null);
-  
+
   const [showLine, setShowLine] = useState(false);
 
   const handleButtonClick = (buttonName: string) => {
@@ -47,10 +47,11 @@ const Header: React.FC = () => {
       <TopBar>
         <NavButtons>
           <Link to="/">
-            <ButtonComponent customStyle={customButtonLogo}
-             isActive={activeButton === "Logo"} 
-             onClick={() => handleButtonClick("Logo")}
-             >
+            <ButtonComponent
+              customStyle={customButtonLogo}
+              isActive={activeButton === "Logo"}
+              onClick={() => handleButtonClick("Logo")}
+            >
               <LogoImage src={Logo} alt="Logo" />
             </ButtonComponent>
           </Link>
@@ -59,29 +60,34 @@ const Header: React.FC = () => {
             <Link to="/">
               <ButtonComponent
                 customStyle={{
-                backgroundColor: "transparent",
-                color: "black",
-                width: "fit-content",
-                border: "none",
-                fontSize: "20px",
-                borderBottom: activeButton === "Reviews" ? "1px solid black" : "none", // Aplica a linha quando Reviews for verdadeiro
-              }}
+                  backgroundColor: "transparent",
+                  color: "black",
+                  width: "fit-content",
+                  border: "none",
+                  fontSize: "20px",
+                  borderRadius: "0px",
+                  borderBottom:
+                    activeButton === "Reviews" ? "1px solid black" : "none", // Aplica a linha quando Reviews for verdadeiro
+                }}
                 isActive={activeButton === "Reviews"} // Verifique se o botão Reviews está ativo
                 onClick={() => handleButtonClick("Reviews")}
               >
                 Reviews
               </ButtonComponent>
             </Link>
-            
+
             <Link to="/in-high">
               <ButtonComponent
                 customStyle={{
-                backgroundColor: "transparent",
-                color: "black",
-                width: "fit-content",
-                border: "none",
-                fontSize: "20px",
-                borderBottom: activeButton === "Em Alta" ? "1px solid black" : "none",}} // Aplica a linha quando Em Alta for verdadeiro
+                  backgroundColor: "transparent",
+                  color: "black",
+                  width: "fit-content",
+                  border: "none",
+                  fontSize: "20px",
+                  borderRadius: "0px",
+                  borderBottom:
+                    activeButton === "Em Alta" ? "1px solid black" : "none",
+                }} // Aplica a linha quando Em Alta for verdadeiro
                 isActive={activeButton === "Em Alta"} // Verifique se o botão Em Alta está ativo
                 onClick={() => handleButtonClick("Em Alta")}
               >
@@ -92,12 +98,16 @@ const Header: React.FC = () => {
             <Link to="/most-listened">
               <ButtonComponent
                 customStyle={{
-                backgroundColor: "transparent",
-                color: "black",
-                width: "fit-content",
-                border: "none",
-                fontSize: "20px",
-                borderBottom: activeButton === "Mais Escutadas" ? "1px solid black" : "none", // Aplica a linha quando Mais Escutadas for verdadeiro
+                  backgroundColor: "transparent",
+                  color: "black",
+                  width: "fit-content",
+                  border: "none",
+                  fontSize: "20px",
+                  borderRadius: "0px",
+                  borderBottom:
+                    activeButton === "Mais Escutadas"
+                      ? "1px solid black"
+                      : "none", // Aplica a linha quando Mais Escutadas for verdadeiro
                 }}
                 isActive={activeButton === "Mais Escutadas"} // Verifique se o botão Mais Escutadas está ativo
                 onClick={() => handleButtonClick("Mais Escutadas")}
@@ -106,16 +116,17 @@ const Header: React.FC = () => {
               </ButtonComponent>
             </Link>
           </ButtonsDiv>
-          
+
           <Link to="/edition">
-            <ButtonComponent customStyle={customButtonUser}
-            isActive={activeButton === "User"} 
-            onClick={() => handleButtonClick("User")} >
+            <ButtonComponent
+              customStyle={customButtonUser}
+              isActive={activeButton === "User"}
+              onClick={() => handleButtonClick("User")}
+            >
               <UserImage src={user} alt="User" />
               Ana
             </ButtonComponent>
           </Link>
-
         </NavButtons>
       </TopBar>
     </PageWrapper>

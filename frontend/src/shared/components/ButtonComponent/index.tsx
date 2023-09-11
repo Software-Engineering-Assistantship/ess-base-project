@@ -1,5 +1,5 @@
-import React from 'react';
-import { ButtonWrapper } from './style';
+import React from "react";
+import { ButtonWrapper } from "./style";
 
 interface ButtonProps {
   primary?: boolean;
@@ -9,15 +9,21 @@ interface ButtonProps {
   isActive?: boolean;
 }
 
-const ButtonComponent: React.FC<ButtonProps> = ({ primary, customStyle, children, onClick, isActive }) => {
+const ButtonComponent: React.FC<ButtonProps> = ({
+  primary,
+  customStyle,
+  children,
+  onClick,
+  isActive,
+}) => {
   return (
-    <ButtonWrapper 
-    
-    primary={primary} 
-    style={{
-      ...customStyle,
-    }} 
-    onClick={onClick}>
+    <ButtonWrapper
+      primary={primary}
+      style={{
+        ...customStyle,
+      }}
+      onClick={onClick}
+    >
       {children}
     </ButtonWrapper>
   );

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import SearchFilterComponent from '../../../../shared/components/SearchFilterComponent';
-import { Wallpaper } from './style';
-
+import {
+  Wallpaper,
+} from './style';
+// import Error from '../../../../shared/components/Error';
 
 const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');

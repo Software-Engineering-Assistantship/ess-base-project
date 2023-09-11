@@ -13,6 +13,7 @@ export const SearchFilterWrapper = styled.div`
   border-radius: 40px;
   width: 100%;
   max-width: 700px;
+
 `;
 
 export const SearchInput = styled.input`
