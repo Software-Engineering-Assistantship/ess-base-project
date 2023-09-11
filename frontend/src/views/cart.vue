@@ -1,69 +1,137 @@
 <template>
-    <div class="tela">
-      <div class="pagamentogrid">
-        <!-- Your content goes here -->
-        <div class="payment-container">
-          <h1>Cart</h1>
-          <p>Cart Items: {{ cartItems }}</p>
-          <p>Cart Total: {{ cartTotal }}</p>
-          <button class="botao" @click="checkout">Checkout</button>
+  <div class="checkout-page">
+    <div class="payment-container">
+      <h1 class="checkout-header">Checkout</h1>
+      <div class="cart-items">
+        <!-- Display cart items here -->
+        <div class="cart-item">
+          <img src="product-image.jpg" alt="Product Image" class="product-image">
+          <div class="product-details">
+            <h2 class="product-name">Product Name</h2>
+            <p class="product-price">$19.99</p>
+            <p class="product-quantity">Quantity: 2</p>
+          </div>
+          <button class="remove-button">Remove</button>
         </div>
+        <!-- Repeat for each cart item -->
       </div>
-      <router-view></router-view>
+      <div class="cart-total">
+        <p class="total-text">Cart Total:</p>
+        <p class="total-amount">$39.98</p>
+      </div>
+      <button class="checkout-button" @click="checkout">Proceed to Checkout</button>
     </div>
-  </template>
-  
-  <style scoped>
-  *{
-    background: url('../components/imagens/cool-background.png');
-  }
-  .tela {
-    width: 100%;
-    height: 100vh;
-    background-color: aqua;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  
-  .pagamentogrid {
-    width: 400px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .payment-container {
-    background-color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .botao {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    padding: 8px 20px;
-    background: linear-gradient(315deg, #00ccff, #d400d4);
-    border-radius: 20px;
-    margin-top: 30px;
-    text-decoration: none;
-    color: #fff;
-    width: 200px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: 0.5s;
-  }
-  
-  .botao:hover {
-    background: linear-gradient(315deg, #00ccff, #d400d4);
-    transform: scale(1.05);
-    transition: 0.5s;
-  }
-  </style>
-  
+  </div>
+</template>
+
+<style scoped>
+.checkout-page {
+  width: 100%;
+  height: 100vh;
+  background-image: linear-gradient(135deg, #f06, #ffc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.payment-container {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.product-details {
+  flex-grow: 1;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.product-price {
+  font-size: 16px;
+  color: #777;
+}
+
+.product-quantity {
+  font-size: 14px;
+  color: #888;
+}
+
+.remove-button {
+  background-color: #ff3c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.cart-total {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.total-text {
+  color: #333;
+}
+
+.total-amount {
+  color: #ff5722;
+  font-weight: 600;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.checkout-button {
+  background: linear-gradient(315deg, #00ccff, #d400d4);
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+  padding: 10px 20px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.checkout-button:hover {
+  background: linear-gradient(315deg, #00ccff, #d400d4);
+  transform: scale(1.05);
+}
+</style>
