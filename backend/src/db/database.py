@@ -202,7 +202,7 @@ class Database():
         }
 
     def get_by_id(self, collection_name: str, item_id: str) -> dict:
- 
+
         collection: Collection = self.db[collection_name]
 
         item_id = ObjectId(item_id)
@@ -269,22 +269,6 @@ class Database():
         }
 
 
-    def get_reviews_by_song_id(self, song_id: str) -> list:
-        """
-        Get all reviews of a song
-
-        Parameters:
-        - song_id: str
-            The ID of the song
-
-        Returns:
-        - list:
-            A list of all reviews of the song
-
-        """
-
-        reviews = self.db.get_all_items('reviews')
-        return [review for review in reviews if review['song_id'] == song_id]
 
     def get_by_year(self, collection_name: str, year: int) -> list:
         """
@@ -307,7 +291,12 @@ class Database():
         items = list(collection.find({"release_year": year}))
         return {
             "songs": items
-            }
+        }
+    def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
+        song_links = {
+            "Spotify": f"https://spotify.com/song/{song_id}",
+            "Apple Music": f"https://apple.com/song/{song_id}",
+        }
 
     def get_by_year(self, collection_name: str, year: int) -> list:
         """
@@ -406,15 +395,6 @@ class Database():
             "musics": items
         }
 
-    # collection: Collection = self.db[collection_name]
-    # items = list(collection.find({"artist": artist}))
-
-    # for itm in items:
-    #     del itm["_id"]
-
-    # return {
-    #     "musics": items
-    # }
 
     def get_by_album(self, collection_name: str, album: str) -> list:
         """
@@ -438,4 +418,22 @@ class Database():
         return {
             "musics": items
         }
-  
+
+    def get_reviews_by_song(self, song_id: str) -> list:
+            """
+            Retrieve reviews for a specific song by song.
+
+            Parameters:
+            - song: str
+                The ID of the song for which to retrieve reviews.
+
+            Returns:
+            - List[dict]:
+
+                A list of dictionaries representing reviews for the specified song.
+            """
+            collection_name = "reviews"
+            collection: Collection = self.db[collection_name]
+            reviews = list(collection.find({"song": song_id}))
+
+            return reviews

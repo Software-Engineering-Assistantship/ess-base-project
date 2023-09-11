@@ -1,13 +1,10 @@
-from fastapi import APIRouter, HTTPException, Path, status
+from fastapi import APIRouter, HTTPException
 from starlette.responses import JSONResponse
 from src.schemas.song import SongGet, SongModel, SongDelete, SongList, SongNameList, SongCreateModel, GetSongsTopRated, SongCreate
-from src.db import database as db
 from src.service.impl.song_service import SongService
+from src.schemas.review import ReviewModel, ReviewList
 
 router = APIRouter()
-
-# Get a specific song
-
 
 @router.get(
     "/{song_id}",
@@ -43,13 +40,12 @@ def get_songs():
 )
 def edit_song(song_id: str, song: SongCreateModel):
     song_edit_response = SongService.edit_song(song_id, song)
-    
+
     if not song_edit_response:
         raise HTTPException(status_code=400, detail="Invalid data")
     else:
         return song_edit_response
 
-# Add a song
 @router.post(
     "/create",
     response_model=SongModel,
@@ -96,7 +92,6 @@ def get_highlighted():
         "songs": songs
     }
 
-
 @router.get(
     "/songs_by_year/{year}",
     response_model=SongList,
@@ -118,22 +113,6 @@ def get_by_album(album):
     song_get_response = SongService.get_by_album(album)
 
     return song_get_response
-
-
-# WHICH ROUTE HERE???
-def get_songs_with_links():
-    songs = db.get_all_items('songs')
-
-    # Fetch music links for each song and add them to the response
-    songs_with_links = []
-    # for song in songs:
-    #     if song['available_on'] is not None:
-    #         song_links = db.get_available_on_for_song(song.id)
-    #         song_with_links = song.dict()
-    #         song_with_links['available_on'] = song_links
-    #         songs_with_links.append(song_with_links)
-
-    return songs_with_links
 
 
 @router.get(
@@ -162,7 +141,6 @@ def get_by_artist(artist):
 
 @router.get(
     "/songs_r/top-rated",
-    # Assuming Song model has a field for average rating
     response_model=GetSongsTopRated,
     description="Retrieve top-rated songs"
 )
@@ -180,3 +158,18 @@ def get_top_rated_songs(limit: int = 5):
         "songs": songs
     }
     return response
+
+@router.get(
+    "/{song_id}/reviews",
+    response_model=ReviewList,
+    response_class=JSONResponse,
+    summary="Get reviews of a specific song",
+)
+def get_reviews(song_id: str):
+
+    reviews = SongService.get_reviews(song_id)
+
+    if not reviews:
+        raise HTTPException(status_code=404, detail="Reviews not found")
+
+    return { "reviews": reviews }
