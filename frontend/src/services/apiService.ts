@@ -1,21 +1,14 @@
-// apiService.ts
-
 import axios from 'axios';
 
-export function useApiService() {
-  const baseUrl = 'https://jsonplaceholder.typicode.com/users/1'; // Replace with your API URL
+const apiClient = axios.create({
+  baseURL: 'https://pokeapi.co/api/v2/',
+  timeout: 10000, // Defina um limite de tempo de resposta, se desejar
+});
 
-  async function fetchData() {
-    try {
-      const response = await axios.get(`${baseUrl}`);
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      throw error;
-    }
-  }
-
-  return {
-    fetchData,
-  };
-}
+export default {
+  // Métodos para buscar Pokémons
+  getPokemon(id) {
+    return apiClient.get(`pokemon/${id}`);
+  },
+  // Outros métodos relacionados aos Pokémons
+};
