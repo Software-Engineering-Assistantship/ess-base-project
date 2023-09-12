@@ -84,6 +84,7 @@ def delete_song(song_id: str):
 def get_highlighted():
     songs = SongService.get_highlighted()
 
+
     for song in songs:
         song['id'] = str(song['_id'])
         del song['_id']

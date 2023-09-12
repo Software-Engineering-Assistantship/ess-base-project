@@ -13,7 +13,7 @@ class AlbumService:
 
     @staticmethod
     def get_album(album_id: str):
-        album = db.get_by_id('albums', album_id)
+        album = db.get_item_by_id('albums', album_id)
         return album
 
     @staticmethod
@@ -55,6 +55,6 @@ class AlbumService:
         return albums
 
     @staticmethod
-    def gey_album_by_name(album: str):
+    def get_album_by_name(album: str):
         album = db.get_by_name('albums', album)
         return album

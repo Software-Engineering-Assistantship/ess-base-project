@@ -28,6 +28,8 @@ def get_reviews():
 )
 def get_review(review_id: str):
     review_get_response = ReviewService.get_review(review_id)
+
+    print(review_get_response)
     return review_get_response
 
 
@@ -43,11 +45,14 @@ def create_review(review: ReviewCreateModel):
 
 @router.put(
     "/{review_id}",
-    response_model=ReviewCreateModel,
+    response_model=ReviewModel,
     response_class=JSONResponse
 )
 def edit_review(review_id: str, review: ReviewCreateModel):
+    print("edit_review")
     review_edit_response = ReviewService.update_review(review_id, review)
+
+    print("return edit_review")
     return review_edit_response
 
 

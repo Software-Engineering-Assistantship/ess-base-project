@@ -9,11 +9,12 @@ class SongService:
     @staticmethod
     def get_songs():
         songs = db.get_all_items('songs')
+        print(songs)
         return songs
 
     @staticmethod
     def get_song(song_id: str):
-        song = db.get_by_id('songs', song_id)
+        song = db.get_item_by_id('songs', song_id)
 
         return song
 
@@ -21,6 +22,9 @@ class SongService:
     def add_song(song: SongCreateModel):
         added_song = db.add('songs', song)
 
+        print("======== SONG SERVICE ========")
+        print(added_song)
+        print("======== SONG SERVICE ========")
         return added_song
 
     @staticmethod
@@ -57,7 +61,7 @@ class SongService:
         return songs
 
     @staticmethod
-    def gey_songs_by_name(name: str):
+    def get_songs_by_name(name: str):
         songs = db.get_by_name('songs', name)
         return songs
 

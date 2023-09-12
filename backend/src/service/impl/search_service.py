@@ -18,6 +18,7 @@ class FiltersService:
             res3 = SongService.get_by_artist(name)
             res4 = AlbumService.get_by_artist(name)
 
+
             if res1 is None:
                 res1 = []
             if res2 is None:
@@ -32,6 +33,7 @@ class FiltersService:
                 res3 = [res3]
 
             albums_titles |= {album['id'] for album in res1}
+
             albums_titles |= {album['id'] for album in res4}
 
             songs_titles |= {song['id']
