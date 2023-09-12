@@ -37,3 +37,11 @@ export const MusicName = styled.p`
     margin-top: 8px;
     font-weight: 500;
 `;
+
+export const MusicRating = styled.span`
+  display: block;
+  font-size: 12px;
+  color: #555;
+  margin-top: 4px;
+  font-weight: bold;
+`;
