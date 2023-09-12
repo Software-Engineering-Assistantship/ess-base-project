@@ -18,13 +18,18 @@ interface ButtonWrapperProps {
 }
 
 export const ButtonWrapper = styled.button<ButtonWrapperProps>`
-  background-color: ${props => (props.primary ? 'blue' : 'white')};
+  background-color: ${props => (props.primary ? 'black' : 'white')};
   color: ${props => (props.primary ? 'white' : 'black')};
   font-size: 1em;
   padding: 0;
-  border: 2px solid blue;
-  border-radius: 3px;
+  border-bottom:none;
   cursor: pointer;
+  
+  transition: all 0.2s ease-in;
+
+  &:hover {
+    color: white !important;
+  }
 
 `;
 

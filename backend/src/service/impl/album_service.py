@@ -13,7 +13,7 @@ class AlbumService:
 
     @staticmethod
     def get_album(album_id: str):
-        album = db.get_by_id('albums', album_id)
+        album = db.get_item_by_id('albums', album_id)
         return album
 
     @staticmethod
@@ -25,6 +25,12 @@ class AlbumService:
     def edit_album(id: str, album: AlbumCreateModel):
         edited_album = db.edit('albums', id, album)
         return edited_album
+
+    @staticmethod
+    def get_by_artist(artist: str):
+        songs = db.get_by_artist('albums', artist)
+
+        return songs
 
     @staticmethod
     def delete_album(id: str):
@@ -49,6 +55,6 @@ class AlbumService:
         return albums
 
     @staticmethod
-    def gey_album_by_name(album: str):
+    def get_album_by_name(album: str):
         album = db.get_by_name('albums', album)
         return album

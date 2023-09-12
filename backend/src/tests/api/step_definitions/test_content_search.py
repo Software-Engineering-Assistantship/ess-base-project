@@ -213,7 +213,7 @@ def test_search_songs_by_year_existent_search():
 
 def test_search_songs_by_name_existent_search():
     # Dado que o SongService retorna as músicas "Lover", "Vampire" e "August" pelo ano "2020"
-    SongService.gey_songs_by_name = MagicMock(return_value={
+    SongService.get_songs_by_name = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
                 "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},
@@ -255,7 +255,7 @@ def test_search_songs_by_name_existent_search():
 
 def test_search_songs_by_name_and_year_and_genre_existent_search():
 
-    SongService.gey_songs_by_name = MagicMock(return_value={
+    SongService.get_songs_by_name = MagicMock(return_value={
         "songs": [
             {"title": "Lover", "artist": "Taylor Swift",
                 "genre": "Pop", "release_year": 2020, "id": "x1",  "popularity": 10, "available_on": {}, "created_at": "2023-08-15T12:00:00Z"},

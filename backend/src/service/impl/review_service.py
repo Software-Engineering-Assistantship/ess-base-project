@@ -25,6 +25,8 @@ class ReviewService:
     def get_review(review_id: str):
         """Get item by id method implementation"""
         review = db.get_by_id('reviews', review_id)
+        print(review)
+        review['id'] = str(review['_id'])
         return review
 
     @staticmethod
@@ -36,6 +38,7 @@ class ReviewService:
     @staticmethod
     def update_review(review_id: str, review: ReviewCreateModel):
         """Update item method implementation"""
+        print("service update_review")
         review = db.edit('reviews', review_id, review)
         return review
 

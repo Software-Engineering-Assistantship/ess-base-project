@@ -9,11 +9,12 @@ class SongService:
     @staticmethod
     def get_songs():
         songs = db.get_all_items('songs')
+        print(songs)
         return songs
 
     @staticmethod
     def get_song(song_id: str):
-        song = db.get_by_id('songs', song_id)
+        song = db.get_item_by_id('songs', song_id)
 
         return song
 
@@ -21,6 +22,9 @@ class SongService:
     def add_song(song: SongCreateModel):
         added_song = db.add('songs', song)
 
+        print("======== SONG SERVICE ========")
+        print(added_song)
+        print("======== SONG SERVICE ========")
         return added_song
 
     @staticmethod
@@ -39,11 +43,8 @@ class SongService:
     def get_highlighted():
         highlighted = db.get_all_items('songs')
 
-        for song in highlighted:
-            song['id'] = str(song['_id'])
-            del song['_id']
-
-        highlighted.sort(key=lambda x: x['popularity'], reverse=True)[:10]
+        highlighted.sort(key=lambda x: x['popularity'], reverse=True)
+        highlighted = highlighted[:10]
 
         return highlighted
 
@@ -60,7 +61,7 @@ class SongService:
         return songs
 
     @staticmethod
-    def gey_songs_by_name(name: str):
+    def get_songs_by_name(name: str):
         songs = db.get_by_name('songs', name)
         return songs
 
@@ -75,12 +76,6 @@ class SongService:
         song = db.get_available_on_for_song('songs', song_id)
 
         return song['available_on']
-
-    # @staticmethod
-    # def get_by_album(album: str):
-    #     songs = db.get_by_album('musicas', album)
-
-    #     return songs
 
     @staticmethod
     def get_top_rated_songs(limit: int):
@@ -104,9 +99,7 @@ class SongService:
         # top_song_names = [song[0] for song in top_rated_songs]
         result = [{"song": song[0], "average_rating": song[1]['avg_rating']}
                   for song in top_rated_songs]
-        print("***********************************")
         print(result)
-        print("***********************************")
 
         return result
 
@@ -129,3 +122,10 @@ class SongService:
             assert result == []  # expect result to be an empty list
 
             return result
+
+    @staticmethod
+    def get_reviews(song_id: str):
+
+        reviews = db.get_reviews_by_song(song_id)
+
+        return reviews
