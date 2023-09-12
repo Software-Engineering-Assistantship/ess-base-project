@@ -48,7 +48,7 @@
       </div>
       <div class="cart-total">
         <p class="total-text">Cart Total:</p>
-        <p class="total-amount">$64.97</p>
+        <p class="total-amount">$114.94</p>
       </div>
       <button class="checkout-button" @click="checkout">Proceed to Checkout</button>
     </div>

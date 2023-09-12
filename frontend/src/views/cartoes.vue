@@ -8,7 +8,8 @@
           <input
             type="text"
             id="card-number"
-            v-model="cardNumber"
+            name="cardNumber"
+            v-model="formData.cardNumber" 
             placeholder="Enter card number"
             required
           />
@@ -18,7 +19,8 @@
           <input
             type="text"
             id="expiry-date"
-            v-model="expiryDate"
+            name="expiryDate" 
+            v-model="formData.expiryDate" 
             placeholder="MM/YY"
             required
           />
@@ -28,12 +30,13 @@
           <input
             type="text"
             id="cvv"
-            v-model="cvv"
+            name="cvv" 
+            v-model="formData.cvv"
             placeholder="Enter CVV"
             required
           />
         </div>
-        <button type="submit" class="submit-button">Add Card</button>
+        <button type="submit" @click.prevent="teste" class="submit-button">Add Card</button>
       </form>
     </div>
   </div>
@@ -41,18 +44,59 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const cardNumber = ref('');
-const expiryDate = ref('');
-const cvv = ref('');
+const formData = ref({
+  cardNumber: '',
+  expiryDate: '',
+  cvv: '',
+});
 
-const addCreditCard = () => {
+const router = useRouter();
+
+const addCreditCard = async () => {
   // Perform credit card addition logic here
-  // For example, send data to a server, validate, etc.
+  // You can access form data via formData object
+  const cardData = {
+    cardNumber: formData.cardNumber,
+    expiryDate: formData.expiryDate,
+    cvv: formData.cvv,
+  };
 
+  const response = await fetch('https://localhost:8000/cartoes', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nome:"teste",
+      numero_cartao: cardData.cardNumber,
+      cvv: cardData.cvv,
+      validade: cardData.expiryDate,
+    }),
+  })
+  
+  if (!response.ok) {
+    alert("error");
+  }
+  else {
+    alert("coloca a página que tu quer ir")
+  }
+
+  // Send cardData to the server for processing
+  // For example, make an API POST request
   // After successful addition, you can navigate to another route
-  router.push('/success'); // Replace '/success' with your desired success route
+  // router.push('/success'); // Replace '/success' with your desired success route
 };
+
+const teste = async () => {
+  
+}
+
+// Update the model value manually
+formData.cardNumber = '1234567890123456';
+formData.expiryDate = '12/24';
+formData.cvv = '123';
 </script>
 
 <style scoped>
@@ -72,45 +116,45 @@ const addCreditCard = () => {
 }
 
 .page-title {
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+   font-size :24px; 
+   text-align :center; 
+   margin-bottom :20px; 
+   color :#333; 
 }
 
 .form-group {
-  margin-bottom: 15px;
+   margin-bottom :15px; 
 }
 
 label {
-  font-size: 16px;
-  display: block;
-  margin-bottom: 5px;
-  color: #555;
+   font-size :16px; 
+   display :block; 
+   margin-bottom :5px; 
+   color :#555; 
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  outline: none;
+input[type='text'] {
+   width :100%; 
+   padding :10px; 
+   font-size :16px; 
+   border-radius :5px; 
+   outline :none; 
+   border :1px solid #ddd; 
 }
 
 .submit-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 18px;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s ease;
+   background-color:#007bff; 
+   color:#fff; 
+   border:none; 
+   border-radius :5px; 
+   padding :10px; 
+   font-size :18px; 
+   cursor:pointer; 
+   width :100%; 
+   transition :background-color .3s ease; 
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+   background-color:#0056b3; 
 }
 </style>
