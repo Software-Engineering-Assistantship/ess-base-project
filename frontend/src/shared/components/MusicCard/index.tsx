@@ -8,7 +8,7 @@ const MusicCard: React.FC<{
 }> = ({ artist, name, image }) => {
   return (
     <MusicContainer>
-      <MusicImg src={image} alt="Music" />
+      <MusicImg style={{ backgroundImage: `url(${image})`}} />
       <MusicName>{name}</MusicName>
       <MusicArtist>{artist}</MusicArtist>
     </MusicContainer>

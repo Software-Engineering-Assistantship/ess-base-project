@@ -86,5 +86,33 @@ export const Results = styled.div`
 `;
 
 export const ResultItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: 50px;
+  padding: 30px;
+
+  width: 100%;
+  max-width: 1100px;
+
+  margin: auto;
+
+
   //margin-bottom: 19%; /* Adicionar algum espaçamento entre os itens de resultado */
+`;
+
+export const ResultMsg = styled.div`
+  font-size: 20px;
+`;
+
+export const ResultItemsDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1100px;
+  gap: 60px;
+  margin: auto;
 `;

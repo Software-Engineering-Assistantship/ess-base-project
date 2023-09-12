@@ -9,6 +9,8 @@ import {
   LupaImage,
   Results,
   ResultItem,
+  ResultItemsDiv,
+  ResultMsg,
 } from "./style"; // Importando estilos e elementos visuais
 import filter from "../../assets/filter.png"; // Importando a imagem do ícone de filtro
 import Lupa from "../../assets/Lupa.png"; // Importando a imagem da lupa
@@ -184,13 +186,17 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
       <Results>
         {searchResults.length > 0 ? (
           <ResultItem>
+            <ResultMsg>
+              Resultados Encontrados:
+            </ResultMsg>
+              <ResultItemsDiv>
               {/* {searchResults.map(result => (
                 <ResultItem key={result.id}>
                   <strong>Título:</strong> {result.title} <br />
                   <strong>Artista:</strong> {result.artist}
                 </ResultItem>
               ))} */}
-              {searchResults.map(result => (
+                {searchResults.map(result => (
                 <MusicCard
                   key={result.id}
                   artist={result.artist}
@@ -198,6 +204,7 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
                   image={result.image_url}
                 />
               ))}
+              </ResultItemsDiv>
           </ResultItem>
         ) : (
             <Error />
