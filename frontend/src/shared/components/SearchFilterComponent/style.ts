@@ -74,7 +74,7 @@ export const DropdownFilter = styled.div`
 
   border-radius: 10px;
   padding: 10px;
-  width: 150px;
+  width: 200px;
 `;
 
 export const Results = styled.div`
