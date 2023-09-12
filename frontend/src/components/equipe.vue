@@ -10,7 +10,7 @@
         <div class="containerequipe">
             <!-- Team Member 1 -->
             <div class="integrante">
-                <img src="../components/minha foto.jpg" alt="">
+                <img src="../components/imagens/minha foto.jpg" alt="">
                 <h1>Ian Gabriel<br><span>Braga Trinta</span></h1>
                 <a href="https://www.instagram.com/ianbraga_/" target="_blank">Sobre mim</a>
             </div>
@@ -19,7 +19,7 @@
         <div class="containerequipe">
                     <!-- Team Member 1 -->
                     <div class="integrante">
-                        <img src="../components/jiboia.jpg" alt="">
+                        <img src="../components/imagens/jiboia.jpg" alt="">
                         <h1>Caio Possidio<br><span>A lenda</span></h1>
                         <a href="https://www.instagram.com/possidiocaio/" target="_blank">Sobre mim</a>
                     </div>
@@ -27,7 +27,23 @@
         <div class="containerequipe">
                     <!-- Team Member 1 -->
                     <div class="integrante">
-                        <img src="../components/luiz.jpg" alt="">
+                        <img src="../components/imagens/luiz.jpg" alt="">
+                        <h1>Luiz Eduardo Freitas<br><span>Von Schmalz</span></h1>
+                        <a href="https://www.instagram.com/luizschmalz/" target="_blank">Sobre mim</a>
+                    </div>
+                </div>
+        <div class="containerequipe">
+                    <!-- Team Member 1 -->
+                    <div class="integrante">
+                        <img src="../components/imagens/tbroq.webp" alt="">
+                        <h1>Luiz Eduardo Freitas<br><span>Von Schmalz</span></h1>
+                        <a href="https://www.instagram.com/luizschmalz/" target="_blank">Sobre mim</a>
+                    </div>
+                </div>
+        <div class="containerequipe">
+                    <!-- Team Member 1 -->
+                    <div class="integrante">
+                        <img src="../components/imagens/brenda.webp" alt="">
                         <h1>Luiz Eduardo Freitas<br><span>Von Schmalz</span></h1>
                         <a href="https://www.instagram.com/luizschmalz/" target="_blank">Sobre mim</a>
                     </div>
@@ -40,12 +56,13 @@
 </template>
 
   
-<style>
+<style scoped>
 *{
     margin: 0;
     padding: 0;
     font-family: 'ZZYZX', sans-serif;
     box-sizing: border-box;
+
 }
 @font-face {
     font-family: ZZYZX;
@@ -74,8 +91,10 @@
   align-items: center; /* Center items horizontally */
   justify-content: center;
   min-height: 100vh;
-  background: transparent;
+  background: url('../components/imagens/cool-background.png');
   top: 500px;
+  margin-top: 50px;
+  position: static;
 }
 .integrante{
     flex: 1;
@@ -137,7 +156,7 @@
     position: relative;
     width: 200px;
     height: 200px;
-    background-color: #ffffff;
+    background-color: transparent;
     border-radius: 50%;
     overflow: hidden;
 }

@@ -15,7 +15,7 @@ body {
   min-height: 10vh;
   max-width: 100%;
   max-height: 100%; 
-  background: url('../components/cool-background.png');
+  background: url('../components/imagens/cool-background.png');
   
   
 
@@ -123,4 +123,32 @@ body {
 </template>
 
 <style scoped>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+body {
+  min-height: 10vh;
+  max-width: 100%;
+  max-height: 100%; 
+  background: url('../components/imagens/cool-background.png');
+  
+  
+
+}
+*{
+    margin: 0px 30px;
+    padding: 0;
+    font-family: 'ZZYZX', sans-serif;
+    box-sizing: border-box;
+
+}
+@font-face {
+    font-family: ZZYZX;
+    src: url(../components/fonts/ZZYZX.TTF);
+}
 </style>
