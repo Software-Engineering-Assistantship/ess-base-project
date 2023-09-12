@@ -1,28 +1,60 @@
+<script setup>
+
+
+
+</script>
+
+
+
+
 <template>
   <div class="checkout-page">
     <div class="payment-container">
       <h1 class="checkout-header">Checkout</h1>
       <div class="cart-items">
-        <!-- Display cart items here -->
+        <!-- Product 1 -->
         <div class="cart-item">
           <img src="product-image.jpg" alt="Product Image" class="product-image">
           <div class="product-details">
-            <h2 class="product-name">Product Name</h2>
+            <h2 class="product-name">Camisinha Hulk</h2>
             <p class="product-price">$19.99</p>
             <p class="product-quantity">Quantity: 2</p>
           </div>
           <button class="remove-button">Remove</button>
         </div>
-        <!-- Repeat for each cart item -->
+
+        <!-- Product 2 -->
+        <div class="cart-item">
+          <img src="product2-image.jpg" alt="Product Image" class="product-image">
+          <div class="product-details">
+            <h2 class="product-name">Product 2</h2>
+            <p class="product-price">$29.99</p>
+            <p class="product-quantity">Quantity: 1</p>
+          </div>
+          <button class="remove-button">Remove</button>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="cart-item">
+          <img src="product3-image.jpg" alt="Product Image" class="product-image">
+          <div class="product-details">
+            <h2 class="product-name">Product 3</h2>
+            <p class="product-price">$14.99</p>
+            <p class="product-quantity">Quantity: 3</p>
+          </div>
+          <button class="remove-button">Remove</button>
+        </div>
+        <!-- Repeat for additional products -->
       </div>
       <div class="cart-total">
         <p class="total-text">Cart Total:</p>
-        <p class="total-amount">$39.98</p>
+        <p class="total-amount">$64.97</p>
       </div>
       <button class="checkout-button" @click="checkout">Proceed to Checkout</button>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .checkout-page {
