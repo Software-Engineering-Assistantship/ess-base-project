@@ -42,7 +42,7 @@ const InHigh: React.FC = () => {
   const handleResponse = (response: ResultReponse) => {
     const aux = [];
     response.songs.forEach((song) => {
-      song.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
+      song.image_url = 'https://upload.wikimedia.org/wikipedia/pt/3/3c/Capa_de_Lover.png'
 
       aux.push(song);
     }

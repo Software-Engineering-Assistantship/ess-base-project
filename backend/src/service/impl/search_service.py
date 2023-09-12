@@ -15,32 +15,37 @@ class FiltersService:
         if name:
             res1 = AlbumService.gey_album_by_name(name)
             res2 = SongService.gey_songs_by_name(name)
+            res3 = SongService.get_by_artist(name)
+            res4 = AlbumService.get_by_artist(name)
+
 
             if res1 is None:
                 res1 = []
             if res2 is None:
                 res2 = []
+            if res3 is None:
+                res3 = []
             if type(res1) is dict:
                 res1 = [res1]
             if type(res2) is dict:
                 res2 = [res2]
-            print('--------------')
-            print(res1)
-            print(res2)
-            print('--------------')
+            if type(res3) is dict:
+                res3 = [res3]
+
             albums_titles |= {album['id'] for album in res1}
+
+            albums_titles |= {album['id'] for album in res4}
+
             songs_titles |= {song['id']
                              for song in res2}
-
+            songs_titles |= {song['id']
+                             for song in res3}
         if year:
+
             res1 = AlbumService.get_by_year(year)[
                 'songs']
             res2 = SongService.get_by_year(year)[
                 'songs']
-            print('--------------')
-            print(res1)
-            print(res2)
-            print('--------------')
 
             albums_by_year_titles = {album['id'] for album in res1}
             songs_by_year_titles = {song['id'] for song in res2}
@@ -58,12 +63,11 @@ class FiltersService:
                 songs_titles = songs_by_year_titles
 
         if genre:
+            print("procurando por genero")
+
             res1 = AlbumService.get_by_genre(genre)['songs']
             res2 = SongService.get_by_genre(genre)['songs']
-            print('--------------')
-            print(res1)
-            print(res2)
-            print('--------------')
+
             albums_by_genre_titles = {
                 album['id'] for album in res1}
             songs_by_genre_titles = {song['id']

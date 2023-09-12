@@ -151,10 +151,12 @@ class Database():
         collection: Collection = self.db[collection_name]
 
         item = collection.find_one({"title": str(item_name)})
+
         if item is not None:
             # for itm in item
             item["id"] = str(item["_id"])
             del item["_id"]
+            
         return item
 
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
@@ -175,6 +177,8 @@ class Database():
         collection: Collection = self.db[collection_name]
 
         item = collection.find_one({"_id": ObjectId(item_id)})
+        item["id"] = str(item["_id"])
+
         print(item)
         return item
 
@@ -215,6 +219,8 @@ class Database():
 
         if not item:
             return None
+        
+        print(item)
 
         return item
 
@@ -234,6 +240,8 @@ class Database():
 
         """
 
+        print("======== MOCKING TESTS ADD DB ========")
+
         collection: Collection = self.db[collection_name]
 
         item = dict(item)
@@ -247,7 +255,7 @@ class Database():
 
     def edit(self, collection_name: str, item_id: str, item: dict) -> dict:
         collection: Collection = self.db[collection_name]
-        # item = dict(item)
+        item = dict(item)
 
         if any(value == "" for value in item.values()):
             return None
@@ -255,6 +263,7 @@ class Database():
         else:
             item_id = collection.update_one(
                 {"_id": ObjectId(item_id)}, {"$set": item})
+
             return {
                 **item
             }
@@ -372,11 +381,10 @@ class Database():
         items = list(collection.find({"artist": artist}))
 
         for itm in items:
+            itm["id"] = str(itm["_id"])
             del itm["_id"]
 
-        return {
-            "musics": items
-        }
+        return items
 
     def get_by_album(self, collection_name: str, album: str) -> list:
         """
@@ -398,7 +406,7 @@ class Database():
         items = list(collection.find({"title": album}))
 
         return {
-            "musics": items
+            "songs": items
         }
 
     def get_reviews_by_song(self, song_id: str) -> list:

@@ -11,8 +11,8 @@ export const MusicListContainer = styled.div`
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 1000px;
-    gap: 70px;
+    max-width: 1100px;
+    gap: 60px;
     margin: auto;
     padding-top: 160px;
 `;

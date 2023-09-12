@@ -1,0 +1,16 @@
+/**
+  * Ant Design custom theme fixes
+  */
+
+  .ant-select-dropdown {
+    z-index: 1300;
+  }
+  
+  .MuiTablePagination-selectRoot {
+    margin-right: 0 !important;
+  }
+  
+  .MuiTableCell-alignRight {
+    text-align: left !important;
+    flex-direction: unset !important;
+  }

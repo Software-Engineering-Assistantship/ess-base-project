@@ -1,16 +1,18 @@
 import React from "react";
-import { MusicContainer, MusicImg, MusicArtist, MusicName } from "./style";
+import { MusicContainer, MusicImg, MusicArtist, MusicName, MusicRating } from "./style";
 
 const MusicCard: React.FC<{
   artist: string;
   name: string;
   image: string;
-}> = ({ artist, name, image }) => {
+  avg_rating: number;
+}> = ({ artist, name, image, avg_rating }) => {
   return (
     <MusicContainer>
-      <MusicImg src={image} alt="Music" />
+      <MusicImg style={{ backgroundImage: `url(${image})`}} />
       <MusicName>{name}</MusicName>
       <MusicArtist>{artist}</MusicArtist>
+      {avg_rating && <MusicRating>{avg_rating}</MusicRating>}
     </MusicContainer>
   );
 };

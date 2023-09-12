@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   SearchMainDiv,
   SearchFilterWrapper,
@@ -9,6 +9,8 @@ import {
   LupaImage,
   Results,
   ResultItem,
+  ResultItemsDiv,
+  ResultMsg,
 } from "./style"; // Importando estilos e elementos visuais
 import filter from "../../assets/filter.png"; // Importando a imagem do ícone de filtro
 import Lupa from "../../assets/Lupa.png"; // Importando a imagem da lupa
@@ -58,10 +60,14 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
     setQueryText(query);
     // await fetchData();
   };
-
+  useEffect(() => {
+    fetchData();
+  }, []);
   // Estado para controlar a visibilidade do dropdown
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [queryText, setQueryText] = React.useState('');
+  const [isEmpty, setIsEmpty] = React.useState(true);
+
   const [selectedGenre, setSelectedGenre] = React.useState('Nenhum');
   const [selectedYear, setSelectedYear] = React.useState('Nenhum');
 
@@ -95,20 +101,30 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
     console.log(selectedGenre);
     console.log(selectedYear);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/search/search', {
-        params: {
-          'name': queryText,
-          'genre': selectedGenre,
-         'year': Number(selectedYear),
-        },
-      });
-      
-      const data: SearchResult[] = response.data;
-      console.log('---------------');
-
-      console.log(data);
-      console.log('---------------');
-      handleResponse(response.data);
+      const queryToBeUsed = queryText === '' ? ' ' : queryText;
+      const genreToBeUsed = selectedGenre === 'Nenhum' ? ' ' : selectedGenre;
+      const yearToBeUsed = selectedYear === 'Nenhum' ? 199 : selectedYear;
+      if(queryText === '' && selectedGenre === 'Nenhum' && selectedYear === 'Nenhum'){ 
+        setIsEmpty(true);
+        console.log("entrei")
+      } else {
+        const response = await axios.get('http://127.0.0.1:8000/search/search', {
+          params: {
+            'name': queryToBeUsed,
+            'genre': genreToBeUsed,
+           'year': Number(yearToBeUsed),
+          },
+        });
+        
+        const data: SearchResult[] = response.data;
+        console.log('---------------');
+        console.log(data);
+        console.log('---------------');
+        handleResponse(response.data);
+        if(data.albums.length == 0 && data.songs.length == 0) {
+          setIsEmpty(false);
+        }
+      }
       // setSearchResults(data);
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
@@ -163,7 +179,6 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
                 <option value="Reggae">Reggae</option>
                 <option value="Trap">Trap</option>
                 <option value="Axé">Axé</option>
-
               </select>
       
             </div>
@@ -182,15 +197,19 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
       </SearchFilterWrapper>
 
       <Results>
-        {searchResults.length > 0 ? (
+        {searchResults.length > 0 || isEmpty ? (
           <ResultItem>
+            <ResultMsg>
+              Resultados Encontrados:
+            </ResultMsg>
+              <ResultItemsDiv>
               {/* {searchResults.map(result => (
                 <ResultItem key={result.id}>
                   <strong>Título:</strong> {result.title} <br />
                   <strong>Artista:</strong> {result.artist}
                 </ResultItem>
               ))} */}
-              {searchResults.map(result => (
+                {searchResults.map(result => (
                 <MusicCard
                   key={result.id}
                   artist={result.artist}
@@ -198,6 +217,7 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
                   image={result.image_url}
                 />
               ))}
+              </ResultItemsDiv>
           </ResultItem>
         ) : (
             <Error />
