@@ -1,4 +1,5 @@
 import AppRouter from '../src/app/home/routes/AppRouter';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

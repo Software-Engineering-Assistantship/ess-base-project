@@ -109,7 +109,7 @@ const Header: React.FC = () => {
           
           <Link to="/edition">
             <ButtonComponent customStyle={customButtonUser}
-            isActive={activeButton === "User"} 
+            isActive={activeButton === "User"}
             onClick={() => handleButtonClick("User")} >
               <UserImage src={user} alt="User" />
               Ana

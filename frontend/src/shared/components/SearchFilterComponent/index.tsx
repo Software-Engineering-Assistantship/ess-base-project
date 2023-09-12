@@ -65,7 +65,6 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
                 <option value="Reggae">Reggae</option>
                 <option value="Trap">Trap</option>
                 <option value="Axé">Axé</option>
-
               </select>
       
             </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import ButtonComponent from "../../../../shared/components/Button/ButtonComponent";
+import ButtonComponent from "../../../../shared/components/ButtonComponent";
 import {
   PageWrapper,
   TopBar,

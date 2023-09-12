@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import SearchFilterComponent from '../../../../shared/components/SearchFilterComponent';
 import { Wallpaper } from './style';
 
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
 
 const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
