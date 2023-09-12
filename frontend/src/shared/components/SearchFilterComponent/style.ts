@@ -22,6 +22,7 @@ export const SearchInput = styled.input`
   border: none;
   border-radius: 40px;
   background-color: transparent;
+  font-size: 16px;
 
   // O '&:focus' é o mesmo que 'SearchInput:focus' (se não me engano, é uma funcionalidade do styled-components)
   &:focus-visible,
