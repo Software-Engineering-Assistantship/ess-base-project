@@ -14,5 +14,5 @@ export const MusicListContainer = styled.div`
     max-width: 1100px;
     gap: 60px;
     margin: auto;
-    padding-top: 180px;
+    padding-top: 160px;
 `;
