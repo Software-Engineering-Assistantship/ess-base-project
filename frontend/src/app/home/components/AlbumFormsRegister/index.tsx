@@ -3,11 +3,19 @@ import RegisterInput from '../Input';
 import ModalComponent from '../Modal-ui';
 import axios from 'axios';
 
-const AlbumForm = () => {
+const AlbumForm: React.FC<{
+    isOpen: boolean;
+    setIsOpen: (value: boolean) => void;
+  }> = ({ isOpen, setIsOpen }) => {
     const [title, setTitle] = useState('');
     const [genre, setGenre] = useState('');
     const [year, setYear] = useState('');
     const [artist, setArtist] = useState('');
+    const [linkYouTube, setLinkYouTube] = useState('');
+    const [linkDeezer, setLinkDeezer] = useState('');
+    const [linkSpotify, setLinkSpotify] = useState('');
+    const [linkApple, setlinkApple] = useState('');
+    const [imageLink, setImageLink] = useState(''); 
     const handleSubmit = async (e) => {
         // e.preventDefault();
         console.log("teste");
@@ -16,18 +24,26 @@ const AlbumForm = () => {
             'title': title,
             'genre': genre,
             'release_year': Number(year),
-            'artist': artist
+            'artist': artist,
+            'image_url': imageLink
         };
 
         console.log(formData);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/songs/create', formData);
+            const response = await axios.post('http://127.0.0.1:8000/albums/create', formData);
             console.log(response.data);
 
-            // setTitle('');
-            // setGenre('');
-            // setYear('');
+            setTitle('');
+            setGenre('');
+            setYear('');
+            setArtist('');
+            setLinkYouTube('');
+            setLinkDeezer('');
+            setLinkSpotify('');
+            setImageLink('');
+            setlinkApple('');
+            setIsOpen(false);
         } catch (error) {
             console.error("Error posting music data:", error);
         }
@@ -35,9 +51,9 @@ const AlbumForm = () => {
 
     return (
         <ModalComponent
-            open={true}
-            setOpen={() => { }}
-            title="Criação de album"
+            open={isOpen}
+            setOpen={() => {setIsOpen(false)}}
+            title="Criação de Album"
             textExit="Cancelar"
             textSubmit="Salvar"
             onClick={(e) => handleSubmit(e)}
@@ -48,7 +64,7 @@ const AlbumForm = () => {
             children={
                 <form>
                     <div>
-                        <label>Title:</label>
+                        <label>Titulo:</label>
                         <RegisterInput
 
                             value={title}
@@ -78,6 +94,46 @@ const AlbumForm = () => {
                         <RegisterInput
                             value={year}
                             onChange={(e) => setYear(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do YouTube:</label>
+                        <RegisterInput
+                            value={linkYouTube}
+                            onChange={(e) => setLinkYouTube(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do Deezer:</label>
+                        <RegisterInput
+                            value={linkDeezer}
+                            onChange={(e) => setLinkDeezer(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do Spotify:</label>
+                        <RegisterInput
+                            value={linkSpotify}
+                            onChange={(e) => setLinkSpotify(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do Apple Music:</label>
+                        <RegisterInput
+                            value={linkApple}
+                            onChange={(e) => setlinkApple(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link da Imagem:</label>
+                        <RegisterInput
+                            value={imageLink}
+                            onChange={(e) => setImageLink(e)}
                             required
                         />
                     </div>

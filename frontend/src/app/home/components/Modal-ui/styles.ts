@@ -62,6 +62,7 @@ export const Header = styled(FlexContainer)`
 export const Pbuttons = styled.p`
 font-weight: bold;
 margin: 0;
+color: ${Theme.colors.black};
 `
 
 export const ButtonContainer = styled(FlexContainer)`

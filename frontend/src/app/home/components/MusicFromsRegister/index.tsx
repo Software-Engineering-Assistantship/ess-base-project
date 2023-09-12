@@ -3,11 +3,20 @@ import RegisterInput from '../Input';
 import ModalComponent from '../Modal-ui';
 import axios from 'axios';
 
-const MusicForm = () => {
+const MusicForm: React.FC<{
+    isOpen: boolean;
+    setIsOpen: (value: boolean) => void;
+  }> = ({ isOpen, setIsOpen }) => {
     const [title, setTitle] = useState('');
     const [genre, setGenre] = useState('');
     const [year, setYear] = useState('');
     const [artist, setArtist] = useState('');
+    const [linkYouTube, setLinkYouTube] = useState('');  // Estado para link do YouTube
+    const [linkDeezer, setLinkDeezer] = useState('');  // Estado para link do Deezer
+    const [linkSpotify, setLinkSpotify] = useState('');  // Estado para link do Spotify
+    const [imageLink, setImageLink] = useState('');  // Estado para link da imagem
+    const [linkApple, setlinkApple] = useState('');  // Estado para link do Apple Music
+
     const handleSubmit = async (e) => {
         // e.preventDefault();
         console.log("teste");
@@ -16,7 +25,13 @@ const MusicForm = () => {
             'title': title,
             'genre': genre,
             'release_year': Number(year),
-            'artist': artist
+            'artist': artist,
+            'available_on': {
+                'youtube_link': linkYouTube,
+                'deezer_link': linkDeezer,
+                'spotify_link': linkSpotify,
+            },
+            'image_url': imageLink
         };
 
         console.log(formData);
@@ -25,9 +40,16 @@ const MusicForm = () => {
             const response = await axios.post('http://127.0.0.1:8000/songs/create', formData);
             console.log(response.data);
 
-            // setTitle('');
-            // setGenre('');
-            // setYear('');
+            setTitle('');
+            setGenre('');
+            setYear('');
+            setArtist('');
+            setLinkYouTube('');
+            setLinkDeezer('');
+            setLinkSpotify('');
+            setImageLink('');
+            setlinkApple('');
+            setIsOpen(false);
         } catch (error) {
             console.error("Error posting music data:", error);
         }
@@ -35,20 +57,20 @@ const MusicForm = () => {
 
     return (
         <ModalComponent
-            open={true}
-            setOpen={() => { }}
+            open={isOpen}
+            setOpen={() => {setIsOpen(false)}}
             title="Criação de música"
             textExit="Cancelar"
             textSubmit="Salvar"
             onClick={(e) => handleSubmit(e)}
 
-            onCancel={() => { }}
+            onCancel={() => {setIsOpen(false)}}
             isBold={false}
             disabledSubmit={false}
             children={
                 <form>
                     <div>
-                        <label>Title:</label>
+                        <label>Titulo:</label>
                         <RegisterInput
 
                             value={title}
@@ -78,6 +100,46 @@ const MusicForm = () => {
                         <RegisterInput
                             value={year}
                             onChange={(e) => setYear(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do YouTube:</label>
+                        <RegisterInput
+                            value={linkYouTube}
+                            onChange={(e) => setLinkYouTube(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do Deezer:</label>
+                        <RegisterInput
+                            value={linkDeezer}
+                            onChange={(e) => setLinkDeezer(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do Spotify:</label>
+                        <RegisterInput
+                            value={linkSpotify}
+                            onChange={(e) => setLinkSpotify(e)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label>Link do Apple Music:</label>
+                        <RegisterInput
+                            value={linkApple}
+                            onChange={(e) => setlinkApple(e)}
+                            required
+                        />
+                        </div>
+                    <div>
+                        <label>Link da Imagem:</label>
+                        <RegisterInput
+                            value={imageLink}
+                            onChange={(e) => setImageLink(e)}
                             required
                         />
                     </div>

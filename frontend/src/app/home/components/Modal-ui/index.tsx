@@ -91,7 +91,7 @@ function ModalComponent({
                                     {textExit}
                                 </Pbuttons>
                             </Button>
-                            <Button onClick={() => onClick()} color={GlobalTheme.colors.darkBlue} disabled={disabledSubmit}>
+                            <Button onClick={() => onClick()} color='pink' disabled={disabledSubmit}>
                                 <Pbuttons>
                                     {textSubmit}
                                 </Pbuttons>

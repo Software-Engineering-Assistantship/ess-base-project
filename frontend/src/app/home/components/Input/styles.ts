@@ -10,6 +10,8 @@ const Input = styled.input`
   border: 1px solid #2C2F3480;
   border-radius: 4px ;
   outline: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
   padding-left: ${'7px'};
   ::placeholder {
     font-weight: 400;
