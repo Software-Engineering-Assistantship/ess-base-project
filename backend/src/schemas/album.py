@@ -9,6 +9,8 @@ class AlbumModel(BaseModel):
     artist: str
     release_year: int
     image_url: Optional[str] = ''
+    available_on: Optional[object] = {}
+    genre: Optional[str] = ''
 
 
 class AlbumGet(BaseModel):
@@ -17,6 +19,8 @@ class AlbumGet(BaseModel):
     artist: str
     release_year: int
     image_url: Optional[str] = ''
+    available_on: Optional[object] = {}
+    genre: Optional[str] = ''
 
 
 class AlbumCreateModel(BaseModel):
@@ -25,6 +29,8 @@ class AlbumCreateModel(BaseModel):
     artist: str
     release_year: int
     image_url: Optional[str] = ''
+    available_on: Optional[object] = {}
+    genre: Optional[str] = ''
 
 
 class AlbumList(BaseModel):

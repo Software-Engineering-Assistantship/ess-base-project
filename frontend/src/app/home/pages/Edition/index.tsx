@@ -12,7 +12,7 @@ const Edition: React.FC = () => {
       <MusicListContainer> 
         <button onClick={() => setIsOpen(true)}>Criar música</button>
 
-      <MusicForm isOpen={isOpen} setIsOpen={setIsOpen}/>
+      <AlbumForm isOpen={isOpen} setIsOpen={setIsOpen}/>
       </MusicListContainer>
     </Wallpaper>
   );

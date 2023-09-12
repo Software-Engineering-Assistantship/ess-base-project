@@ -372,11 +372,10 @@ class Database():
         items = list(collection.find({"artist": artist}))
 
         for itm in items:
+            itm["id"] = str(itm["_id"])
             del itm["_id"]
 
-        return {
-            "musics": items
-        }
+        return items
 
     def get_by_album(self, collection_name: str, album: str) -> list:
         """
