@@ -4,8 +4,8 @@ export const SearchMainDiv = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column; /* Adicionando uma direção de coluna */
-  padding-left: 33%;
 `;
 
 export const SearchFilterWrapper = styled.div`
@@ -80,11 +80,11 @@ export const DropdownFilter = styled.div`
 export const Results = styled.div`
   display: flex;
   flex-direction: column; /* Colocar os resultados em uma coluna */
-  margin-top: 20px; /* Adicionar algum espaçamento acima dos resultados */
+  //margin-top: 10%; /* Adicionar algum espaçamento acima dos resultados */
   width: 100%; /* Fazer com que a largura dos resultados seja igual à largura do componente pai */
   //margin-left: 20%;
 `;
 
 export const ResultItem = styled.div`
-  margin-bottom: 10px; /* Adicionar algum espaçamento entre os itens de resultado */
+  //margin-bottom: 19%; /* Adicionar algum espaçamento entre os itens de resultado */
 `;

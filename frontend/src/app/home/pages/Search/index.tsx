@@ -21,7 +21,7 @@ const Search: React.FC = () => {
     
     <Wallpaper>
       {/* A div abaixo serve para dar um espaçamento após o Header, dado que ele está com position fixed */}
-      <div style={{ paddingBottom: "130px" }}></div>
+      <div style={{ paddingBottom: "13%" }}></div>
       <SearchFilterComponent
         onSearch={handleSearch}
         onFilter={handleFilter}

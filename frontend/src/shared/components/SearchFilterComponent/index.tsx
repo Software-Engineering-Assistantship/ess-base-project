@@ -183,7 +183,7 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
 
       <Results>
         {searchResults.length > 0 ? (
-          <div>
+          <ResultItem>
               {/* {searchResults.map(result => (
                 <ResultItem key={result.id}>
                   <strong>Título:</strong> {result.title} <br />
@@ -198,9 +198,9 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
                   image={result.image_url}
                 />
               ))}
-          </div>
+          </ResultItem>
         ) : (
-          <Error />
+            <Error />
         )}
       </Results>
 
