@@ -39,6 +39,7 @@ const Header: React.FC = () => {
     border: "none",
     display: "flex",
     alignItems: "center",
+    fontSize: "18px",
     marginRight: "30px",
   };
 
@@ -64,7 +65,7 @@ const Header: React.FC = () => {
                   color: "black",
                   width: "fit-content",
                   border: "none",
-                  fontSize: "20px",
+                  fontSize: "25px",
                   borderRadius: "0px",
                   borderBottom:
                     activeButton === "Reviews" ? "1px solid black" : "none", // Aplica a linha quando Reviews for verdadeiro
@@ -83,7 +84,7 @@ const Header: React.FC = () => {
                   color: "black",
                   width: "fit-content",
                   border: "none",
-                  fontSize: "20px",
+                  fontSize: "25px",
                   borderRadius: "0px",
                   borderBottom:
                     activeButton === "Em Alta" ? "1px solid black" : "none",
@@ -102,7 +103,7 @@ const Header: React.FC = () => {
                   color: "black",
                   width: "fit-content",
                   border: "none",
-                  fontSize: "20px",
+                  fontSize: "25px",
                   borderRadius: "0px",
                   borderBottom:
                     activeButton === "Mais Escutadas"
