@@ -589,3 +589,56 @@ def test_get_reviews_by_song(client: TestClient):
 
     assert response.status_code == 200
     assert response.json() == { "reviews": mock_reviews }
+
+def test_get_top_rated_songs_with_limit(client: TestClient):
+    # Mock data for reviews
+    mock_reviews = [
+        {
+            "title": "Review 1",
+            "description": "Description 1",
+            "rating": 5,
+            "author": "Author 1",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 2",
+            "description": "Description 2",
+            "rating": 4,
+            "author": "Author 2",
+            "song": "Song 1",
+        },
+        {
+            "title": "Review 3",
+            "description": "Description 3",
+            "rating": 3,
+            "author": "Author 3",
+            "song": "Song 2",
+        },
+        {
+            "title": "Review 4",
+            "description": "Description 4",
+            "rating": 2,
+            "author": "Author 4",
+            "song": "Song 3",
+        }
+    ]
+
+    # Mock data for songs
+    mock_songs = ["Song 1", "Song 2", "Song 3", "Song 4", "Song 5"]
+
+    # Mock expected top-rated songs based on the mock_reviews
+    expected_top_rated_songs = [
+        {"song": "Song 1", "average_rating": 4.5},
+        {"song": "Song 2", "average_rating": 3},
+        {"song": "Song 3", "average_rating": 2}  
+    ]
+    client = TestClient(app)
+    ReviewService.get_reviews = MagicMock(return_value=mock_reviews)
+    SongService.get_all_songs = MagicMock(return_value=mock_songs)  # Assuming you have a service to get all songs
+    
+    # Making a request to the API endpoint that fetches top rated songs with a limit
+    response = client.get("songs/songs_r/top-rated?limit=5")  # adjust the endpoint if it's different
+
+    # Assert that the response status is 200 (OK) and the returned data matches the expected top rated songs
+    assert response.status_code == 200
+    assert response.json() == {'songs': expected_top_rated_songs}

@@ -106,14 +106,14 @@ const Header: React.FC = () => {
                   fontSize: "25px",
                   borderRadius: "0px",
                   borderBottom:
-                    activeButton === "Mais Escutadas"
+                    activeButton === "Melhores Avaliadas"
                       ? "1px solid black"
                       : "none", // Aplica a linha quando Mais Escutadas for verdadeiro
                 }}
-                isActive={activeButton === "Mais Escutadas"} // Verifique se o botão Mais Escutadas está ativo
-                onClick={() => handleButtonClick("Mais Escutadas")}
+                isActive={activeButton === "Melhores Avaliadas"} // Verifique se o botão Mais Escutadas está ativo
+                onClick={() => handleButtonClick("Melhores Avaliadas")}
               >
-                Mais Escutadas
+                Melhores Avaliadas
               </ButtonComponent>
             </Link>
           </ButtonsDiv>

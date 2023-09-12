@@ -26,6 +26,7 @@ const MostListened: React.FC = () => {
     image_url: string;
     popularity: number;
     release_year: number;
+    avg_rating: number;
   }
   interface ReponseTrue {
     albums: SearchResult[];
@@ -42,7 +43,7 @@ const MostListened: React.FC = () => {
   const handleResponse = (response: ResultReponse) => {
     const aux = [];
     response.songs.forEach((song) => {
-      song.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
+      song.image_url = 'https://www.udiscovermusic.com/wp-content/uploads/2019/04/Tame-Impala-Currents-album-cover-web-optimised-820.jpg'
 
       aux.push(song);
     }
@@ -79,9 +80,10 @@ const MostListened: React.FC = () => {
         {trueMusicList.map((music, index) => (
           <MusicCard
             key={index}
-            artist={music.artist}
-            name={music.title}
-            image={music.image_url}
+            artist={music.artist ? music.artist : "Desconhecido"}
+            name={music.song}
+            image={music.image_url ? music.image_url : MusicImage}
+            avg_rating={music.average_rating}
           />
         ))} 
       </MusicListContainer>
