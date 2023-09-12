@@ -7,9 +7,9 @@ export const MusicContainer = styled.div`
     align-items: center;
 `;
 
-export const MusicImg = styled.img`
-    width: 100%;
-    max-width: 140px;
+export const MusicImg = styled.div`
+    width: 150px;
+    height: 150px;
 
     border-radius: 10px;
     transition: all 0.15s;
@@ -17,6 +17,10 @@ export const MusicImg = styled.img`
     cursor: pointer;
 
     user-select: none;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
     box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.35);
 

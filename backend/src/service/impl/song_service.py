@@ -39,11 +39,8 @@ class SongService:
     def get_highlighted():
         highlighted = db.get_all_items('songs')
 
-        for song in highlighted:
-            song['id'] = str(song['_id'])
-            del song['_id']
-
-        highlighted.sort(key=lambda x: x['popularity'], reverse=True)[:10]
+        highlighted.sort(key=lambda x: x['popularity'], reverse=True)
+        highlighted = highlighted[:10]
 
         return highlighted
 
