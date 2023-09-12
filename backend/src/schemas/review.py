@@ -1,8 +1,10 @@
 from typing import Optional
 from datetime import datetime
 from pydantic import BaseModel
+from bson.objectid import ObjectId
 
 class ReviewModel(BaseModel):
+    id: str
     title: str
     description: str
     rating: int
@@ -11,6 +13,7 @@ class ReviewModel(BaseModel):
     # created_at: Optional[datetime]
 
 class ReviewGet(BaseModel):
+    id: str
     title: str
     description: str
     rating: int
@@ -21,6 +24,7 @@ class ReviewList(BaseModel):
     reviews: list[ReviewGet]
 
 class ReviewCreateModel(BaseModel):
+    id: str
     title: str
     description: str
     rating: int

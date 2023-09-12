@@ -13,24 +13,24 @@ class FiltersService:
         songs_titles = set()
 
         if name:
-            res1 = AlbumService.gey_album_by_name(name)
-            res2 = SongService.gey_songs_by_name(name)['songs']
+            res1 = AlbumService.get_album_by_name(name)
+            res2 = SongService.get_songs_by_name(name)
            
             print(res2)
+            print(res1)
+
             if res1 is None:
                 res1 = []
             if res2 is None:
                 res2 = []
 
             albums_titles |= {album['id'] for album in res1}
-            songs_titles |= {song['id']
-                             for song in res2}
+            print({song['id'] for song in res2})
+            songs_titles |= {song['id'] for song in res2}
 
         if year:
-            res1 = AlbumService.get_by_year(year)[
-                'songs']
-            res2 = SongService.get_by_year(year)[
-                'songs']
+            res1 = AlbumService.get_by_year(year) #['songs']
+            res2 = SongService.get_by_year(year) #['songs']
 
             albums_by_year_titles = {album['id'] for album in res1}
             songs_by_year_titles = {song['id'] for song in res2}
