@@ -10,6 +10,7 @@ class SongCreate(BaseModel):
     release_year: int
     popularity: Optional[int] = 0
     available_on: Optional[object] = {}
+    image_url: Optional[str] = ''
 
 
 class SongModel(BaseModel):
@@ -21,6 +22,7 @@ class SongModel(BaseModel):
     popularity: Optional[int] = 0
     available_on: Optional[object] = {}
     created_at: Optional[datetime] = None
+    image_url: Optional[str] = ''
 
 
 class SongGet(BaseModel):
@@ -32,6 +34,7 @@ class SongGet(BaseModel):
     popularity: Optional[int] = 0
     available_on: Optional[object] = {}
     created_at: Optional[datetime] = None
+    image_url: Optional[str] = ''
 
 
 class SongCreateModel(BaseModel):
@@ -43,6 +46,7 @@ class SongCreateModel(BaseModel):
     popularity: Optional[int] = 0
     available_on: Optional[object] = {}
     created_at: Optional[datetime] = None
+    image_url: Optional[str] = ''
 
 
 class SongList(BaseModel):

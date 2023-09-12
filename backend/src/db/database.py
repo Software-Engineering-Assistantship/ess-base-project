@@ -152,12 +152,11 @@ class Database():
 
         item = collection.find_one({"title": str(item_name)})
 
-
-        if item:
-            item['id'] = str(item["_id"])
-
-        print(item)
-
+        if item is not None:
+            # for itm in item
+            item["id"] = str(item["_id"])
+            del item["_id"]
+            
         return item
 
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
@@ -211,7 +210,7 @@ class Database():
         }
 
     def get_by_id(self, collection_name: str, item_id: str) -> dict:
- 
+
         collection: Collection = self.db[collection_name]
 
         item_id = ObjectId(item_id)
@@ -258,14 +257,13 @@ class Database():
         collection: Collection = self.db[collection_name]
         item = dict(item)
 
-        print("item in dict")
-
         if any(value == "" for value in item.values()):
             return None
 
         else:
-            item_id = collection.update_one({"_id": ObjectId(item_id)}, {"$set": item})
-            print("returning")
+            item_id = collection.update_one(
+                {"_id": ObjectId(item_id)}, {"$set": item})
+
             return {
                 **item
             }
@@ -284,24 +282,6 @@ class Database():
             'id': item_id
         }
 
-
-    def get_reviews_by_song_id(self, song_id: str) -> list:
-        """
-        Get all reviews of a song
-
-        Parameters:
-        - song_id: str
-            The ID of the song
-
-        Returns:
-        - list:
-            A list of all reviews of the song
-
-        """
-
-        reviews = self.db.get_all_items('reviews')
-        return [review for review in reviews if review['song_id'] == song_id]
-
     def get_by_year(self, collection_name: str, year: int) -> list:
         """
         Retrieve all items of a collection by year
@@ -321,35 +301,17 @@ class Database():
         collection: Collection = self.db[collection_name]
         year = int(year)
         items = list(collection.find({"release_year": year}))
-        return {
-            "songs": items
-            }
-
-    def get_by_year(self, collection_name: str, year: int) -> list:
-        """
-        Retrieve all items of a collection by year
-
-        Parameters:
-        - collection_name: str
-            The name of the collection where the item is stored
-        - year: str
-            The year of the item to retrieve
-
-        Returns:
-        - list:
-            A list of all items in the collection.
-
-        """
-
-        collection: Collection = self.db[collection_name]
-        year = int(year)
-        items = list(collection.find({"release_year": year}))
-
         for itm in items:
+            itm["id"] = str(itm["_id"])
             del itm["_id"]
-
         return {
             "songs": items
+        }
+
+    def get_available_on_for_song(self, song_id: str) -> Dict[str, str]:
+        song_links = {
+            "Spotify": f"https://spotify.com/song/{song_id}",
+            "Apple Music": f"https://apple.com/song/{song_id}",
         }
 
     def get_by_title(self, collection_name: str, title: str) -> list:
@@ -391,6 +353,9 @@ class Database():
 
         collection: Collection = self.db[collection_name]
         items = list(collection.find({"genre": genre}))
+        for itm in items:
+            itm["id"] = str(itm["_id"])
+            del itm["_id"]
 
         return {
             "songs": items
@@ -416,21 +381,10 @@ class Database():
         items = list(collection.find({"artist": artist}))
 
         for itm in items:
+            itm["id"] = str(itm["_id"])
             del itm["_id"]
 
-        return {
-            "songs": items
-        }
-
-    # collection: Collection = self.db[collection_name]
-    # items = list(collection.find({"artist": artist}))
-
-    # for itm in items:
-    #     del itm["_id"]
-
-    # return {
-    #     "musics": items
-    # }
+        return items
 
     def get_by_album(self, collection_name: str, album: str) -> list:
         """
@@ -454,4 +408,22 @@ class Database():
         return {
             "songs": items
         }
-  
+
+    def get_reviews_by_song(self, song_id: str) -> list:
+        """
+        Retrieve reviews for a specific song by song.
+
+        Parameters:
+        - song: str
+            The ID of the song for which to retrieve reviews.
+
+        Returns:
+        - List[dict]:
+
+            A list of dictionaries representing reviews for the specified song.
+        """
+        collection_name = "reviews"
+        collection: Collection = self.db[collection_name]
+        reviews = list(collection.find({"song": song_id}))
+
+        return reviews

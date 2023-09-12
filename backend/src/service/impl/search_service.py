@@ -13,24 +13,39 @@ class FiltersService:
         songs_titles = set()
 
         if name:
-            res1 = AlbumService.get_album_by_name(name)
-            res2 = SongService.get_songs_by_name(name)
-           
-            print(res2)
-            print(res1)
+            res1 = AlbumService.gey_album_by_name(name)
+            res2 = SongService.gey_songs_by_name(name)
+            res3 = SongService.get_by_artist(name)
+            res4 = AlbumService.get_by_artist(name)
+
 
             if res1 is None:
                 res1 = []
             if res2 is None:
                 res2 = []
+            if res3 is None:
+                res3 = []
+            if type(res1) is dict:
+                res1 = [res1]
+            if type(res2) is dict:
+                res2 = [res2]
+            if type(res3) is dict:
+                res3 = [res3]
 
             albums_titles |= {album['id'] for album in res1}
-            print({song['id'] for song in res2})
-            songs_titles |= {song['id'] for song in res2}
 
+            albums_titles |= {album['id'] for album in res4}
+
+            songs_titles |= {song['id']
+                             for song in res2}
+            songs_titles |= {song['id']
+                             for song in res3}
         if year:
-            res1 = AlbumService.get_by_year(year) #['songs']
-            res2 = SongService.get_by_year(year) #['songs']
+
+            res1 = AlbumService.get_by_year(year)[
+                'songs']
+            res2 = SongService.get_by_year(year)[
+                'songs']
 
             albums_by_year_titles = {album['id'] for album in res1}
             songs_by_year_titles = {song['id'] for song in res2}
@@ -39,7 +54,7 @@ class FiltersService:
             print(songs_by_year_titles)
 
             # Se o nome for fornecido, fazemos a interseção com os álbuns filtrados por nome
-            if name:  
+            if name:
                 albums_titles &= albums_by_year_titles
                 songs_titles &= songs_by_year_titles
 
@@ -48,6 +63,8 @@ class FiltersService:
                 songs_titles = songs_by_year_titles
 
         if genre:
+            print("procurando por genero")
+
             res1 = AlbumService.get_by_genre(genre)['songs']
             res2 = SongService.get_by_genre(genre)['songs']
 
@@ -57,7 +74,7 @@ class FiltersService:
                                      for song in res2}
 
             # Se o nome ou ano forem fornecidos, fazemos a interseção com os álbuns já filtrados
-            if name or year:  
+            if name or year:
                 albums_titles &= albums_by_genre_titles
                 songs_titles &= songs_by_genre_titles
 
@@ -67,12 +84,11 @@ class FiltersService:
 
         # Obtendo os álbuns e músicas completos com os títulos filtrados
         all_albums = AlbumService.get_albums()
-        all_songs = SongService.get_songs()['songs']
-       
+        all_songs = SongService.get_songs()
 
         albums = [album for album in all_albums if album['id'] in albums_titles]
         songs = [song for song in all_songs if song['id'] in songs_titles]
-     
+
         # delete the id key from the response
         # for album in albums:
         #     del album['id']
@@ -83,5 +99,5 @@ class FiltersService:
             'albums': albums,
             'songs': songs,
         }
-        
+
         return response

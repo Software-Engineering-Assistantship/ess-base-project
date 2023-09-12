@@ -27,6 +27,12 @@ class AlbumService:
         return edited_album
 
     @staticmethod
+    def get_by_artist(artist: str):
+        songs = db.get_by_artist('albums', artist)
+
+        return songs
+
+    @staticmethod
     def delete_album(id: str):
         deleted_album = db.delete('albums', id)
         return deleted_album

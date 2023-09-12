@@ -6,11 +6,11 @@ from bson.objectid import ObjectId
 class ReviewModel(BaseModel):
     id: str
     title: str
-    description: str
-    rating: int
     author: str
+    description: str
     song: str
-    # created_at: Optional[datetime]
+    rating: int
+    created_at: Optional[datetime]
 
 class ReviewGet(BaseModel):
     id: str

@@ -4,7 +4,10 @@ export const SearchMainDiv = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Adicionando uma direção de coluna */
 `;
+
 export const SearchFilterWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -13,6 +16,7 @@ export const SearchFilterWrapper = styled.div`
   border-radius: 40px;
   width: 100%;
   max-width: 700px;
+  margin-bottom: 20px; /* Adicionando margem abaixo do SearchFilterWrapper */
 `;
 
 export const SearchInput = styled.input`
@@ -21,6 +25,7 @@ export const SearchInput = styled.input`
   border: none;
   border-radius: 40px;
   background-color: transparent;
+  font-size: 16px;
 
   // O '&:focus' é o mesmo que 'SearchInput:focus' (se não me engano, é uma funcionalidade do styled-components)
   &:focus-visible,
@@ -69,5 +74,45 @@ export const DropdownFilter = styled.div`
 
   border-radius: 10px;
   padding: 10px;
-  width: 150px
+  width: 200px;
+`;
+
+export const Results = styled.div`
+  display: flex;
+  flex-direction: column; /* Colocar os resultados em uma coluna */
+  //margin-top: 10%; /* Adicionar algum espaçamento acima dos resultados */
+  width: 100%; /* Fazer com que a largura dos resultados seja igual à largura do componente pai */
+  //margin-left: 20%;
+`;
+
+export const ResultItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  gap: 50px;
+  padding: 30px;
+
+  width: 100%;
+  max-width: 1100px;
+
+  margin: auto;
+
+
+  //margin-bottom: 19%; /* Adicionar algum espaçamento entre os itens de resultado */
+`;
+
+export const ResultMsg = styled.div`
+  font-size: 20px;
+`;
+
+export const ResultItemsDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1100px;
+  gap: 60px;
+  margin: auto;
 `;
