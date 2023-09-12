@@ -1,7 +1,11 @@
 <script setup>
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 
-
+const toPayment = () => {
+  router.push('/meuscartoes');
+};
 </script>
 
 
@@ -50,6 +54,7 @@
         <p class="total-text">Cart Total:</p>
         <p class="total-amount">$114.94</p>
       </div>
+      <button class="checkout-button" @click="toPayment">Payment options</button>
       <button class="checkout-button" @click="checkout">Proceed to Checkout</button>
     </div>
   </div>
