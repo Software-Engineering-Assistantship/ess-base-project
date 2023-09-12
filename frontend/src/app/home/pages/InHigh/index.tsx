@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Wallpaper, MusicListContainer } from "./style";
 import MusicCard from "../../../../shared/components/MusicCard";
 import MusicImage from "../../../../shared/assets/Lover.png";
+import axios from "axios";
 
 const fakeMusicList = [
   { artist: "Artista 1", name: "Música 1", image: MusicImage },
@@ -17,15 +18,70 @@ const fakeMusicList = [
 ];
 
 const InHigh: React.FC = () => {
+  interface SearchResult {
+    id: number;
+    title: string;
+    artist: string;
+    available_on: object;
+    image_url: string;
+    popularity: number;
+    release_year: number;
+  }
+  interface ReponseTrue {
+    albums: SearchResult[];
+    songs: SearchResult[];
+  }
+  interface ResultReponse {
+    data: ReponseTrue[];
+  }
+  interface SearchFilterProps {
+    onSearch: (query: string) => void;
+    onFilter: () => void;
+    searchQuery: string;
+  }
+  const handleResponse = (response: ResultReponse) => {
+    const aux = [];
+    response.songs.forEach((song) => {
+      song.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
+
+      aux.push(song);
+    }
+    );
+    console.log('---------------');
+
+    console.log(aux);
+    console.log('---------------');
+    setTrueMusicList(aux);
+  };
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/songs/songs_h/highlighted', {
+      });
+      
+      const data: SearchResult[] = response.data;
+      console.log('---------------');
+
+      console.log(data);
+      console.log('---------------');
+      handleResponse(response.data);
+      // setSearchResults(data);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
+  };
+  const [trueMusicList, setTrueMusicList] = React.useState<SearchResult[]>([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Wallpaper>
       <MusicListContainer>
-        {fakeMusicList.map((music, index) => (
+        {trueMusicList.map((music, index) => (
           <MusicCard
             key={index}
             artist={music.artist}
-            name={music.name}
-            image={music.image}
+            name={music.title}
+            image={music.image_url}
           />
         ))} 
       </MusicListContainer>

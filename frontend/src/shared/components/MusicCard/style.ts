@@ -18,6 +18,8 @@ export const MusicImg = styled.img`
 
     user-select: none;
 
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.35);
+
     &:hover {
         transform: scale(1.05);
     }
@@ -26,10 +28,12 @@ export const MusicImg = styled.img`
 export const MusicArtist = styled.p`
     color: black;
     font-size: 12px;
+    font-weight: 300;
 `;
 
 export const MusicName = styled.p`
     color: black;
     font-size: 20px;
     margin-top: 8px;
+    font-weight: 500;
 `;
