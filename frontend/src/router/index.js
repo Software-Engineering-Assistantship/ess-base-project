@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import cart from '../views/cart.vue'
 import testAPI from '../views/testAPI.vue'
 import cartoes from '../views/cartoes.vue'
+import meuscartoes from '../views/meuscartoes.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -27,7 +28,11 @@ const router = createRouter({
             name: 'cartoes',
             component: cartoes
         },
-
+        {
+            path: '/meuscartoes',
+            name: 'meuscartoes',
+            component: meuscartoes
+        },
     ]
 })
 
