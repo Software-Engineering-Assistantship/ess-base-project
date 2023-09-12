@@ -73,7 +73,6 @@ class SongService:
 
         return song['available_on']
 
-
     @staticmethod
     def get_top_rated_songs(limit: int):
         reviews = ReviewService.get_reviews()
