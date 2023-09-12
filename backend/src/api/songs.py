@@ -6,6 +6,7 @@ from src.schemas.review import ReviewModel, ReviewList
 
 router = APIRouter()
 
+
 @router.get(
     "/{song_id}",
     response_model=SongModel,
@@ -46,6 +47,7 @@ def edit_song(song_id: str, song: SongCreateModel):
     else:
         return song_edit_response
 
+
 @router.post(
     "/create",
     response_model=SongModel,
@@ -80,17 +82,19 @@ def delete_song(song_id: str):
     summary="get highlighted songs",
 )
 def get_highlighted():
-    songs = SongService.get_songs()['songs']
+    songs = SongService.get_songs()
 
     for song in songs:
         song['id'] = str(song['_id'])
         del song['_id']
+    i = 0
 
     songs = sorted(songs, key=lambda x: x['popularity'], reverse=True)
 
     return {
         "songs": songs
     }
+
 
 @router.get(
     "/songs_by_year/{year}",
@@ -159,6 +163,7 @@ def get_top_rated_songs(limit: int = 5):
     }
     return response
 
+
 @router.get(
     "/{song_id}/reviews",
     response_model=ReviewList,
@@ -172,4 +177,4 @@ def get_reviews(song_id: str):
     if not reviews:
         raise HTTPException(status_code=404, detail="Reviews not found")
 
-    return { "reviews": reviews }
+    return {"reviews": reviews}
