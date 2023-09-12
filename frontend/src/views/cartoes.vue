@@ -4,12 +4,23 @@
       <h1 class="page-title">Add Credit Card</h1>
       <form @submit.prevent="addCreditCard">
         <div class="form-group">
+          <label for="nome">Nome:</label>
+          <input
+            type="text"
+            id="nome"
+            name="nome" 
+            v-model="formData.nome" 
+            placeholder="Enter your name"
+            required
+          />
+        </div>
+        <div class="form-group">
           <label for="card-number">Card Number:</label>
           <input
             type="text"
             id="card-number"
-            name="cardNumber"
-            v-model="formData.cardNumber" 
+            name="numero_cartao" 
+            v-model="formData.numero_cartao" 
             placeholder="Enter card number"
             required
           />
@@ -19,8 +30,8 @@
           <input
             type="text"
             id="expiry-date"
-            name="expiryDate" 
-            v-model="formData.expiryDate" 
+            name="validade"
+            v-model="formData.validade" 
             placeholder="MM/YY"
             required
           />
@@ -30,73 +41,53 @@
           <input
             type="text"
             id="cvv"
-            name="cvv" 
-            v-model="formData.cvv"
+            name="cvv"
+            v-model="formData.cvv" 
             placeholder="Enter CVV"
             required
           />
         </div>
-        <button type="submit" @click.prevent="teste" class="submit-button">Add Card</button>
+        <button type="submit" class="submit-button">Add Card</button>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const formData = ref({
-  cardNumber: '',
-  expiryDate: '',
+  nome: '',
+  numero_cartao: '',
   cvv: '',
+  validade: '',
 });
 
 const router = useRouter();
 
-const addCreditCard = async () => {
-  // Perform credit card addition logic here
-  // You can access form data via formData object
-  const cardData = {
-    cardNumber: formData.cardNumber,
-    expiryDate: formData.expiryDate,
-    cvv: formData.cvv,
-  };
+const toCards = () => {
+  router.push('/meuscartoes');
+};
 
-  const response = await fetch('https://localhost:8000/cartoes', {
+const addCreditCard = async () => {
+  const response = await fetch('http://localhost:8000/cartoes', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      nome:"teste",
-      numero_cartao: cardData.cardNumber,
-      cvv: cardData.cvv,
-      validade: cardData.expiryDate,
-    }),
+    body: JSON.stringify(formData.value),
   })
   
   if (!response.ok) {
-    alert("error");
+    alert("Error");
   }
   else {
-    alert("coloca a página que tu quer ir")
+    alert(JSON.stringify(formData.value));
+    router.push('/meuscartoes');
   }
-
-  // Send cardData to the server for processing
-  // For example, make an API POST request
-  // After successful addition, you can navigate to another route
-  // router.push('/success'); // Replace '/success' with your desired success route
 };
-
-const teste = async () => {
-  
-}
-
-// Update the model value manually
-formData.cardNumber = '1234567890123456';
-formData.expiryDate = '12/24';
-formData.cvv = '123';
 </script>
 
 <style scoped>
