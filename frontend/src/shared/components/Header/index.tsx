@@ -58,7 +58,7 @@ const Header: React.FC = () => {
           </Link>
 
           <ButtonsDiv>
-            <Link to="/">
+            <Link to="/search">
               <ButtonComponent
                 customStyle={{
                   backgroundColor: "transparent",
@@ -68,12 +68,12 @@ const Header: React.FC = () => {
                   fontSize: "25px",
                   borderRadius: "0px",
                   borderBottom:
-                    activeButton === "Reviews" ? "1px solid black" : "none", // Aplica a linha quando Reviews for verdadeiro
+                    activeButton === "Buscar" ? "1px solid black" : "none", // Aplica a linha quando Reviews for verdadeiro
                 }}
-                isActive={activeButton === "Reviews"} // Verifique se o botão Reviews está ativo
-                onClick={() => handleButtonClick("Reviews")}
+                isActive={activeButton === "Buscar"} // Verifique se o botão Reviews está ativo
+                onClick={() => handleButtonClick("Buscar")}
               >
-                Reviews
+                Buscar
               </ButtonComponent>
             </Link>
 

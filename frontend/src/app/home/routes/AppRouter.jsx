@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import InHigh from '../pages/InHigh';
 import MostListened from '../pages/MostListened';
 import Edition from '../pages/Edition';
+import Search from '../pages/Search';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     {
       path: "/",
       Component: Home,
+    },
+    {
+      path: "/search",
+      Component: Search,
     },
     {
       path: "/in-high",

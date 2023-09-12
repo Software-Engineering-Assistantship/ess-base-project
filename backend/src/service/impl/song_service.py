@@ -76,11 +76,6 @@ class SongService:
 
         return song['available_on']
 
-    # @staticmethod
-    # def get_by_album(album: str):
-    #     songs = db.get_by_album('musicas', album)
-
-    #     return songs
 
     @staticmethod
     def get_top_rated_songs(limit: int):
@@ -104,9 +99,7 @@ class SongService:
         # top_song_names = [song[0] for song in top_rated_songs]
         result = [{"song": song[0], "average_rating": song[1]['avg_rating']}
                   for song in top_rated_songs]
-        print("***********************************")
         print(result)
-        print("***********************************")
 
         return result
 
@@ -129,3 +122,10 @@ class SongService:
             assert result == []  # expect result to be an empty list
 
             return result
+
+    @staticmethod
+    def get_reviews(song_id: str):
+
+        reviews = db.get_reviews_by_song(song_id)
+
+        return reviews
