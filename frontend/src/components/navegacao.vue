@@ -1,4 +1,14 @@
 <script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+const toCart = () => {
+  router.push('/cart');
+};
+const toHome = () => {
+  router.push('/');
+};
 </script>
 
 
@@ -78,8 +88,29 @@ body {
   transition: all 0.3s ease;
 }
 
+.navbar button{
+  position: relative;
+  color: #000000;
+  text-decoration: none;
+  font-size: 26.5px;
+  font-weight: 500;
+  margin-left: 30px;
+  transition: all 0.3s ease;
+}
+
 
 .navbar a::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgb(7, 7, 7);
+  transition: all 0.3s ease;
+}
+
+.navbar button::before {
   content: '';
   position: absolute;
   top: 100%;
@@ -93,6 +124,11 @@ body {
 .navbar a:hover::before{
   width: 100%;
 }
+
+.navbar button:hover::before{
+  width: 100%;
+}
+
 
 
 
@@ -108,13 +144,9 @@ body {
     </a>
     
     <nav class="navbar">
-        <a href="../../carrinho.html">Home  </a>
-        <a href="">Carrinho </a>
+        <button @click="toHome" type="button">Home </button>
+        <button @click="toCart" type="button">Carrinho</button>
         <a href="">Lojas </a>
-        
-
-
-
     </nav>
 
   </header>
