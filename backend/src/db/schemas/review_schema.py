@@ -1,15 +1,14 @@
 from src.db.schemas.model_schema import ModelSchema
 
+
 class ReviewSchema(ModelSchema):
     bson_type: str = "object"
     required: list = [
-        "id",
         "title",
         "author",
         "description",
         "song",
-        "rating",
-        "created_at"
+        "rating"
     ]
     properties: dict = {
         "id": {
@@ -35,10 +34,6 @@ class ReviewSchema(ModelSchema):
         "song": {
             "bson_type": "string",
             "description": "The song of the review"
-        },
-        "created_at": {
-            "bson_type": "date",
-            "description": "The date the review was created"
         }
     }
 
@@ -48,4 +43,3 @@ class ReviewSchema(ModelSchema):
             "required": self.required,
             "properties": self.properties
         }
-

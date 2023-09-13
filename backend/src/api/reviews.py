@@ -3,11 +3,13 @@ from pydantic import BaseModel
 from src.db import database as db
 from datetime import datetime
 from src.service.impl.review_service import ReviewService
+from src.service.impl.song_service import SongService
 from src.schemas.review import ReviewCreateModel, ReviewModel, ReviewList, ReviewDeleteModel
 from starlette.responses import JSONResponse
 from fastapi import HTTPException
 
 router = APIRouter()
+
 
 @router.get(
     "/",
@@ -16,6 +18,16 @@ router = APIRouter()
 )
 def get_reviews():
     review_list_response = ReviewService.get_reviews()
+    print('-------------------------------')
+
+    print(review_list_response)
+    print('-------------------------------')
+    for review in review_list_response:
+        song = SongService.get_song(review['song'])
+        review['songCover'] = song['image_url']
+        review['songTitle'] = song['title']
+        review['artistName'] = song['artist']
+
     return {
         'reviews': review_list_response,
     }
@@ -39,6 +51,8 @@ def get_review(review_id: str):
     response_class=JSONResponse
 )
 def create_review(review: ReviewCreateModel):
+    date = datetime.now()
+    review.created_at = date
     review_create_response = ReviewService.create_review(review)
     return review_create_response
 
@@ -70,8 +84,11 @@ def delete_review(review_id: str):
         return review_delete_response
 
 
-def get_reviews_by_song_id(song_id: int): #PRECISA DE UMA FUNÇÃO DESSA AQUI? -> SERIA UM SERVICE
-    reviews = db.get_reviews_by_song_id(song_id) # fazer uma função dessa no db.py
+# PRECISA DE UMA FUNÇÃO DESSA AQUI? -> SERIA UM SERVICE
+def get_reviews_by_song_id(song_id: int):
+    # fazer uma função dessa no db.py
+    reviews = db.get_reviews_by_song_id(song_id)
     if not reviews:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Song not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Song not found")
     return reviews

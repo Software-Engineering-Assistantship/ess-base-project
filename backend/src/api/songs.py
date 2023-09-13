@@ -83,12 +83,19 @@ def delete_song(song_id: str):
 )
 def get_highlighted():
     songs = SongService.get_highlighted()
-
-
+    songs_rating = SongService.get_top_rated_songs(-1)
     for song in songs:
         song['id'] = str(song['_id'])
+        found = False
+        for song_rating in songs_rating:
+            if song_rating['song'] == song['id']:
+                print(song_rating)
+                song['average_rating'] = song_rating['average_rating']
+                found = True
+                break
+        if not found:
+            song['average_rating'] = 0
         del song['_id']
-    i = 0
 
     songs = sorted(songs, key=lambda x: x['popularity'], reverse=True)
 
@@ -146,7 +153,7 @@ def get_by_artist(artist):
 
 @router.get(
     "/songs_r/top-rated",
-    response_model=GetSongsTopRated,
+    response_model=dict,
     description="Retrieve top-rated songs"
 )
 def get_top_rated_songs(limit: int = 5):
@@ -158,6 +165,13 @@ def get_top_rated_songs(limit: int = 5):
     - A list of top-rated songs.
     """
     songs = SongService.get_top_rated_songs(limit)
+    for song in songs:
+
+        real_data_songs = SongService.get_song(song['song'])
+        song['title'] = real_data_songs['title']
+        song['artist'] = real_data_songs['artist']
+        song['image_url'] = real_data_songs['image_url']
+        song["id"] = song["song"]
     print(songs)
     response = {
         "songs": songs
@@ -167,7 +181,7 @@ def get_top_rated_songs(limit: int = 5):
 
 @router.get(
     "/{song_id}/reviews",
-    response_model=ReviewList,
+    response_model=dict,
     response_class=JSONResponse,
     summary="Get reviews of a specific song",
 )
@@ -175,7 +189,11 @@ def get_reviews(song_id: str):
 
     reviews = SongService.get_reviews(song_id)
 
-    if not reviews:
-        raise HTTPException(status_code=404, detail="Reviews not found")
+    print('-------------')
+
+    print(reviews)
+    print('-------------')
+    # if not reviews:
+    #     raise HTTPException(status_code=404, detail="Reviews not found")
 
     return {"reviews": reviews}

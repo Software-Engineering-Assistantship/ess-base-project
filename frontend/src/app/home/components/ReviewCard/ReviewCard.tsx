@@ -10,7 +10,7 @@ export type ReviewCardProps = {
   rating: number;
   title: string;
   content: string;
-  authorImage: string;
+  // authorImage: string;
   authorName: string;
   authorUsername: string;
 };
@@ -22,6 +22,7 @@ const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 16px;
+  max-height: 150px;
   row-gap: 16px;
   max-width: 600px;
 `;
@@ -35,9 +36,11 @@ const SongCover = styled.img`
   border-radius: 8px;
 `;
 
-const SongTitle = styled.div`
+const SongTitle = styled.a`
+  color: black;
   font-weight: 700;
   margin-bottom: 5px;
+  text-decoration: none;
 `;
 
 const ArtistName = styled.div`
@@ -79,14 +82,15 @@ function* ratingStars(rating: number) {
   }
 }
 
-export const ReviewCard = (props: ReviewCardProps) => {
+const ReviewCard = (props: ReviewCardProps) => {
   return (
     <CardWrapper>
       <SongHeader>
-        <SongCover src={props.songCover} width={100} height={100} />
-
+        <a href="#">
+          <SongCover src={props.songCover} width={100} height={100} />
+        </a>
         <div>
-          <SongTitle>{props.songTitle}</SongTitle>
+          <SongTitle href="#">{props.songTitle}</SongTitle>
           <ArtistName>{props.artistName}</ArtistName>
           <div>{[...ratingStars(props.rating)]}</div>
         </div>
@@ -97,7 +101,6 @@ export const ReviewCard = (props: ReviewCardProps) => {
       <div>{props.content}</div>
 
       <AuthorInfo>
-        <AuthorImage src={props.authorImage} width={50} height={50} />
 
         <div>
           <AuthorName>{props.authorName}</AuthorName>
@@ -107,3 +110,5 @@ export const ReviewCard = (props: ReviewCardProps) => {
     </CardWrapper>
   );
 };
+
+export default ReviewCard;

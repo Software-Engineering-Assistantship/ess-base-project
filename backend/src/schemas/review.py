@@ -3,6 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel
 from bson.objectid import ObjectId
 
+
 class ReviewModel(BaseModel):
     id: str
     title: str
@@ -12,6 +13,7 @@ class ReviewModel(BaseModel):
     rating: int
     created_at: Optional[datetime]
 
+
 class ReviewGet(BaseModel):
     id: str
     title: str
@@ -19,9 +21,15 @@ class ReviewGet(BaseModel):
     rating: int
     author: str
     song: str
+    songCover: Optional[str]
+    songTitle: Optional[str]
+    artistName: Optional[str]
+    created_at: Optional[datetime]
+
 
 class ReviewList(BaseModel):
-    reviews: list[ReviewGet]
+    reviews: Optional[list[ReviewGet]]
+
 
 class ReviewCreateModel(BaseModel):
     id: str
@@ -30,6 +38,8 @@ class ReviewCreateModel(BaseModel):
     rating: int
     author: str
     song: str
+    created_at: Optional[datetime]
+
 
 class ReviewDeleteModel(BaseModel):
     id: str

@@ -13,11 +13,10 @@ class FiltersService:
         songs_titles = set()
 
         if name:
-            res1 = AlbumService.gey_album_by_name(name)
-            res2 = SongService.gey_songs_by_name(name)
+            res1 = AlbumService.get_album_by_name(name)
+            res2 = SongService.get_songs_by_name(name)
             res3 = SongService.get_by_artist(name)
             res4 = AlbumService.get_by_artist(name)
-
 
             if res1 is None:
                 res1 = []

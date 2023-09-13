@@ -22,6 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            maxHeight: '100vh',
+            overflowY: 'auto',
         },
         paper: {
             backgroundColor: theme.palette.background.paper,

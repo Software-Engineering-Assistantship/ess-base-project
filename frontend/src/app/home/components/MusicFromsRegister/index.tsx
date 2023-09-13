@@ -30,6 +30,7 @@ const MusicForm: React.FC<{
                 'youtube_link': linkYouTube,
                 'deezer_link': linkDeezer,
                 'spotify_link': linkSpotify,
+                'apple_music_link': linkApple,
             },
             'image_url': imageLink
         };
