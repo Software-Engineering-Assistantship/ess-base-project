@@ -4,7 +4,7 @@ Feature: Avaliacao de Entregas
     So that eu possa informar os demais usuarios e futuros compradores
 
 Cenário: Avaliação de Entrega Bem sucedida
-    Given eu "cliente" logado no usuario"Bruno" 
+    Given eu "cliente" logado no usuario "Bruno" 
     And recentemente recebi uma compra de um "HyperX alloy fps pro" pela empresa "JAMEF"
     And eu estou na area de realizar avaliação da empresa "JAMEF" 
     When eu seleciono "5" estrelas
