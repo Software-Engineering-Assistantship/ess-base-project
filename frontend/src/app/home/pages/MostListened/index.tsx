@@ -17,16 +17,15 @@ const fakeMusicList = [
   { artist: "Artista 10", name: "Música 10", image: MusicImage },
 ];
 
-const MostListened: React.FC = () => {
+const mostListened: React.FC = () => {
   interface SearchResult {
-    id: number;
+    id: string;
     title: string;
     artist: string;
     available_on: object;
     image_url: string;
     popularity: number;
     release_year: number;
-    avg_rating: number;
   }
   interface ReponseTrue {
     albums: SearchResult[];
@@ -43,15 +42,15 @@ const MostListened: React.FC = () => {
   const handleResponse = (response: ResultReponse) => {
     const aux = [];
     response.songs.forEach((song) => {
-      song.image_url = 'https://www.udiscovermusic.com/wp-content/uploads/2019/04/Tame-Impala-Currents-album-cover-web-optimised-820.jpg'
+      // song.image_url = 'https://upload.wikimedia.org/wikipedia/pt/3/3c/Capa_de_Lover.png'
 
       aux.push(song);
     }
     );
-    console.log('---------------');
+    console.log('***************');
 
     console.log(aux);
-    console.log('---------------');
+    console.log('***************');
     setTrueMusicList(aux);
   };
   const fetchData = async () => {
@@ -60,10 +59,10 @@ const MostListened: React.FC = () => {
       });
       
       const data: SearchResult[] = response.data;
-      console.log('---------------');
+      console.log('******************************');
 
       console.log(data);
-      console.log('---------------');
+      console.log('******************************');
       handleResponse(response.data);
       // setSearchResults(data);
     } catch (error) {
@@ -80,9 +79,10 @@ const MostListened: React.FC = () => {
         {trueMusicList.map((music, index) => (
           <MusicCard
             key={index}
-            artist={music.artist ? music.artist : "Desconhecido"}
-            name={music.song}
-            image={music.image_url ? music.image_url : MusicImage}
+            artist={music.artist}
+            name={music.title}
+            image={music.image_url}
+            id={music.id}
             avg_rating={music.average_rating}
           />
         ))} 
@@ -91,4 +91,4 @@ const MostListened: React.FC = () => {
   );
 };
 
-export default MostListened;
+export default mostListened;

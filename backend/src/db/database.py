@@ -156,7 +156,7 @@ class Database():
             # for itm in item
             item["id"] = str(item["_id"])
             del item["_id"]
-            
+
         return item
 
     def get_item_by_id(self, collection_name: str, item_id: str) -> dict:
@@ -219,7 +219,7 @@ class Database():
 
         if not item:
             return None
-        
+
         print(item)
 
         return item
@@ -425,5 +425,7 @@ class Database():
         collection_name = "reviews"
         collection: Collection = self.db[collection_name]
         reviews = list(collection.find({"song": song_id}))
-
+        for rew in reviews:
+            rew["id"] = str(rew["_id"])
+            del rew["_id"]
         return reviews

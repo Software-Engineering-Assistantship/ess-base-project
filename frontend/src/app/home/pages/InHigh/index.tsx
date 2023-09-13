@@ -19,7 +19,7 @@ const fakeMusicList = [
 
 const InHigh: React.FC = () => {
   interface SearchResult {
-    id: number;
+    id: string;
     title: string;
     artist: string;
     available_on: object;
@@ -42,15 +42,15 @@ const InHigh: React.FC = () => {
   const handleResponse = (response: ResultReponse) => {
     const aux = [];
     response.songs.forEach((song) => {
-      song.image_url = 'https://upload.wikimedia.org/wikipedia/pt/3/3c/Capa_de_Lover.png'
+      // song.image_url = 'https://upload.wikimedia.org/wikipedia/pt/3/3c/Capa_de_Lover.png'
 
       aux.push(song);
     }
     );
-    console.log('---------------');
+    console.log('******************************');
 
     console.log(aux);
-    console.log('---------------');
+    console.log('******************************');
     setTrueMusicList(aux);
   };
   const fetchData = async () => {
@@ -82,6 +82,8 @@ const InHigh: React.FC = () => {
             artist={music.artist}
             name={music.title}
             image={music.image_url}
+            id={music.id}
+            avg_rating={music.average_rating}
           />
         ))} 
       </MusicListContainer>

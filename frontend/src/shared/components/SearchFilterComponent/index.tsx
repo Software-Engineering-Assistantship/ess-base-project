@@ -83,12 +83,12 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
   const handleResponse = (response: ResultReponse) => {
     const aux = [];
     response.albums.forEach((album) => {
-      album.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
+      // album.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
       aux.push(album);
     }
     );
     response.songs.forEach((song) => {
-      song.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
+      // song.image_url = 'https://akamai.sscdn.co/uploadfile/letras/fotos/5/2/6/6/5266e6a16b5fe4501de0d70cb2935f48.jpg'
 
       aux.push(song);
     }
@@ -199,9 +199,7 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
       <Results>
         {searchResults.length > 0 || isEmpty ? (
           <ResultItem>
-            <ResultMsg>
-              Resultados Encontrados:
-            </ResultMsg>
+
               <ResultItemsDiv>
               {/* {searchResults.map(result => (
                 <ResultItem key={result.id}>
@@ -215,6 +213,8 @@ const SearchFilterComponent: React.FC<SearchFilterProps> = ({
                   artist={result.artist}
                   name={result.title}
                   image={result.image_url}
+                  id={result.id}
+                  
                 />
               ))}
               </ResultItemsDiv>

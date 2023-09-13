@@ -23,6 +23,7 @@ class SongModel(BaseModel):
     available_on: Optional[object] = {}
     created_at: Optional[datetime] = None
     image_url: Optional[str] = ''
+    average_rating: Optional[float] = 0.0
 
 
 class SongGet(BaseModel):
@@ -35,6 +36,7 @@ class SongGet(BaseModel):
     available_on: Optional[object] = {}
     created_at: Optional[datetime] = None
     image_url: Optional[str] = ''
+    average_rating: Optional[float] = 0.0
 
 
 class SongCreateModel(BaseModel):
@@ -47,6 +49,7 @@ class SongCreateModel(BaseModel):
     available_on: Optional[object] = {}
     created_at: Optional[datetime] = None
     image_url: Optional[str] = ''
+    average_rating: Optional[float] = 0.0
 
 
 class SongList(BaseModel):
