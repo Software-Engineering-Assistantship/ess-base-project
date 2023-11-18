@@ -32,7 +32,7 @@ Para prosseguir com a criação do projeto base, é importante que você e sua e
 
 #### *Frameworks* Suportados:
 
-- ***Frontend*:** React ⚛️, Angular 🅰️ e Vue.js 🔥
+- ***Frontend*:** React ⚛️, Angular 🅰️, Vue.js 🔥 e Next.js 🇳
 - ***Backend*:** NodeJS 🚀 e FastAPI ⚡️
 
 Certifique-se de que todos estejam alinhados na escolha dos *frameworks* antes de prosseguir com o processo de criação do projeto. Isso garantirá que você esteja utilizando as tecnologias desejadas e poderá aproveitar ao máximo o potencial oferecido por cada *framework* selecionado.

@@ -4,6 +4,7 @@ MAP = {
     'React ⚛️': 'frontend-react',
     'Vue.js 🔥': 'frontend-vue',
     'Angular 🅰️': 'frontend-angular',
+    'Next.js 🇳': 'frontend-nextjs',
     'NodeJS 🚀': 'backend-nodejs',
     'FastAPI ⚡️': 'backend-fastAPI',
     'HTTPS 🔒': 'https://github.com/',
@@ -14,7 +15,7 @@ FRAMEWORKS = [
     inquirer.List(
         'frontend',
         message='Escolha um Framework de Frontend para utilizar no seu projeto:',
-        choices=['React ⚛️','Vue.js 🔥','Angular 🅰️'],
+        choices=['React ⚛️','Vue.js 🔥','Angular 🅰️', 'Next.js 🇳'],
     ),
     inquirer.List(
         'backend',
