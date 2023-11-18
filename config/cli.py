@@ -24,7 +24,7 @@ def wait_and_clear(s=1):
 def wait(s=1):
     time.sleep(s)
 
-def typing_effect(message, delay=0.04):
+def typing_effect(message, delay=0.02):
     index = 0
     if platform.system() == 'Windows':
         import msvcrt
@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
             typing_effect(' 🫡 Entendido!')
 
-            wait_and_clear(3)
+            wait_and_clear(4)
 
             typing_effect("O seu projeto será criado utilizando o conceito de 'Subtree' do Git. 🌳")
             typing_effect('Isso significa que ele será composto por uma cópia de dois repositórios, um frontend e um backend. 📂')
@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
             typing_effect("Parabéns! Seu projeto foi criado com sucesso! 🎉\nVocês já podem começar a trabalhar nele! 💻🚀")
 
-            wait_and_clear(3)
+            wait_and_clear(4)
 
             typing_effect("Os commits já foram feitos para vocês, então não precisam se preocupar com isso.\nSe quiserem, podem dar uma olhada! 👀")
             typing_effect("É só utilizar o comando 'git log' para ver o histórico de commits. 📜")
@@ -119,12 +119,12 @@ if __name__ == '__main__':
 
             typing_effect("\nMas de agora em diante... que a força esteja com vocês! 🪐💪✨")
 
-            wait(3)
+            wait(2)
 
             typing_effect(f"\n\nPara mais informações sobre as subtrees do Git, segure 'ctrl' e {link}! 📚 ")
             typing_effect("\nAté mais! 👋")
             
-            wait(3)
+            wait(2)
          
             break
         else:
