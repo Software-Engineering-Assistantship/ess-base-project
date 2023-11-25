@@ -53,3 +53,10 @@ And insiro a senha "123".
 And seleciona a opção "Confirmar Cancelamento".
 Then há uma "notificação" informando "Pedido Cancelado com sucesso!"
 
+Scenario: Falha no cancelamento por falta de preenchimento do campo "Senha".
+Given eu estou logado como "Hugo" "com senha "123".
+And eu estou na página "Pedidos em Andamento.
+And eu estou com a "Janela de confirmação" aberta.
+When seleciona a opção "Outros".
+And seleciona a opção "Confirmar Cancelamento".
+Then há uma "notificação" informando "É necessário o preenchimento da senha".
