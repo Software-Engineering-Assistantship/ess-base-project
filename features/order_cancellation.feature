@@ -36,7 +36,7 @@ And insiro a senha "321".
 And seleciona a opção "Confirmar Cancelamento".
 Then há uma "notificação" informando "Senha incorreta, tente novamente!".
 
-Scenario: Falha na confirmação de cancelamento sem seleção de motivo.
+Scenario: Falha no cancelamento por falta de preenchimento do campo "Motivo".
 Given eu estou logado como "Hugo" com senha "123".
 And eu estou na página "Pedidos em Andamento.
 And eu estou com a "Janela de confirmação" aberta.
