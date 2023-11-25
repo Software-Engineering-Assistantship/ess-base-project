@@ -1,9 +1,7 @@
 Feature: Cancelamento de Pedidos.
 As um usuário. 
-I want to acessar os pedidos em andamento e ter a possibilidade. 
-de solicitar o cancelamento de um pedido.
-So that quando eu tiver algum contratempo ou mudar de ideia, eu possa 
-cancelar o meu pedido.
+I want to acessar os pedidos em andamento e ter a possibilidade de solicitar o cancelamento de um pedido.
+So that quando eu tiver algum contratempo ou mudar de ideia, eu possa cancelar o meu pedido.
 
 Scenario: Cancelar pedido nos 5 minutos iniciais e com status confirmado.
 Given eu estou logado como "Hugo" com senha "123".
@@ -27,16 +25,16 @@ And eu estou na página "Pedidos em Andamento".
 And um usuário finalizou o pedido "#01" há "3" minutos.
 And o status do pedido "#01" é "em Preparo".
 When seleciona a opção "Cancelar Pedido". 
-Then há uma "notificação" informando "Pedido já em preparo :(" 
+Then há uma "notificação" informando "Pedido já em preparo :(".
 
 Scenario: Falha na confirmação de cancelamento por senha incorreta.
-Given eu estou logado como "Hugo" com senha "123"
-And eu estou na página "Pedidos em Andamento"
+Given eu estou logado como "Hugo" com senha "123".
+And eu estou na página "Pedidos em Andamento".
 And eu estou com a "Janela de confirmação" aberta.
-When seleciona a opção "Outros"
-And insiro a senha "321"
-And seleciona a opção "Confirmar Cancelamento"
-Then há uma "notificação" informando "Senha incorreta, tente novamente!"
+When seleciona a opção "Outros".
+And insiro a senha "321".
+And seleciona a opção "Confirmar Cancelamento".
+Then há uma "notificação" informando "Senha incorreta, tente novamente!".
 
 Scenario: Falha na confirmação de cancelamento sem seleção de motivo.
 Given eu estou logado como "Hugo" com senha "123".
