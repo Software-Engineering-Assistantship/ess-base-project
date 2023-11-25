@@ -12,3 +12,11 @@ And o pedido "#01" foi realizado há "3" minutos.
 And o status do pedido "#01" é "Confirmado"
 When seleciona a opção "Cancelar Pedido" do pedido "#01". 
 Then aparece a "Janela  de Confirmação".
+
+Scenario: Falha ao cancelar pedido após os 5 minutos iniciais.
+Given eu estou logado como "Hugo" com senha "123"
+And eu estou na página "Pedidos em Andamento" 
+And um usuário finalizou o pedido "#01" há "6" minutos.
+And o status do pedido "#01" é "Confirmado"
+When seleciona a opção "Cancelar Pedido" 
+Then há uma "notificação" informando "Tempo limite excedido!!" 
