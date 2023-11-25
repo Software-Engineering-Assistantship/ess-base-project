@@ -47,7 +47,7 @@ Then há uma "notificação" informando "É necessário inserir um motivo para o
 Scenario: Confirmação de cancelamento de pedido.
 Given eu estou logado como "Hugo" com senha "123".
 And eu estou na página "Pedidos em Andamento".
-And eu estou com a "Janela de confrimação" aberta.
+And eu estou com a "Janela de confirmação" aberta.
 When seleciona a opção "Outros".
 And insiro a senha "123".
 And seleciona a opção "Confirmar Cancelamento".
@@ -60,3 +60,9 @@ And eu estou com a "Janela de confirmação" aberta.
 When seleciona a opção "Outros".
 And seleciona a opção "Confirmar Cancelamento".
 Then há uma "notificação" informando "É necessário o preenchimento da senha".
+
+Scenario: Verificação cancelamento.
+Given um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
+When uma requisição de "DELETE" é enviada para "PedidosEmAndamento/001". 
+And o status da resposta deve ser "200". 
+And uma mensagem de "Pedido cancelado" deve ser retornada.
