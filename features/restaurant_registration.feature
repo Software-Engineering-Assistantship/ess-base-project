@@ -32,3 +32,4 @@ When uma requisição “POST” é enviada para “/restaurants” com os valor
 Then é retornada uma mensagem com status "409"
 And retorna uma mensagem "email já cadastrado"
 And o restaurante "Guloso Trincado" não está salvo no banco de dados
+And o restaurante "Quentinha refeições" está salvo no banco de dados
