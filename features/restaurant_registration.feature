@@ -32,3 +32,11 @@ When uma requisição “POST” é enviada para “/restaurants” com os valor
 Then é retornada uma mensagem com status "409"
 And retorna uma mensagem "email já cadastrado"
 And o restaurante "Guloso Trincado" não está salvo no banco de dados
+
+
+Scenario: Atualização de um restaurante
+Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “adm_restaurante” e senha “adm_restaurante”
+When uma requisição "PUT" é enviada para "/restaurants/{id}" com o valor "Almir quentinhas" no campo "nome"
+Then é retornada uma mensagem com status "200"
+And retorna uma mensagem "Dados do restaurante atualizado com sucesso"
+And o restaurante com o nome "Almir quentinhas",  CNPJ “123321222”, email “adm_restaurante”, senha “adm_restaurante” está armazenado no sistema
