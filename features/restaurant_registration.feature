@@ -16,3 +16,19 @@ Given existe um restaurante cadastrado no sistema com os dados “Quentinha refe
 When uma requisição “DELETE” é enviada para “/restaurants/{id}”
 Then o restaurante “Quentinha refeições” não está mais salvo no banco de dados
 And é retornada uma mensagem com o status “200” e mensagem “restaurante excluído com sucesso”
+
+
+Scenario: Cadastro mal sucedido de um restaurante (CNPJ já cadastrado)
+Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “adm_restaurante” e senha “adm_restaurante”
+When uma requisição “POST” é enviada para “/restaurants” com os valores “Guloso Trincado”,  “123321222”, email “adm_restaurante_2”, senha “adm_restaurante_2”
+Then é retornada uma mensagem com status "409"
+And retorna uma mensagem "CPF já cadastrado"
+And o restaurante "Guloso Trincado" não está salvo no banco de dados
+
+
+Scenario: Cadastro mal sucedido de um restaurante (email já cadastrado)
+Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “adm_restaurante” e senha “adm_restaurante”
+When uma requisição “POST” é enviada para “/restaurants” com os valores “Guloso Trincado”,  “40028922”, email “adm_restaurante”, senha “adm_restaurante_2”
+Then é retornada uma mensagem com status "409"
+And retorna uma mensagem "email já cadastrado"
+And o restaurante "Guloso Trincado" não está salvo no banco de dados
