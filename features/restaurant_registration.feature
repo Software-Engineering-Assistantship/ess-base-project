@@ -45,7 +45,7 @@ And o restaurante com o nome "Almir quentinhas",  CNPJ “123321222”, email �
 
 Scenario: Cadastro bem sucedido de restaurante (GUI)
 Given estou na página de “Cadastrar restaurante”
-And não existe nenhum restaurante com o CNPJ “123321222” nem com o email “quentinhas@gmail.com” cadastrado no sistema
+And não existe nenhum restaurante com o CNPJ “123321222” nem com o email “adm_restaurante” cadastrado no sistema
 When o campo de “nome” é preenchido com “Quentinha refeições”
 And o campo de “CNPJ” é preenchido com “123321222”
 And o campo de “email” é preenchido com “quentinhas@gmail.com”
