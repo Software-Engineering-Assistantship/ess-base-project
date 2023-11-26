@@ -22,3 +22,6 @@ Ao aplicar um dos filtros disponíveis, apenas as turmas que atendem àquela condi
 
 Scenario: Nenhum conteúdo registrado
 Se nenhuma turma estiver cadastrada, deve aparecer uma mensagem na tela inicial.
+
+Scenario: Carregamento do conteúdo com sucesso
+As turmas cadastradas devem aparecer na sua respectiva seção ao acessar o sistema.
