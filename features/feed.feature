@@ -12,3 +12,7 @@ Scenario: Sem cadeiras cadastradas
 Given que nenhuma cadeira está cadastrada na seção “1° período - EC”
 When carregar a seção “1° período - EC”
 Then o sistema deve enviar uma mensagem de “nenhumaCadeiraRegistrada”.
+
+Scenario: Busca pelo nome da turma com sucesso
+As turmas cadastradas com correspondência parcial à busca devem ser exibidas.
+
