@@ -9,7 +9,7 @@ Scenario: Adicionando produto ao carrinho de compras
 Scenario: Limpando o carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
 	And o carrinho contém "1" unidade(s) de "Coxinha" por "1,00 $" do "Restaurante Glória Maria"
-	And o carrinho contém "1" unidade(s) de "Pastel" por "1,50 $" do "Restaurante Glória Maria Filha"
+	And o carrinho contém "1" unidade(s) de "Pastel" por "2,50 $" do "Restaurante Glória Maria Filha"
 	When eu clico na opção "Excluir"
 	And eu seleciono "Confirmar"
 	Then eu vejo um pop-up com "Carrinho esvaziado"
