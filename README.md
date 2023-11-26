@@ -1,3 +1,3 @@
 # Projeto de ESS - Ecomerce 
 
-Este projeto foi desenvolvido para disciplina de Engenharia de Software da UFPE.
+Esse projeto foi desenvolvido para cadeira de Engenharia de Software no Centro de Informática (CIn) da UFPE. A proposta é desenvolver um site de Ecommerce utilizando as metodologias e técnicas estudadas no curso.
