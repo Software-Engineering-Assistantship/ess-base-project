@@ -33,3 +33,11 @@ Scenario: Deletar uma conta
 	When eu deleto a conta
 	Then eu estou na página "Login"
 	And não estou logado no sistema
+
+Scenario: Editar nome de usuário com sucesso
+	Given estou logado com o nome de usuário "bafm"
+	And estou na página "Atualizar Cadastro de Usuário"
+	When eu edito o nome de usuário para "brenomiranda"
+	And o nome de usuário "brenomiranda" está disponível
+	Then eu estou na página "Perfil"
+	And estou logado com o nome de usuário "bafm" 
