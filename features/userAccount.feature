@@ -26,4 +26,18 @@ Scenario 4: Cadastrar uma conta com duas senhas diferentes
 	When eu preencho nome “Breno”, nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste2” 
 	Then eu estou na página “Cadastrar Conta”
 	And eu vejo a mensagem “As senhas não são iguais”
-	And (teste da questão 7e)
+
+Scenario: Deletar uma conta
+	Given estou logado com o nome de usuário "bafm"
+	And estou na página "Perfil"
+	When eu deleto a conta
+	Then eu estou na página "Login"
+	And não estou logado no sistema
+
+Scenario: Editar nome de usuário com sucesso
+	Given estou logado com o nome de usuário "bafm"
+	And estou na página "Atualizar Cadastro de Usuário"
+	When eu edito o nome de usuário para "brenomiranda"
+	And o nome de usuário "brenomiranda" está disponível
+	Then eu estou na página "Perfil"
+	And estou logado com o nome de usuário "bafm" 
