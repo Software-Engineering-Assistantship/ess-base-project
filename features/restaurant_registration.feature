@@ -53,3 +53,11 @@ And o campo de senha é preenchido com “12345678”
 And seleciono a opção “Cadastrar”
 Then consigo ver uma mensagem dizendo “Cadastro bem sucedido! Você será redirecionado para a página de login”
 And sou encaminhado para a página “login”
+
+
+Scenario: Remoção bem sucedida de um restaurante (GUI)
+Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222” “email_adm_restaurante” e “senha_adm_restaurante”
+And estou na página de “Meu perfil”
+When eu tento excluir o restaurante
+Then o restaurante é excluído do sistema
+And sou encaminhado para a página “login”
