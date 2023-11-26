@@ -33,3 +33,14 @@ Scenario: Finalizando um pedido sem itens
 	And o carrinho está vazio.
 	When eu seleciono "Finalizar pedido"
 	Then eu vejo um pop-up com "O carrinho está vazio, adicione algo antes de finalizar o pedido."
+
+Scenario: Removendo um item do carrinho de compras
+	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
+	And o carrinho contém "1" unidade(s) de "Ovo de Páscoa" por "100,00 $" do "Restaurante Glória Maria Conceição"
+	When eu clico na opção "Remover item" para o produto "Ovo de Páscoa" do "Restaurante Glória Maria Conceição"
+	And eu seleciono "Confirmar"
+	Then eu vejo um pop-up com "Produto removido"
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
