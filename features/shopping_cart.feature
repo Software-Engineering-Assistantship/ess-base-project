@@ -44,3 +44,11 @@ Scenario: Removendo um item do carrinho de compras
 	Then eu vejo um pop-up com "Produto removido"
 	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
 	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
+
+Scenario: Aumentando a quantidade de um item no carrinho de compras
+	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
+	When eu clico na opção "Mais um" para o produto "Pizza" do "Restaurante Glória Maria Conceição"
+	Then o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "2" unidade(s) de "Pizza" por "20,00 $" do "Restaurante Glória Maria Conceição"
