@@ -25,3 +25,4 @@ Se nenhuma turma estiver cadastrada, deve aparecer uma mensagem na tela inicial.
 
 Scenario: Carregamento do conteúdo com sucesso
 As turmas cadastradas devem aparecer na sua respectiva seção ao acessar o sistema.
+"ajuste no cenário fix"
