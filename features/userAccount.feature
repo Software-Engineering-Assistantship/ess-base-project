@@ -19,4 +19,10 @@ Scenario 3: Cadastrar uma conta faltando o nome
 	Given estou na página “Cadastrar Conta”
 	When eu preencho nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste” 
 	Then eu estou na página “Cadastrar Conta”
-And eu vejo a mensagem “Nome é um campo obrigatório”
+	And eu vejo a mensagem “Nome é um campo obrigatório”
+
+Scenario 4: Cadastrar uma conta com duas senhas diferentes
+	Given estou na página “Cadastrar Conta”
+	When eu preencho nome “Breno”, nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste2” 
+	Then eu estou na página “Cadastrar Conta”
+	And eu vejo a mensagem “As senhas não são iguais”
