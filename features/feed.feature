@@ -19,3 +19,6 @@ As turmas cadastradas com correspondência parcial à busca devem ser exibidas.
 
 Scenario: Aplicação do filtro com sucesso
 Ao aplicar um dos filtros disponíveis, apenas as turmas que atendem àquela condição devem ficar disponíveis.
+
+Scenario: Nenhum conteúdo registrado
+Se nenhuma turma estiver cadastrada, deve aparecer uma mensagem na tela inicial.
