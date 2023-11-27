@@ -36,3 +36,10 @@ And lê o QRCode e confirma o pagamento
 Then ele visualiza a mensagem "Pagamento confirmado"
 And ele pode efetuar suas compras
 
+Scenario: Cadastro de boleto com sucesso
+Given o usuário está logado com email "jorge123@gmail.com"
+And está na tela "Página de pagamento"
+When ele seleciona "Boleto"
+And lê código de barras ou digita o código e confirma o pagamento
+Then ele visualiza a mensagem "Pagamento confirmado"
+And ele pode efetuar suas compras
