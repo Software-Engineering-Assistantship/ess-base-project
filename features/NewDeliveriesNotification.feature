@@ -7,6 +7,7 @@ Scenario: Notificação em Tempo Real de Nova Entrega Atribuída
     Given não há entrega cadastrada com o id "del_1234"
     When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_7563"
     Then a empresa de entregas "log_7563" deve receber uma notificação com os parâmetros: category "new-deliver", title "Nova requisição de Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z"
+    And a requisição deve retornar status 201 e a mensagem "Nova entrega atribuída e notificada."
 
 Scenario: Notificação de Entrega Realizada para Empresa de Logística
 	Given a tabela de banco de dados de entregas
