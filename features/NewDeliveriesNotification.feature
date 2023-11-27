@@ -29,4 +29,9 @@ Scenario: Falha ao Cadastrar Nova Entrega
 Scenario: Falha ao Atualizar Status de Entrega
     Given uma entrega cadastrada com o id "del_1234" e o campo status com valor "Realizada"
     When uma requisição PATCH é feita para o endpoint "/deliveries/del_1234" com o campo status "Rejeitada"
-    Then o sistema deve retornar uma resposta com status 400 e a mensagem de erro "Não é possível atualizar o status da entrega 'del_1234' para 'Rejeitada' pois já está com status 'Realizada'"
+    Then o sistema deve retornar uma resposta com status 400 e a mensagem de erro "Não é possível atualizar o status da entrega 'del_1234' para 'Rejeitada' pois já está com status 'Realizada'"    
+    
+Scenario: Falha ao Notificar Empresa de Entregas
+    Given não há entrega cadastrada com o id "del_1234" e não há empresa de entregas cadastrada com o id "log_4463"
+    When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_4463"
+    Then o sistema deve retornar uma resposta com status 500 e a mensagem de erro "Falha ao notificar a empresa de entregas 'log_4463'"
