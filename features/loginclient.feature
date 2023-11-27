@@ -33,8 +33,7 @@ Scenario: Login fracassou pois um dos campos não foi preenchido
 	And eu tento realizar login apertando em “Confirmar”
 	Then eu devo ver uma mensagem de erro no login
 	And eu permaneço na aba “Login”
-
-Scenario: teste questão 3d
+Scenario: teste questão 7d
 Given ...
 When ...
 Then ...
