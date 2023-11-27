@@ -26,6 +26,7 @@ Scenario: Falha ao Cadastrar Nova Entrega
     Given uma entrega já cadastrada com o id "del_1234"
     When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_7563"
     Then o sistema deve retornar uma resposta com status 400 e a mensagem de erro "Entrega com o id 'del_1234' já cadastrada"
+    And a empresa de entregas "log_7563" não deve receber uma notificação
 
 Scenario: Falha ao Atualizar Status de Entrega
     Given uma entrega cadastrada com o id "del_1234" e o campo status com valor "Realizada"
