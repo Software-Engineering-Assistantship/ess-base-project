@@ -20,3 +20,16 @@ Feature: Gerenciar reviews
     Then uma notificação de erro é exibida
     And o usuário ainda está na mesma tela
     And a avaliação do usuário não é adicionada à lista de avaliações da cadeira
+
+    Scenario: Remover uma avaliação
+    Given que o usuário “Thiago” está na tela de “review” da cadeira “Cálculo”
+    And há uma review feita por este usuário
+    When o usuário clica no botão "Apagar"
+    Then essa avaliação é removida da lista de avaliações da cadeira
+    And o usuário é levado para a tela da cadeira
+
+    Scenario: Sair da tela de avaliação 
+	Given que o usuário “Thiago” está na tela de “review” da cadeira “Cálculo”
+	When o usuário aperta o botão "Cancelar"
+    Then o usuário é levado para a página da cadeira
+
