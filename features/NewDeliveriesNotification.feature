@@ -20,3 +20,13 @@ Scenario: Aceitar Entrega e Notificar Consumidor
     When uma requisição PATCH é feita para o endpoint "/deliveries/del_1234" com os campos: acceptedByCompany "true", deliverymanName "Ricardo"
     Then a entrega com id "del_1234" deve atualizar o campo status para "Aceita" e adicionar o campo deliverymanName com valor "Ricardo"
     And uma notificação deve ser enviada para o consumidor "cus_1655" com os campos: category "delivery-status-user", title "Entrega del_1234 aceita! Ela será realizada nas próximas 48 horas por Ricardo"
+
+Scenario: Falha ao Cadastrar Nova Entrega
+    Given uma entrega já cadastrada com o id "del_1234"
+    When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_7563"
+    Then o sistema deve retornar uma resposta com status 400 e a mensagem de erro "Entrega com o id 'del_1234' já cadastrada"
+
+Scenario: Falha ao Atualizar Status de Entrega
+    Given uma entrega cadastrada com o id "del_1234" e o campo status com valor "Realizada"
+    When uma requisição PATCH é feita para o endpoint "/deliveries/del_1234" com o campo status "Rejeitada"
+    Then o sistema deve retornar uma resposta com status 400 e a mensagem de erro "Não é possível atualizar o status da entrega 'del_1234' para 'Rejeitada' pois já está com status 'Realizada'"
