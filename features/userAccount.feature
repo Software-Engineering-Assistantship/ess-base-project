@@ -40,4 +40,4 @@ Scenario: Editar nome de usuário com sucesso
 	When eu edito o nome de usuário para "brenomiranda"
 	And o nome de usuário "brenomiranda" está disponível
 	Then eu estou na página "Perfil"
-	And estou logado com o nome de usuário "bafm" 
+	And estou logado com o nome de usuário "brenomiranda" 
