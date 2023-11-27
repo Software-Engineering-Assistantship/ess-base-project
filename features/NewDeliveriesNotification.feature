@@ -43,3 +43,4 @@ Scenario: Falha ao Notificar Consumidor
     When uma requisição PATCH é feita para o endpoint "/deliveries/del_1234" com os campos: acceptedByCompany "true", deliverymanName "Ricardo"
     And a notificação para o consumidor "cus_1655" falha
     Then o sistema deve retornar uma resposta com status 500 e a mensagem de erro "Falha ao notificar o consumidor 'cus_1655'"
+    And a entrega com id "del_1234" deve manter o campo status como "Aceita" e não deve adicionar o campo deliverymanName
