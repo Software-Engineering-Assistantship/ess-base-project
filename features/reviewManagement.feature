@@ -27,3 +27,8 @@ Feature: Gerenciar reviews
     Then essa avaliação é removida da lista de avaliações da cadeira
     And o usuário é levado para a tela da cadeira
 
+    Scenario: Sair da tela de avaliação 
+	Given que o usuário “Thiago” está na tela de “review” da cadeira “Cálculo”
+	When o usuário aperta o botão "Cancelar"
+    Then o usuário é levado para a página da cadeira
+
