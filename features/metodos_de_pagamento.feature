@@ -33,5 +33,6 @@ Given o usuário está logado com email "jorge123@gmail.com"
 And está na tela "Página de pagamento"
 When ele seleciona "Pix"
 And lê o QRCode e confirma o pagamento
-Then ele visualiza a mensagem "Cartão cadastrado com sucesso"
+Then ele visualiza a mensagem "Pagamento confirmado"
 And ele pode efetuar suas compras
+
