@@ -33,3 +33,4 @@ Scenario: Login fracassou pois um dos campos não foi preenchido
 	And eu tento realizar login apertando em “Confirmar”
 	Then eu devo ver uma mensagem de erro no login
 	And eu permaneço na aba “Login”
+	And passo extra Q7e
