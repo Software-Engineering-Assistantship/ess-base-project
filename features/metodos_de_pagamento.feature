@@ -27,4 +27,5 @@ When ele seleciona "Novo cartão de crédito"
 And digita o número do cartão "9999 9999 9999 9999", nome do titular "Jorge Silva" e CVV "111" corretamente
 And clica em "Cadastrar"
 Then ele visualiza a mensagem "Cartão já cadastrado. Tente outro cartão."
+And ele não pode efetuar suas compras
 
