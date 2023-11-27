@@ -20,6 +20,13 @@ Scenario: Limpando o carrinho de compras
 	Then eu vejo um pop-up com "Carrinho esvaziado"
 	And o carrinho está vazio
 
+Scenario: Consulta ao Banco de Dados carrega o carrinho do usuário após login
+	Given eu estou na tela “Login”
+	When eu faço login como “lgaj@cin.ufpe.br”
+	Then uma requisição "GET" para "/carrinho" é enviada
+	And o status da resposta deve ser "200"
+	And o JSON da resposta contém a lista de itens no carrinho do usuário “lgaj@cin.ufpe.br”
+
 Scenario: Diminuindo a quantidade de um item com uma unidade no carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
 	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
