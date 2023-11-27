@@ -19,4 +19,4 @@ Feature: Gerenciar reviews
     When o usuário não preenche o campo “Nota” com um número entre 0 e 10 e clica no botão “Enviar”
     Then uma notificação de erro é exibida
     And o usuário ainda está na mesma tela
-
+    And a avaliação do usuário não é adicionada à lista de avaliações da cadeira
