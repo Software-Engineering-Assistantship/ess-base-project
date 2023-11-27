@@ -28,3 +28,10 @@ And digita o número do cartão "9999 9999 9999 9999", nome do titular "Jorge Si
 And clica em "Cadastrar"
 Then ele visualiza a mensagem "Cartão já cadastrado. Tente outro cartão."
 
+Scenario: Cadastro de pix com sucesso
+Given o usuário está logado com email "jorge123@gmail.com"
+And está na tela "Página de pagamento"
+When ele seleciona "Pix"
+And lê o QRCode e confirma o pagamento
+Then ele visualiza a mensagem "Cartão cadastrado com sucesso"
+And ele pode efetuar suas compras
