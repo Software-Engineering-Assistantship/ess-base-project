@@ -17,3 +17,19 @@ Scenario: Login fracassou pois a senha está incorreta
 	And eu tento realizar login apertando em “Confirmar”
 	Then eu devo ver uma mensagem de erro no login
 	And eu permaneço na aba “Login”
+
+Scenario: Login fracassou pois o email não está cadastrado
+	Given eu estou na aba “Login”
+	When eu preencho o campo de email com um email não cadastrado “abcde@cin.ufpe.br”
+	And eu preencho o campo de senha com uma senha qualquer “12345”
+	And eu tento realizar login apertando em “Confirmar”
+	Then eu devo ver uma mensagem de erro no login
+	And eu permaneço na aba “Login”
+
+Scenario: Login fracassou pois um dos campos não foi preenchido
+	Given eu estou na aba “Login”
+	When eu preencho o campo de email com um email cadastrado “cvmfc@cin.ufpe.br”
+	And eu não preencho o campo de senha
+	And eu tento realizar login apertando em “Confirmar”
+	Then eu devo ver uma mensagem de erro no login
+	And eu permaneço na aba “Login”
