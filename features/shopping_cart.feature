@@ -1,3 +1,8 @@
+Feature: Shopping Cart
+	As a usuário
+	I want escolher os itens que desejo pedir
+	So that eu posso pagar por eles e receber meus produtos
+
 Scenario: Adicionando produto ao carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Restaurantes"
 	When eu vejo "Coxinha" do "Restaurante Glória Maria" como opção
