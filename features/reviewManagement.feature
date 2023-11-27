@@ -20,3 +20,10 @@ Feature: Gerenciar reviews
     Then uma notificação de erro é exibida
     And o usuário ainda está na mesma tela
 
+    Scenario: Remover uma avaliação
+    Given que o usuário “Thiago” está na tela de “review” da cadeira “Cálculo”
+    And há uma review feita por este usuário
+    When o usuário clica no botão "Apagar"
+    Then essa avaliação é removida da lista de avaliações da cadeira
+    And o usuário é levado para a tela da cadeira
+
