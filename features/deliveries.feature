@@ -15,6 +15,10 @@ When a new request PATCH is made for an end point "/delivery-people" with the bo
 adress: "Rua Y, número 02"
 Then The new adress of the person with id "1" will be registed
 
-
+Scenario: Demição de um funcionário 
+Given the person with id "1" was fired
+When a new When a new request PATCH is made for an end point "/delivery-people" with the body: id "1" will change the wild status for
+status:"not working" 
+Then The new status of the person with id "1" will be registed
 
 
