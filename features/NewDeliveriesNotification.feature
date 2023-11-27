@@ -22,6 +22,12 @@ Scenario: Aceitar Entrega e Notificar Consumidor
     Then a entrega com id "del_1234" deve atualizar o campo status para "Aceita" e adicionar o campo deliverymanName com valor "Ricardo"
     And uma notificação deve ser enviada para o consumidor "cus_1655" com os campos: category "delivery-status-user", title "Entrega del_1234 aceita! Ela será realizada nas próximas 48 horas por Ricardo"
 
+Scenario: Rejeitar Entrega
+    Given uma entrega cadastrada com o id "del_1234" e os campos: title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_7563"
+    When uma requisição PATCH é feita para o endpoint "/deliveries/del_1234" com o campo acceptedByCompany "false", reason "Não temos entregadores disponíveis"
+    Then a entrega com id "del_1234" deve atualizar o campo status para "Rejeitada" e adicionar o campo reason com valor "Não temos entregadores disponíveis"
+    And uma notificação deve ser enviada para o consumidor "cus_1655" com os campos: category "delivery-status-user", title "Entrega del_1234 rejeitada, pois não temos entregadores disponíveis"
+
 Scenario: Falha ao Cadastrar Nova Entrega
     Given uma entrega já cadastrada com o id "del_1234"
     When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_7563"
@@ -51,4 +57,3 @@ Scenario: Falha ao Notificar Empresa de Entregas
     Given não há entrega cadastrada com o id "del_1234" e não há empresa de entregas cadastrada com o id "log_4463"
     When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_4463"
     Then o sistema deve retornar uma resposta com status 500 e a mensagem de erro "Falha ao notificar a empresa de entregas 'log_4463'"
-
