@@ -32,11 +32,6 @@ Scenario: Falha ao Atualizar Status de Entrega
     When uma requisição PATCH é feita para o endpoint "/deliveries/del_1234" com o campo status "Rejeitada"
     Then o sistema deve retornar uma resposta com status 400 e a mensagem de erro "Não é possível atualizar o status da entrega 'del_1234' para 'Rejeitada' pois já está com status 'Realizada'"
     And a entrega com id "del_1234" não deve ter seu campo status atualizado para "Rejeitada" 
-    
-Scenario: Falha ao Notificar Empresa de Entregas
-    Given não há entrega cadastrada com o id "del_1234" e não há empresa de entregas cadastrada com o id "log_4463"
-    When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_4463"
-    Then o sistema deve retornar uma resposta com status 500 e a mensagem de erro "Falha ao notificar a empresa de entregas 'log_4463'"
 
 Scenario: Falha ao Notificar Consumidor
     Given uma entrega cadastrada com o id "del_1234" e os campos: title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_7563"
@@ -44,3 +39,9 @@ Scenario: Falha ao Notificar Consumidor
     And a notificação para o consumidor "cus_1655" falha
     Then o sistema deve retornar uma resposta com status 500 e a mensagem de erro "Falha ao notificar o consumidor 'cus_1655'"
     And a entrega com id "del_1234" deve manter o campo status como "Aceita" e não deve adicionar o campo deliverymanName
+
+Scenario: Falha ao Notificar Empresa de Entregas
+    Given não há entrega cadastrada com o id "del_1234" e não há empresa de entregas cadastrada com o id "log_4463"
+    When uma nova requisição POST é feita para o endpoint "/deliveries" com o body: id "del_1234", title "Livro", customer "cus_1655", address "Avenida Agamenon Magalhães, 12, Recife-PE", deadline "2021-10-10T10:00:00.000Z", deliveryCompany "log_4463"
+    Then o sistema deve retornar uma resposta com status 500 e a mensagem de erro "Falha ao notificar a empresa de entregas 'log_4463'"
+
