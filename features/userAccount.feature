@@ -1,7 +1,7 @@
 Feature: Cadastrar uma conta
-As a usuário 
-I want to ser capaz de cadastrar um conta
-So that eu acessar o sistema de reviews
+	As a usuário 
+	I want to ser capaz de cadastrar um conta
+	So that eu acessar o sistema de reviews
 
 Scenario 1: Cadastrar uma conta com todas as informações corretas
 	Given estou na página “Cadastrar Conta”
