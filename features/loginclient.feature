@@ -38,6 +38,6 @@ commit teste main q13c
 commit teste dev q13c
 
 Scenario: teste main q14
-	Given ...
+	Given ... ajuste q14a
 	When ... ajuste q14a
-	Then ...
+	Then ... ajuste q14a
