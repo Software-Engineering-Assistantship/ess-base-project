@@ -10,6 +10,7 @@ Scenario: Cadastro de Usuário com Sucesso
     | Pedro Correia  | 123.456.789-09  | 01/01/1990         | pedrocorreia@meuemail.com  | pedrocorreia | SenhaSegura123  |
     And clica em "Cadastrar"
     Then uma mensagem de confirmação é exibida indicando que o cadastro foi concluído com sucesso
+    And o usuário "Pedro Correia" é redirecionado para a página de "Login"
 
 Scenario: Falha no Cadastro de Usuário por Campo em Branco
     Given que o usuário "Alice Almeida" acessa a página de "Cadastro de Usuário"
