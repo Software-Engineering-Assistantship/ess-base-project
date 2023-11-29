@@ -61,8 +61,21 @@ When seleciona a opção "Outros".
 And seleciona a opção "Confirmar Cancelamento".
 Then há uma "notificação" informando "É necessário o preenchimento da senha".
 
+Scenario: Voltar para página inicial.
+Given eu estou logado como "João" com senha "senha".
+And eu estou na página "Pedidos em Andamento". 
+When seleciona a opção "Voltar". 
+Then eu estou na página "Pagina Inicial".
+
 Scenario: Verificação cancelamento.
 Given um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
 When uma requisição de "DELETE" é enviada para "PedidosEmAndamento/001". 
 And o status da resposta deve ser "200". 
-And uma mensagem de "Pedido cancelado" deve ser retornada.
+Then uma mensagem de "Pedido cancelado" deve ser retornada.
+
+Scenario: Verificação Status do Pedido.
+Given um pedido com número "002" está registrado no sistema de "Pedidos em andamento".
+When uma requisição de "GET" é enviada para "PedidosEmAndamento/002/Status".
+Then o status da resposta deve ser "200".
+And a resposta contém id "002" and nome "Status".
+
