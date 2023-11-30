@@ -12,10 +12,10 @@ Then As duas senhas são iguais
 
 
 Scenario: E-mail usado no cadastro já está cadastrado
-Given Existe um email “cvsj@cin.ufpe.br” no BD
-And Estou cadastrando um usuário que usa o e-mail “cvsj@cin.ufpe.br”	
-When O usuário tenta efetuar o cadastro
-Then é feita uma consulta ao Banco de Dados
-AND É verificado que o e-mail já esta cadastrado
-AND o usuário é notificado
-AND o cadastro não é efetuado
+Given um cliente cadastrado no sistema com os dados “user1” “123321222”, email “cvsj@cin.ufpe.br” e senha “123456”	
+When uma requisição “POST” é enviada para “/clients” com os valores “user2”,  “123321221”, email “cvsj@cin.ufpe.br”, senha “123456”
+Then é retornada uma mensagem com status "409"
+And retorna uma mensagem "e-mail já cadastrado"
+And o cliente "user2" não está salvo no banco de dados
+
+
