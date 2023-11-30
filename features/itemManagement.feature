@@ -32,4 +32,5 @@ Given Estou na home do aplicativo
 When Clico no restaurante “Hamburgueria Tchobers”
 Then Visualizo a lista atual de itens do cardápio
 And Vejo a lista com informações resumidas de cada item, como preço, descrição e nome
+And Ajuste no cenário
 
