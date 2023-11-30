@@ -23,3 +23,9 @@ And outro usuário logado como "Thiago" cadastrou previamente uma review com not
 And outro usuário logado como "Camila" cadastrou previamente uma review com nota "9" para a disciplina "Sistema Digitais"
 When o usuário "Paulo"acessar a página principal da cadeira "Sistemas Digitais"
 Then  o usuário "Paulo" irá ver a nota "7" na seção "média das reviews" na página principal da cadeira "Sistemas Digitais"
+
+Scenario 4: Tentar visualizar as reviews de uma cadeira sem reviews cadastrados
+Given o usuário "Paulo" está logado e na página principal da cadeira "Sistemas Digitais"
+And não há reviews cadastradas na cadeira "Sistema Digitais"
+When o usuário "Paulo" ir para a seção de "Reviews" na página de "Sistemas Digitais"
+Then uma mensagem indicando ausência de reviews será mostrada para o usuário "Paulo"
