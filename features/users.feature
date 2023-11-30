@@ -45,6 +45,6 @@ Scenario: Falha na Atualização de Informações do Usuário por Login Vazio
     Given que o usuário "Alcides Campos" esta logado no sistema
     And que o usuário "Alcides Campos" acessa a página de "Atualização do Cadastro"
     When preenche somente os campos obrigatórios:
-    | Novo Nome    | Novo Login  | Nova Senha    |
-    | Carlos Silva |             | NovaSenha2234 |
+    | Novo Nome     | Novo Login  | Nova Senha    |
+    | Alcides Silva |             | SenhaSegura23 |
     Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à "Falta de Preenchimento no Login"
