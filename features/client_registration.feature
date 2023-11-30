@@ -18,4 +18,19 @@ Then é retornada uma mensagem com status "409"
 And retorna uma mensagem "e-mail já cadastrado"
 And o cliente "user2" não está salvo no banco de dados
 
+Scenario: CPF usado no cadastro já está cadastrado
+Given um cliente cadastrado no sistema com os dados “user1” “123321222”, email “user2_email” e senha “123456”	
+When uma requisição “POST” é enviada para “/clients” com os valores “user2”,  “123321222”, email “user_email”, senha “123456”
+Then é retornada uma mensagem com status "409"
+And retorna uma mensagem "CPF já cadastrado"
+And o cliente "user2" não está salvo no banco de dados
+
+
+Scenario : Alteração de e-mail mal sucedida
+GIVEN: Given um cliente cadastrado no sistema com os dados “user1” “123321222”, email “cvsj@cin.ufpe.br” e senha “123456”	
+When uma requisição “PUT” é enviada para “/clients” com os valores “user2”,  “123321221”, email “cvsj@cin.ufpe.br”, senha “129786”
+Then é retornada uma mensagem com status "409"
+And retorna uma mensagem "Falha na atualização do e-mail"
+And o e-mail do user2 não é alterado
+
 
