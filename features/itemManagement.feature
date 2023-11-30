@@ -1,0 +1,1 @@
+Atualização, deleção, listagem e criação de itens do cardápio de um restaurante.
