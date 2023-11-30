@@ -14,4 +14,4 @@ Given o usuário "Paulo" está logado e na página principal da cadeira "Sistema
 And outro usuário logado como "Marcela" cadastrou previamente uma review com nota "9" para a disciplina "Sistema Digitais"  no dia "20/1/2023"
 And outro usuário logado como "Thiago" cadastrou previamente uma review com nota "8" para a disciplina "Sistema Digitais"  no dia "1/2/2023"
 When o usuário "Paulo" ir para a seção de "Reviews" na página de "Sistemas Digitais"
-Then o usuário "Paulo" irá ver primeiro a review de "Thiago", com nota "8", e, logo abaixo, o usuário "Paulo" irá ver a review de "Marcela", com nota "8"
+Then o usuário "Paulo" irá ver primeiro a review de "Thiago", com nota "8", e, logo abaixo, o usuário "Paulo" irá ver a review de "Marcela", com nota "9"
