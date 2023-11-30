@@ -16,3 +16,4 @@ And Recebo um modal de confirmação da deleção do item
 And Aperto na opção de confirmar a deleção
 Then sou redirecionado para a tela de listagem de itens
 And Não vejo mais o item com o nome “Hamburguer 02” na listagem e obtenho uma uma mensagem de confirmação da deleção
+And Adding specified step (Passo apenas para o roteiro)
