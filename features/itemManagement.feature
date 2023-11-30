@@ -34,8 +34,12 @@ Then Visualizo a lista atual de itens do cardápio
 And Vejo a lista com informações resumidas de cada item, como preço, descrição e nome
 And Ajuste no cenário
 
-
-
-test
+Cenário: Deleção de um item do cardápio
+Given Estou na tela de gerenciamento do item com nome “Hamburguer 03”
+When Seleciono a opção de deletar o item
+And Recebo um modal de confirmação da deleção do item
+And Aperto na opção de confirmar a deleção
+Then sou redirecionado para a tela de listagem de itens
+And Não vejo mais o item com o nome “Hamburguer 03” na listagem e obtenho uma uma mensagem de confirmação da deleção
 
 
