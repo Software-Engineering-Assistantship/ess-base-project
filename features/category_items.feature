@@ -29,3 +29,8 @@ Scenario (GUI): Adição um item a uma categoria existente
     And eu escolho um item existente
     And eu clico em “Confirmar”
     Then eu vejo uma mensagem de sucesso e o cardápio atualizado com o item embaixo da categoria
+
+Scenario: Visualizar as categorias de um restaurante
+    Given que eu estou logado no sistema
+    When eu acesso a funcionalidade de visualizar cardápio de um restaurante 
+    Then eu vejo as categorias já criadas neste restaurante
