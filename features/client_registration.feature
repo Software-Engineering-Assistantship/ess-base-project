@@ -32,5 +32,5 @@ When uma requisição “PUT” é enviada para “/clients” com os valores �
 Then é retornada uma mensagem com status "409"
 And retorna uma mensagem "Falha na atualização do e-mail"
 And o e-mail do user2 não é alterado
-
+And o user volta para a tela inicial
 
