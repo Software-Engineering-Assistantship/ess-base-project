@@ -38,7 +38,7 @@ Scenario: Cadastro bem sucedido de cliente
 Given não existe nenhum cliente com o CPF “71254959411” nem com o email “comercomer@gmail.com” cadastrado no sistema
 When uma requisição “POST” é enviada para “/clients” com os valores “User1”,  “71254959411”, email “comercomer@gmail.com”, senha “clientqualquer”
 Then é retornada uma mensagem com status “201”
-And retorna uma mensagem “Clinte User1 salvo no banco de dados”
+And retorna uma mensagem “Cliente User1 salvo no banco de dados”
 And mensagem “Cadastro Concluído” 
 
 Scenario: Remover Conta
