@@ -5,9 +5,11 @@ And Insiro os dados do novo item do cardápio
 And Salvo as informações
 Then Sou redirecionado de volta para a tela de listagem de itens
 Then Vejo o novo item do cardápio na lista com todas as suas informações
+Then final adjustments
 
 Scenario: Leitura de todos os itens do cardápio de um restaurante
 Given Estou na home do aplicativo
 When Eu clico no restaurante desejado
 When Visualizo a lista atual de itens do cardápio
 Then Vejo a lista com informações resumidas de cada item, incluindo nome e outras informações relevantes
+Then final adjustments
