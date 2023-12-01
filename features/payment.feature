@@ -34,6 +34,6 @@ And O status do meu pedido é atualizado para "Em Preparo"
 
 Scenario: Adicionar um novo cartão como forma de pagamento 
 Given Um usuário cadastrado no sistema com id “3”
-When Eu faço uma requisição POST para a rota “/usuario/3/pagamento” com Numero “************4729”, com o CVV “X”,  Data de Validade “Y” e nome do titular “Maria Kenderessy”
+When Eu faço uma requisição POST para a rota “/usuario/3/pagamento” com Numero “************4823”, com o CVV “X”,  Data de Validade “Y” e nome do titular “Maria Kenderessy”
 Then Eu recebo uma resposta 200
 And A resposta JSON deve conter “Cartão Cadastrado”
