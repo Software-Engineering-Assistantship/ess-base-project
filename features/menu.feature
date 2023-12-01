@@ -26,7 +26,13 @@ And Seleciono para salvar as alterações
 Then Sou redirecionado de volta para a tela de listagem de itens
 And Vejo o item atualizado com o nome “Hambúrguer 03” com uma mensagem de confirmação
 
-Fixing scenarios
+Scenario: Deleção de um item do cardápio
+Given Estou na tela de gerenciamento do item com nome “Hambúrguer 02”
+When Seleciono a opção de deletar o item
+And Recebo um modal de confirmação da deleção do item
+And Aperto na opção de confirmar a deleção
+Then sou redirecionado para a tela de listagem de itens
+And Não vejo mais o item com o nome “Hambúrguer 02” na listagem e obtenho uma uma mensagem de confirmação da deleção
 
-Main branch changes
-Dev branch changes
+small adjustment
+
