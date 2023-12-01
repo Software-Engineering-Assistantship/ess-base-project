@@ -29,3 +29,4 @@ Scenario (GUI): Adição um item a uma categoria existente
     And eu escolho um item existente
     And eu clico em “Confirmar”
     Then eu vejo uma mensagem de sucesso e o cardápio atualizado com o item embaixo da categoria
+    And eu posso acessar o item novo
