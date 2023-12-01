@@ -24,5 +24,5 @@ Scenario: Remover um Item do Menu
     Then o usuário preenche os campos obrigatórios da remoção, que incluem nome ("ccc") e quantidade ("1")
     And o usuário confirma a exclusão ao clicar no botão "Remover"
     Then o sistema exibe uma mensagem indicando que o item "ccc" foi removido com sucesso do menu
-    And o item não está mais visível na lista de itens disponíveis.
-
+    And o item não está mais visível na lista de itens disponíveis
+    Then o item "ccc" não faz mais parte do menu
