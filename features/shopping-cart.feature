@@ -8,7 +8,7 @@ And Eu vejo uma mensagem de confirmação para a exclusão do item
 And Eu clico em "Confirmar"
 Then O item "Whopper" de ID "48372847" não está mais no carrinho
 
-Scenario: Remover quantidade de item
+Scenario: Mudança teste
 Given Eu estou na tela "Carrinho" como cliente
 And Tenho o item "Whopper" que custa "20,99" cadastrado no carrinho em quantidade "2"
 When Eu clico em “+1” para o item "Whopper" 
