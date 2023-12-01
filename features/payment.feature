@@ -9,7 +9,8 @@ And Eu vejo os últimos 4 números “4729” na lista de cartões cadastrados
 
 Scenario: Excluir um Cartão
 Given Eu estou no menu “Formas de pagamento”
-And O usuário de username “clara_abk” tem o cartão com número “************4723” cadastrado
-When Eu clico em “Excluir” para o cartão com número “************4723”
+And O usuário de username “clara_abk” tem o cartão com número “************4823” cadastrado
+When Eu clico em “Excluir” para o cartão com número “************4823”
 Then Eu vejo uma mensagem de confirmação para a exclusão do cartão
-And O cartão com número “************4723” não está mais na lista de cartões cadastrados
+And O cartão com número “************4823” não está mais na lista de cartões cadastrados
+
