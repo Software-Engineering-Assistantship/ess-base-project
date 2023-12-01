@@ -47,3 +47,10 @@ When O usuário seleciona a opção "remover conta"
 Then As informações são removidas do banco de dados
 And aparece uma mensagem "Conta removida"
 And o usuário volta para a tela de login
+
+
+Scenario: Remover conta - Serviço
+Given existe um cliente cadastrado no sistema com os dados “user3" “123321222”, email “soucliente” e senha “jk123”
+When uma requisição “DELETE” é enviada para “/clients/{id}”
+Then o cliente “user3" não está mais salvo no banco de dados
+And é retornada uma mensagem com o status “200” e mensagem “cliente excluído com sucesso”
