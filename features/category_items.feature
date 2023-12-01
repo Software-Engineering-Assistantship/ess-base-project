@@ -7,13 +7,6 @@ Scenario: Criar uma categoria de item no cardápio
     Then eu recebo uma resposta 201 com a mensagem “Category created”
     And a categoria é registrada no banco de dados
 
-Scenario: Criar uma categoria de item no cardápio com um nome já utilizado
-
-    Given que eu estou logado no sistema como restaurante  
-    When eu faço uma requisição POST para a rota “/item-category” com o nome já utilizado de uma categoria
-    Then eu recebo uma resposta 400 com a mensagem “Bad Request”
-    And a categoria é não registrada no banco de dados
-
 Scenario: Criar uma categoria de item no cardápio com um nome já utilizado:
 
     Given que eu estou logado no sistema como restaurante  
@@ -45,3 +38,10 @@ Scenario (GUI): Visualizar as categorias de um restaurante
     Given que eu estou logado no sistema
     When eu acesso a funcionalidade de visualizar cardápio de um restaurante 
     Then eu vejo as categorias já criadas neste restaurante
+
+Scenario: Criar uma categoria de item de cardápio com um nome já utilizado
+
+    Given que eu estou logado no sistema como restaurante  
+    When eu faço uma requisição POST para a rota “/item-category” com o nome já utilizado de uma categoria
+    Then eu recebo uma resposta 400 com a mensagem “Bad Request”
+    And a categoria é não registrada no banco de dados
