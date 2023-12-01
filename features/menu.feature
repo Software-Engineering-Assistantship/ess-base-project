@@ -21,7 +21,9 @@ Then final adjustments
 
 Scenario: Atualização de um item do cardápio
 Given Estou na tela de editar um item com nome “Hambúrguer 02”
-When Modifico a informação de nome para “Hambúrguer 03” 
+When Modifico a informação de nome para “Hambúrguer 03”
 And Seleciono para salvar as alterações
 Then Sou redirecionado de volta para a tela de listagem de itens
 And Vejo o item atualizado com o nome “Hambúrguer 03” com uma mensagem de confirmação
+
+Fixing scenarios
