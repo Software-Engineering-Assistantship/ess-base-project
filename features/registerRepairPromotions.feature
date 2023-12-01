@@ -21,6 +21,16 @@ Scenario: Cadastro de uma promoção em um produto sem promoção prévia (Falha
 	Then abacaxi não tem o preço modificado
     Then o sistema exibe uma mensagem de erro
 
+Scenario: Visualização de histórico de promoções
+	Given Um usuário está logado como admin 
+	And Estou na tela de visualização de produtos já cadastrados
+	When o usuário entra na tela de edição do preço/promoção do produto “Copo térmico” que vai ter seu histórico acessado
+    And visualiza as características do produto
+    And visualiza o botão Histórico de promoções
+    When o usuário acessa o histórico
+    Then o produto permanece sem alteração de preço
+
+
 Scenario: Cadastro de uma promoção em um produto com promoção prévia (Falha)
     Given Um usuário está logado como admin
     And Estou na tela de visualização de produtos já cadastrados
