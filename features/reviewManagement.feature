@@ -8,7 +8,7 @@ Feature: Gerenciar reviews
     Scenario: Adicionar uma avaliação
     Given que o usuário “Thiago” está na tela de “review” da cadeira “Cálculo”
     And  o usuário não cadastrou um review para essa cadeira ainda
-    When o usuário preenche o campo “Nota” com um número entre 0 e 10 e clica no botão “Enviar”
+    When o usuário preenche o campo “Nota” com um número entre "0" e "10" e clica no botão “Enviar”
     Then a avaliação do usuário é adicionada à lista de avaliações da cadeira
     And o usuário é levado para a página da cadeira
     And uma notificação de confirmação é exibida
