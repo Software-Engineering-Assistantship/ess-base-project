@@ -24,14 +24,14 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     When preenche todos os campos obrigatórios, incluindo:
     | Nome           | CPF             | Data de Nascimento | E-mail                      | Login         | Senha            |
     | Samuel Barbosa | 123.456.789-10  | 03/03/1993         | samuelbarbosa@meuemail.com  | samuelbarbosa | SamuelBarbosa123 | 
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Uma Senha Inválida Devido Nome na Senha"
+    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Senha Inválida Devido Nome na Senha"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento
     Given que o usuário "Marcos Vinícuis" acessa a página de "Cadastro de Usuário"
     When preenche todos os campos obrigatórios, incluindo:
     | Nome            | CPF             | Data de Nascimento | E-mail                       | Login          | Senha           |
     | Marcos Vinícuis | 123.456.789-08  | 04/04/1994         | marcosvinicius@meuemail.com  | marcosvinicius | Senha04041994   | 
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Uma Senha Inválida Devido Data de Nascimento na Senha"
+    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Senha Inválida Devido Data de Nascimento na Senha"
 
 Scenario: Atualização de Informações do Usuário com Sucesso
     Given que o usuário "Carlos Tavares" esta logado no sistema
@@ -45,9 +45,15 @@ Scenario: Falha na Atualização de Informações do Usuário por Login Vazio
     Given que o usuário "Alcides Campos" esta logado no sistema
     And que o usuário "Alcides Campos" acessa a página de "Atualização do Cadastro"
     When preenche somente os campos obrigatórios:
-    | Novo Nome     | Novo Login  | Nova Senha    |
-    | Alcides Silva |             | SenhaSegura23 |
+    | Novo Nome    | Novo Login  | Nova Senha    |
+    | Carlos Silva |             | NovaSenha2234 |
     Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à "Falta de Preenchimento no Login"
 
+Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida
+    Given que o usuário "Teresa Martins" esta logado no sistema
+    And que o usuário "Teresa Martins" acessa a página de "Atualização do Cadastro"
+    When preenche todos os campos obrigatórios, incluindo:
+    | Novo Nome     | Novo Login   | Nova Senha     |
+    | Teresa Santos | teresasantos | TeresaSantos23 |
+    Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à "Senha Inválida Devido Nome na Senha"
 
-"Git teste branch main"
