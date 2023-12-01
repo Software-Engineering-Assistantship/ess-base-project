@@ -25,7 +25,7 @@ When o usuário "Paulo"acessar a página principal da cadeira "Sistemas Digitais
 Then  o usuário "Paulo" irá ver a nota "7" na seção "média das reviews" na página principal da cadeira "Sistemas Digitais"
 
 Scenario 4: Tentar visualizar as reviews de uma cadeira sem reviews cadastrados
-Given o usuário "Paulo" está logado e na página principal da cadeira "Sistemas Digitais"
-And não há reviews cadastradas na cadeira "Sistema Digitais"
-When o usuário "Paulo" ir para a seção de "Reviews" na página de "Sistemas Digitais"
+Given o usuário "Paulo" está logado e na página principal da cadeira "Sanidade"
+And não há reviews cadastradas na cadeira "Sanidade"
+When o usuário "Paulo" ir para a seção de "Reviews" na página de "Sanidade"
 Then uma mensagem indicando ausência de reviews será mostrada para o usuário "Paulo"
