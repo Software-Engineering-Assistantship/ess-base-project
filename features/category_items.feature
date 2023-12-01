@@ -31,7 +31,7 @@ Scenario (GUI): Adição um item a uma categoria existente
     Then eu vejo uma mensagem de sucesso e o cardápio atualizado com o item embaixo da categoria
     And eu posso acessar o item novo
 
-Scenario (GUI): Adição um item a uma categoria existente
+Scenario (GUI): Adição um item a uma categoria já existente
 
 	Given que eu estou logado no sistema como restaurante  
 	And existe uma categoria de item criada no cardápio
