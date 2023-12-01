@@ -43,3 +43,11 @@ Scenario: Atualizar Detalhes de um Item Existente no Menu
     And o usuário seleciona a opção "Salvar alterações"
     Then o sistema exibe uma mensagem de confirmação "Item alterado" indicando que as alterações foram salvas com sucesso
     And o preço do item "bbb" é atualizado para "$2.00" na lista de itens do menu.
+
+Scenario: Remover um item do banco de dados
+    Given um usuário com id "2525" envia uma requisição DELETE para a rota /itens com nome "aaa" e quantidade "1"
+    And o banco de dados requisita os campos nome e quantidade como obrigatórios
+    And o item com nome “aaa” está previamente cadastrado no banco de dados
+    When a requisição DELETE é enviada para a rota /itens com nome "aaa" e quantidade "1"
+    Then o Status da resposta deve ser 200
+    And a resposta deve conter a mensagem "Item successfully deleted"
