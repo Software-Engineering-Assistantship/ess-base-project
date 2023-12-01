@@ -29,3 +29,8 @@ Given o usuário "Paulo" está logado e na página principal da cadeira "Sanidad
 And não há reviews cadastradas na cadeira "Sanidade"
 When o usuário "Paulo" ir para a seção de "Reviews" na página de "Sanidade"
 Then uma mensagem indicando ausência de reviews será mostrada para o usuário "Paulo"
+
+Scenario 5: Ordenar as reviews de uma cadeira da mais antiga até a mais nova
+Given o usuário "Paulo" está vendo as reviews da cadeira "Métodos Numéricos"
+When o usuário "Paulo" seleciona que quer ordenar as reviews por publicações mais antigas
+Then o usuário "Paulo" irá ver as reviews de forma ordenada, da mais antiga até a mais recente
