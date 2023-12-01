@@ -22,3 +22,12 @@ And Eu cadastro o cupom com código “DESC10” e percentual de desconto “10%
 Then Eu vejo uma mensagem de confirmação
 And Eu vejo o cupom com código “DESC10” na lista de cupons cadastrados
 
+Scenario: Pagamento por PIX ao Fazer um Pedido
+Given Eu estou no menu de “Pagamento”
+And Eu adicionei itens ao meu carrinho de compras
+And Eu selecionei a opção de pagamento por PIX
+When Eu confirmo o pedido
+Then Eu vejo um código copia-cola para pagamento de Pix
+And Eu completo o pagamento usando meu aplicativo de banco
+And Eu recebo uma confirmação do restaurante sobre o recebimento do pagamento por PIX
+And O status do meu pedido é atualizado para "Em Preparo"
