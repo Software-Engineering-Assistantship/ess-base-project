@@ -40,3 +40,9 @@ Then é retornada uma mensagem com status “201”
 And retorna uma mensagem “Clinte User1 salvo no banco de dados”
 And mensagem “Cadastro Concluído” 
 
+Scenario: Remover Conta
+Given Um usuário com CPF “71254959411” nem com o email “comercomer@gmail.com” cadastrado no sistema
+When O usuário seleciona a opção "remover conta"
+Then As informações são removidas do banco de dados
+And aparece uma mensagem "Conta removida"
+And o usuário volta para a tela de login
