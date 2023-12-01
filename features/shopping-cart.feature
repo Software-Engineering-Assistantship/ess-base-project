@@ -15,3 +15,4 @@ When Eu clico em “+1” para o item "Whopper"
 Then A quantidade do item "Whopper" incrementa para "3"
 And A label que mostra a quantidade do item reflete a incrementação 
 And O total a ser pago aumenta em "20,99"
+And blabla bla
