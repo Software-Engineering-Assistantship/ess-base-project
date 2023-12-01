@@ -41,5 +41,5 @@ Scenario: Atualizar Detalhes de um Item Existente no Menu
     And o usuário seleciona a opção "Editar informações"
     And o usuário edita o preço para $2.00
     And o usuário seleciona a opção "Salvar alterações"
-    Then o sistema exibe uma mensagem de confirmação indicando que as alterações foram salvas com sucesso
+    Then o sistema exibe uma mensagem de confirmação "Item alterado" indicando que as alterações foram salvas com sucesso
     And o preço do item "bbb" é atualizado para $2.00 na lista de itens do menu.
