@@ -9,6 +9,7 @@ Scenario: Cadastro de uma promoção em um produto sem promoção prévia
     And visualiza as características do produto
 	When o usuário adiciona a nova promoção utilizando a porcentagem de desconto e o preço original e confirma
 	Then abacaxi está com o preço modificado
+    Then o sistema exibe uma mensagem de sucesso
 
 Scenario: Cadastro de uma promoção em um produto sem promoção prévia (Falha)
 	Given Um usuário está logado como admin 
@@ -18,6 +19,7 @@ Scenario: Cadastro de uma promoção em um produto sem promoção prévia (Falha
 	When o usuário adiciona a nova promoção utilizando a porcentagem de desconto e o preço original
     And o usuário cancela a operação
 	Then abacaxi não tem o preço modificado
+    Then o sistema exibe uma mensagem de erro
 
 Scenario: Cadastro de uma promoção em um produto com promoção prévia (Falha)
     Given Um usuário está logado como admin
@@ -36,6 +38,7 @@ Scenario: Cadastro de uma promoção em um produto com promoção prévia
     And visualiza as características do produto
     When o usuário adiciona a nova promoção utilizando a porcentagem de desconto e o preço original e confirma
     Then abacaxi tem o preço modificado
+    Then o sistema exibe uma mensagem de sucesso
 
 Scenario: Manutenção de uma promoção em um produto. (Ainda vai permanecer em promoção)
 	Given Um usuário está logado como admin 
