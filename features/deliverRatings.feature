@@ -42,3 +42,11 @@ E eu vejo uma mensagem pedindo para eu confirmar o recebimento do meu pedido
 E eu confirmo
 Então eu vejo uma mensagem de sucesso
 E eu sou redirecionado para a tela de pedidos
+
+Cenário 5: Notificação de que a entrega já está a caminho(2)
+Dado que eu tenha realizado um pedido pelo site
+E eu entro no site logando como usuário comum
+E eu vejo aparecer na parte superior da minha tela uma notificação avisando que o pedido está em trânsito
+Quando eu clico em cima da notificação
+E eu sou redirecionado para uma outra tela 
+Então eu posso ver, nesta tela, o quão próximo o produto está de mim através de uma linha que vai se preenchendo à medida que o produto se aproxima.
