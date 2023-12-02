@@ -23,3 +23,12 @@ Then o sistema confirma a ação e adiciona os itens do pedido anterior ao carri
 And o sistema redireciona o usuário para a página do carrinho, pronto para revisar e confirmar a repetição do pedido.
 Ajuste simulado questão 8
 Teste questão 13Ajuste questão 13
+
+
+
+Scenario: Avaliar Restaurante de Pedido Anterior:
+
+Given o usuário está logado como cliente na página de "Histórico de Pedidos"
+When o usuário escolhe “avaliar um restaurante” específico associado a um pedido na lista
+Then o sistema exibe uma opção para avaliação, permitindo ao usuário dar uma pontuação de “X estrelas (1 a 5)” e fornecer comentários opcionais sobre sua experiência com o restaurante
+And o sistema confirma a avaliação e a associa ao histórico de pedidos, proporcionando feedback ao restaurante.
