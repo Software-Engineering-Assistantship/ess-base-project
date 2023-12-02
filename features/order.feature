@@ -32,3 +32,4 @@ Given o usuário está logado como cliente na página de "Histórico de Pedidos"
 When o usuário escolhe “avaliar um restaurante” específico associado a um pedido na lista
 Then o sistema exibe uma opção para avaliação, permitindo ao usuário dar uma pontuação de “X estrelas (1 a 5)” e fornecer comentários opcionais sobre sua experiência com o restaurante
 And o sistema confirma a avaliação e a associa ao histórico de pedidos, proporcionando feedback ao restaurante.
+Ajustezinho
