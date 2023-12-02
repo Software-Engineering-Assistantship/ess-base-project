@@ -33,3 +33,7 @@ Feature: Gerenciar reviews
 	When o usuário aperta o botão "Sair"
     Then o usuário é levado para a página da cadeira
 
+    Scenario: Sair da tela de avaliação 
+        Given que o usuário “Thiago” está na tela de “Review” da cadeira “Cálculo”
+        When o usuário aperta o botão "Sair"
+        Then o usuário é levado para a página da cadeira
