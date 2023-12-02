@@ -22,3 +22,4 @@ When o usuário escolhe “repetir um pedido” específico na lista
 Then o sistema confirma a ação e adiciona os itens do pedido anterior ao carrinho de compras
 And o sistema redireciona o usuário para a página do carrinho, pronto para revisar e confirmar a repetição do pedido.
 Ajuste simulado questão 8
+Teste questão 13
