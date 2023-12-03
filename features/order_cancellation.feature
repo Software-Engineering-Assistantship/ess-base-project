@@ -78,3 +78,10 @@ Given um pedido com número "002" está registrado no sistema de "Pedidos em and
 When uma requisição de "GET" é enviada para "PedidosEmAndamento/002/Status".
 Then o status da resposta deve ser "200".
 And a resposta contém id "002" and nome "Status".
+
+Scenario: Rota de acesso à página inicial a partir de "Pedidos em andamento".
+Given o URL da página é "Pedidos em andamento".
+And é solicitado o acesso à URL "Pagina Inicial".
+When uma requisição de "GET" é enviada para "Paginas/PaginaInicial".
+Then o status da resposta deve ser "200".
+And o URL da página é "Pagina Inicial".
