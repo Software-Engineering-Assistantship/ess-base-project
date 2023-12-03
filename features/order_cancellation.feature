@@ -67,11 +67,12 @@ And eu estou na página "Pedidos em Andamento".
 When seleciona a opção "Voltar". 
 Then eu estou na página "Pagina Inicial".
 
-Scenario: Verificação cancelamento.
-Given um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "DELETE" é enviada para "PedidosEmAndamento/001". 
-And o status da resposta deve ser "200". 
-Then uma mensagem de "Pedido cancelado" deve ser retornada.
+Scenario: Cancelamento bem sucedido (serviço).
+Given eu estou logado como "Pedro" com senha "abretesesamo".
+And um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
+When uma requisição de "DELETE" com login "Pedro" e senha "abretesesamo" é enviada para "PedidosEmAndamento/001". 
+Then o status da resposta deve ser "200". 
+And uma mensagem de "Pedido cancelado" deve ser retornada.
 
 Scenario: Verificação Status do Pedido.
 Given um pedido com número "002" está registrado no sistema de "Pedidos em andamento".
@@ -85,3 +86,10 @@ And é solicitado o acesso à URL "Pagina Inicial".
 When uma requisição de "GET" é enviada para "Paginas/PaginaInicial".
 Then o status da resposta deve ser "200".
 And o URL da página é "Pagina Inicial".
+
+Scenario: Cancelamento mal sucedido (serviço).
+Given eu estou logado como "Luis" com senha "#$%".
+And um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
+When uma requisição de "DELETE" com login "Pedro" e senha "###" é enviada para "PedidosEmAndamento/001".
+Then o status da resposta deve ser "409".
+And uma mensagem de "Pedido não cancelado" deve ser retornada.
