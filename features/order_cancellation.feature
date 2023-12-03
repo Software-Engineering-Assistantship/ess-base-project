@@ -69,14 +69,14 @@ Then eu estou na página "Pagina Inicial".
 
 Scenario: Cancelamento bem sucedido (serviço).
 Given eu estou logado como "Pedro" com senha "abretesesamo".
-And um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "DELETE" com login "Pedro" e senha "abretesesamo" é enviada para "PedidosEmAndamento/001". 
+And um pedido com número "004" está registrado no sistema de "Pedidos em andamento".
+When uma requisição de "DELETE" com login "Pedro" e senha "abretesesamo" é enviada para "Pedidos/001". 
 Then o status da resposta deve ser "200". 
-And uma mensagem de "Pedido cancelado" deve ser retornada.
+And uma mensagem de "Pedido cancelado" é retornada com id "004".
 
 Scenario: Verificação Status do Pedido.
 Given um pedido com número "002" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "GET" é enviada para "PedidosEmAndamento/002/Status".
+When uma requisição de "GET" é enviada para "Pedidos/002/Status".
 Then o status da resposta deve ser "200".
 And a resposta contém id "002" and nome "Status".
 
@@ -90,6 +90,11 @@ And o URL da página é "Pagina Inicial".
 Scenario: Cancelamento mal sucedido (serviço).
 Given eu estou logado como "Luis" com senha "#$%".
 And um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "DELETE" com login "Pedro" e senha "###" é enviada para "PedidosEmAndamento/001".
+When uma requisição de "DELETE" com login "Pedro" e senha "###" é enviada para "Pedidos/001".
 Then o status da resposta deve ser "409".
-And uma mensagem de "Pedido não cancelado" deve ser retornada.
+And uma mensagem de "Pedido não cancelado" é retornada com id "001".
+
+Scenario: Registro motivo cancelamento.
+Given uma mensagem de "Pedido cancelado" é retornada com id "002".
+When uma requisição de "POST" é enviada para "Pedidos/002/Motivo".
+Then uma mensagem de "Justificativa salva" é retornada.
