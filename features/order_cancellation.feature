@@ -74,13 +74,7 @@ When uma requisição de "POST" com id "3" e senha "abretesesamo" é enviada par
 Then o status da resposta deve ser "200". 
 And uma mensagem de "Pedido cancelado" é retornada com id de pedido "004".
 
-Scenario: Verificação Status do Pedido.
-Given um pedido com número "002" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "GET" é enviada para "Pedidos/002/Status".
-Then o status da resposta deve ser "200".
-And a resposta contém id "002" and nome "Status".
-
-Scenario: Rota de acesso à página inicial a partir de "Pedidos em andamento".
+Scenario: Rota de acesso à página inicial a partir de "Pedidos em andamento" (serviço).
 Given o URL da página é "Pedidos em andamento".
 And é solicitado o acesso à URL "Pagina Inicial".
 When uma requisição de "GET" é enviada para "Paginas/PaginaInicial".
@@ -93,8 +87,3 @@ And um pedido com número "001" está registrado em "/users/1/orders".
 When uma requisição de "POST" com id "1" e senha "###" é enviada para "/users/1/orders/001/cancellation".
 Then o status da resposta deve ser "401".
 And uma mensagem de "Pedido não cancelado" é retornada com id de pedido "001".
-
-Scenario: Registro motivo cancelamento.
-Given uma mensagem de "Pedido cancelado" é retornada com id "002".
-When uma requisição de "POST" é enviada para "Pedidos/002/Motivo".
-Then uma mensagem de "Justificativa salva" é retornada.
