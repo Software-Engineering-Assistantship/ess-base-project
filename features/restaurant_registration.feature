@@ -64,6 +64,7 @@ Feature: Cadastro de restaurante
 
     Scenario: Remoção bem sucedida de um restaurante (GUI)
         Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222” “email_adm_restaurante” e “senha_adm_restaurante”
+        And estou logado como administrador do restaurante "Quentinha refeições"
         And estou na página de “Meu perfil”
         When eu tento excluir o restaurante
         Then o restaurante é excluído do sistema
