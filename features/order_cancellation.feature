@@ -68,11 +68,11 @@ When seleciona a opção "Voltar".
 Then eu estou na página "Pagina Inicial".
 
 Scenario: Cancelamento bem sucedido (serviço).
-Given eu estou logado como "Pedro" com senha "abretesesamo".
-And um pedido com número "004" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "DELETE" com login "Pedro" e senha "abretesesamo" é enviada para "Pedidos/001". 
+Given existe um usuário com id "3" e com senha "abretesesamo".
+And um pedido com número "004" está registrado em "/users/3/orders".
+When uma requisição de "POST" com id "3" e senha "abretesesamo" é enviada para "/users/"3"/orders/004/cancellation". 
 Then o status da resposta deve ser "200". 
-And uma mensagem de "Pedido cancelado" é retornada com id "004".
+And uma mensagem de "Pedido cancelado" é retornada com id de pedido "004".
 
 Scenario: Verificação Status do Pedido.
 Given um pedido com número "002" está registrado no sistema de "Pedidos em andamento".
