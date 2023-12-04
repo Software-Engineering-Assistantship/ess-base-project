@@ -4,7 +4,7 @@ Feature: Cadastro de restaurante
     So that eu possa acompanhar os pedidos dos clientes
 
     Scenario: Cadastro bem sucedido de restaurante
-        Given não existe nenhum restaurante com o CNPJ “123321222” nem com o email “quentinhas@gmail.com” cadastrado no sistema
+        Given não existe nenhum restaurante com o CNPJ “123321222” nem com o email “email_adm_restaurante” cadastrado no sistema
         When uma requisição “POST” é enviada para “/restaurants” com os valores “Quentinha refeições”,  “123321222”, email “email_adm_restaurante”, senha “senha_adm_restaurante”
         Then é retornada uma mensagem com status “201”
         And retorna uma mensagem “o restaurante Quentinha refeições está salvo no banco de dados”
