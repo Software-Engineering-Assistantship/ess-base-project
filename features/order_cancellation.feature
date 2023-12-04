@@ -70,7 +70,7 @@ Then eu estou na página "Pagina Inicial".
 Scenario: Cancelamento bem sucedido (serviço).
 Given existe um usuário com id "3" e com senha "abretesesamo".
 And um pedido com número "004" está registrado em "/users/3/orders".
-When uma requisição de "POST" com id "3" e senha "abretesesamo" é enviada para "/users/"3"/orders/004/cancellation". 
+When uma requisição de "POST" com id "3" e senha "abretesesamo" é enviada para "/users/3/orders/004/cancellation". 
 Then o status da resposta deve ser "200". 
 And uma mensagem de "Pedido cancelado" é retornada com id de pedido "004".
 
@@ -88,11 +88,11 @@ Then o status da resposta deve ser "200".
 And o URL da página é "Pagina Inicial".
 
 Scenario: Cancelamento mal sucedido (serviço).
-Given eu estou logado como "Luis" com senha "#$%".
-And um pedido com número "001" está registrado no sistema de "Pedidos em andamento".
-When uma requisição de "DELETE" com login "Pedro" e senha "###" é enviada para "Pedidos/001".
-Then o status da resposta deve ser "409".
-And uma mensagem de "Pedido não cancelado" é retornada com id "001".
+Given existe um usuário com id "1" com senha "#$%".
+And um pedido com número "001" está registrado em "/users/1/orders".
+When uma requisição de "POST" com id "1" e senha "###" é enviada para "/users/1/orders/001/cancellation".
+Then o status da resposta deve ser "401".
+And uma mensagem de "Pedido não cancelado" é retornada com id de pedido "001".
 
 Scenario: Registro motivo cancelamento.
 Given uma mensagem de "Pedido cancelado" é retornada com id "002".
