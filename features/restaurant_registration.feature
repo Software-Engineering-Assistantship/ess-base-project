@@ -61,3 +61,28 @@ And estou na página de “Meu perfil”
 When eu tento excluir o restaurante
 Then o restaurante é excluído do sistema
 And sou encaminhado para a página “login”
+
+Scenario: Cadastro mal sucedido de um restaurante (CNPJ já cadastrado) (GUI)
+    Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “email_adm_restaurante” e senha “senha_adm_restaurante”
+    And estou na página de "Cadastrar restaurante"
+    When o campo de “nome” é preenchido com “Guloso Trincado”
+    And o campo de “CNPJ” é preenchido com “123321222”
+    And o campo de “email” é preenchido com “email_adm_restaurante_2”
+    And o campo de senha é preenchido com “12345678”
+    And seleciono a opção “Cadastrar”
+    Then consigo ver uma mensagem dizendo “Falha no cadastro! Restaurante já cadastrado”
+    And continuo na página "Cadastrar restaurante"
+
+
+  Scenario: Cadastro mal sucedido de um restaurante (email já cadastrado) (GUI)
+    Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “email_adm_restaurante” e senha “senha_adm_restaurante”
+    And estou na página de "Cadastrar restaurante"
+    When o campo de “nome” é preenchido com “Guloso Trincado”
+    And o campo de “CNPJ” é preenchido com “40028922”
+    And o campo de “email” é preenchido com “email_adm_restaurante”
+    And o campo de senha é preenchido com “12345678”
+    And seleciono a opção “Cadastrar”
+    Then consigo ver uma mensagem dizendo “Falha no cadastro! Restaurante já cadastrado”
+    And continuo na página "Cadastrar restaurante"
+
+
