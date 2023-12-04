@@ -93,3 +93,30 @@ Scenario: Cadastro mal sucedido de um restaurante (CNPJ já cadastrado) (GUI)
     And continuo na página "Cadastrar restaurante"
 
 
+  Scenario: Atualização bem sucedida dos dados de um restaurante (GUI)
+    Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “email_adm_restaurante” e senha “senha_adm_restaurante”
+    And estou logado como administrador do restaurante "Quentinha refeições"
+    And estou na página "Meu perfil"
+    When altero o campo "nome" para "Quentinha do Tio"
+    And seleciono a opção "Salvar"
+    Then consigo ver uma mensagem dizendo "Cadastro atualizado com sucesso!"
+
+
+  Scenario: Atualização mal sucedida dos dados de um restaurante (CNPJ já cadastrado) (GUI)
+    Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “email_adm_restaurante” e senha “senha_adm_restaurante”
+    And existe um restaurante cadastrado no sistema com os dados "Guloso Trincado", "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"
+    And estou logado como administrador do restaurante "Quentinha refeições"
+    And estou na página "Meu perfil"
+    When altero o campo "CNPJ" para "40028922"
+    And seleciono a opção "Salvar"
+    Then consigo ver uma mensagem dizendo "Falha ao atualizar cadastro! CNPJ já cadastrado"
+
+
+  Scenario: Atualização mal sucedida dos dados de um restaurante (email já cadastrado) (GUI)
+    Given existe um restaurante cadastrado no sistema com os dados “Quentinha refeições” “123321222”, email “email_adm_restaurante” e senha “senha_adm_restaurante”
+    And existe um restaurante cadastrado no sistema com os dados "Guloso Trincado", "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"
+    And estou logado como administrador do restaurante "Quentinha refeições"
+    And estou na página "Meu perfil"
+    When altero o campo "email" para "email_adm_restaurante_2"
+    And seleciono a opção "Salvar"
+    Then consigo ver uma mensagem dizendo "Falha ao atualizar cadastro! Email já cadastrado"
