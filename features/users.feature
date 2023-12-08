@@ -9,7 +9,7 @@ Scenario: Cadastro de Usuário com Sucesso
     | Nome          | CPF            | Data de Nascimento | E-mail                    | Login        | Senha          |
     | Pedro Correia | 123.456.789-09 | 01/01/1990         | pedrocorreia@meuemail.com | pedrocorreia | SenhaSegura123 |
     And clica em "Cadastrar"
-    Then uma mensagem de confirmação é exibida indicando que o cadastro foi realizado com sucesso
+    Then uma mensagem de confirmação é exibida indicando que "O cadastro foi realizado com sucesso"
 
 Scenario: Falha no Cadastro de Usuário por Login já Cadastrado
     Given que o usuário "Jorge Lemos" está na página de "Cadastro de Usuário"
@@ -18,7 +18,7 @@ Scenario: Falha no Cadastro de Usuário por Login já Cadastrado
     | Nome        | CPF            | Data de Nascimento | E-mail                  | Login      | Senha          |
     | Jorge Lemos | 143.416.189-06 | 08/08/1975         | jorgelemos@meuemail.com | jorgelemos | SenhaSegura903 |
     And clica em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que o "Login" já está sendo utilizado
+    Then uma mensagem de erro é exibida indicando que "O Login já está sendo utilizado"
 
 Scenario: Falha no Cadastro de Usuário por Email já Cadastrado
     Given que o usuário "Clara Fonseca" está na página de "Cadastro de Usuário"
@@ -27,7 +27,7 @@ Scenario: Falha no Cadastro de Usuário por Email já Cadastrado
     | Nome          | CPF            | Data de Nascimento | E-mail                    | Login        | Senha          |
     | Clara Fonseca | 113.415.989-36 | 12/03/1998         | clarafonseca@meuemail.com | clarafonseca | SenhaSegura923 |
     And clica em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que o "Email" já está sendo utilizado
+    Then uma mensagem de erro é exibida indicando que "O Email já está sendo utilizado"
 
 Scenario: Falha no Cadastro de Usuário por CPF já Cadastrado
     Given que o usuário "Letícia Santos" está na página de "Cadastro de Usuário"
@@ -36,7 +36,7 @@ Scenario: Falha no Cadastro de Usuário por CPF já Cadastrado
     | Nome           | CPF            | Data de Nascimento | E-mail                     | Login         | Senha          |
     | Letícia Santos | 173.515.289-96 | 22/03/2005         | leticiasantos@meuemail.com | leticiasantos | SenhaSegura229 |
     And clica em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que o "CPF" já está sendo utilizado
+    Then uma mensagem de erro é exibida indicando que "O CPF já está sendo utilizado"
 
 Scenario: Falha no Cadastro de Usuário por Campo em Branco
     Given que o usuário "Alice Almeida" está na página de "Cadastro de Usuário"
@@ -44,7 +44,7 @@ Scenario: Falha no Cadastro de Usuário por Campo em Branco
     | Nome          | Data de Nascimento | E-mail                    | Login        | Senha          |
     | Alice Almeida | 02/02/1992         | alicealmeida@meuemail.com | alicealmeida | SenhaSegura456 |
     And clica em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório
+    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     Given que o usuário "Samuel Barbosa" está na página de "Cadastro de Usuário"
@@ -52,7 +52,7 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     | Nome           | CPF            | Data de Nascimento | E-mail                     | Login         | Senha            |
     | Samuel Barbosa | 123.456.789-10 | 03/03/1993         | samuelbarbosa@meuemail.com | samuelbarbosa | SamuelBarbosa123 | 
     And clica em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à senha inválida devido nome de usuário na senha
+    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida devido nome de usuário na senha"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento
     Given que o usuário "Marcos Vinícuis" está na página de "Cadastro de Usuário"
@@ -60,7 +60,7 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimen
     | Nome            | CPF            | Data de Nascimento | E-mail                      | Login          | Senha         |
     | Marcos Vinícuis | 123.456.789-08 | 04/04/1994         | marcosvinicius@meuemail.com | marcosvinicius | Senha04041994 |
     And clica em "Cadastrar" 
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à senha inválida devido data de nascimento na senha
+    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida devido data de nascimento na senha"
 
 Scenario: Atualização de Informações do Usuário com Sucesso
     Given que o usuário "Carlos Tavares" está na página de "Perfil"
@@ -69,7 +69,7 @@ Scenario: Atualização de Informações do Usuário com Sucesso
     | Novo Nome    | Novo Login  | Nova Senha    |
     | Carlos Silva | carlossilva | NovaSenha2234 |
     And clica em "Atualizar" 
-    Then uma mensagem de confirmação é exibida indicando que as Informações foram atualizadas com sucesso
+    Then uma mensagem de confirmação é exibida indicando que "As Informações foram atualizadas com sucesso"
 
 Scenario: Falha na Atualização de Informações do Usuário por Campo em Branco
     Given que o usuário "Alcides Campos" está na página de "Perfil"
@@ -78,7 +78,7 @@ Scenario: Falha na Atualização de Informações do Usuário por Campo em Branc
     | Novo Nome    | Nova Senha    |
     | Carlos Silva | NovaSenha2234 |
     And clica em "Atualizar"
-    Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à falta de preenchimento de campo obrigatório
+    Then uma mensagem de erro é exibida indicando que "A atualização não pode ser concluída devido à falta de preenchimento de campo obrigatório"
 
 Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Nome
     Given que o usuário "Teresa Martins" está na página de "Perfil"
@@ -87,7 +87,7 @@ Scenario: Falha na Atualização de Informações do Usuário por Senha Inválid
     | Novo Nome     | Novo Login   | Nova Senha     |
     | Teresa Santos | teresasantos | TeresaSantos23 |
     And clica em "Atualizar"
-    Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à senha inválida por nome de usuário na senha
+    Then uma mensagem de erro é exibida indicando que "A atualização não pode ser concluída devido à senha inválida por nome de usuário na senha"
 
 Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento
     Given que o usuário "Beatriz Oliveira" está na página de "Perfil"
@@ -96,7 +96,7 @@ Scenario: Falha na Atualização de Informações do Usuário por Senha Inválid
     | Novo Nome        | Novo Login      | Nova Senha    |
     | Beatriz Oliveira | beatrizoliveira | Senha09092003 |
     And clica em "Atualizar"
-    Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à senha inválida por data de nascimento na senha
+    Then uma mensagem de erro é exibida indicando que "A atualização não pode ser concluída devido à senha inválida por data de nascimento na senha"
 
 Scenario: Cadastro de Cartão de Crédito
     Given que o usuário "Alice Rodrigues" está na página de "Perfil" 
@@ -105,7 +105,7 @@ Scenario: Cadastro de Cartão de Crédito
     | Número do Cartão    | Data de Expiração | Código de Segurança |              
     | 5555 1234 5678 9876 | 08/27             | 789                 |
     And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de confirmação é exibida indicando que o cartão de crédito foi adicionado com sucesso ao perfil
+    Then uma mensagem de confirmação é exibida indicando que "O cartão de crédito foi adicionado com sucesso ao perfil"
 
 Scenario: Falha no Cadastro do Cartão de Crédito por Campo em Branco
     Given que o usuário "José Aldair" está na página de "Perfil" 
@@ -114,7 +114,7 @@ Scenario: Falha no Cadastro do Cartão de Crédito por Campo em Branco
     | Número do Cartão    | Data de Expiração |              
     | 2294 5178 9713 3359 | 05/21             |
     And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de erro é exibida indicando que o cartão de crédito não pode ser adicionado à devido falta de preenchimento de campo obrigatório
+    Then uma mensagem de erro é exibida indicando que "O cartão de crédito não pode ser adicionado à devido falta de preenchimento de campo obrigatório"
 
 Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
     Given que o usuário "João Silva" está na página de "Perfil" 
@@ -123,4 +123,4 @@ Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
     | Número do Cartão    | Data de Expiração | Código de Segurança |              
     | 1234 5678 9012 3456 | 05/21             | 023                 |
     And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de erro é exibida indicando que o cartão de crédito não pode ser adicionado à devido a informações inválidas
+    Then uma mensagem de erro é exibida indicando que "O cartão de crédito não pode ser adicionado à devido a informações inválidas"
