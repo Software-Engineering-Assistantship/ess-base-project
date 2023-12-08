@@ -69,7 +69,7 @@ Scenario: Atualização de Informações do Usuário com Sucesso
     | Novo Nome    | Novo Login  | Nova Senha    |
     | Carlos Silva | carlossilva | NovaSenha2234 |
     And clica em "Atualizar" 
-    Then uma mensagem de confirmação é exibida informando que as Informações foram atualizadas com sucesso
+    Then uma mensagem de confirmação é exibida indicando que as Informações foram atualizadas com sucesso
 
 Scenario: Falha na Atualização de Informações do Usuário por Campo em Branco
     Given que o usuário "Alcides Campos" está na página de "Perfil"
@@ -105,7 +105,16 @@ Scenario: Cadastro de Cartão de Crédito
     | Número do Cartão    | Data de Expiração | Código de Segurança |              
     | 5555 1234 5678 9876 | 08/27             | 789                 |
     And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de confirmação é exibida indicando que o cartão de crédito foi adicionado com sucesso ao seu perfil
+    Then uma mensagem de confirmação é exibida indicando que o cartão de crédito foi adicionado com sucesso ao perfil
+
+Scenario: Falha no Cadastro do Cartão de Crédito por Campo em Branco
+    Given que o usuário "José Aldair" está na página de "Perfil" 
+    When clica em "Cadastrar Cartão de Crédito"
+    And preenche os campos:
+    | Número do Cartão    | Data de Expiração |              
+    | 2294 5178 9713 3359 | 05/21             |
+    And clica em "Adicionar Cartão de Crédito"
+    Then uma mensagem de erro é exibida indicando que o cartão de crédito não pode ser adicionado à devido falta de preenchimento de campo obrigatório
 
 Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
     Given que o usuário "João Silva" está na página de "Perfil" 
@@ -114,4 +123,4 @@ Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
     | Número do Cartão    | Data de Expiração | Código de Segurança |              
     | 1234 5678 9012 3456 | 05/21             | 023                 |
     And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de erro é exibida indicando que as informações do cartão de crédito são inválidas e não puderam ser adicionadas ao perfil
+    Then uma mensagem de erro é exibida indicando que o cartão de crédito não pode ser adicionado à devido a informações inválidas
