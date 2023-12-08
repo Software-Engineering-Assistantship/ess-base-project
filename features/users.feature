@@ -40,7 +40,8 @@ Scenario: Atualização de Informações do Usuário com Sucesso
     When clica em "Atualização do Cadastro"
     And preenche os campos:
     | Novo Nome    | Novo Login  | Nova Senha    |
-    | Carlos Silva | carlossilva | NovaSenha2234 | 
+    | Carlos Silva | carlossilva | NovaSenha2234 |
+    And clica em "Atualizar" 
     Then uma mensagem de confirmação é exibida informando que as Informações foram atualizadas com sucesso
 
 Scenario: Falha na Atualização de Informações do Usuário por Campo em Branco
@@ -49,6 +50,7 @@ Scenario: Falha na Atualização de Informações do Usuário por Campo em Branc
     And preenche os campos:
     | Novo Nome    | Nova Senha    |
     | Carlos Silva | NovaSenha2234 |
+    And clica em "Atualizar"
     Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à falta de preenchimento de campo obrigatório
 
 Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Nome
@@ -57,6 +59,7 @@ Scenario: Falha na Atualização de Informações do Usuário por Senha Inválid
     And preenche os campos:
     | Novo Nome     | Novo Login   | Nova Senha     |
     | Teresa Santos | teresasantos | TeresaSantos23 |
+    And clica em "Atualizar"
     Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à senha inválida por nome de usuário na senha
 
 Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento
@@ -65,26 +68,23 @@ Scenario: Falha na Atualização de Informações do Usuário por Senha Inválid
     And preenche os campos:
     | Novo Nome        | Novo Login      | Nova Senha    |
     | Beatriz Oliveira | beatrizoliveira | Senha09092003 |
+    And clica em "Atualizar"
     Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à senha inválida por data de nascimento na senha
 
 Scenario: Cadastro de Cartão de Crédito
-    Given que o usuário "Alice Rodrigues" esta logado no sistema
-    And que o usuário "Alice Rodrigues" acessa a página de "Atualização do Cadastro"
+    Given que o usuário "Alice Rodrigues" está na página de "Perfil" 
     When clica em "Cadastrar Cartão de Crédito"
-    And adiciona as seguintes informações do cartão de crédito:
-    | Número do Cartão      | 5555 1234 5678 9876             |
-    | Data de Expiração     | 08/24                           |
-    | Código de Segurança   | 789                             |
-    Quando clica em "Adicionar Cartão de Crédito"
-    Então uma mensagem de confirmação é exibida, indicando que o cartão de crédito foi adicionado com sucesso ao seu perfil.
+    And preenche os campos:
+    | Número do Cartão    | Data de Expiração | Código de Segurança |              
+    | 5555 1234 5678 9876 | 08/27             | 789                 |
+    And clica em "Adicionar Cartão de Crédito"
+    Then uma mensagem de confirmação é exibida indicando que o cartão de crédito foi adicionado com sucesso ao seu perfil
 
 Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
-    Given que o usuário "João Silva" esta logado no sistema
-    And que o usuário "João Silva" acessa a página de "Atualização do Cadastro"
+    Given que o usuário "João Silva" está na página de "Perfil" 
     When clica em "Cadastrar Cartão de Crédito"
-    And adiciona as seguintes informações do cartão de crédito:
-    | Número do Cartão      | 1234 5678 9012 3456             |
-    | Data de Expiração     | 05/21                           |
-    | Código de Segurança   | 000                             |
-    Quando clica em "Adicionar Cartão de Crédito"
-    Então uma mensagem de erro é exibida, indicando que as informações do cartão de crédito são inválidas e não puderam ser adicionadas ao perfil.
+    And preenche os campos:
+    | Número do Cartão    | Data de Expiração | Código de Segurança |              
+    | 1234 5678 9012 3456 | 05/21             | 023                 |
+    And clica em "Adicionar Cartão de Crédito"
+    Then uma mensagem de erro é exibida indicando que as informações do cartão de crédito são inválidas e não puderam ser adicionadas ao perfil
