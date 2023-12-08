@@ -11,6 +11,33 @@ Scenario: Cadastro de Usuário com Sucesso
     And clica em "Cadastrar"
     Then uma mensagem de confirmação é exibida indicando que o cadastro foi realizado com sucesso
 
+Scenario: Falha no Cadastro de Usuário por Login já Cadastrado
+    Given que o usuário "Jorge Lemos" está na página de "Cadastro de Usuário"
+    And o usuário de "Login" "jorgelemos" está cadastrado no sistema
+    When preenche os campos:
+    | Nome        | CPF            | Data de Nascimento | E-mail                  | Login      | Senha          |
+    | Jorge Lemos | 143.416.189-06 | 08/08/1975         | jorgelemos@meuemail.com | jorgelemos | SenhaSegura903 |
+    And clica em "Cadastrar"
+    Then uma mensagem de erro é exibida indicando que o "Login" já está sendo utilizado
+
+Scenario: Falha no Cadastro de Usuário por Email já Cadastrado
+    Given que o usuário "Clara Fonseca" está na página de "Cadastro de Usuário"
+    And o usuário de "Email" "clarafonseca@meuemail.com" está cadastrado no sistema
+    When preenche os campos:
+    | Nome          | CPF            | Data de Nascimento | E-mail                    | Login        | Senha          |
+    | Clara Fonseca | 113.415.989-36 | 12/03/1998         | clarafonseca@meuemail.com | clarafonseca | SenhaSegura923 |
+    And clica em "Cadastrar"
+    Then uma mensagem de erro é exibida indicando que o "Email" já está sendo utilizado
+
+Scenario: Falha no Cadastro de Usuário por CPF já Cadastrado
+    Given que o usuário "Letícia Santos" está na página de "Cadastro de Usuário"
+    And o usuário de "CPF" "173.515.289-96" está cadastrado no sistema
+    When preenche os campos:
+    | Nome           | CPF            | Data de Nascimento | E-mail                     | Login         | Senha          |
+    | Letícia Santos | 173.515.289-96 | 22/03/2005         | leticiasantos@meuemail.com | leticiasantos | SenhaSegura229 |
+    And clica em "Cadastrar"
+    Then uma mensagem de erro é exibida indicando que o "CPF" já está sendo utilizado
+
 Scenario: Falha no Cadastro de Usuário por Campo em Branco
     Given que o usuário "Alice Almeida" está na página de "Cadastro de Usuário"
     When preenche os campos:
