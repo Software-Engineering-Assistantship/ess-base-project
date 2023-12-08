@@ -40,11 +40,13 @@ Scenario: Diminuindo a quantidade de um item com uma unidade no carrinho de comp
 	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
 	And o carrinho contém "1" unidade(s) de "Ovo de Páscoa" por "100,00 $" do "Restaurante Glória Maria Conceição"
 
-Scenario: Finalizando um pedido sem itens
+Scenario: Aumentando a quantidade de um item no carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
-	And o carrinho está vazio.
-	When eu seleciono "Finalizar pedido"
-	Then eu vejo um pop-up com "O carrinho está vazio, adicione algo antes de finalizar o pedido."
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
+	When eu clico na opção "Mais um" para o produto "Pizza" do "Restaurante Glória Maria Conceição"
+	Then o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "2" unidade(s) de "Pizza" por "20,00 $" do "Restaurante Glória Maria Conceição"
 
 Scenario: Removendo um item do carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
@@ -57,14 +59,6 @@ Scenario: Removendo um item do carrinho de compras
 	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
 	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
 
-Scenario: Aumentando a quantidade de um item no carrinho de compras
-	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
-	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
-	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
-	When eu clico na opção "Mais um" para o produto "Pizza" do "Restaurante Glória Maria Conceição"
-	Then o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
-	And o carrinho contém "2" unidade(s) de "Pizza" por "20,00 $" do "Restaurante Glória Maria Conceição"
-
 Scenario: Salvando produtos adicionados ao carrinho no Banco de Dados
     Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Restaurantes"
     And o carrinho está vazio
@@ -75,3 +69,9 @@ Scenario: Salvando produtos adicionados ao carrinho no Banco de Dados
     Then uma requisição "POST" com "1" unidade(s) de "Coxinha" do "Restaurante Glória Maria Juazeiro" por "1,0 $" é enviada para "/carrinho/{id_user}"
     And o status da resposta deve ser "201"
     And o carrinho contém "1" unidade(s) de "Coxinha" por "1,0 $" do "Restaurante Glória Maria Maria Juazeiro"
+
+Scenario: Finalizando um pedido sem itens
+	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
+	And o carrinho está vazio.
+	When eu seleciono "Finalizar pedido"
+	Then eu vejo um pop-up com "O carrinho está vazio, adicione algo antes de finalizar o pedido."
