@@ -23,7 +23,7 @@ Scenario: Limpando o carrinho de compras
 Scenario: Consulta ao Banco de Dados carrega o carrinho do usuário após login
 	Given eu estou na tela "Login"
 	When eu faço login como "lgaj@cin.ufpe.br"
-	Then uma requisição "GET" para "/carrinho/{id_user}" é enviada
+	Then uma requisição "GET" para "/users/{id}/shopping_cart" é enviada
 	And o status da resposta deve ser "200"
 	And o JSON da resposta contém a lista de itens no carrinho do usuário "lgaj@cin.ufpe.br"
 
@@ -66,7 +66,7 @@ Scenario: Salvando produtos adicionados ao carrinho no Banco de Dados
     And eu acesso o "Restaurante Glória Maria Juazeiro"
     And eu vejo "coxinha" como opção
     And eu adiciono "coxinha" ao carrinho
-    Then uma requisição "POST" com "1" unidade(s) de "Coxinha" do "Restaurante Glória Maria Juazeiro" por "1,0 $" é enviada para "/carrinho/{id_user}"
+    Then uma requisição "POST" com "1" unidade(s) de "Coxinha" do "Restaurante Glória Maria Juazeiro" por "1,0 $" é enviada para "/users/{id}/shopping_cart/"
     And o status da resposta deve ser "201"
     And o carrinho contém "1" unidade(s) de "Coxinha" por "1,0 $" do "Restaurante Glória Maria Maria Juazeiro"
 
