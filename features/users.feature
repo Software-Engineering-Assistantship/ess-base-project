@@ -5,33 +5,35 @@ Feature: Cadastro e Manutenção de usuários
 
 Scenario: Cadastro de Usuário com Sucesso
     Given que o usuário "Pedro Correia" acessa a página de "Cadastro de Usuário"
-    When preenche todos os campos obrigatórios corretamente, incluindo:
-    | Nome           | CPF             | Data de Nascimento | E-mail                     | Login        | Senha           |
-    | Pedro Correia  | 123.456.789-09  | 01/01/1990         | pedrocorreia@meuemail.com  | pedrocorreia | SenhaSegura123  |
+    When preenche os campos:
+    | Nome          | CPF            | Data de Nascimento | E-mail                    | Login        | Senha          |
+    | Pedro Correia | 123.456.789-09 | 01/01/1990         | pedrocorreia@meuemail.com | pedrocorreia | SenhaSegura123 |
     And clica em "Cadastrar"
-    Then uma mensagem de confirmação é exibida indicando que "O Cadastro foi Concluído com Sucesso"
+    Then uma mensagem de confirmação é exibida indicando que o cadastro foi realizado com sucesso
 
 Scenario: Falha no Cadastro de Usuário por Campo em Branco
     Given que o usuário "Alice Almeida" acessa a página de "Cadastro de Usuário"
-    When preenche somente os campos obrigatórios:
-    | Nome           | CPF             | Data de Nascimento | E-mail                     | Login        | Senha           |
-    | Alice Almeida  |                 | 02/02/1992         | alicealmeida@meuemail.com  | alicealmeida | SenhaSegura456  |
+    When preenche os campos:
+    | Nome          | Data de Nascimento | E-mail                    | Login        | Senha          |
+    | Alice Almeida | 02/02/1992         | alicealmeida@meuemail.com | alicealmeida | SenhaSegura456 |
     And clica em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Falta de Preenchimento do Campo CPF"
+    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     Given que o usuário "Samuel Barbosa" acessa a página de "Cadastro de Usuário"
-    When preenche todos os campos obrigatórios, incluindo:
-    | Nome           | CPF             | Data de Nascimento | E-mail                      | Login         | Senha            |
-    | Samuel Barbosa | 123.456.789-10  | 03/03/1993         | samuelbarbosa@meuemail.com  | samuelbarbosa | SamuelBarbosa123 | 
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Senha Inválida Devido Nome na Senha"
+    When preenche os campos:
+    | Nome           | CPF            | Data de Nascimento | E-mail                     | Login         | Senha            |
+    | Samuel Barbosa | 123.456.789-10 | 03/03/1993         | samuelbarbosa@meuemail.com | samuelbarbosa | SamuelBarbosa123 | 
+    And clica em "Cadastrar"
+    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à senha inválida devido nome na senha
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento
     Given que o usuário "Marcos Vinícuis" acessa a página de "Cadastro de Usuário"
-    When preenche todos os campos obrigatórios, incluindo:
-    | Nome            | CPF             | Data de Nascimento | E-mail                       | Login          | Senha           |
-    | Marcos Vinícuis | 123.456.789-08  | 04/04/1994         | marcosvinicius@meuemail.com  | marcosvinicius | Senha04041994   | 
-    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à "Senha Inválida Devido Data de Nascimento na Senha"
+    When preenche os campos:
+    | Nome            | CPF            | Data de Nascimento | E-mail                      | Login          | Senha         |
+    | Marcos Vinícuis | 123.456.789-08 | 04/04/1994         | marcosvinicius@meuemail.com | marcosvinicius | Senha04041994 |
+    And clica em "Cadastrar" 
+    Then uma mensagem de erro é exibida indicando que o cadastro não pode ser concluído devido à senha inválida devido data de nascimento na senha
 
 Scenario: Atualização de Informações do Usuário com Sucesso
     Given que o usuário "Carlos Tavares" esta logado no sistema
