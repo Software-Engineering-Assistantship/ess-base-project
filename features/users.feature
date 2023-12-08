@@ -57,3 +57,24 @@ Scenario: Falha na Atualização de Informações do Usuário por Senha Inválid
     | Teresa Santos | teresasantos | TeresaSantos23 |
     Then uma mensagem de erro é exibida indicando que a atualização não pode ser concluída devido à "Senha Inválida Devido Nome na Senha"
 
+Scenario: Cadastro de Cartão de Crédito
+    Given que o usuário "Alice Rodrigues" esta logado no sistema
+    And que o usuário "Alice Rodrigues" acessa a página de "Atualização do Cadastro"
+    When clica em "Cadastrar Cartão de Crédito"
+    And adiciona as seguintes informações do cartão de crédito:
+    | Número do Cartão      | 5555 1234 5678 9876             |
+    | Data de Expiração     | 08/24                           |
+    | Código de Segurança   | 789                             |
+    Quando clica em "Adicionar Cartão de Crédito"
+    Então uma mensagem de confirmação é exibida, indicando que o cartão de crédito foi adicionado com sucesso ao seu perfil.
+
+Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
+    Given que o usuário "João Silva" esta logado no sistema
+    And que o usuário "João Silva" acessa a página de "Atualização do Cadastro"
+    When clica em "Cadastrar Cartão de Crédito"
+    And adiciona as seguintes informações do cartão de crédito:
+    | Número do Cartão      | 1234 5678 9012 3456             |
+    | Data de Expiração     | 05/21                           |
+    | Código de Segurança   | 000                             |
+    Quando clica em "Adicionar Cartão de Crédito"
+    Então uma mensagem de erro é exibida, indicando que as informações do cartão de crédito são inválidas e não puderam ser adicionadas ao perfil.
