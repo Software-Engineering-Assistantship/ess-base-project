@@ -70,6 +70,13 @@ Scenario: Salvando produtos adicionados ao carrinho no Banco de Dados
     And o status da resposta deve ser "201"
     And o carrinho contém "1" unidade(s) de "Coxinha" por "1,0 $" do "Restaurante Glória Maria Maria Juazeiro"
 
+Scenario: Finalizando um pedido
+	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Finalizar Pedido"
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	When eu seleciono "Finalizar pedido"
+	Then eu vejo um pop-up com "Pedido finalizado com sucesso!"
+    And o pedido é adicionado à lista "Pedidos em andamento".
+
 Scenario: Finalizando um pedido sem itens
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
 	And o carrinho está vazio.
