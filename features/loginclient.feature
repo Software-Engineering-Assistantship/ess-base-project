@@ -33,3 +33,10 @@ Scenario: Login fracassou pois um dos campos não foi preenchido
 	And eu tento realizar login apertando em “Confirmar”
 	Then eu devo ver uma mensagem de erro no login
 	And eu permaneço na aba “Login”
+
+Scenario: Login realizado com sucesso
+	Given existe um cliente cadastrado com email “cvmfc@cin.ufpe.br” e com senha “777777”
+	When uma requisição GET é enviada para “/clients” com os dados “cvmfc@cin.ufpe.br” e “777777”
+	Then os dados são encontrados no banco de dados
+	And é retornado status “200”
+	And o login é realizado com sucesso
