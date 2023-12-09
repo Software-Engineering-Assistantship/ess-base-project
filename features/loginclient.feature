@@ -33,11 +33,3 @@ Scenario: Login fracassou pois um dos campos não foi preenchido
 	And eu tento realizar login apertando em “Confirmar”
 	Then eu devo ver uma mensagem de erro no login
 	And eu permaneço na aba “Login”
-
-commit teste main q13c
-commit teste dev q13c
-
-Scenario: teste main q14
-	Given ... ajuste q14a
-	When ... ajuste q14a
-	Then ... ajuste q14a
