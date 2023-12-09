@@ -54,3 +54,10 @@ Scenario: Login fracassou, pois o email não está cadastrado
 	Then o email "cvmfc@cin.ufpe.br" não é encontrado no banco de dados
 	And é retornado status “401”
 	And o login não pode ser concluído
+
+Scenario: Login fracassou pois um dos campos não foi preenchido
+	Given existe um cliente cadastrado com email “cvmfc@cin.ufpe.br” e com senha “777777”
+	When uma requisição GET é enviada para “/clients” com os dados “cvmfc@cin.ufpe.br” e “”
+	Then o campo da senha está vazio
+	And é retornado status “204”
+	And o login não pode ser concluído
