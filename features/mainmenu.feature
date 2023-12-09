@@ -15,9 +15,9 @@ Scenario: Acessando cadastro do cliente
   Then eu devo ser redirecionado para a página de cadastro para clientes
 
 Scenario: Acessando login do restaurante
-  Given
-  When
-  Then
+  Given eu estou na aba "Menu Principal"
+  When eu aperto no botão "Login de Restaurante"
+  Then eu devo ser redirecionado para a página de login para restaurantes
 
 Scenario: Acessando cadastro do restaurante
   Given
@@ -37,9 +37,10 @@ Scenario: Acessando cadastro do cliente
   And o usuário é redirecionado para a aba especificada
 
 Scenario: Acessando login do restaurante
-  Given
-  When
-  Then
+  Given há um usuário no menu principal do aplicativo
+  When uma requisição "GET" é enviada para "/loginrestaurant"
+  Then é retornado status "200"
+  And o usuário é redirecionado para a aba especificada
 
 Scenario: Acessando cadastro do restaurante
   Given
