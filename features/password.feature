@@ -29,26 +29,21 @@ Feature: Recuperação de senha
     Then eu consigo ver a mensagem "login especificado incorreto ou não existe"
     And eu permaneço na página "login"
 
-    Scenario: recuperação de senha de admin bem sucedida usando login
+    Scenario: recuperação de senha de admin bem sucedida 
     Given estou na pagina "login"
-    When preencho em "login" com o dado "Julia_marques"
+    When preencho em "<campo>" com o dado "<dado>"
     And pressiono "Esqueci senha"
     Then eu consigo ver uma mensagem contendo a minha senha
     And eu permaneço na página "login"
 
-    Scenario: recuperação de senha de admin bem sucedida usando email
-    Given estou na pagina "login"
-    When preencho em "email" com o dado "fcastor@hotmail.com"
-    And pressiono "Esqueci senha"
-    Then eu consigo ver uma mensagem contendo a minha senha
-    And eu permaneço na página "login"
-
-    Scenario: recuperação de senha de admin bem sucedida usando cpf
-    Given estou na pagina "login"
-    When preencho em "cpf" com o dado "11122233344"
-    And pressiono "Esqueci senha"
-    Then eu consigo ver uma mensagem contendo a minha senha
-    And eu permaneço na página "login"
+    Examples:
+    | campo | valor            |
+    | login | Breno_Miranda    |
+    | login | Rafael_Campos    |
+    | login | Gabriela_Almeida |
+    | login | Julia_marques    |
+    | email | fcastor@hotmail.com |
+    | cpf   | 11122233344      |
 
     Scenario: dado de admin não encontrado
     Given estou na pagina "login"
