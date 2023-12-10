@@ -10,8 +10,7 @@ Scenario: Notificação em Tempo Real de Nova Entrega Atribuída
     And a requisição deve retornar status 201 e a mensagem "Nova entrega atribuída e notificada."
 
 Scenario: Notificação de Entrega Realizada para Empresa de Logística
-	Given a tabela de banco de dados de entregas
-	And a entrega com id "del_4527" possui os campos: acceptedByCompany "true", status "Em deslocamento", id da empresa "log_7563"
+	Given uma entrega com id "del_4527" que possui os campos: acceptedByCompany "true", status "Em deslocamento", id da empresa "log_7563"
 	When o servidor recebe uma requisição PATCH na rota "/entrega/del_4527" com campos: status "Realizada"
 	Then a entrega com id "del_4527" atualizará o campo de status para "Realizada"
 	And uma notificação será enviada para a empresa "log_7563" com campos: category "delivery-status", title "Entrega del_4527 realizada com sucesso por Ricardo"
