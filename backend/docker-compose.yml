@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  server:
+    build: .
+    command: yarn dev
+    env_file: .env
+    environment:
+      DATABASE_URL: "postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@db:5432/${DATABASE_USER}?schema=public"
+    ports:
+      - "3333:3333"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+    ports:
+      - "5432:5432"
