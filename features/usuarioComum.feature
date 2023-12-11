@@ -5,17 +5,26 @@ Feature: Cadastrar uma conta
 
 Scenario: Cadastrar uma conta com todas as informações corretas
 	Given estou na página “Cadastrar Conta”
-	When eu preencho nome “Breno”, nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste”
+	When eu preencho nome “Breno”, sobrenome "Miranda", nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste”
+	And adiciono a foto "fotoPerfil.jpg"
 	Then eu estou na página “Página Inicial”
+	And eu estou logado como "bafm"
 
 Scenario: Cadastrar uma conta com um nome de usuário já existente
 	Given estou na página “Cadastrar Conta”
 	And existe um usuário com nome de usuário “bafm”
-	When eu preencho nome “Breno”, nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste” 
+	When eu preencho nome “Breno”, nome de usuário “bafm”, e-mail “bafm@cin.ufpe.br", senha “senhaTeste” e repito a senha “senhaTeste” 
 	Then eu estou na página “Cadastrar Conta”
   And eu vejo a mensagem “Nome de usuário indisponivel”
 
-Scenario: Cadastrar uma conta faltando o nome
+Scenario: Cadastrar uma conta com um e-mail já existente
+	Given estou na página “Cadastrar Conta”
+	And existe um usuário com e-mail “bafm@cin.ufpe.br”
+	When eu preencho nome “Breno”, nome de usuário “bafm”, e-mail “bafm@cin.ufpe.br", senha “senhaTeste” e repito a senha “senhaTeste” 
+	Then eu estou na página “Cadastrar Conta”
+  And eu vejo a mensagem “Nome de usuário indisponivel”
+
+Scenario: Cadastrar uma conta sem o nome
 	Given estou na página “Cadastrar Conta”
 	When eu preencho nome de usuário “bafm”, senha “senhaTeste” e repito a senha “senhaTeste” 
 	Then eu estou na página “Cadastrar Conta”
@@ -42,7 +51,7 @@ Scenario: Editar nome de usuário com sucesso
 	Then eu estou na página "Perfil"
 	And estou logado com o nome de usuário "brenomiranda" 
 
-Scenario: Editar nome de usuário sem sucesso
+Scenario: Editar nome de usuário por um já existente
 	Given estou logado com o nome de usuário "bafm"
 	And estou na página "Atualizar Cadastro de Usuário"
 	When eu edito o nome de usuário para "brenomiranda"
