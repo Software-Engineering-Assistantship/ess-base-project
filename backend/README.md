@@ -1,80 +1,67 @@
-# ESS Back-end Node.js
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
 
-This is the Back-end base project in Node.js for the Software and Systems Engineering discipline, offered by the Informatics Center (CIn) of the Federal University of Pernambuco (UFPE).
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-## Table of Contents
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="yarnVersion" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="yarnDownloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-1. [Getting Started](##getting-started)
-2. [Scripts](#scripts)
-3. [Dependencies](#dependencies)
-4. [Architecture](#architecture)
+## Description
 
-## Getting Started
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+## Installation
 
-### Prerequisites
-
-To run this project, you'll need to have the following software installed on your system:
-
-- Node.js
-- npm (Node Package Manager)
-
-### Installing
-
-Clone the repository and install the dependencies by running the following command in the project directory:
-
-```
-npm install
-```
-
-### First time running ?
-
-Run the follow scripts
-
-```
-chmod +x .husky/pre-commit
-chmod +x .husky/pre-push
+```bash
+$ yarn install
 ```
 
-```
-npm run
-```
+## Running the app
 
-### Environment
+```bash
+# development
+$ yarn start
 
-This project uses `.env` files to manage environment variables. You can create a `.env.dev` file in the project directory and set the environment variables in the file (iou can create it from .`env.example`). The `env` script in the `package.json` file uses the `env-cmd` package to load the environment variables from the `.env.dev` file.
+# watch mode
+$ yarn dev
 
-### Running the Server
-
-To start the server, run the following command:
-
-```
-env=dev npm run start
+# production mode
+$ yarn start:prod
 ```
 
-This command will run the TypeScript compiler in watch mode and start the server using nodemon.
+## Test
 
-## Scripts
+```bash
+# unit tests
+$ yarn test
 
-The following scripts are available in the `package.json` file:
+# e2e tests
+$ yarn test:e2e
 
-- `start`: Runs the TypeScript compiler in watch mode and starts the server using nodemon.
-- `build`: Compiles the TypeScript code.
-- `test`: Runs the Jest tests for the project.
-- `prettier`: Formats the code using Prettier.
-- `lint`: Lints the code using ESLint.
+# test coverage
+$ yarn test:cov
+```
 
-## Dependencies
+## Support
 
-The following dependencies are used in the project:
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-- [env-cmd](https://github.com/toddbluhm/env-cmd): A simple way to manage your environment variables in npm scripts.
-- [express](https://github.com/expressjs/express): Fast, unopinionated, minimalist web framework for Node.js.
-- [typescript](https://github.com/microsoft/TypeScript): A typed superset of JavaScript that compiles to plain JavaScript.
-- [jest](https://github.com/microsoft/TypeScript): Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
-- [pino](https://github.com/pinojs/pino): Very low overhead Node.js logger.
+## License
 
-## Architecture
-
-To understand and learn more details about the structure of the project, click [here](./docs/architecture-pattern.md) to be redirected to the README that contains this information.
+Nest is [MIT licensed](LICENSE).

@@ -1,0 +1,23 @@
+# @name create-menu-item
+POST http://localhost:3333/menu
+Content-Type: application/json
+
+{
+  "title": "Burger 1",
+  "description": "Description",
+  "price": 500,
+  "quantity": 1,
+  "category": "BURGERS"
+}
+
+###
+
+# @name get-menu-items-by-category
+GET http://localhost:3333/menu/BURGERS/items
+Content-Type: application/json
+
+###
+
+# @name get-menu-item-by-id
+GET http://localhost:3333/menu/item/31ea0cea-de78-4e69-bc48-dac4d6f1bbd2
+Content-Type: application/json
