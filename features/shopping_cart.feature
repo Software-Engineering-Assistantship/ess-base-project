@@ -23,7 +23,7 @@ Scenario: Limpando o carrinho de compras
 Scenario: Consulta ao Banco de Dados carrega o carrinho do usuário após login
 	Given eu estou na tela "Login"
 	When eu faço login como "lgaj@cin.ufpe.br"
-	Then uma requisição "GET" para "/carrinho" é enviada
+	Then uma requisição "GET" para "/users/{id}/shopping_cart" é enviada
 	And o status da resposta deve ser "200"
 	And o JSON da resposta contém a lista de itens no carrinho do usuário "lgaj@cin.ufpe.br"
 
@@ -40,11 +40,13 @@ Scenario: Diminuindo a quantidade de um item com uma unidade no carrinho de comp
 	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
 	And o carrinho contém "1" unidade(s) de "Ovo de Páscoa" por "100,00 $" do "Restaurante Glória Maria Conceição"
 
-Scenario: Finalizando um pedido sem itens
+Scenario: Aumentando a quantidade de um item no carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
-	And o carrinho está vazio.
-	When eu seleciono "Finalizar pedido"
-	Then eu vejo um pop-up com "O carrinho está vazio, adicione algo antes de finalizar o pedido."
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
+	When eu clico na opção "Mais um" para o produto "Pizza" do "Restaurante Glória Maria Conceição"
+	Then o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	And o carrinho contém "2" unidade(s) de "Pizza" por "20,00 $" do "Restaurante Glória Maria Conceição"
 
 Scenario: Removendo um item do carrinho de compras
 	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
@@ -57,21 +59,26 @@ Scenario: Removendo um item do carrinho de compras
 	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
 	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
 
-Scenario: Aumentando a quantidade de um item no carrinho de compras
-	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
-	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
-	And o carrinho contém "1" unidade(s) de "Pizza" por "10,00 $" do "Restaurante Glória Maria Conceição"
-	When eu clico na opção "Mais um" para o produto "Pizza" do "Restaurante Glória Maria Conceição"
-	Then o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
-	And o carrinho contém "2" unidade(s) de "Pizza" por "20,00 $" do "Restaurante Glória Maria Conceição"
-
 Scenario: Salvando produtos adicionados ao carrinho no Banco de Dados
-		Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Restaurantes"
+    Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Restaurantes"
     And o carrinho está vazio
     When eu vejo "Restaurante Glória Maria Juazeiro" como opção
-		And eu acesso o "Restaurante Glória Maria Juazeiro"
-		And eu vejo "coxinha" como opção
-		And eu adiciono "coxinha" ao carrinho
-    Then uma requisição "POST" com "1" unidade(s) de "Coxinha" do "Restaurante Glória Maria Juazeiro" por "1,0 $" é enviada para "/carrinho"
-		And o status da resposta deve ser "201"
-		And o carrinho contém "1" unidade(s) de "Coxinha" por "1,0 $" do "Restaurante Glória Maria Maria Juazeiro"
+    And eu acesso o "Restaurante Glória Maria Juazeiro"
+    And eu vejo "coxinha" como opção
+    And eu adiciono "coxinha" ao carrinho
+    Then uma requisição "POST" com "1" unidade(s) de "Coxinha" do "Restaurante Glória Maria Juazeiro" por "1,0 $" é enviada para "/users/{id}/shopping_cart/"
+    And o status da resposta deve ser "201"
+    And o carrinho contém "1" unidade(s) de "Coxinha" por "1,0 $" do "Restaurante Glória Maria Maria Juazeiro"
+
+Scenario: Finalizando um pedido
+	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Finalizar Pedido"
+	And o carrinho contém "2" unidade(s) de "Coxinha" por "2,00 $" do "Restaurante Glória Maria 2"
+	When eu seleciono "Finalizar pedido"
+	Then eu vejo um pop-up com "Pedido finalizado com sucesso!"
+    And o pedido é adicionado à lista "Pedidos em andamento".
+
+Scenario: Finalizando um pedido sem itens
+	Given eu estou logado como "lgaj@cin.ufpe.br" na tela "Carrinho de Compras"
+	And o carrinho está vazio.
+	When eu seleciono "Finalizar pedido"
+	Then eu vejo um pop-up com "O carrinho está vazio, adicione algo antes de finalizar o pedido."
