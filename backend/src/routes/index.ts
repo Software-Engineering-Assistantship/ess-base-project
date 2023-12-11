@@ -1,14 +1,16 @@
-import { Express, Router } from 'express';
-import { di } from '../di';
-import TestController from '../controllers/test.controller';
-import TestService from '../services/test.service';
+import { Router } from 'express';
+
+import UserRouter from './UserRoutes';
+import AuthRouter from './AuthRoutes';
+import FileRouter from './FileRoutes';
 
 const router = Router();
-const prefix = '/api';
 
-export default (app: Express) => {
-  app.use(
-    prefix,
-    new TestController(router, di.getService(TestService)).router
-  );
-};
+router.use('/user', UserRouter);
+router.use('/sessions', AuthRouter);
+router.use('/file', FileRouter);
+router.route('/').get((_, res) => {
+  res.status(200).send('Made with 💚 and &lt; &#x0002F; &gt; by CITi');
+});
+
+export default router;

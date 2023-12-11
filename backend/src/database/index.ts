@@ -1,32 +1,16 @@
-import TestEntity from '../entities/test.entity';
+import { PrismaClient } from '@prisma/client';
 
-export default class Database {
-  data: { [key: string]: any[] };
-  private static instance: Database;
+const prisma = new PrismaClient({
+  log: process.env.NODE_ENV !== 'production' ? ['warn', 'error'] : [],
+});
 
-  private constructor() {
-    this.data = {};
-  }
+prisma
+  .$connect()
+  .then(() => {
+    console.log('📦 Successfully connected with database');
+  })
+  .catch((error) => {
+    console.log('❌ Error connecting to database', error);
+  });
 
-  static getInstance() {
-    if (!Database.instance) {
-      Database.instance = new Database();
-    }
-    return Database.instance;
-  }
-
-  static reset() {
-    Database.instance = new Database();
-  }
-
-  static seed() {
-    Database.getInstance().data = {
-      tests: [
-        new TestEntity({
-          id: '89ecc32a-aec7-4b71-adfd-03287e4ca74f',
-          name: 'Test Seed',
-        }),
-      ],
-    };
-  }
-}
+export default prisma;
