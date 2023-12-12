@@ -13,7 +13,7 @@ export class MenuService {
         description: menu.description,
         price: menu.price,
         quantity: menu.quantity,
-        category: menu.category,
+        categoryId: menu.category,
       },
     });
   }
@@ -22,7 +22,7 @@ export class MenuService {
     return await this.prisma.menu.findUnique({ where: { id } });
   }
 
-  async findAllByCategory(category: string) {
-    return await this.prisma.menu.findMany({ where: { category } });
+  async findAllByCategory(categoryId: string) {
+    return await this.prisma.menu.findMany({ where: { categoryId } });
   }
 }
