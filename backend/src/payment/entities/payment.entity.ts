@@ -1,8 +1,8 @@
 export class Payment {
-  id: number;
+  id: string;
   cardNumber: string;
   cardHolderName: string;
   expirationDate: string;
-  cvv: string;
+  cvv: number;
   type:string;
 }

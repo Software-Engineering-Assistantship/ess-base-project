@@ -31,3 +31,14 @@ model Category {
 
   @@map("category")
 }
+
+model Payment {
+  id               String @id @default(uuid())
+  cardNumber       String
+  cardHolderName   String
+  expirationDate   String
+  cvv              Int
+  type             String
+
+  @@map("payment")
+}

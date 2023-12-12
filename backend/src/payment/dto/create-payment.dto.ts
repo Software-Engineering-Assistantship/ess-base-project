@@ -2,6 +2,6 @@ export class CreatePaymentDto {
   cardNumber: string;
   cardHolderName: string;
   expirationDate: string;
-  cvv: string;
+  cvv: number;
   type: string;
 }
