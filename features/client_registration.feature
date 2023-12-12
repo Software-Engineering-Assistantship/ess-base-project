@@ -106,3 +106,11 @@ And o campo confirmar_senha com "123"
 And seleciono a opção “Cadastrar”
 Then surge a mensagem "Cadastro mal-sucedido, CPF já existente"
 And permaneco na tela de cadastro
+
+Scenario: atualização de cadastro (GUI)
+Given estou logado numa conta cujo e-mail é "alimentarmail.com"
+And estou na página "Meus dados"
+When eu altero o e-mail para "comercomer@gmail.com"
+And seleciono Salvar
+Then aparece a mensagem "Cadastro atualizado com sucesso"
+And permaneco na pagina "Meus dados"
