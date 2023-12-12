@@ -93,3 +93,16 @@ And o campo confirmar_senha com "123"
 And seleciono a opção “Cadastrar”
 Then surge a mensagem "Cadastro mal-sucedido, e-mal já existente"
 And permaneco na tela de cadastro
+
+Scenario: Cadastro mal-sucedido, CPF já usado (GUI)
+Given estou na pagina de cadastro
+And existe um cliente com o CPF “123321222” e com o email "alimentarmail.com" e com o nome "user1" cadastrado no sistema
+When eu preencho o campo nome com "user2"
+And o campo email com "comercomer@gmail.com"
+And o campo CPF com “123321222”
+And o campo endereco com "rua1"
+And o campo senha com "123"
+And o campo confirmar_senha com "123"
+And seleciono a opção “Cadastrar”
+Then surge a mensagem "Cadastro mal-sucedido, CPF já existente"
+And permaneco na tela de cadastro
