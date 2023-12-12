@@ -54,3 +54,9 @@ Given existe um cliente cadastrado no sistema com os dados “user3" “12332122
 When uma requisição “DELETE” é enviada para “/clients/{id}”
 Then o cliente “user3" não está mais salvo no banco de dados
 And é retornada uma mensagem com o status “200” e mensagem “cliente excluído com sucesso”
+
+Scenario: Leitura de cliente do sistema
+Given existe um cliente cadastrado no sistema com os dados “User1”,  “71254959411”, email “comercomer@gmail.com”, senha “clientqualquer”, endereco "rua1"
+When uma requisição "GET" é enviada para "/clients"
+Then é retornada uma mensagem com o status "200"
+And a mensagem contém “User1”, “71254959411”, “comercomer@gmail.com”, senha “clientqualquer”, endereco "rua1"
