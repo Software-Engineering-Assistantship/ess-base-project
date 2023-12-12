@@ -14,11 +14,17 @@ export class CategoriesService {
   }
 
   async findAll() {
-    return await this.prisma.category.findMany();
+    return await this.prisma.category.findMany({
+      include: { menuItems: true },
+    });
   }
 
   async findOne(id: string) {
     return await this.prisma.category.findUnique({ where: { id } });
+  }
+
+  async findByName(name: string) {
+    return await this.prisma.category.findFirst({ where: { name } });
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {

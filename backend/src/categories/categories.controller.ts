@@ -18,7 +18,7 @@ export class CategoriesController {
 
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
-    const categoryExists = await this.categoriesService.findOne(
+    const categoryExists = await this.categoriesService.findByName(
       createCategoryDto.name,
     );
 
