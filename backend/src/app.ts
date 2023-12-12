@@ -1,11 +1,9 @@
 import express, { Express } from 'express';
-import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import expressWinston from 'express-winston';
 import helmet from 'helmet';
 import routes from './routes';
-import swaggerDocument from './docs';
 import { requestHandler, errorHandler, requestLogger } from './middlewares';
 
 const app: Express = express();
@@ -26,7 +24,6 @@ app.use(
 expressWinston.requestWhitelist.push('body');
 expressWinston.responseWhitelist.push('body');
 app.use(routes);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(errorHandler);
 app.use(requestHandler);

@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcryptjs';
 import { UserRepository } from '../repositories';
-import { User, UpdateUser } from '../DTOs';
+import { Prisma, User } from '@prisma/client';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const userData = User.parse(req.body);
+      const userData = req.body as User
 
       const existsUserWithEmail = await UserRepository.findByEmail(
         userData.email,
@@ -42,7 +42,7 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const user = await UserRepository.findById(userId);
+      const user = await UserRepository.findById(Number(userId));
 
       if (!user) {
         return next({
@@ -65,9 +65,9 @@ class UserController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId } = req.params;
-      const userData = UpdateUser.parse(req.body);
+      const userData = req.body as Prisma.UserUpdateInput
 
-      const user = await UserRepository.update(userId, userData);
+      const user = await UserRepository.update(Number(userId), userData);
 
       if (!user) {
         return next({
@@ -92,7 +92,7 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const user = await UserRepository.delete(userId);
+      const user = await UserRepository.delete(Number(userId));
 
       if (!user) {
         return next({

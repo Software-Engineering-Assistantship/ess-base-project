@@ -35,6 +35,9 @@
       "@database": [
         "./src/database"
       ],
+      "@routes": [
+        "./src/routes"
+      ]
     }
   },
   "include": [

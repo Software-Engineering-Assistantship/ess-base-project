@@ -12,17 +12,17 @@ class UserRepository {
     return user;
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(id: number): Promise<User | null> {
     const user = await prisma.user.findUnique({ where: { id } });
     return user;
   }
 
-  async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {
+  async update(id: number, data: Prisma.UserUpdateInput): Promise<User> {
     const user = await prisma.user.update({ where: { id }, data });
     return user;
   }
 
-  async delete(id: string): Promise<User> {
+  async delete(id: number): Promise<User> {
     const user = await prisma.user.delete({ where: { id } });
     return user;
   }

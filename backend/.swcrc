@@ -20,6 +20,9 @@
             ],
             "@database": [
                 "./src/database"
+            ],
+            "@routes": [
+                "./src/routes"
             ]
         },
         "baseUrl": "./"

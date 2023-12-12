@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import auth from '../middlewares/auth';
 import { UserController } from '../controllers';
 
 const userRouter = Router();
@@ -16,13 +15,11 @@ userRouter.route('/:userId')
 
 userRouter.route('/:userId')
   .patch(
-    [auth],
     UserController.update,
   );
 
 userRouter.route('/:userId')
   .delete(
-    [auth],
     UserController.delete,
   );
 
