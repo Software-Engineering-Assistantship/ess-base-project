@@ -67,3 +67,17 @@ When O usuário seleciona a opção "remover conta"
 Then As informações são removidas do banco de dados
 And aparece uma mensagem "Conta removida"
 And o usuário volta para a tela de login
+
+Scenario:Cadastro bem sucedido (GUI)
+Given estou na pagina de cadastro
+And não existe nenhum cliente com o CPF “123321222” nem com o email "comercomer@gmail.com" nem com onome "user1" cadastrado no sistema
+When eu preencho o campo nome com "user1"
+And o campo email com "comercomer@gmail.com"
+And o campo CPF com “123321222”
+And o campo endereco com "rua1"
+And o campo senha com "123"
+And o campo confirmar_senha com "123"
+And seleciono a opção “Cadastrar”
+Then surge a mensagem "Cadastro realizado com sucesso!"
+And volto a tela de login
+
