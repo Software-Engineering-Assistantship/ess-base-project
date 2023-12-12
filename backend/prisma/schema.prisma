@@ -12,12 +12,22 @@ datasource db {
 }
 
 model Menu {
-  id          String @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   price       Int
   quantity    Int
-  category    String
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
 
   @@map("menu")
+}
+
+model Category {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  menuItems   Menu[]
+
+  @@map("category")
 }
