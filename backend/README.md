@@ -10,3 +10,7 @@
   npm run migration
   npm run dev
   ```
+3. To run tests:
+  ```bash
+  npm run test
+  ```
