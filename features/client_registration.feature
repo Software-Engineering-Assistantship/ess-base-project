@@ -114,3 +114,12 @@ When eu altero o e-mail para "comercomer@gmail.com"
 And seleciono Salvar
 Then aparece a mensagem "Cadastro atualizado com sucesso"
 And permaneco na pagina "Meus dados"
+
+Scenario: atualização de cadastro mal-sucedida, email já usado (GUI)
+Given estou logado numa conta cujo e-mail é "alimentarmail.com"
+And estou na página "Meus dados"
+And existe uma conta que usa o e-mail "comercomer@gmail.com"
+When eu altero o e-mail para "comercomer@gmail.com"
+And seleciono Salvar
+Then aparece a mensagem "Cadastro não atualizado, e-mail já existente"
+And permaneco na pagina "Meus dados"
