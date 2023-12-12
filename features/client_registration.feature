@@ -60,3 +60,10 @@ Given existe um cliente cadastrado no sistema com os dados “User1”,  “7125
 When uma requisição "GET" é enviada para "/clients"
 Then é retornada uma mensagem com o status "200"
 And a mensagem contém “User1”, “71254959411”, “comercomer@gmail.com”, senha “clientqualquer”, endereco "rua1"
+
+Scenario: Remover Conta (GUI)
+Given Um usuário com CPF “71254959411” nem com o email “comercomer@gmail.com” cadastrado no sistema
+When O usuário seleciona a opção "remover conta"
+Then As informações são removidas do banco de dados
+And aparece uma mensagem "Conta removida"
+And o usuário volta para a tela de login
