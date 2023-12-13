@@ -57,3 +57,24 @@ Feature: Recuperação de senha
     And pressiono "Esqueci senha"
     Then eu consigo ver a mensagem "email/cpf/login especificado incorreto ou não existe"
     And eu permaneço na página "login"
+
+    #cenários de serviço
+    Scenario: recuperação de senha bem sucedida
+    Given o login "<login>" está armazenado no sistema com senha "<senha>"
+    When eu peço ao sistema pela senha do login "<login>" com um método GET
+    Then o sistema retorna o status code "200"
+    And o sistema retorna a mensagem "login encontrado"
+    And o sistema retorna o valor de senha "<senha>"
+
+    Examples:
+    | campo | valor            |
+    | login | Breno_Miranda    |
+    | login | Rafael_Campos    |
+    | login | Gabriela_Almeida |
+    | login | Julia_marques    |
+
+    Scenario: login não encontrado
+    Given o login "<login>" está armazenado no sistema com senha "<senha>"
+    When eu peço ao sistema pela senha do login "<login>" com um método GET
+    Then o sistema retorna o status code "400"
+    And o sistema retorna a mensagem "bad request: login não encontrado"
