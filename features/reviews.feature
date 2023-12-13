@@ -1,32 +1,32 @@
 Cenário 1 - Adicionar Review (completo)
-Given Eu estou logado com o usuário “Pedro”
-And Eu estou na aba do restaurante “Burger King”
-And Eu vejo a informação “10 reviews” com nota média de 5 estrelas
+Given Eu estou logado com o usuário “Pedro Monte”
+And Eu estou na aba do restaurante “Casa dos Doces”
+And Eu vejo a informação “11 reviews” com nota média de 4 estrelas
 When Eu aperto em “Fazer review”
 And Surge uma janela de preenchimento de review
-And Eu preencho o título “O rei dos fast foods!”
+And Eu preencho o título “O melhor bem casado da cidade!”
 And Eu preencho o texto do review
-And Eu dou a nota “4” para o restaurante “Burger King”
+And Eu dou a nota “5” para o restaurante “Casa dos Doces”
 And Eu clico em “Enviar”
 Then Aparece uma mensagem “Concluído”
 And Volto para a página do restaurante
-And Eu vejo a informação “11 reviews” com nota média de 4.9 estrelas
+And Eu vejo a informação “12 reviews” com nota média de 4.1 estrelas
 And Eu clico em “Reviews de Usuários”
-And Eu vejo o review “O rei dos fast foods!”
+And Eu vejo o review “O melhor bem casado da cidade!”
 
 Cenário 2 - Adicionar Nota
 Given Eu estou logado com o usuário “Pedro”
 And Eu estou na aba do restaurante “Burger King”
-And Eu vejo a informação “10 reviews” com nota média de 5 estrelas
+And Eu vejo a informação “11 reviews” com nota média de 4 estrelas
 And Eu vejo a região “Faça uma avaliação” com 5 estrelas cinzas
 When Eu aperto em 4 estrelas
 Then As 4 estrelas ficam amarelas
 And O número de avaliações sobe para “11 reviews”
-And A nota cai para 4.9 estrelas
+And A nota mantém em 4 estrelas
 
 Cenário 3 - Visualização dos Reviews de um Restaurante
 Given Eu estou logado com o usuário “Pedro”
-And Eu estou na aba do restaurante “Burger King”
+And Eu estou na aba do restaurante “Casa dos DOces”
 When Eu aperto em “Reviews de Usuários”
 Then Abre uma aba com reviews de usuários
  
