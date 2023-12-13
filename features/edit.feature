@@ -59,8 +59,8 @@ Given estou na tela “Menu de Edição” e minha senha é “qwerty123a”
 Scenario: Edição de senha inválida do perfil
 
     Given estou na tela de “Trocar senha” e minha senha é “qwertYy@123a”
-    When eu preencho o campo “Senha atual” com “!Abc1234”
+    When eu preencho o campo “Senha atual” com “qwertYy@123a”
     And eu preencho o campo “Nova senha” com “123456789”
-    And eu preencho o campo “Confirmar nova senha” com “123456789a” 
+    And eu preencho o campo “Confirmar nova senha” com “123456789” 
     Then o pop-up “Senha inválida! Verifique os requisitos de senha.” aparece
     And sou redirecionado para tela "Trocar senha"
