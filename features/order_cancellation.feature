@@ -38,7 +38,7 @@ Then há uma "notificação" informando "Senha incorreta, tente novamente!".
 
 Scenario: Falha no cancelamento por falta de preenchimento do campo "Motivo".
 Given eu estou logado como "Emilly" com senha "aaabbbccc".
-And eu estou na página "Pedidos.
+And eu estou na página "Pedidos".
 And eu estou com a "Janela de confirmação" aberta.
 When insiro a senha "aaabbbccc".
 And seleciona a opção "Confirmar Cancelamento".
@@ -55,7 +55,7 @@ Then há uma "notificacao" informando "Pedido Cancelado com sucesso!"
 
 Scenario: Falha no cancelamento por falta de preenchimento do campo "Senha".
 Given eu estou logado como "Otavio" com senha "googleMaps".
-And eu estou na página "Pedidos.
+And eu estou na página "Pedidos".
 And eu estou com a "Janela de confirmação" aberta.
 When seleciona a opção "Outros".
 And seleciona a opção "Confirmar Cancelamento".
