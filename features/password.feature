@@ -10,9 +10,9 @@ Feature: Recuperação de senha
         | Rafael_Campos    | jfsalg1  |
         | Gabriela_Almeida | senha123 |
         And os seguintes administradores existem no sistema:
-        | email                | cpf         | login           |
-        | ju_marques@gmail.com | 11122233344 | Julia_marques   |
-        | fcastor@hotmail.com  | 44433322211 | Fernando_castor |
+        | email                | cpf         | login           | senha      |
+        | ju_marques@gmail.com | 11122233344 | Julia_marques   | farofa789  |
+        | fcastor@hotmail.com  | 44433322211 | Fernando_castor | flamengogo |
 
     ## cenários de GUI
     Scenario: recuperação de senha bem sucedida
@@ -67,14 +67,21 @@ Feature: Recuperação de senha
     And o sistema retorna o valor de senha "<senha>"
 
     Examples:
-    | campo | valor            |
-    | login | Breno_Miranda    |
-    | login | Rafael_Campos    |
-    | login | Gabriela_Almeida |
-    | login | Julia_marques    |
+    | login            | senha     |
+    | Breno_Miranda    | 12345678  |
+    | Rafael_Campos    | jfsalg1   |
+    | Gabriela_Almeida | senha123  |
+    | Julia_marques    | farofa789 |
 
     Scenario: login não encontrado
-    Given o login "<login>" está armazenado no sistema com senha "<senha>"
+    Given o login "<login>" não está armazenado no sistema
     When eu peço ao sistema pela senha do login "<login>" com um método GET
     Then o sistema retorna o status code "400"
     And o sistema retorna a mensagem "bad request: login não encontrado"
+
+    Examples:
+    | login          |
+    | wesley1        |
+    | ben10          |
+    | guilherme888   |
+    | juliaFarias    |
