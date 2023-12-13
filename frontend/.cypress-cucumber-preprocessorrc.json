@@ -1,0 +1,7 @@
+{
+  "nonGlobalStepDefinitions": true,
+  "stepDefinitions": [
+    "cypress/e2e/features/[filepath]/*.ts",
+    "cypress/e2e/features/common-step-definitions/*.ts"
+  ]
+}

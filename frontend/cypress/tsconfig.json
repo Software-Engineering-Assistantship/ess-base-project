@@ -1,0 +1,9 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compilerOptions": {
+    "rootDir": "./",
+    "sourceMap": false,
+    "types": ["node", "cypress"]
+  },
+  "include": ["./**/*.ts"]
+}
