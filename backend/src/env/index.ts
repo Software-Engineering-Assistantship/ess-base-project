@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   DATABASE_URL: z.string(),
+  SERVER_PORT: z.string(),
 });
 
 const envValidation = envSchema.safeParse(process.env);

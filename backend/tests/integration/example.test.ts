@@ -1,15 +1,15 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
-import database from '../database/connection';
-import request from 'supertest';
-import { beforeEach } from 'node:test';
-import app from '../../src/app';
 import { PrismaClient } from '@prisma/client';
 
-const feature = loadFeature('../backend/tests/features/tests.feature');
+import database from '../database/connection';
+import request from 'supertest';
+import app from '../../src/app';
+
+const feature = loadFeature('../backend/tests/features/example.feature');
 
 defineFeature(feature, test => {
   
-  test('Depositing a paycheck', ({ given, when, then }) => {
+  test('Cenário de exemplo', ({ given, when, then, and }) => {
     const prismaTestClient = new PrismaClient();
     
     given(/^I don't have any user with email "(.*)"$/, async (email) => {
@@ -20,13 +20,13 @@ defineFeature(feature, test => {
         }
       });
 
-      console.log('omg user exists: ', { ...userExists });
+      expect(userExists).toBe(null);
     });
     
     when(/^I insert a user with: name "(.*)", email "(.*)", cpf "(.*)", password "(.*)", phone "(.*)"$/, async (
       name, email, cpf, password, phone
     ) => {
-      await prismaTestClient.user.create({
+      const newUser = await prismaTestClient.user.create({
         data: {
           name,
           email,
@@ -35,18 +35,37 @@ defineFeature(feature, test => {
           phone
         }
       })
+
+      expect(newUser).toHaveProperty('name', name);
+      expect(newUser).toHaveProperty('email', email);
+      expect(newUser).toHaveProperty('cpf', cpf);
+      expect(newUser).toHaveProperty('password', password);
+      expect(newUser).toHaveProperty('phone', phone);
     });
 
-    then(/^I should have a user with email "(.*)" and id "(.*)"$/, async (email) => {
+    then(/^I should have a user with email "(.*)"$/, async (email) => {
       const user = await prismaTestClient.user.findFirst({
         where: {
           email,
         }
       });
 
-      console.log({ ...user });
+      expect(user).toHaveProperty('email', email);
+    });
+
+    and(/^I should have this user with id "(.*)"$/, async (id) => {
+      const user = await prismaTestClient.user.findFirst({
+        where: {
+          id: Number(id),
+        }
+      });
+
+      expect(user).toHaveProperty('id', Number(id));
+
       await database.clearValues();
       await database.disconnect();
     });
+
   });
+
 });
