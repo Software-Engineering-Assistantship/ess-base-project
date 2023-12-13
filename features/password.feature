@@ -1,7 +1,7 @@
 Feature: Recuperação de senha
     As a usuário do Ecommerce
     I want to recuperar minha senha perdida
-    So that Posso recupera-la
+    So that Posso acessar minha conta
 
     Background: 
         Given os seguintes usuários existem no sistema: 
@@ -31,7 +31,7 @@ Feature: Recuperação de senha
 
     Scenario: recuperação de senha de admin bem sucedida 
     Given estou na pagina "login"
-    When preencho em "<campo>" com o dado "<dado>"
+    When preencho em "<campo>" com o dado "<valor>"
     And pressiono "Esqueci senha"
     Then eu consigo ver uma mensagem contendo a minha senha
     And eu permaneço na página "login"
