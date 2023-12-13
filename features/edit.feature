@@ -36,10 +36,10 @@ Scenario: Edição de capa do perfil
 
 Scenario: Edição de senha do perfil
 
-    Given estou na tela de “Trocar senha” e minha senha é “abc1234”
-    When eu preencho o campo “Senha atual” com “abc1234”
-    And eu preencho o campo “Nova senha” com “qwerty123a”
-    And eu preencho o campo “Confirmar nova senha” com “qwerty123a” 
+    Given estou na tela de “Trocar senha” e minha senha é “!Abc1234”
+    When eu preencho o campo “Senha atual” com “!Abc1234”
+    And eu preencho o campo “Nova senha” com “qwertYy@123a”
+    And eu preencho o campo “Confirmar nova senha” com “qwertYy123a” 
     Then o pop-up “Alteração realizada com sucesso!” aparece
     And a minha senha estará alterada para “qwerty123a”
     Scenario: Remoção de perfil
