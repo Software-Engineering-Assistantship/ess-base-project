@@ -1,43 +1,32 @@
-import express from 'express';
-import 'express-async-errors';
+import express, { Express } from 'express';
 import cors from 'cors';
-import logger from './logger';
-import setupRoutes from './routes/index';
-import { HttpError } from './utils/errors/http.error';
-import { FailureResult } from './utils/result';
-import Database from './database';
+import cookieParser from 'cookie-parser';
+import expressWinston from 'express-winston';
+import helmet from 'helmet';
+import routes from './routes';
+import { requestHandler, errorHandler, requestLogger } from './middlewares';
 
-const app: express.Express = express();
+const app: Express = express();
+
+app.use(helmet());
+
 app.use(express.json());
-
 app.use(
   cors({
-    origin: '*',
-  })
+    origin: 'http://localhost:3000',
+  }),
 );
-
-setupRoutes(app);
-
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use(
-  (
-    error: HttpError,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    if (error.status >= 500) {
-      logger.error(error.toString());
-    }
-
-    new FailureResult({
-      msg: error.msg ?? error.message,
-      msgCode: error.msgCode,
-      code: error.status,
-    }).handle(res);
-  }
+  expressWinston.logger({ winstonInstance: requestLogger, statusLevels: true }),
 );
+expressWinston.requestWhitelist.push('body');
+expressWinston.responseWhitelist.push('body');
+app.use(routes);
 
-// e.g. Seed database with initial data;
-Database.seed();
+app.use(errorHandler);
+app.use(requestHandler);
+app.use(expressWinston.errorLogger({ winstonInstance: requestLogger }));
 
 export default app;
