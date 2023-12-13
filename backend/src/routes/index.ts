@@ -1,14 +1,13 @@
-import { Express, Router } from 'express';
-import { di } from '../di';
-import TestController from '../controllers/test.controller';
-import TestService from '../services/test.service';
+import { Router } from 'express';
+
+import UserRouter from './UserRoutes';
 
 const router = Router();
-const prefix = '/api';
 
-export default (app: Express) => {
-  app.use(
-    prefix,
-    new TestController(router, di.getService(TestService)).router
-  );
-};
+router.use('/user', UserRouter);
+
+router.route('/').get((_, res) => {
+  res.status(200).send('🚀 ESS Server running');
+});
+
+export default router;
