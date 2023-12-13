@@ -1,18 +1,14 @@
-Scenario 1: Criação de usuário
-
+Scenario:
 Given eu estou na página inicial do sistema
-When eu seleciono a opção “Cadastre-se já”
+When eu seleciono “Cadastre-se já”
 Then eu sou redirecionado para uma tela de criação de novo usuário
-When eu preencho os campo de Usuário com “joão”
-And preencho o campo de Email  com “joao@gmail.com”
-And preencho o campo de CPF com “123.432.542-87”
-And preencho o campo de senha com “#Senha123”
-And confirmo minha senha com “#Senha123”
-And seleciono uma foto de perfil
-And eu clico no botão “Confirmar”
+And eu preencho o Email como “joao@gmail.com”
+And eu preencho o CPF como “123.432.542-87
+And eu preencho a senha como “#Senha123“
+And eu preencho a confirmação de senha como “# Senha123“
+And eu envio
 Then eu sou redirecionado para a página inicial
-And eu sou capaz de fazer login com meu novo usuário
-
+And eu sou capaz de fazer o login com o meu novo usuário
 
 Scenario 2: Usuário solicita a recuperação de conta
 
@@ -53,3 +49,15 @@ And preencho o campo de confirmar senha com “senha123”
 And preencho o campo de CPF
 And clico em “Enviar”
 Then recebo o aviso:” A senha deve conter no Mínimo uma Letra maiúscula e um caracter especial”  
+
+Scenario 8: o Usuário loga no sistema
+
+Scenario:
+Given que eu não estou logado com nenhum usuário do sistema
+And meu login é “joão”
+And minha senha é “#Senha123”
+When seleciono a opção “Já tenho conta”
+And preencho o usuário como “joão”
+And preencho a senha como “#Senha123”
+And eu confirmo
+Then consigo logar na minha conta
