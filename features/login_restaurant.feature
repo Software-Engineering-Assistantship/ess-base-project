@@ -1,3 +1,8 @@
+Feature: loginclient
+    As a usuário não logado
+    I want to fazer login com meu email e senha
+    So that eu posso acessar minha conta no iBreno
+
 Scenario: Login realizado com sucesso
 	Given eu estou na aba “Login”
 	When eu preencho o campo de email com um email cadastrado “ecab@cin.ufpe.br”
