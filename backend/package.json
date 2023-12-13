@@ -9,7 +9,7 @@
     "test": "env-cmd -f .env.test jest --verbose --coverage  --config ./jest.config.js --detectOpenHandles",
     "prettier": "prettier --write 'src/**/*.{ts,js}'",
     "lint": "eslint '**/*.ts' --report-unused-disable-directives --max-warnings 0 --fix",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install"
   },
   "keywords": [],
   "author": "",

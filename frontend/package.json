@@ -17,7 +17,7 @@
     "cy:e2e-interactive": "start-server-and-test testing http-get://localhost:3000 cy:open-e2e",
     "cy:e2e-headless": "start-server-and-test testing http-get://localhost:3000 cy:run-e2e",
     "cy:show-coverage": "open ./cypress-coverage/lcov-report/index.html",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
