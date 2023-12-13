@@ -5,10 +5,10 @@ Feature: Recuperação de senha
 
     Background: 
         Given os seguintes usuários existem no sistema: 
-        | login            |
-        | Breno_Miranda    |
-        | Rafael_Campos    |
-        | Gabriela_Almeida |
+        | login            | senha    |
+        | Breno_Miranda    | tufk90T! |
+        | Rafael_Campos    | jfsalg1  |
+        | Gabriela_Almeida | senha123 |
         And os seguintes administradores existem no sistema:
         | email                | cpf         | login           |
         | ju_marques@gmail.com | 11122233344 | Julia_marques   |
@@ -19,8 +19,14 @@ Feature: Recuperação de senha
     Given estou na página "login"
     When preencho em "login" com o dado "<nome_de_usuario>"
     And pressiono "Esqueci senha"
-    Then eu consigo ver uma mensagem contendo a minha senha
+    Then eu consigo ver uma mensagem contendo a minha "<senha>"
     And eu permaneço na página "login"
+
+    Examples:
+    | nome_de_usuario  | senha    |
+    | Breno_Miranda    | 12345678 |
+    | Rafael_Campos    | jfsalg1  |
+    | Gabriela_Almeida | senha123 |
 
     Scenario: login não encontrado
     Given estou na pagina "login"
