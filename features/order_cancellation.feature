@@ -6,7 +6,7 @@ So that quando eu tiver algum contratempo ou mudar de ideia, eu possa cancelar o
 Scenario: Cancelar pedido com status "Confirmado" e dentro do tempo limite (5 minutos).
 Given eu estou logado como "Hugo" com senha "senha_userHugo".
 And eu estou na página "Pedidos". 
-And o pedido "#01" foi realizado há "3" minutos.
+And "Hugo" finalizou o pedido "#01" há "3" minutos.
 And o status do pedido "#01" é "Confirmado".
 When seleciona a opção "Cancelar Pedido" do pedido "#01". 
 Then aparece a "Janela  de Confirmacao".
@@ -14,7 +14,7 @@ Then aparece a "Janela  de Confirmacao".
 Scenario: Falha ao cancelar pedido após o tempo limite (5 minutos).
 Given eu estou logado como "Cleber" com senha "senha_userCleber".
 And eu estou na página "Pedidos". 
-And um usuário finalizou o pedido "#01" há "6" minutos.
+And "Cleber" finalizou o pedido "#01" há "6" minutos.
 And o status do pedido "#01" é "Confirmado".
 When seleciona a opção "Cancelar Pedido". 
 Then há uma "notificacao" informando "Tempo limite excedido!!".
