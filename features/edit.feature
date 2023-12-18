@@ -68,3 +68,15 @@ Scenario: Edição de senha inválida do perfil
     And eu preencho o campo “Confirmar nova senha” com “123456789” 
     Then uma mensagem de falha aparece
     And sou redirecionado para tela "Trocar senha"
+
+
+Scenario: Remoção de perfil com falha
+
+    Given estou na tela "Avançado" logado como "gmsmr@cin.ufpe.br" e minha senha é “qwertYy@123a”
+    And uma mensagem de alerta aparece
+    And confirmo o alerta
+    When eu preencho o campo "Digite sua senha" com "qwertYy@123a"
+    And eu preencho o campo "Confirme sua senha" com "qwertYy@123"
+    And confirmo minha decisão
+    Then uma mensagem de falha aparece
+    And sou redirecionado para tela "Avançado"
