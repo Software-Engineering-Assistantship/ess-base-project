@@ -8,6 +8,8 @@ services:
       ENV: DEV
       PORT: 5001
       DATABASE_URL: 'mysql://root:admin@db:3306/ibreno_db'
+    volumes:
+      - .:/app
     ports:
       - '5001:5001'
 
