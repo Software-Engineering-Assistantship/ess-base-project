@@ -13,12 +13,35 @@ This is the Back-end base project in Node.js for the Software and Systems Engine
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+## Option 1 (Recommended) - Running with Docker
+
+### Prerequisites
+
+In order to run the project with a Docker infrastructure, make sure Docker is installed on your system.
+If it is not, you can follow <a href="https://docs.docker.com/engine/install/">these steps</a> for an Ubuntu-based system
+
+### Running the server
+
+In order to run the server, open up a terminal in the backend root directory and run
+```
+docker compose up
+```
+<b>If it is the first time the server is being executed, or if there has been some change in the Prisma schema file, migrations will need
+to be re-run. To do so, open a terminal and run: </b>
+
+```
+docker exec backend-ibreno-1 sh -c "npx prisma migrate dev"
+```
+
+## Option 2 - Running without Docker
+
 ### Prerequisites
 
 To run this project, you'll need to have the following software installed on your system:
 
 - Node.js
 - npm (Node Package Manager)
+- MySQL
 
 ### Installing
 
@@ -45,6 +68,8 @@ npm run
 
 This project uses `.env` files to manage environment variables. You can create a `.env.dev` file in the project directory and set the environment variables in the file (You can create it from .`env.example`). The `env` script in the `package.json` file uses the `env-cmd` package to load the environment variables from the `.env.dev` file.
 
+One crucial step is to correctly configure MySQL connection URL into the `.env` file. If you don't know how to do so, make sure to check <a href="https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/connect-your-database-typescript-mysql">this post</a>
+
 ### Running the Server
 
 To start the server, run the following command:
@@ -54,6 +79,15 @@ env=dev npm run start
 ```
 
 This command will run the TypeScript compiler in watch mode and start the server using nodemon.
+
+### Executing Migrations
+
+If it is the first time the server is being executed, or if there has been some change in the Prisma schema file, migrations will need
+to be re-run. To do so, open a terminal and run:
+
+```
+npx prisma migrate dev
+```
 
 ## Scripts
 
