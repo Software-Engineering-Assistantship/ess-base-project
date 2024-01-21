@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import RestaurantModel from '../models/RestaurantModel';
 import DuplicateFieldError from '../errors/DuplicateFieldError';
 import { body, validationResult } from 'express-validator';
+import bcrypt from 'bcrypt';
 
 class RestaurantController {
   static async insert(req: Request, res: Response) {
@@ -11,18 +12,18 @@ class RestaurantController {
       return res.status(422).json({ message: errors.array() });
     }
 
-    const { name, CNPJ, email } = req.body;
+    const { name, CNPJ, email, password } = req.body;
 
-    console.log(name, CNPJ, email);
-
-    try {
-      await RestaurantModel.insert(name, CNPJ, email);
-      return res.status(201).json({ message: 'Restaurant created' });
-    } catch (error: any) {
-      if (error instanceof DuplicateFieldError) {
-        return res.status(error.statusCode).json({ message: error.message });
+    bcrypt.hash(password, 10).then(async (encryptedPassword) => {
+      try {
+        await RestaurantModel.insert(name, CNPJ, email, encryptedPassword);
+        return res.status(201).json({ message: 'Restaurant created' });
+      } catch (error: any) {
+        if (error instanceof DuplicateFieldError) {
+          return res.status(error.statusCode).json({ message: error.message });
+        }
       }
-    }
+    });
   }
 
   static async index(req: Request, res: Response) {

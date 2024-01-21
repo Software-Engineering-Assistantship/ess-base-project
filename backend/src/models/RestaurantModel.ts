@@ -2,13 +2,19 @@ import prisma from '../database';
 import { Prisma } from '@prisma/client';
 import DuplicateFieldError from '../errors/DuplicateFieldError';
 class RestaurantModel {
-  static async insert(name: string, CNPJ: string, email: string) {
+  static async insert(
+    name: string,
+    CNPJ: string,
+    email: string,
+    password: string
+  ) {
     try {
       await prisma.restaurant.create({
         data: {
           name,
           cnpj: CNPJ,
           email,
+          password,
         },
       });
     } catch (error) {
@@ -28,7 +34,9 @@ class RestaurantModel {
   }
 
   static async index() {
-    const restaurants = await prisma.restaurant.findMany();
+    const restaurants = await prisma.restaurant.findMany({
+      select: { id: true, name: true, cnpj: true, email: true },
+    });
 
     return restaurants;
   }
