@@ -23,14 +23,29 @@ If it is not, you can follow <a href="https://docs.docker.com/engine/install/">t
 ### Running the server
 
 In order to run the server, open up a terminal in the backend root directory and run
+
 ```
 docker compose up
 ```
-<b>If it is the first time the server is being executed, or if there has been some change in the Prisma schema file, migrations will need
+
+<b>If it is the first time the server is being executed, migrations will need
 to be re-run. To do so, open a terminal and run: </b>
 
 ```
 docker exec backend-ibreno-1 sh -c "npx prisma migrate dev"
+```
+
+<b>Every time the prisma schema file is altered, the database must be updated with:</b>
+
+```
+docker exec backend-ibreno-1 -it bash
+```
+
+Then, once inside the container, run:
+
+```
+npx prisma migrate dev
+
 ```
 
 ## Option 2 - Running without Docker
@@ -48,7 +63,9 @@ To run this project, you'll need to have the following software installed on you
 Clone the repository and install the dependencies by running the following command in the project directory:
 
 ```
+
 npm install
+
 ```
 
 ### First time running ?
@@ -56,12 +73,16 @@ npm install
 Run the follow scripts
 
 ```
+
 chmod +x .husky/pre-commit
 chmod +x .husky/pre-push
+
 ```
 
 ```
+
 npm run
+
 ```
 
 ### Environment
@@ -75,18 +96,21 @@ One crucial step is to correctly configure MySQL connection URL into the `.env` 
 To start the server, run the following command:
 
 ```
+
 env=dev npm run start
+
 ```
 
 This command will run the TypeScript compiler in watch mode and start the server using nodemon.
 
 ### Executing Migrations
 
-If it is the first time the server is being executed, or if there has been some change in the Prisma schema file, migrations will need
-to be re-run. To do so, open a terminal and run:
+If it is the first time the server is being executed. To do so, open a terminal and run:
 
 ```
+
 npx prisma migrate dev
+
 ```
 
 ## Scripts
@@ -112,3 +136,7 @@ The following dependencies are used in the project:
 ## Architecture
 
 To understand and learn more details about the structure of the project, click [here](./docs/architecture-pattern.md) to be redirected to the README that contains this information.
+
+```
+
+```
