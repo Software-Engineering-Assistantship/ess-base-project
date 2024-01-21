@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import RestaurantModel from '../models/RestaurantModel';
+import DuplicateFieldError from '../errors/DuplicateFieldError';
 
 class RestaurantController {
   static async insert(req: Request, res: Response) {
@@ -11,7 +12,9 @@ class RestaurantController {
       await RestaurantModel.insert(name, CNPJ, email);
       return res.status(201).json({ message: 'Restaurant created' });
     } catch (error: any) {
-      return res.status(409).json({ message: error.message });
+      if (error instanceof DuplicateFieldError) {
+        return res.status(error.statusCode).json({ message: error.message });
+      }
     }
   }
 
