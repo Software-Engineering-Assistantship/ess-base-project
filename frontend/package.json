@@ -16,8 +16,7 @@
     "cy:run-e2e": "cypress run --e2e",
     "cy:e2e-interactive": "start-server-and-test testing http-get://localhost:3000 cy:open-e2e",
     "cy:e2e-headless": "start-server-and-test testing http-get://localhost:3000 cy:run-e2e",
-    "cy:show-coverage": "open ./cypress-coverage/lcov-report/index.html",
-    "prepare": "husky install"
+    "cy:show-coverage": "open ./cypress-coverage/lcov-report/index.html"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
@@ -50,7 +49,6 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
-    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.0.2",
