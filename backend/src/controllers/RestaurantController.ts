@@ -11,7 +11,7 @@ class RestaurantController {
       await RestaurantModel.insert(name, CNPJ, email);
       return res.status(201).json({ message: 'Restaurant created' });
     } catch (error: any) {
-      return res.status(500).json({ message: error.message });
+      return res.status(409).json({ message: error.message });
     }
   }
 
