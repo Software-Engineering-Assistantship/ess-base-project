@@ -40,6 +40,10 @@ class RestaurantModel {
 
     return restaurants;
   }
+
+  static async delete(id: number) {
+    await prisma.restaurant.delete({ where: { id } });
+  }
 }
 
 export default RestaurantModel;

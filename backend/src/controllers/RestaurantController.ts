@@ -35,6 +35,17 @@ class RestaurantController {
     }
   }
 
+  static async delete(req: Request, res: Response) {
+    const { id } = req.params;
+
+    try {
+      await RestaurantModel.delete(Number(id));
+      return res.status(200).json({ message: 'Restaurant deleted' });
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
   static validate(method: string) {
     switch (method) {
       case 'insert': {
