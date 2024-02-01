@@ -46,6 +46,24 @@ class RestaurantController {
     }
   }
 
+  static async update(req: Request, res: Response) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ message: errors.array() });
+    }
+
+    const { id } = req.params;
+    const { name, CNPJ, email, password } = req.body;
+
+    try {
+      await RestaurantModel.update(Number(id), name, CNPJ, email, password);
+      return res.status(200).json({ message: 'Restaurant updated' });
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
   static validate(method: string) {
     switch (method) {
       case 'insert': {
@@ -56,6 +74,16 @@ class RestaurantController {
             .notEmpty()
             .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").exists().isEmail(),
+        ];
+      }
+      case 'update': {
+        return [
+          body('name', "Campo 'nome' inválido'").notEmpty().optional(),
+          body('CNPJ', "Campo 'CNPJ' inválido'")
+            .optional()
+            .notEmpty()
+            .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
+          body('email', "Campo 'email' inválido'").isEmail().optional(),
         ];
       }
       default:

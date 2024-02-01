@@ -17,4 +17,10 @@ router.get('/restaurants', RestaurantController.index);
 
 router.delete('/restaurants/:id', RestaurantController.delete);
 
+router.put(
+  '/restaurants/:id',
+  RestaurantController.validate('update'),
+  RestaurantController.update
+);
+
 export default router;

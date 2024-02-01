@@ -44,6 +44,19 @@ class RestaurantModel {
   static async delete(id: number) {
     await prisma.restaurant.delete({ where: { id } });
   }
+
+  static async update(
+    id: number,
+    name: string,
+    CNPJ: string,
+    email: string,
+    password: string
+  ) {
+    await prisma.restaurant.update({
+      where: { id },
+      data: { name, cnpj: CNPJ, email, password },
+    });
+  }
 }
 
 export default RestaurantModel;
