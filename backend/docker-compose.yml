@@ -10,6 +10,7 @@ services:
       DATABASE_URL: 'mysql://root:admin@db:3306/ibreno_db'
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
       - '5001:5001'
 
