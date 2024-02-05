@@ -43,7 +43,8 @@ model Order {
   client   Client @relation(fields: [clientId], references: [id])
   clientId Int // relation scalar field (used in the `@relation` attribute above)
 
-  number Int //the number of items added on the cart
+  //the number of items added on the cart
+  number Int @default(1)
 
   @@id([itemId, clientId])
 }
