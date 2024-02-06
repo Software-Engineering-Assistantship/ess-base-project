@@ -3,9 +3,9 @@ import { PrismaClient } from '@prisma/client';
 
 import database from '../database/connection';
 import request from 'supertest';
-import app from '../../src/app';
+import app from '../../app';
 
-const feature = loadFeature('../backend/tests/features/example.feature');
+const feature = loadFeature('../backend/src/tests/features/example.feature');
 
 defineFeature(feature, test => {
   
