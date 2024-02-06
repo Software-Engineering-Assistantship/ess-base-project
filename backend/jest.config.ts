@@ -31,8 +31,8 @@ export default {
   // ],
 
   testMatch: [
-    '<rootDir>/tests/unit/*.test.ts',
-    '<rootDir>/tests/integration/*.test.ts',
+    '<rootDir>/src/tests/unit/**/*.test.ts',
+    '<rootDir>/src/tests/integration/**/*.test.ts',
   ],
 
   // Indicates which provider should be used to instrument code for coverage
