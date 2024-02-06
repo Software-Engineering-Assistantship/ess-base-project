@@ -116,6 +116,25 @@ class DeliveryPersonController {
       return next(error);
     }
   }
+  async updateAddress(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { cpf } = req.params;
+      const addressData = req.body as Prisma.AddressUncheckedUpdateInput;
+
+      const updatedDeliveryPerson =
+        await DeliveryPersonRepository.updateAddress(cpf, addressData);
+
+      res.locals = {
+        status: 200,
+        data: updatedDeliveryPerson,
+        message: 'Address updated for the delivery person',
+      };
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 export default new DeliveryPersonController();

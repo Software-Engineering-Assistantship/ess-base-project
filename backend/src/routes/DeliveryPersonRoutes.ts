@@ -2,12 +2,16 @@ import { Router } from 'express';
 import { DeliveryPersonController } from '@controllers';
 const deliveryPersonRouter = Router();
 
-deliveryPersonRouter.post('/', DeliveryPersonController.create);
+deliveryPersonRouter.route('/').post(DeliveryPersonController.create);
 
-deliveryPersonRouter.get('/cpf/:cpf', DeliveryPersonController.readByCPF);
+deliveryPersonRouter.route('/cpf/:cpf').get(DeliveryPersonController.readByCPF);
 
-deliveryPersonRouter.get('/name/:name', DeliveryPersonController.readByName);
+deliveryPersonRouter
+  .route('/name/:name')
+  .get(DeliveryPersonController.readByName);
 
-deliveryPersonRouter.patch('/:cpf', DeliveryPersonController.update);
-
+deliveryPersonRouter.route('/:cpf').patch(DeliveryPersonController.update);
+deliveryPersonRouter
+  .route('/address/:cpf')
+  .patch(DeliveryPersonController.updateAddress);
 export default deliveryPersonRouter;
