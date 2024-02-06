@@ -11,11 +11,37 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  phone String
-  cpf String
-  email String @unique
+  id       Int    @id @default(autoincrement())
+  name     String
+  phone    String
+  cpf      String
+  email    String @unique
   password String
 }
 
+model DeliveryPerson {
+  id        String    @id @default(uuid())
+  name      String
+  cpf       String    @unique
+  phone     String
+  email     String    @unique
+  status    String
+  address   Address[]
+  createdAt DateTime  @default(now())
+}
+
+model Address {
+  id         String   @id @default(uuid())
+  postalCode String
+  street     String
+  number     String
+  district   String
+  city       String
+  state      String
+  complement String?
+  reference  String?
+  userId     String   @unique
+  createdAt  DateTime @default(now())
+
+  DeliveryPerson DeliveryPerson @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

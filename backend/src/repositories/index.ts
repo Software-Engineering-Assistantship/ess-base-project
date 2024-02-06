@@ -1,3 +1,3 @@
 import UserRepository from './userRepository';
-
-export { UserRepository };
+import DeliveryPersonRepository from './deliveryPerson';
+export { UserRepository, DeliveryPersonRepository };

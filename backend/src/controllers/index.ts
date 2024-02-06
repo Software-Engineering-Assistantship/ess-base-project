@@ -1,3 +1,3 @@
 import UserController from './UserController';
-
-export { UserController };
+import DeliveryPersonController from './deliveryPerson';
+export { UserController, DeliveryPersonController };
