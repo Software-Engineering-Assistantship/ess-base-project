@@ -12,7 +12,8 @@ datasource db {
 
 model Restaurant {
   id          Int       @id @default(autoincrement())
-  name        String
-  cnpj        String
-  email       String
+  name        String    
+  cnpj        String    @unique
+  email       String    @unique
+  password    String
 }
