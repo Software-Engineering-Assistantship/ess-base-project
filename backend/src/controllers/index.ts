@@ -1,3 +1,5 @@
 import UserController from './UserController';
+import PromotionController from './PromotionController';
+import CuponsController from './CuponsController';
 
-export { UserController };
+export { UserController, PromotionController, CuponsController };

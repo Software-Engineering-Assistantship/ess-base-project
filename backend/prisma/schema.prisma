@@ -19,3 +19,18 @@ model User {
   password String
 }
 
+model Promotion {
+  id Int @id @default(autoincrement())
+  category String
+  discount Float
+  start_date DateTime
+  end_date DateTime
+}
+
+model Cupom {
+  id Int @id @default(autoincrement())
+  name String
+  discount Float
+  start_date DateTime
+  end_date DateTime
+}
