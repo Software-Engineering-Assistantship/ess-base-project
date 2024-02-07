@@ -1,11 +1,20 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import ShoppingCartModel from '../models/ShoppingCartModel';
 
 class ShoppingCartController {
-    static async insert(req: Request, res: Response) {
-        const { itemId, clientId } = req.body;
+    private static prefix = '/shopping_cart';
+
+    static setupRoutes(router: Router) {
+        router.post(this.prefix, ShoppingCartController.insertOrder);
+        router.get(this.prefix, ShoppingCartController.getUserOrders);
+        router.delete(this.prefix, ShoppingCartController.removeOrder);
+        router.put(this.prefix, ShoppingCartController.updateOrder);
+    }
+
+    static async insertOrder(req: Request, res: Response) {
+        const { clientId, itemId } = req.body;
         try {
-            await ShoppingCartModel.insert(itemId, clientId);
+            await ShoppingCartModel.insert(clientId, itemId);
             return res.status(201).json({ message: 'Item added to cart' });
         }
         catch (error: any) {
@@ -21,9 +30,10 @@ class ShoppingCartController {
         }
     }
 
-    static async index(req: Request, res: Response) {
+    static async getUserOrders(req: Request, res: Response) {
+        const clientId = Object.keys(req.body).length === 0 ? undefined : req.body.clientId;
         try {
-            const resData = await ShoppingCartModel.index();
+            const resData = await ShoppingCartModel.index(clientId);
             return res.status(200).json(resData);
         }
         catch (error: any) {
@@ -31,11 +41,25 @@ class ShoppingCartController {
         }
     }
 
-    static async remove(req: Request, res: Response) {
-        const { itemId, clientId } = req.body;
+    static async removeOrder(req: Request, res: Response) {
+        const { clientId, itemId } = req.body;
         try {
-            await ShoppingCartModel.remove(itemId, clientId);
+            await ShoppingCartModel.remove(clientId, itemId);
             return res.status(200).json({ message: 'Item removed from cart' });
+        }
+        catch (error: any) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async updateOrder(req: Request, res: Response) {
+        const { clientId, itemId, quantity } = req.body;
+        try {
+            if (quantity <= 0) {
+                return res.status(400).json({ message: 'Invalid Quantity' });
+            }
+            await ShoppingCartModel.update(clientId, itemId, quantity);
+            return res.status(200).json({ message: 'Item updated' });
         }
         catch (error: any) {
             return res.status(500).json({ message: error.message });
