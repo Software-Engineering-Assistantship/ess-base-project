@@ -38,13 +38,13 @@ model Client {
 //order table, used for the shopping_cart feature
 //stores every link of a Client and a Item
 model Order {
-  item     Item   @relation(fields: [itemId], references: [id])
-  itemId   Int // relation scalar field (used in the `@relation` attribute above)
   client   Client @relation(fields: [clientId], references: [id])
   clientId Int // relation scalar field (used in the `@relation` attribute above)
+  item     Item   @relation(fields: [itemId], references: [id])
+  itemId   Int // relation scalar field (used in the `@relation` attribute above)
 
   //the number of items added on the cart
-  number Int @default(1)
+  quantity Int @default(1)
 
   @@id([itemId, clientId])
 }
