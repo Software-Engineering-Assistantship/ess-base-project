@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-cd backend
-npm run test
-
-cd ../frontend
-npm run test
