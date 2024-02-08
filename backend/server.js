@@ -1,12 +1,16 @@
 // import required packages
 const express = require('express')
 const mongoose = require('mongoose')
+require("dotenv").config()
 
 // import models
 const Restaurant = require('./models/Restaurant')
 
 // import controllers
 const RestaurantController = require('./controllers/restaurantController')
+
+// use the PORT in .env or 3000 if it does not exist
+const port = process.env.PORT || 3000
 
 // create express app
 const app = express()
@@ -20,7 +24,7 @@ mongoose.connect("mongodb://localhost:27017/test")
     .catch(console.error)
 
 // start app 
-app.listen(3001, () => console.log("Server started on port 3001"))
+app.listen(port, () => console.log("Server started on port 3001"))
 
 // Routes
 
