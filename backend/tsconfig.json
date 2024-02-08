@@ -7,27 +7,16 @@
     "strict": true,
     "skipLibCheck": true,
     "paths": {
-      "@controllers": [
-        "./src/controllers"
-      ],
-      "@DTOs": [
-        "./src/DTOs"
-      ],
-      "@repositories": [
-        "./src/repositories"
-      ],
-      "@database": [
-        "./src/database"
-      ],
-      "@routes": [
-        "./src/routes"
-      ]
+      "@controllers": ["./src/controllers"],
+      "@DTOs": ["./src/DTOs"],
+      "@repositories": ["./src/repositories"],
+      "@database": ["./src/database"],
+      "@routes": ["./src/routes"]
     },
     "allowJs": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./src"
   },
-  "include": [
-    "src/**/*",
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["tests/**/*"]
 }

@@ -1,0 +1,12 @@
+/// <reference types="node" />
+import { EventEmitter } from 'events';
+export declare class ReportEventGenerator {
+    eventBroadcaster: EventEmitter;
+    eventDataCollector: any;
+    private featureFileEventGenerator;
+    private testCaseEventGenerator;
+    constructor();
+    onScenarioComplete(jestTestResult: any): Promise<[unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]>;
+    onTestRunComplete(jestTestResult: any): void;
+    private calculateTotalDuration;
+}

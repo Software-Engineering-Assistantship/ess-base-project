@@ -1,0 +1,5 @@
+export declare class Rocket {
+    isInSpace: boolean;
+    boostersLanded: boolean;
+    launch(): void;
+}

@@ -1,0 +1,4 @@
+import { ReportEventGenerator } from '../report-event-generation/ReportEventGenerator';
+export declare class SummaryFormatter {
+    constructor(reportEventGenerator: ReportEventGenerator);
+}

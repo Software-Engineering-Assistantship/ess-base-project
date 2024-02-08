@@ -1,0 +1,6 @@
+import { ReportEventGenerator } from '../report-event-generation/ReportEventGenerator';
+export declare class JsonFormatter {
+    constructor(reportEventGenerator: ReportEventGenerator, options: {
+        path: string;
+    });
+}

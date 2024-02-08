@@ -1,0 +1,24 @@
+import { ParsedFeature } from '../../models';
+export interface IStepResult {
+    stepText: string;
+    stepArguments: string[];
+    startTime: number;
+    endTime: number;
+    error: Error | null;
+    lineNumber: number;
+}
+export interface IScenarioResult {
+    featureTitle: string;
+    featureFilePath: string;
+    scenarioTitle: string;
+    stepResults: IStepResult[];
+    lineNumber: number;
+}
+export declare class ScenarioResultTracker {
+    private scenarioResult;
+    constructor(feature: ParsedFeature, scenarioTitle: string, lineNumber: number);
+    endScenario(): Promise<unknown>;
+    startStep(stepText: string, stepArguments: string[], lineNumber: number): void;
+    endStep(): void;
+    stepError(error: Error): void;
+}

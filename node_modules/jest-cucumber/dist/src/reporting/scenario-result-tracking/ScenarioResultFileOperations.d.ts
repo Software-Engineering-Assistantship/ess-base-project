@@ -1,0 +1,3 @@
+import { IScenarioResult } from './ScenarioResultTracker';
+export declare const saveScenarioResult: (scenarioResult: IScenarioResult) => Promise<unknown>;
+export declare const loadScenarioResult: (featureTitle: string, scenarioTitle: string) => Promise<IScenarioResult>;

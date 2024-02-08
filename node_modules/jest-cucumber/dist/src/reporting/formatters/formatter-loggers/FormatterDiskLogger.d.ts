@@ -1,0 +1,7 @@
+export declare class FormatterDiskLogger {
+    private path;
+    private logs;
+    constructor(path: string);
+    log(logText: string): void;
+    save(): void;
+}

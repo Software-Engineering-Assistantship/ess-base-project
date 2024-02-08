@@ -1,0 +1,13 @@
+/// <reference types="node" />
+import { EventEmitter } from 'events';
+import { IScenarioResult } from '../scenario-result-tracking/ScenarioResultTracker';
+export declare class TestCaseEventGenerator {
+    private eventBroadcaster;
+    private eventDataCollector;
+    constructor(eventBroadcaster: EventEmitter, eventDataCollector: any);
+    generateTestCasePreparedEvent(scenarioResult: IScenarioResult): void;
+    generateTestCaseStepEvents(scenarioResult: IScenarioResult): void;
+    generateTestCaseFinishedEvent(scenarioResult: IScenarioResult, testResult: any): void;
+    private getTestCaseSourceLocation;
+    private getTestCasePickle;
+}
