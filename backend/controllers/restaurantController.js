@@ -20,22 +20,40 @@ restaurant_profile_get  = async (req, res) => {
     }
 }
 
-const restaurant_create = (req, res) => {
-    const restaurant = new Restaurant({...req.body })
+const restaurant_create = async (req, res) => {
 
-    restaurant.save()
+    const restaurantExist = await Restaurant.find({'name' : req.body.name, 'address': req.body.address})
 
-    res.json(restaurant)
+    if(restaurantExist.length) {
+        res.json({ error: 'Restaurante já cadastrado' })
+     } else {
+        const restaurant = new Restaurant(req.body)
+
+        restaurant.save()
+
+        res.json(restaurant)
+     }
 }
 
 const restaurant_edit = async (req, res) => {
-    let restaurant = await Restaurant.findByIdAndUpdate(req.params.id, req.body)
+    let restaurant = await Restaurant.findById(req.params.id, req.body)
 
     if (!restaurant) {
         return res.status(404).json({ error: 'Restaurante não encontrado' })
-    } else{
-        res.json(restaurant)
+    } 
+
+    const {name, address} = req.body
+
+    // Verificar se os novos dados já existem em outro restaurante
+    const restaurantExist = await Restaurant.findOne({'name' : name, 'address': address})
+
+    if(restaurantExist && restaurantExist._id.toString() !== req.params.id){
+        return res.json({ error: 'Os dados de endereço e nome do restaurante não podem ser iguais a outro já cadastrado' })
     }
+
+    // Atualizar os dados do restaurante
+    restaurant.set(req.body)
+    res.json(restaurant)
 }
 
 const restaurant_delete = async (req, res) => {
