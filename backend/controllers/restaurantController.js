@@ -6,7 +6,13 @@ const restaurants_get = async (req, res) => {
     res.json(restaurants)
 }
 
-const restaurant_post = (req, res) => {
+restaurant_profile_get  = async (req, res) => {
+    const restaurant = await Restaurant.findById(req.params.id)
+
+    res.json(restaurant)
+}
+
+const restaurant_create = (req, res) => {
     const restaurant = new Restaurant({...req.body })
 
     restaurant.save()
@@ -40,7 +46,8 @@ const restaurant_delete = async (req, res) => {
 
 module.exports = {
     restaurants_get,
-    restaurant_post,
+    restaurant_profile_get,
+    restaurant_create,
     restaurant_edit,
     restaurant_delete
 }
