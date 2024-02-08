@@ -9,6 +9,9 @@ const Restaurant = require('./models/Restaurant')
 // import controllers
 const RestaurantController = require('./controllers/restaurantController')
 
+// import routers
+const restaurantRouter = require("./routes/restaurantRouter")
+
 // use the PORT in .env or 3000 if it does not exist
 const port = process.env.PORT || 3000
 
@@ -27,14 +30,5 @@ mongoose.connect("mongodb://localhost:27017/test")
 app.listen(port, () => console.log("Server started on port 3001"))
 
 // Routes
-
-app.get('/restaurants', RestaurantController.restaurants_get)
-
-app.get('/restaurant/:id', RestaurantController.restaurant_profile_get)
-
-app.post('/restaurants', RestaurantController.restaurant_create)
-
-app.put('/restaurant/edit/:id', RestaurantController.restaurant_edit)
-
-app.delete('/restaurant/delete/:id', RestaurantController.restaurant_delete)
+app.use("/restaurants", restaurantRouter)
 
