@@ -1,83 +1,75 @@
 Feature: Histórico de Pagamentos
     As a usuário do Ecommerce
-    I want to vizualiazar o histórico de pagamentos que realizei no Sistema
-    So that posso acessar meu histórico de pagamentos e filtrar 
+    I want to vizualiazar o histórico de pagamentos concluídos que realizei no Sistema
+    So that posso acessar meu histórico de pagamentos e ver os da ultima mes, trimestre ou ano
 
-Scenario: Visualizar o Histórico de Pagamentos
-Given que estou autenticado no sistema como usuário registrado
-And eu tenho pagamnetos anteriores registrados no sistema
-When eu navego até a página de Histórico de Pagamentos
-Then eu devo visualizar uma lista dos meus pagamentos anteriores
-And cada pagamento deve exibir informações como data, preço, produto ????
+    Scenario: Visualizar o Histórico de Pagamentos
+        Given que o usuário de login "pedrocorreia" está na pagina "Home"
+        And o usuário de login "pedrocorreia" tem os pagamentos de número '201', '202', '203','204', '205', '206' e '207'
+        When o usuário de login "pedrocorreia" navega até a página de "Histórico de Pagamentos"
+        Then o usuário de login "pedrocorreia" visualiza os pagemntos de número '201', '202', '203','204', '205', '206' e '207' na página de "Histórico de Pagamentos"
 
+    Scenario: Falha na Visualização o Histórico de Pagamentos
+        Given que o usuário de login "pedrocorreia" está na pagina "Home"
+        And o usuário de login "pedrocorreia" não possui nenhum pagamento
+        When o usuário de login "pedrocorreia" navega até a página de "Histórico de Pagamentos"
+        And não aparece nenhum dado na página de "Histórico de Pagamentos"
+        Then o usuário de login "pedrocorreia" visualiza uma mensagem "Nenhum Cadastro de Pagamentos ainda!"
 
-Scenario: Filtra o Histórico de Pagamentos para Último mês
-Given que o usuário autenticado está na página "Historico"
-And clica no Icone de "Filtro" 
-And eu tenho pagamnetos anteriores do último mês registrados no sistema
-When clica no campo de Último mês
-And clica em "Confirmar"
-Then a lista de pagamentos exibida é limitada ao último mês
-And cada pagamento deve exibir informações como data, preço, produto
-And o total de pagamentos para o último mês é exibido na página
-And o usuário pode voltar ao histórico completo removendo o filtro
+    Scenario: Filtra o Histórico de Pagamentos para Último mês
+        Given que o usuário de login "pedrocorreia" está na pagina "Histórico de Pagamentos" e data atual é "29/06/2023"
+        And o usuário de login "pedrocorreia" tem os pagamentos
+        de número '201' feito na data "20/05/2023", '202' feito na data "20/03/2023",
+        '203' feito na data "20/04/2023" ,'204' feito na data "20/06/2023", '205' feito na data "20/06/2023",
+        '206' feito na data "20/06/2023" e '207' feito na data "20/01/2023"
+        When o usuário de login "pedrocorreia" "filtra por data" os pagamentos para o intervalo do "ultimo mes"
+        Then o usuário de login "pedrocorreia" visualiza os pagamentos com numeros "204", "205" e "206"
 
-Scenario: Filtra o Histórico de Pagamentos para Último Trimestre
-Given que o usuário autenticado está na página "Historico"
-And clica no Icone de "Filtro" 
-And eu tenho pagamnetos anteriores do Último Trimestre registrados no sistema
-When clica no campo de Último Trimestre
-And clica em "Confirmar"
-Then a lista de pagamentos exibida é limitada ao Último Trimestre
-And cada pagamento deve exibir informações como data, preço, produto
-And o total de pagamentos para o Último Trimestre é exibido na página
-And o usuário pode voltar ao histórico completo removendo o filtro
+    Scenario: Filtra o Histórico de Pagamentos para Último Trimestre
+        Given que o usuário de login "pedrocorreia" está na pagina "Histórico de Pagamentos" e data atual é "29/06/2023"
+        And o usuário de login "pedrocorreia" tem os pagamentos
+        de número '201' feito na data "20/05/2023", '202' feito na data "20/03/2023",
+        '203' feito na data "20/04/2023" ,'204' feito na data "20/06/2023", '205' feito na data "20/06/2023",
+        '206' feito na data "20/06/2023" e '207' feito na data "20/01/2023"
+        When o usuário de login "pedrocorreia" "filtra por data" os pagamentos para o intervalo do "ultimo trimestre"
+        Then o usuário de login "pedrocorreia" visualiza os pagamentos com numeros "201", "203", "204", "205" e "206"
 
-
-Scenario: Filtra o Histórico de Pagamentos para Último Ano
-Given que o usuário autenticado está na página "Historico"
-And clica no Icone de "Filtro" 
-And eu tenho pagamnetos anteriores do Último Ano registrados no sistema
-When clica no campo de Último Ano
-And clica em "Confirmar"
-Then a lista de pagamentos exibida é limitada ao Último Ano
-And cada pagamento deve exibir informações como data, preço, produto
-And o total de pagamentos para o Último Ano é exibido na página
-And o usuário pode voltar ao histórico completo removendo o filtro
+    Scenario: Filtra o Histórico de Pagamentos para Último Ano
+        Given que o usuário de login "pedrocorreia" está na pagina "Histórico de Pagamentos" e data atual é "29/06/2023"
+        And o usuário de login "pedrocorreia" tem os pagamentos
+        de número '201' feito na data "20/05/2023", '202' feito na data "20/03/2023",
+        '203' feito na data "20/04/2023" ,'204' feito na data "20/06/2023", '205' feito na data "20/06/2023",
+        '206' feito na data "20/06/2023" e '207' feito na data "20/01/2023"
+        When o usuário de login "pedrocorreia" "filtra por data" os pagamentos para o intervalo do "ultimo ano"
+        Then o usuário de login "pedrocorreia" visualiza os pagamentos com numeros "201", "202", "203", "204", "205", "206" e "207"
 
 
-Scenario: Falha na Visualização o Histórico de Pagamentos
-Given que estou autenticado no sistema como usuário registrado
-When eu navego até a página de Histórico de Pagamentos
-And não aparece nenhum dado no historico
-Then uma mensagem é exibida indicando que "Nenhum Cadastro de Pagamentos ainda!"
+    Scenario: Falha ao Filtrar de Pagamentos no Último mês
+        Given que o usuário de login "pedrocorreia" está na pagina "Histórico de Pagamentos" e data atual é "29/06/2023"
+        And o usuário de login "pedrocorreia" tem os pagamentos
+        de número '201' feito na data "20/05/2023", '202' feito na data "20/03/2023",
+        '203' feito na data "20/04/2023"  e '207' feito na data "20/01/2023"
+        When o usuário de login "pedrocorreia" "filtra por data" os pagamentos para o intervalo do "ultimo mes"
+        And não aparece nenhum dado na página de "Histórico de Pagamentos"
+        Then o usuário de login "pedrocorreia" visualiza uma mensagem "Nenhum Cadastro de Pagamentos nesse intervalo de tempo!"
+
+    Scenario: Falha ao Filtrar de Pagamentos no Último Trimestre
+        Given que o usuário de login "pedrocorreia" está na pagina "Histórico de Pagamentos" e data atual é "29/06/2023"
+        And o usuário de login "pedrocorreia" tem os pagamentos
+        de número  '202' feito na data "20/03/2023" e '207' feito na data "20/01/2023"
+        When o usuário de login "pedrocorreia" "filtra por data" os pagamentos para o intervalo do "ultimo trimestre"
+        And não aparece nenhum dado na página de "Histórico de Pagamentos"
+        Then o usuário de login "pedrocorreia" visualiza uma mensagem "Nenhum Cadastro de Pagamentos nesse intervalo de tempo!"
+
+    Scenario: Falha ao Filtrar de Pagamentos no Último ano
+        Given que o usuário de login "pedrocorreia" está na pagina "Histórico de Pagamentos" e data atual é "29/06/2023"
+        And o usuário de login "pedrocorreia" tem o pagamento de número '208' feito na data "20/01/2022"
+        When o usuário de login "pedrocorreia" "filtra por data" os pagamentos para o intervalo do "ultimo ano"
+        And não aparece nenhum dado na página de "Histórico de Pagamentos"
+        Then o usuário de login "pedrocorreia" visualiza uma mensagem "Nenhum Cadastro de Pagamentos nesse intervalo de tempo!"
 
 
-Scenario: Falha ao Filtrar de Pagamentos no Último mês
-Given que o usuário autenticado está na página "Historico"
-And clica no Icone de "Filtro" 
-When clica no campo de Último mês
-And clica em "Confirmar"
-And não aparece nenhum dado no historico
-Then uma mensagem é exibida indicando que "Nenhum Cadastro de Pagamentos ainda!"
 
-
-Scenario: Falha ao Filtrar de Pagamentos no Último Trimestre
-Given que o usuário autenticado está na página "Historico"
-And clica no Icone de "Filtro" 
-When clica no campo de Último Trimestre
-And clica em "Confirmar"
-And não aparece nenhum dado no historico
-Then uma mensagem é exibida indicando que "Nenhum Cadastro de Pagamentos ainda!"
-
-
-Scenario: Falha ao Filtrar de Pagamentos no Último Ano
-Given que o usuário autenticado está na página "Historico"
-And clica no Icone de "Filtro" 
-When clica no campo de Último Ano
-And clica em "Confirmar"
-And não aparece nenhum dado no historico
-Then uma mensagem é exibida indicando que "Nenhum Cadastro de Pagamentos ainda!"
 
 
 
