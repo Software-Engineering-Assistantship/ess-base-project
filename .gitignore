@@ -7,6 +7,8 @@ __pycache__/
 backend/node_modules
 frontend/node_modules
 
+package-lock.json
+
 # Logs
 logs
 *.log
