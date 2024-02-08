@@ -1,5 +1,6 @@
 import { Express, Router } from 'express';
 import RestaurantController from '../controllers/RestaurantController';
+import ShoppingCartController from '../controllers/ShoppingCartController';
 
 const router = Router();
 
@@ -15,6 +16,7 @@ router.post(
 
 router.get('/restaurants', RestaurantController.index);
 
+
 router.delete('/restaurants/:id', RestaurantController.delete);
 
 router.put(
@@ -22,5 +24,11 @@ router.put(
   RestaurantController.validate('update'),
   RestaurantController.update
 );
+
+router.post('/shopping-cart', ShoppingCartController.insert);
+
+router.get('/shopping-cart', ShoppingCartController.index);
+
+router.delete('/shopping-cart', ShoppingCartController.remove);
 
 export default router;

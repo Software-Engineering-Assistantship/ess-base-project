@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Order` MODIFY `number` INTEGER NOT NULL DEFAULT 1;

@@ -11,9 +11,41 @@ datasource db {
 }
 
 model Restaurant {
-  id          Int       @id @default(autoincrement())
-  name        String    
-  cnpj        String    @unique
-  email       String    @unique
-  password    String
+  id        Int    @id @default(autoincrement())
+  name      String
+  cnpj      String @unique
+  email     String @unique
+  password  String
+
+  items Item[]
+}
+
+model Item {
+  id Int @id @default(autoincrement())
+
+  //every Item must be linked to a restaurant
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId Int
+  Order        Order[]
+}
+
+model Client {
+  id Int @id @default(autoincrement())
+
+  //more infos about the client here
+  Order Order[]
+}
+
+//order table, used for the shopping_cart feature
+//stores every link of a Client and a Item
+model Order {
+  item     Item   @relation(fields: [itemId], references: [id])
+  itemId   Int // relation scalar field (used in the `@relation` attribute above)
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId Int // relation scalar field (used in the `@relation` attribute above)
+
+  //the number of items added on the cart
+  number Int @default(1)
+
+  @@id([itemId, clientId])
 }
