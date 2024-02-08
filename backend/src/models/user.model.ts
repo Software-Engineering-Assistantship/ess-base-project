@@ -21,6 +21,23 @@ class UserModel{
       this.login = data.login;
       this.senha = data.senha;
     }
+
+    preencherCampo(campo: string, valor: string) {
+        switch (campo) {
+            case 'nome':
+                this.nome = valor;
+            case 'cpf':
+                this.cpf = valor;
+            case 'data de nascimento':
+                this.dataNascimento = new Date(valor);
+            case 'e-mail':
+                this.email = valor;
+            case 'login':
+                this.login = valor;
+            case 'senha':
+                this.senha = valor;
+        }
+    }
   }
   
   export default UserModel;
