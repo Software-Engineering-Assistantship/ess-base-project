@@ -26,9 +26,9 @@ app.listen(3001, () => console.log("Server started on port 3001"))
 
 app.get('/restaurants', RestaurantController.restaurants_get)
 
-app.post('/restaurants', RestaurantController.restaurants_post)
+app.post('/restaurants', RestaurantController.restaurant_post)
 
-app.put('/restaurant/edit/:id', RestaurantController.restaurants_edit)
+app.put('/restaurant/edit/:id', RestaurantController.restaurant_edit)
 
 app.delete('/restaurant/delete/:id', RestaurantController.restaurant_delete)
 

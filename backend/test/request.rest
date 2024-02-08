@@ -42,11 +42,11 @@ Content-Type: application/json
 }
 ###
 
-DELETE http://localhost:3001/restaurant/delete/65c1a177684b3958d9ee3274
+DELETE http://localhost:3001/restaurant/delete/65c417a0de877005385a8d75
 
 ###
 
-PUT http://localhost:3001/restaurant/edit/65c1a1ce9308b1c17256d1a1
+PUT http://localhost:3001/restaurant/edit/65c417a0de877005385a8d75
 Content-Type: application/json
 
 {

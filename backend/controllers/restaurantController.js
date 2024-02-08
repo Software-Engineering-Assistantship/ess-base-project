@@ -1,3 +1,5 @@
+const Restaurant = require("../models/Restaurant")
+
 const restaurants_get = async (req, res) => {
     const restaurants = await Restaurant.find()
 
@@ -36,3 +38,9 @@ const restaurant_delete = async (req, res) => {
     res.json(restaurant)
 }
 
+module.exports = {
+    restaurants_get,
+    restaurant_post,
+    restaurant_edit,
+    restaurant_delete
+}
