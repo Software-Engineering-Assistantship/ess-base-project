@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  ibreno:
+    build: .
+    depends_on:
+      - db
+    environment:
+      ENV: DEV
+      PORT: 5001
+      DATABASE_URL: 'mysql://root:admin@db:3306/ibreno_db'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - '5001:5001'
+
+  db:
+    image: mysql:latest
+    container_name: db_ibreno
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: ibreno_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_passwd
+    ports:
+      - '6033:3306'
+    volumes:
+      - ./data/db:/var/lib/mysql
