@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 // import models
 const Restaurant = require('./models/Restaurant')
 
+// import controllers
+const RestaurantController = require('./controllers/restaurantController')
+
 // create express app
 const app = express()
 
@@ -21,43 +24,11 @@ app.listen(3001, () => console.log("Server started on port 3001"))
 
 // Routes
 
-app.get('/restaurants', async (req, res) => {
-    const restaurants = await Restaurant.find()
+app.get('/restaurants', RestaurantController.restaurants_get)
 
-    res.json(restaurants)
-})
+app.post('/restaurants', RestaurantController.restaurants_post)
 
-app.post('/restaurants', (req, res) => {
-    const restaurant = new Restaurant({
-        name: req.body.name
-    })
+app.put('/restaurant/edit/:id', RestaurantController.restaurants_edit)
 
-    restaurant.save()
-
-    res.json(restaurant)
-})
-
-app.put('/restaurant/edit/:id', async (req, res) => {
-    const restaurant = await Restaurant.findById(req.params.id)
-
-    if (!restaurant) {
-        return res.status(404).json({ error: 'Restaurante não encontrado' })
-    }
-
-    restaurant = req.body
-
-    restaurant.save()
-
-    res.json(restaurant)
-})
-
-app.delete('/restaurant/delete/:id', async (req, res) => {
-    const restaurant = await Restaurant.findByIdAndDelete(req.params.id)
-
-    if (!restaurant) {
-        return res.status(404).json({ error: 'Restaurante não encontrado' })
-    }
-
-    res.json(restaurant)
-})
+app.delete('/restaurant/delete/:id', RestaurantController.restaurant_delete)
 

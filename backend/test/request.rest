@@ -1,0 +1,61 @@
+GET http://localhost:3001/restaurants
+
+###
+
+POST http://localhost:3001/restaurants
+Content-Type: application/json
+
+{
+    "name": "Restaurante Genérico"
+}
+
+###
+
+POST http://localhost:3001/restaurants
+Content-Type: application/json
+
+{
+    "name": "Sei lá Sushi",
+    "address": {
+        "city": "Recife",
+        "neighborhood": "Várzea",
+        "street": "Polidoro",
+        "number": "121"
+    },
+    "typeOfFood": "Sushi"
+}
+
+###
+
+POST http://localhost:3001/restaurants
+Content-Type: application/json
+
+{
+    "name": "Marco Zero Pizza",
+    "address": {
+        "city": "Recife",
+        "neighborhood": "Boa Viagem",
+        "street": "João Lisboa",
+        "number": "300"
+    },
+    "typeOfFood": "Pizza"
+}
+###
+
+DELETE http://localhost:3001/restaurant/delete/65c1a177684b3958d9ee3274
+
+###
+
+PUT http://localhost:3001/restaurant/edit/65c1a1ce9308b1c17256d1a1
+Content-Type: application/json
+
+{
+    "name": "Sei lá Sushi",
+    "address": {
+        "city": "Recife",
+        "neighborhood": "Várzea",
+        "street": "Polidoro",
+        "number": "220"
+    },
+    "typeOfFood": "Sushi"
+}
