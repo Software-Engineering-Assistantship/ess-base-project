@@ -12,7 +12,8 @@ services:
       - .:/app
       - /app/node_modules
     ports:
-      - '5001:5001'
+      - '5001:5001' # for the application
+      - '5555:5555' # for prisma studio
 
   db:
     image: mysql:latest
