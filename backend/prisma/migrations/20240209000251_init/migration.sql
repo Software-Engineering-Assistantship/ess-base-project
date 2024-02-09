@@ -4,7 +4,10 @@ CREATE TABLE `Restaurant` (
     `name` VARCHAR(191) NOT NULL,
     `cnpj` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
 
+    UNIQUE INDEX `Restaurant_cnpj_key`(`cnpj`),
+    UNIQUE INDEX `Restaurant_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -27,7 +30,7 @@ CREATE TABLE `Client` (
 CREATE TABLE `Order` (
     `itemId` INTEGER NOT NULL,
     `clientId` INTEGER NOT NULL,
-    `number` INTEGER NOT NULL,
+    `number` INTEGER NOT NULL DEFAULT 1,
 
     PRIMARY KEY (`itemId`, `clientId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
