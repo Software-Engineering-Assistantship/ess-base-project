@@ -54,9 +54,31 @@ Scenario: Falha no Cadastro de Usuário por Campo em Branco
     Given estou na página "Cadastro de Usuário"
     When preencho o campo "nome" com "Alice Almeida"
     And preencho o campo "cpf" com ""
-    And preencho o campo "data de nascimento" com "02/02/1992 "
+    And preencho o campo "data de nascimento" com "02/02/1992"
     And preencho o campo "e-mail" com "alicealmeida@meuemail.com"
     And preencho o campo "login" com "alicealmeida"
     And preencho o campo "senha" com "SenhaSegura456"
     And realizo o cadastro do usuário
     Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório"
+
+Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
+    Given estou na página "Cadastro de Usuário"
+    When preencho o campo "nome" com "Samuel Barbosa"
+    And preencho o campo "cpf" com "123.456.789-10"
+    And preencho o campo "data de nascimento" com "03/03/1993"
+    And preencho o campo "e-mail" com "samuelbarbosa@meuemail.com"
+    And preencho o campo "login" com "samuelbarbosa"
+    And preencho o campo "senha" com "SamuelBarbosa"
+    And realizo o cadastro do usuário
+    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida"
+
+Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento
+    Given estou na página "Cadastro de Usuário"
+    When preencho o campo "nome" com "Marcos Vinícuis"
+    And preencho o campo "cpf" com "123.456.789-08"
+    And preencho o campo "data de nascimento" com "04/04/1994"
+    And preencho o campo "e-mail" com "marcosvinicius@meuemail.com"
+    And preencho o campo "login" com "marcosvinicius"
+    And preencho o campo "senha" com "04041994"
+    And realizo o cadastro do usuário
+    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida"

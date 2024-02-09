@@ -170,6 +170,55 @@ class UserModel{
 
         return false;
     }
+
+    verificaSenha(): boolean {  
+        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    
+        if (usuariosJson && Array.isArray(usuariosJson)) {
+            for (const usuario of usuariosJson) {
+                let nom = usuario.nome.replace(/\s/g, '');
+                if (usuario.senha === nom) {
+                    return true;
+                }
+
+                nom = nom.toLowerCase();
+                if (usuario.senha === nom) {
+                    return true;
+                }
+
+                nom = nom.toUpperCase();
+                if (usuario.senha === nom) {
+                    return true;
+                }
+
+                const {dataAbreviada} = this.formatData(usuario.dataNascimento);
+                const {dataCompleta} = this.formatData(usuario.dataNascimento);
+
+                if (usuario.senha === dataAbreviada) {
+                    return true;
+                }
+
+                if (usuario.senha === dataCompleta) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    formatData(data: Date): {dataCompleta: string, dataAbreviada: string}{
+        const dia = String(data.getDate()).padStart(2, '0');
+        const mes = String(data.getMonth() + 1).padStart(2, '0');
+        const anoCompleto = String(data.getFullYear());
+        const ano = anoCompleto.slice(-2);
+
+        const dataCompleta = dia + mes + anoCompleto;
+        const dataAbreviada = dia + mes + ano;
+
+        return {dataCompleta, dataAbreviada};
+    }
+
 }
   
 export default UserModel;
