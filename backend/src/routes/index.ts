@@ -16,7 +16,6 @@ router.post(
 
 router.get('/restaurants', RestaurantController.index);
 
-
 router.delete('/restaurants/:id', RestaurantController.delete);
 
 router.put(
@@ -25,10 +24,6 @@ router.put(
   RestaurantController.update
 );
 
-router.post('/shopping-cart', ShoppingCartController.insert);
-
-router.get('/shopping-cart', ShoppingCartController.index);
-
-router.delete('/shopping-cart', ShoppingCartController.remove);
+ShoppingCartController.setupRoutes(router);
 
 export default router;
