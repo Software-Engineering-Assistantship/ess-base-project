@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 class UserModel{
     nome: string;
     cpf: string;
@@ -38,6 +40,69 @@ class UserModel{
                 this.senha = valor;
         }
     }
-  }
+
+    verificarLoginExistente(campo: string, valor: string): boolean {
+        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    
+        switch (campo) {
+            case 'nome':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.nome === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'cpf':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.cpf === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'data de nascimento':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.dataNascimento === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'e-mail':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.email === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'login':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.login === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'senha':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.senha === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+         }
+
+        return false;
+    }
+}
   
-  export default UserModel;
+export default UserModel;
