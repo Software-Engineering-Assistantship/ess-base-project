@@ -41,7 +41,11 @@ class UserModel{
         }
     }
 
-    verificarLoginExistente(campo: string, valor: string): boolean {
+    salvarUsuario(userData: UserModel){
+        fs.writeFileSync('./src/models/users.json', JSON.stringify(userData));
+    }
+
+    verificarExistente(campo: string, valor: string): boolean {
         let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
     
         switch (campo) {
@@ -57,7 +61,7 @@ class UserModel{
             case 'cpf':
                 if (usuariosJson && Array.isArray(usuariosJson)) {
                     for (const usuario of usuariosJson) {
-                        if (usuario.cpf === valor) {
+                        if (usuario.cpf == valor) {
                             return true;
                         }
                     }
@@ -94,6 +98,69 @@ class UserModel{
                 if (usuariosJson && Array.isArray(usuariosJson)) {
                     for (const usuario of usuariosJson) {
                         if (usuario.senha === valor) {
+                            return true;
+                        }
+                    }
+                }
+                break;
+         }
+
+        return false;
+    }
+    
+    verificaBranco(): boolean {
+        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    
+        switch (usuariosJson) {
+            case 'nome':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.nome === '') {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'cpf':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.cpf == '') {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'data de nascimento':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.dataNascimento === '') {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'e-mail':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.email === '') {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'login':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.login === '') {
+                            return true;
+                        }
+                    }
+                }
+                break;
+            case 'senha':
+                if (usuariosJson && Array.isArray(usuariosJson)) {
+                    for (const usuario of usuariosJson) {
+                        if (usuario.senha === '') {
                             return true;
                         }
                     }

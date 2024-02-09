@@ -62,13 +62,18 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            response = await request.post('/api/users/cadastro').send(userData);
+            const verifBranco = userData.verificaBranco();
+            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco) {
+                response = await request.post('/api/users/cadastro').send(userData);
+            }else{
+                response.status = 400;
+            }
         });
 
         then(/^uma mensagem de confirmação é exibida indicando que "(.*)"$/, (expectedMessage) => {
             expect(response.status).toBe(200);
             expect(response.body.msg).toBe(expectedMessage);
-            fs.writeFileSync('users.json', JSON.stringify(userData));
+            userData.salvarUsuario(userData);
         });
     });
     
@@ -118,8 +123,8 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-        const loginexist = userData.verificarLoginExistente('login', userData.login);
-            if(!loginexist) {
+            const verifBranco = userData.verificaBranco();
+            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -133,6 +138,189 @@ defineFeature(feature, (test) => {
                 expect(response.status).toBe(200);
                 expect(response.body.msg).toBe('O cadastro foi realizado com sucesso');
                 fs.writeFileSync('./src/models/users.json', JSON.stringify(userData));
+            }
+        });
+    });
+
+    test ('Falha no Cadastro de Usuário por Email já Cadastrado', ({ given, when, then, and }) => {
+        given(/^estou na página "(.*)"$/, async (page) => {
+            if (page == 'Cadastro de Usuário') {
+                page = 'api/users/cadastro';
+            }
+            const rota = '/${page}'
+            response = await request.get(rota);
+        });
+
+        and(/^o usuário de email "(.*)" está cadastrado no sistema$/, async (email) => {
+            const user = new UserModel({
+                nome: 'Teste',
+                cpf: '123.456.789-01',
+                dataNascimento: new Date('25/10/2000'),
+                email: email,
+                login: 'teste',
+                senha: 'senhateste'
+            });
+            fs.writeFileSync('./src/models/users.json', JSON.stringify(user));
+        });       
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and (/^realizo o cadastro do usuário$/, async () => {
+            const verifBranco = userData.verificaBranco();
+            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco){
+                response = await request.post('/api/users/cadastro').send(userData);
+            }else{
+                response.status = 400;
+            }
+        });
+
+        then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            if(response.status == 400){
+                expect(response.body.msg).toBe(expectedMessage);
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe('O cadastro foi realizado com sucesso');
+                fs.writeFileSync('./src/models/users.json', JSON.stringify(userData));
+            }
+        });
+    });
+
+    test ('Falha no Cadastro de Usuário por CPF já Cadastrado', ({ given, when, then, and }) => {
+        given(/^estou na página "(.*)"$/, async (page) => {
+            if (page == 'Cadastro de Usuário') {
+                page = 'api/users/cadastro';
+            }
+            const rota = '/${page}'
+            response = await request.get(rota);
+        });
+
+        and(/^o usuário de cpf "(.*)" está cadastrado no sistema$/, async (cpf) => {
+            const user = new UserModel({
+                nome: 'teste',
+                cpf: cpf,
+                dataNascimento: new Date('25/10/2000'),
+                email: 'teste@teste.com',
+                login: 'teste',
+                senha: 'senhateste'
+            });
+            userData.salvarUsuario(user);
+        });       
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and (/^realizo o cadastro do usuário$/, async () => {
+            const verifBranco = userData.verificaBranco();
+            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco){
+                response = await request.post('/api/users/cadastro').send(userData);
+            }else{
+                response.status = 400;
+            }
+        });
+
+        then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            console.log(response.body);
+            if(response.status == 400){
+                expect(response.body.msg).toBe(expectedMessage);
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe('O cadastro foi realizado com sucesso');
+            }
+        });
+    });
+
+    test ('Falha no Cadastro de Usuário por Campo em Branco', ({ given, when, then, and }) => {
+        given(/^estou na página "(.*)"$/, async (page) => {
+            if (page == 'Cadastro de Usuário') {
+                page = 'api/users/cadastro';
+            }
+            const rota = '/${page}'
+            response = await request.get(rota);
+        });     
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and (/^realizo o cadastro do usuário$/, async () => {
+            const verifBranco = userData.verificaBranco();
+            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco) {
+                response = await request.post('/api/users/cadastro').send(userData);
+            }else{
+                response.status = 400;
+            }
+        });
+
+        then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            console.log(response.body);
+            if(response.status == 400){
+                expect(response.body.msg).toBe(expectedMessage);
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe('O cadastro foi realizado com sucesso');
             }
         });
     });
