@@ -22,7 +22,7 @@ const app = express()
 app.use(express.json())
 
 // connect to data base
-mongoose.connect("mongodb://localhost:27017/test")
+mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`)
     .then(() => console.log("Connected to data base"))
     .catch(console.error)
 
