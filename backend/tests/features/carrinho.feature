@@ -15,12 +15,13 @@ Scenario: Adicionar item ao carrinho com outros itens
     Given o item "Utopia" está presente no sistema com os campos
         | nome   | id    | quantidade | valor | Local de venda | Cupom |
         | Utopia | 12347 | 9          | 16,00 | Recife         | NA    |
-    When eu o adiciono ao carrinho que já está com os itens
+    And os seguintes itens estão no carrinho
         | nome                | id    | valor | Local de venda | Cupom |
         | Utilitarismo        | 13347 | 25,00 | Salvador       | 10%   |
         | Riqueza das nações  | 39827 | 45,00 | Campina Grande | NA    |
         | Diario de um banana | 10101 | 35,00 | São Paulo      | NA    |
         | Dracula             | 64626 | 12,00 | São Paulo      | 5%    |
+    When eu o adiciono ao carrinho 
     Then o sistema adiciona o item "Utopia" ao carrinho
     And a lista do carrinho estará na seguinte configuração
         | nome                | id    | valor | Local de venda | Cupom |
