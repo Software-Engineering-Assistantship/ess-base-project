@@ -30,10 +30,10 @@ model Item {
 }
 
 model Client {
-  id Int @id @default(autoincrement())
-
+  id          Int @id @default(autoincrement())
+  password    String @default("123")
   //more infos about the client here
-  Orders Orders[]
+  Orders       Orders[]
 }
 
 //order table, used for the shopping_cart feature
@@ -55,8 +55,8 @@ model Orders {
   client      Client @relation(fields: [clientId], references: [id])
   clientId    Int // relation scalar field (used in the `@relation` attribute above)
   status      String  @default("Nao finalizado")
-  time        Float
-  price       Float
+  time        Float @default(0.0)
+  price       Float @default(0.0)
   products    OrderItem[]
 }
 
