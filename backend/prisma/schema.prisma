@@ -26,26 +26,42 @@ model Item {
   //every Item must be linked to a restaurant
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
   restaurantId Int
-  Order        Order[]
+  OrderItem    OrderItem[]
 }
 
 model Client {
   id Int @id @default(autoincrement())
 
   //more infos about the client here
-  Order Order[]
+  Orders Orders[]
 }
 
 //order table, used for the shopping_cart feature
 //stores every link of a Client and a Item
-model Order {
-  client   Client @relation(fields: [clientId], references: [id])
-  clientId Int // relation scalar field (used in the `@relation` attribute above)
+model OrderItem {
   item     Item   @relation(fields: [itemId], references: [id])
   itemId   Int // relation scalar field (used in the `@relation` attribute above)
+  order    Orders @relation(fields: [orderId], references: [id])
+  orderId  Int
 
   //the number of items added on the cart
   quantity Int @default(1)
 
-  @@id([itemId, clientId])
+  @@id([itemId, orderId])
+}
+
+model Orders {
+  id          Int @id @default(autoincrement())
+  client      Client @relation(fields: [clientId], references: [id])
+  clientId    Int // relation scalar field (used in the `@relation` attribute above)
+  status      String  @default("Nao finalizado")
+  time        Float
+  price       Float
+  products    OrderItem[]
+}
+
+model CancelledOrders {
+  orderId    Int     @id
+  clientId   Int
+  reason     String
 }
