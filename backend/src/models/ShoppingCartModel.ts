@@ -1,55 +1,81 @@
 import prisma from '../database';
 
 class ShoppingCartModel {
-    //insert an order into the database
-    static async insert(clientId: number, itemId: number) {
-        await prisma.order.create({
+    //insert an orderItem into the database
+    static async insert(clientId: number, itemId: number): Promise<any> {
+        const orderId = await ShoppingCartModel.getOrderIdOfShoppingCart(clientId);
+        return await prisma.orderItem.create({
             data: {
+                orderId,
                 itemId,
-                clientId,
             },
         });
     }
 
-    //return every order if clientId is not defined
-    //return only the orders of the client if clientId is defined
-    static async index(clientId? : number) {
-        if (!clientId) {
-            return await prisma.order.findMany();
-        }
-        const clientOrders = await prisma.order.findMany({
+    //check if the client exists
+    static async isValidClient(clientId: number): Promise<boolean> {
+        return (await prisma.client.findUnique({
             where: {
-                clientId,
+                id: clientId,
             },
-        });
-        return clientOrders;
+        })) !== null;
     }
 
-    //remove an order from the database
-    static async remove(clientId: number, itemId: number) {
-        await prisma.order.delete({
+    //return only the orders items of the client
+    static async index(clientId : number): Promise<any> {
+        const orderId = await ShoppingCartModel.getOrderIdOfShoppingCart(clientId); //TODO remove this repetitions on refactoring
+        return await prisma.orderItem.findMany({
             where: {
-                itemId_clientId: {
+                orderId,
+            },
+        });
+    }
+
+    //remove an orderItem from the database
+    static async remove(clientId: number, itemId: number): Promise<any> {
+        const orderId = await ShoppingCartModel.getOrderIdOfShoppingCart(clientId);
+        return await prisma.orderItem.delete({
+            where: {
+                itemId_orderId: {
                     itemId,
-                    clientId,
+                    orderId,
                 },
             },
         });
     }
 
-    //update the quantity of an order
+    //update the quantity of an orderItem
     static async update(clientId: number, itemId: number, quantity: number) {
-        await prisma.order.updateMany({
+        const orderId = await ShoppingCartModel.getOrderIdOfShoppingCart(clientId);
+        return await prisma.orderItem.update({
             where: {
-                clientId,
-                itemId,
+                itemId_orderId: {
+                    itemId,
+                    orderId,
+                },
             },
             data: {
-                clientId,
+                orderId,
                 itemId,
                 quantity,
             },
         });
+    }
+
+    //returns the code of the current shopping cart of the client
+    private static async getOrderIdOfShoppingCart(clientId: number): Promise<number> {
+        const order =  (await prisma.orders.findFirst({
+            where: {
+                clientId,
+                status: 'Nao finalizado',
+            },
+        }));
+        if (order) {
+            return order.id;
+        }
+        return (await prisma.orders.create(
+            {data: {clientId}
+        })).id;
     }
 }
 
