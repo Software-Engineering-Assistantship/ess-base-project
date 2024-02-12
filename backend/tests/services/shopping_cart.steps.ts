@@ -55,6 +55,7 @@ defineFeature(feature, (test) => {
         given(/^eu estou logado como "(.*)" na tela "(.*)"$/, async (arg0, arg1) => {
                 user = arg0;
                 screen = arg1;
+                expect(screen).toBe('Restaurantes');
         });
 
         var shopping_cart: OrderItemEntity[] = [];
@@ -88,4 +89,132 @@ defineFeature(feature, (test) => {
                 expect(shopping_cart).toEqual(response.body);
         });
     });
+
+    test('Aumentando a quantidade de produtos no Banco de Dados', ({ given, and, when, then }) => {
+        var user = '';
+        var screen = '';
+        given(/^eu estou logado como "(.*)" na tela "(.*)"$/, (arg0, arg1) => {
+                user = arg0;
+                screen = arg1;
+                expect(screen).toBe('Restaurantes');
+        });
+
+        var order: OrderItemEntity;
+        var shopping_cart: OrderItemEntity[] = [new OrderItemEntity(2, 1)];
+        var clientId: number;
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, async (arg0, arg1, arg2, arg3) => {
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(2)
+                clientId  = await ShoppingCartService.getClientId(user) as number;
+                const itemId = 1; //TODO: get item id of the restaurant from the database
+                const newQuantity = parseInt(arg0);
+                shopping_cart[0].quantity = newQuantity;
+                order = new OrderItemEntity(clientId, itemId);
+                order.quantity = newQuantity;
+                expect(shopping_cart).toEqual([order]);
+        });
+
+        var itemIdToUpdate: number;
+        when(/^eu seleciono a opção "(.*)" do produto no carrinho "(.*)" do "(.*)"$/, (arg0, arg1, arg2) => {
+                itemIdToUpdate = 1; //TODO: get item id of the restaurant from the database
+                switch(arg0) {
+                        case 'aumentar quantidade':
+                                shopping_cart[0].quantity++;
+                                order.quantity++;
+                                break;
+                        case 'diminuir quantidade':
+                                shopping_cart[0].quantity--;
+                                order.quantity--;
+                                expect(shopping_cart[0].quantity).toBeGreaterThanOrEqual(0);
+                                break;
+                }
+        });
+
+        var response: any;
+        then(/^uma requisição "(.*)" com "(.*)" unidade\(s\) de "(.*)" do "(.*)" por "(.*)" é enviada para "(.*)"$/, async (arg0, arg1, arg2, arg3, arg4, arg5) => {
+                expect(order.quantity).toBe(parseInt(arg1)); //the quantity can only be one more or one less than the original.
+
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(clientId);
+                jest.spyOn(ShoppingCartService, 'updateOrderItem').mockResolvedValue([200, 'Item updated']);
+                response = await request(app)
+                             .put('/' + clientId.toString() + '/shopping_cart')
+                             .send({ itemId: itemIdToUpdate, quantity: order.quantity });
+                expect(response.body).toStrictEqual({message : 'Item updated'});
+        });
+
+        and(/^o status da resposta deve ser "(.*)"$/, (arg0) => {
+                expect(response.status).toBe(parseInt(arg0));
+        });
+
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, async (arg0, arg1, arg2, arg3) => {
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(2)
+                jest.spyOn(ShoppingCartService, 'getUserOrderItems').mockResolvedValue([order]);
+                response = await request(app).get('/' + clientId.toString() + '/shopping_cart');
+                expect(shopping_cart).toEqual(response.body);
+        });
+    });
+
+    test('Diminuindo a quantidade de produtos no Banco de Dados', ({ given, and, when, then }) => {
+        var user = '';
+        var screen = '';
+        given(/^eu estou logado como "(.*)" na tela "(.*)"$/, (arg0, arg1) => {
+                user = arg0;
+                screen = arg1;
+                expect(screen).toBe('Restaurantes');
+        });
+
+        var order: OrderItemEntity;
+        var shopping_cart: OrderItemEntity[] = [new OrderItemEntity(2, 1)];
+        var clientId: number;
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, async (arg0, arg1, arg2, arg3) => {
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(2)
+                clientId  = await ShoppingCartService.getClientId(user) as number;
+                const itemId = 1; //TODO: get item id of the restaurant from the database
+                const newQuantity = parseInt(arg0);
+                shopping_cart[0].quantity = newQuantity;
+                order = new OrderItemEntity(clientId, itemId);
+                order.quantity = newQuantity;
+                expect(shopping_cart).toEqual([order]);
+        });
+
+        var itemIdToUpdate: number;
+        when(/^eu seleciono a opção "(.*)" do produto no carrinho "(.*)" do "(.*)"$/, (arg0, arg1, arg2) => {
+                itemIdToUpdate = 1; //TODO: get item id of the restaurant from the database
+                switch(arg0) {
+                        case 'aumentar quantidade':
+                                shopping_cart[0].quantity++;
+                                order.quantity++;
+                                break;
+                        case 'diminuir quantidade':
+                                shopping_cart[0].quantity--;
+                                order.quantity--;
+                                expect(shopping_cart[0].quantity).toBeGreaterThanOrEqual(0);
+                                break;
+                }
+        });
+
+        var response: any;
+        then(/^uma requisição "(.*)" com "(.*)" unidade\(s\) de "(.*)" do "(.*)" por "(.*)" é enviada para "(.*)"$/, async (arg0, arg1, arg2, arg3, arg4, arg5) => {
+                expect(order.quantity).toBe(parseInt(arg1)); //the quantity can only be one more or one less than the original.
+
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(clientId);
+                jest.spyOn(ShoppingCartService, 'updateOrderItem').mockResolvedValue([200, 'Item updated']);
+                response = await request(app)
+                             .put('/' + clientId.toString() + '/shopping_cart')
+                             .send({ itemId: itemIdToUpdate, quantity: order.quantity });
+                expect(response.body).toStrictEqual({message : 'Item updated'});
+        });
+
+        and(/^o status da resposta deve ser "(.*)"$/, (arg0) => {
+                expect(response.status).toBe(parseInt(arg0));
+        });
+
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, async (arg0, arg1, arg2, arg3) => {
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(2)
+                jest.spyOn(ShoppingCartService, 'getUserOrderItems').mockResolvedValue([order]);
+                response = await request(app).get('/' + clientId.toString() + '/shopping_cart');
+                expect(shopping_cart).toEqual(response.body);
+        });
+    });
+
+
 });
