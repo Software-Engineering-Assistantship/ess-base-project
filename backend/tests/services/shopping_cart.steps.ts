@@ -216,5 +216,59 @@ defineFeature(feature, (test) => {
         });
     });
 
+    test('Removendo produtos do carrinho no Banco de Dados', ({ given, and, when, then }) => {
+        var user = '';
+        var screen = '';
+        given(/^eu estou logado como "(.*)" na tela "(.*)"$/, (arg0, arg1) => {
+                user = arg0;
+                screen = arg1;
+                expect(screen).toBe('Restaurantes');
+        });
 
+        var shopping_cart: OrderItemEntity[] = [
+                { clientId: 2, itemId: 1, quantity: 3 },
+                { clientId: 2, itemId: 2, quantity: 1 },
+        ];
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, (arg0, arg1, arg2, arg3) => {
+                const coxinhaId = 1; //TODO: get item id of the restaurant from the database
+                const l = shopping_cart.filter((item) => item.itemId === coxinhaId);
+                expect(l.length).toBe(1);
+                expect(l[0].quantity).toBe(parseInt(arg0));
+        });
+
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, (arg0, arg1, arg2, arg3) => {
+                const pitsaId = 2; //TODO: get item id of the restaurant from the database
+                const l = shopping_cart.filter((item) => item.itemId === pitsaId);
+                expect(l.length).toBe(1);
+                expect(l[0].quantity).toBe(parseInt(arg0));
+        });
+
+        var itemIdToRemove: number;
+        when(/^eu seleciono a opção "(.*)" do produto no carrinho "(.*)" do "(.*)"$/, (arg0, arg1, arg2) => {
+                itemIdToRemove = 1; //TODO: get item id of the restaurant from the database
+                shopping_cart = shopping_cart.filter((item) => item.itemId !== itemIdToRemove);
+        });
+
+        var response: any;
+        then(/^uma requisição "(.*)" com "(.*)" unidade\(s\) de "(.*)" do "(.*)" por "(.*)" é enviada para "(.*)"$/, async (arg0, arg1, arg2, arg3, arg4, arg5) => {
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(2);
+                jest.spyOn(ShoppingCartService, 'removeOrderItem').mockResolvedValue([200, 'Item removed from cart']);
+                const clientId = (await ShoppingCartService.getClientId(user)) as number;
+                response = await request(app)
+                             .delete('/' + clientId.toString()  + '/shopping_cart')
+                             .send({ itemId: itemIdToRemove });
+                expect(response.body).toStrictEqual({message : 'Item removed from cart'});
+        });
+
+        and(/^o status da resposta deve ser "(.*)"$/, (arg0) => {
+                expect(response.status).toBe(parseInt(arg0));
+        });
+
+        and(/^o carrinho contém "(.*)" unidade\(s\) de "(.*)" por "(.*)" do "(.*)"$/, async (arg0, arg1, arg2, arg3) => {
+                jest.spyOn(ShoppingCartService, 'getClientId').mockResolvedValue(2);
+                const clientId = (await ShoppingCartService.getClientId(user)) as number;
+                const itemId = 2; //TODO: get item id of the restaurant from the database
+                expect(shopping_cart).toEqual([{ clientId, itemId, quantity: parseInt(arg0) }]);
+        });
+    });
 });
