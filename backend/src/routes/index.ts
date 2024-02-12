@@ -4,6 +4,7 @@ import RestaurantController from '../controllers/RestaurantController';
 import OrderCancellationController from '../controllers/OrderCancellationController';
 import OrdersController from '../controllers/OrdersController';
 import RestaurantModel from '../models/RestaurantModel';
+import ShoppingCartController from '../controllers/ShoppingCartController';
 
 const router = Router();
 
@@ -31,7 +32,7 @@ router.put(
   RestaurantController.update
 );
 
-//ShoppingCartController.setupRoutes(router);
+ShoppingCartController.setupRoutes(router);
 
 router.get('/clients/:clientId/orders', OrderCancellationController.index);
 
