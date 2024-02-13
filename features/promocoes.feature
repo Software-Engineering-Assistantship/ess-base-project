@@ -1,6 +1,6 @@
-Feature: Cadastro e Manutenção de promoções
+Feature: Cadastro e Manutenção de Promoções
     As a usuário cadastrado como administrador
-    I want to adicionar, remover e atualizar prooções no sitema
+    I want to adicionar, remover e atualizar promoções no sitema
     So that possa disponibilizar promoções para os demais usuários
 
 Scenario: Cadastro de promoção com sucesso GUI
@@ -16,7 +16,7 @@ Scenario: Cadastro de promoção com sucesso GUI
 Scenario: Cadastro de promoção com sucesso Serviço
     Given que o usuário "Cora Coralina" está logado no sistema como "administrador"
     And o sistema possui os cupons de promoção "JULIOVERNE10", "JULIOVERNE70"
-    And faz uso da feature "CCadastro e Manutenção de promoções" #Fiquei na dúvida quanto a necessidade desta linha
+    And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
     When solicita o cadastro de uma promoção com os seguintes valores:
     | Nome            | Valor   | Tipo  | Condições de validade                  |
     | JULIOVERNEBLACK | 20      | Geral | usuário com 3 meses ou menos no sistema|
@@ -35,9 +35,9 @@ Scenario: Cadastro de promoção com sucesso com campo valor em branco GUI
 
 Scenario: Cadastro de promoção com sucesso com campo valor em branco Serviço
     Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
-    And faz uso da feature "Cadastro e Manutenção de promoções" #Fiquei na dúvida quanto a necessidade desta linha
+    And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
     When solicita o cadastro de uma promoção com os seguintes valores:
-    | Nome            | Tipo   | Condições de validade                                         |
+    | Nome            | Tipo   | Condições de validade                                        |
     | JULIOVERNE10    | Livros | usuário com mais de 12 meses no sistema ou mais de 12 compras|
     Then o sistema armazena em "Cupons cadastrados" os cupons de promoção cadatrados e dentre eles está o cupom "JULIOVERNE10"
     And o campo "Tipo" do cupom "JULIOVERNER10" contém "Livros"
@@ -56,7 +56,7 @@ Scenario: Falha no cadastro de promoção por valor inválido GUI
 
 Scenario: Falha no cadastro de promoção por Valor inválido Serviço
     Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
-    And faz uso da feature "Cadastro e Manutenção de promoções" #Fiquei na dúvida quanto a necessidade desta linha
+    And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
     When solicita o cadastro de uma promoção com os seguintes valores:
     | Nome            | Valor   | Tipo  | Condições de validade                  |
     | JULIOVERNE80    | 80      | Geral | usuário com 3 meses ou menos no sistema|
@@ -78,7 +78,7 @@ Scenario: Falha no cadastro de promoção por Nome inválido Serviço
     Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
     And o sistema possui os cupons de promoção "JULIOVERNE10", "JULIOVERNE70" e "JULIOVERNE60"
     And o cupom "JULIOVERNE60" possui "Valor" igual a "60", "Tipo" igual a "Livro" e "Condições de validade" igual a "usuário com 3 meses ou menos no sistema"
-    And faz uso da feature "Cadastro e Manutenção de promoções" #Fiquei na dúvida quanto a necessidade desta linha
+    And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
     When solicita o cadastro de uma promoção com os seguintes valores:
     | Nome            | Valor   | Tipo  | Condições de validade                                        |
     | JULIOVERNE60    | 59      | Geral | usuário com mais de 12 meses no sistema ou mais de 12 compras|
