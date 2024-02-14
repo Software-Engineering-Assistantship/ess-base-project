@@ -28,25 +28,26 @@ In order to run the server, open up a terminal in the backend root directory and
 docker compose up
 ```
 
-<b>If it is the first time the server is being executed, migrations will need
-to be re-run. To do so, open a terminal and run: </b>
+<b>Now, it is necessary to run the migrations. To do so, open a terminal and run: </b>
 
 ```
-docker exec backend-ibreno-1 sh -c "npx prisma migrate dev"
+docker exec -it backend-ibreno-1 sh -c "npx prisma migrate dev"
 ```
 
 <b>Every time the prisma schema file is altered, the database must be updated with:</b>
 
 ```
-docker exec backend-ibreno-1 -it bash
+docker exec -it backend-ibreno-1 sh -c "npx prisma migrate dev"
 ```
 
-Then, once inside the container, run:
+### Prisma studio
+If you wish to manage the databaese in a graphical way, you can use Prisma Studio. To do so, run:
 
 ```
-npx prisma migrate dev
-
+docker exec -it backend-ibreno-1 sh -c "npx prisma studio"
 ```
+
+Now, from your browser, access http://localhost:5555
 
 ## Option 2 - Running without Docker
 

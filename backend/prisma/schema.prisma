@@ -34,6 +34,10 @@ model Client {
   password    String @default("123")
   //more infos about the client here
   Orders       Orders[]
+  name        String
+  email       String @unique
+  cpf         String @unique
+  endereco    String
 }
 
 //order table, used for the shopping_cart feature
