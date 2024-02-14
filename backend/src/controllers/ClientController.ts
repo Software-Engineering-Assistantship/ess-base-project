@@ -58,8 +58,8 @@ class ClientController {
     const { name, CPF, email,endereco, password } = req.body;
 
     try {
-      await RestaurantModel.update(Number(id), name, CNPJ, email, password);
-      return res.status(200).json({ message: 'Restaurant updated' });
+      await ClientModel.update(Number(id), name, CPF, email, endereco, password);
+      return res.status(200).json({ message: 'Client updated' });
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }

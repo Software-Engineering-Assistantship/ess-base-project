@@ -56,7 +56,7 @@ class ClientModel {
     endereco: string,
     password: string
   ) {
-    await prisma.restaurant.update({
+    await prisma.client.update({
       where: { id },
       data: { name, cpf: CPF, email, endereco, password },
     });
