@@ -1,70 +1,62 @@
 import { Request, Response, Router } from 'express';
+import OrderItemEntity from '../entities/OrderItemEntity';
 import ShoppingCartModel from '../models/ShoppingCartModel';
+import ShoppingCartService from '../services/ShoppingCartService';
 
-class ShoppingCartController {
-    private static prefix = '/shopping_cart';
+export default class ShoppingCartController {
+    private static prefix = '/:user_login/shopping_cart';
 
     static setupRoutes(router: Router) {
-        router.post(this.prefix, ShoppingCartController.insertOrder);
-        router.get(this.prefix, ShoppingCartController.getUserOrders);
-        router.delete(this.prefix, ShoppingCartController.removeOrder);
-        router.put(this.prefix, ShoppingCartController.updateOrder);
+        router.post(this.prefix, this.insertOrderItem);
+        router.get(this.prefix, this.getUserOrderItems);
+        router.delete(this.prefix, this.removeOrderItem);
+        router.put(this.prefix, this.updateOrderItem);
     }
 
-    static async insertOrder(req: Request, res: Response) {
-        const { clientId, itemId } = req.body;
-        try {
-            await ShoppingCartModel.insert(clientId, itemId);
-            return res.status(201).json({ message: 'Item added to cart' });
+    private static async insertOrderItem(req: Request, res: Response) {
+        const clientId = await ShoppingCartService.getClientId(req.params.user_login);
+        if (clientId instanceof Error) {
+            return res.status(400).json({ message: clientId.message });
         }
-        catch (error: any) {
-            console.log(error.code)
-            switch(error.code) {
-                //this is the error code from prisma when the foreign key constraint is violated
-                //it means that the itemId or clientId does not exist
-                case 'P2003':
-                    return res.status(400).json({ message: 'ItemId or ClientId not valid' });
-                default:
-                    return res.status(500).json({ message: error.message });
-            }
-        }
+        const { itemId } = req.body;
+        const answer = await ShoppingCartService.insertOrderItem(new OrderItemEntity(clientId, itemId));
+        return res.status(answer[0]).json({ message: answer[1]  });
     }
 
-    static async getUserOrders(req: Request, res: Response) {
-        const clientId = Object.keys(req.body).length === 0 ? undefined : req.body.clientId;
-        try {
-            const resData = await ShoppingCartModel.index(clientId);
-            return res.status(200).json(resData);
+    private static async getUserOrderItems(req: Request, res: Response) {
+        const clientId = await ShoppingCartService.getClientId(req.params.user_login);
+        if (clientId instanceof Error) {
+            return res.status(400).json({ message: clientId.message });
         }
-        catch (error: any) {
-            return res.status(500).json({ message: error.message });
+
+        const orders = await ShoppingCartService.getUserOrderItems(clientId);
+        if (orders instanceof Error) {
+            return res.status(500).json({ message: orders.message });
         }
+        res.status(200).json(orders);
     }
 
-    static async removeOrder(req: Request, res: Response) {
-        const { clientId, itemId } = req.body;
-        try {
-            await ShoppingCartModel.remove(clientId, itemId);
-            return res.status(200).json({ message: 'Item removed from cart' });
+    private static async removeOrderItem(req: Request, res: Response) {
+        const clientId = await ShoppingCartService.getClientId(req.params.user_login);
+        if (clientId instanceof Error) {
+            return res.status(400).json({ message: clientId.message });
         }
-        catch (error: any) {
-            return res.status(500).json({ message: error.message });
-        }
+        const { itemId } = req.body;
+
+        const answer = await ShoppingCartService.removeOrderItem(new OrderItemEntity(clientId, itemId));
+        return res.status(answer[0]).json({ message: answer[1] });
     }
 
-    static async updateOrder(req: Request, res: Response) {
-        const { clientId, itemId, quantity } = req.body;
-        try {
-            if (quantity <= 0) {
-                return res.status(400).json({ message: 'Invalid Quantity' });
-            }
-            await ShoppingCartModel.update(clientId, itemId, quantity);
-            return res.status(200).json({ message: 'Item updated' });
+    private static async updateOrderItem(req: Request, res: Response) {
+        const clientId = await ShoppingCartService.getClientId(req.params.user_login);
+        if (clientId instanceof Error) {
+            return res.status(400).json({ message: clientId.message });
         }
-        catch (error: any) {
-            return res.status(500).json({ message: error.message });
-        }
+        const { itemId, quantity } = req.body;
+        var order = new OrderItemEntity(clientId, itemId);
+        order.quantity = quantity;
+
+        const answer = await ShoppingCartService.updateOrderItem(order);
+        return res.status(answer[0]).json({ message: answer[1] });
     }
 }
-
-export default ShoppingCartController;
