@@ -26,6 +26,8 @@ And retorna uma mensagem "Falha na atualização do e-mail"
 And o e-mail do user2 não é alterado
 And o user volta para a tela inicial
 
+
+Scenario: Cadastro bem sucedido de cliente
 Given não existe nenhum cliente com o CPF “123321222” 
 And com o email “comercomer@gmail.com” cadastrado no sistema
 When uma requisição “POST” é enviada para “/clients” com o nome “User1”, CPF “123321222”, email “comercomer@gmail.com”, senha “clientqualquer”, endereco "rua1"
