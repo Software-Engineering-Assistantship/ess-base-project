@@ -1,4 +1,23 @@
 const Restaurant = require("../models/Restaurant")
+const Picture = require("../models/Picture")
+
+const restaurant_upload = async (req, res) => {
+    try {
+        const {name} = req.body
+
+        const file = req.file
+        const picture = new Picture({
+            name,
+            src: file.path
+        })
+
+        await picture.save()
+
+        res.json({picture, msg:"Imagem salva!"})
+    } catch (error) {
+        res.status(500).json({ msg:"Erro ao salvar!"})
+    }
+}
 
 const restaurants_get = async (req, res) => {
     const restaurants = await Restaurant.find()
@@ -71,5 +90,6 @@ module.exports = {
     restaurant_profile_get,
     restaurant_create,
     restaurant_edit,
-    restaurant_delete
+    restaurant_delete,
+    restaurant_upload
 }
