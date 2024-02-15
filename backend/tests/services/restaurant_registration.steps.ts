@@ -263,4 +263,40 @@ defineFeature(feature, (test) => {
       }
     );
   });
+
+  test('Cadastro mal sucedido de um restaurante (email já cadastrado)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+
+    when(
+      /^uma requisição POST é enviada para "(.*)" com os valores "(.*)", "(.*)", email "(.*)", senha "(.*)"$/,
+      async (url, name, cnpj, email, password) => {
+        prismaMock.restaurant.findFirst.mockResolvedValue(restaurants[0]);
+        response = await request
+          .post(url)
+          .send({ name, CNPJ: cnpj, email, password });
+      }
+    );
+
+    thenERetornadaUmaMensagemComStatus(then);
+    thenAMensagemDiz(and);
+
+    and(
+      /^o restaurante "(.*)" não está salvo no banco de dados$/,
+      async (name) => {
+        expect(prismaMock.restaurant.create).not.toHaveBeenCalled();
+      }
+    );
+
+    and(
+      /^o restaurante "(.*)" está salvo no banco de dados$/,
+      async (name, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).not.toHaveBeenCalled();
+      }
+    );
+  });
 });

@@ -44,3 +44,11 @@ Scenario: Atualização bem sucedida de um restaurante (email)
         Then é retornada uma mensagem com status "200"
         And a mensagem diz "Restaurant updated"
         And o restaurante com o nome "Quentinha refeições", CNPJ "123321222", email "newrestaurant@gmail.com", senha "senha_adm_restaurante" está armazenado no sistema
+
+Scenario: Cadastro mal sucedido de um restaurante (email já cadastrado)
+    Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "test@gmail.com" e senha "senha_adm_restaurante"
+    When uma requisição POST é enviada para "/restaurants" com os valores "Guloso Trincado", "71.381.185/0001-70", email "test@gmail.com", senha "senha_adm_restaurante_2"
+    Then é retornada uma mensagem com status "409"
+    And a mensagem diz "Restaurant already registered"
+    And o restaurante "Guloso Trincado" não está salvo no banco de dados
+    And o restaurante "Quentinha refeições" está salvo no banco de dados
