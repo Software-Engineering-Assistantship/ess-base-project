@@ -221,4 +221,46 @@ defineFeature(feature, (test) => {
       }
     );
   });
+
+  test('Atualização bem sucedida de um restaurante (email)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+
+    and(
+      /^não existe nenhum restaurante com o email "(.*)" cadastrado no sistema$/,
+      async (email) => {
+        prismaMock.restaurant.findFirst.mockResolvedValue(null);
+      }
+    );
+
+    when(
+      /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
+      async (url, email, key) => {
+        prismaMock.restaurant.update.mockResolvedValue({
+          ...restaurants[0],
+          email,
+        });
+        response = await request
+          .put(url.replace('{id}', restaurants[0].id))
+          .send({ email });
+      }
+    );
+
+    thenERetornadaUmaMensagemComStatus(then);
+    thenAMensagemDiz(and);
+
+    and(
+      /^o restaurante com o nome "(.*)", CNPJ "(.*)", email "(.*)", senha "(.*)" está armazenado no sistema$/,
+      async (name, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).toHaveBeenCalledWith({
+          where: { id: restaurants[0].id },
+          data: { email },
+        });
+      }
+    );
+  });
 });

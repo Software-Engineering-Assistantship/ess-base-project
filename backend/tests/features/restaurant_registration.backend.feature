@@ -36,3 +36,11 @@ Scenario: Cadastro mal sucedido de um restaurante (CNPJ já cadastrado)
         Then é retornada uma mensagem com status "409"
         And a mensagem diz "Restaurant already registered"
         And o restaurante "Guloso Trincado" não está salvo no banco de dados
+
+Scenario: Atualização bem sucedida de um restaurante (email)
+        Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "test@gmail.com" e senha "senha_adm_restaurante"
+        And não existe nenhum restaurante com o email "newrestaurant@gmail.com" cadastrado no sistema
+        When uma requisição PUT é enviada para "/restaurants/{id}" com o valor "newrestaurant@gmail.com" no campo "email"
+        Then é retornada uma mensagem com status "200"
+        And a mensagem diz "Restaurant updated"
+        And o restaurante com o nome "Quentinha refeições", CNPJ "123321222", email "newrestaurant@gmail.com", senha "senha_adm_restaurante" está armazenado no sistema
