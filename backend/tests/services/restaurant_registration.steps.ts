@@ -181,4 +181,37 @@ defineFeature(feature, (test) => {
       }
     );
   });
+
+  test('Cadastro mal sucedido de um restaurante (CNPJ já cadastrado)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    given(
+      /^existe um restaurante cadastrado no sistema com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
+      async (id, name, cnpj, email, password) => {
+        restaurants.push({
+          id: parseInt(id, 10),
+          name,
+          cnpj,
+          email,
+          password,
+        });
+      }
+    );
+
+    when(
+      /^uma requisição POST é enviada para "(.*)" com os valores "(.*)", "(.*)", email "(.*)", senha "(.*)"$/,
+      async (url, name, cnpj, email, password) => {
+        prismaMock.restaurant.findFirst.mockResolvedValue(restaurants[0]);
+        response = await request
+          .post(url)
+          .send({ name, CNPJ: cnpj, email, password });
+      }
+    );
+
+    thenERetornadaUmaMensagemComStatus(then);
+    thenAMensagemDiz(and);
+  });
 });
