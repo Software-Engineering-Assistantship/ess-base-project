@@ -8,29 +8,21 @@ class RestaurantModel {
     email: string,
     password: string
   ) {
-    try {
-      await prisma.restaurant.create({
-        data: {
-          name,
-          cnpj: CNPJ,
-          email,
-          password,
-        },
-      });
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002' && error.meta?.target) {
-          const targetFields = error.meta.target as string[];
-          if (targetFields.includes('email')) {
-            throw new DuplicateFieldError('Erro! Email já cadastrado');
-          } else if (targetFields.includes('cnpj')) {
-            throw new DuplicateFieldError('Erro! CNPJ já cadastrado');
-          }
-        } else {
-          throw error;
-        }
-      }
+    const existingRestaurant = await prisma.restaurant.findFirst({
+      where: {
+        OR: [{ cnpj: CNPJ }, { email }],
+      },
+    });
+
+    if (existingRestaurant) {
+      throw new DuplicateFieldError('Restaurant already registered');
     }
+
+    const restaurant = await prisma.restaurant.create({
+      data: { name, cnpj: CNPJ, email, password },
+    });
+
+    return restaurant;
   }
 
   static async index() {
