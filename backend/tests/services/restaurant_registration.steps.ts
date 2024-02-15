@@ -213,5 +213,12 @@ defineFeature(feature, (test) => {
 
     thenERetornadaUmaMensagemComStatus(then);
     thenAMensagemDiz(and);
+
+    and(
+      /^o restaurante "(.*)" não está salvo no banco de dados$/,
+      async (name) => {
+        expect(prismaMock.restaurant.create).not.toHaveBeenCalled();
+      }
+    );
   });
 });
