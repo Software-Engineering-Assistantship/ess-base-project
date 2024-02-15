@@ -5,6 +5,7 @@ import OrderCancellationController from '../controllers/OrderCancellationControl
 import OrdersController from '../controllers/OrdersController';
 import RestaurantModel from '../models/RestaurantModel';
 import ShoppingCartController from '../controllers/ShoppingCartController';
+import ClientLoginController from '../controllers/ClientLoginController';
 
 const router = Router();
 
