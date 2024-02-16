@@ -63,11 +63,3 @@ class OrderCancellationModel {
 }
 
 export default OrderCancellationModel;
-
-// alfa  =  rand[0,1]
-// statusArr = ['em Preparo', 'Confirmado']
-// beta = rand[0, 10.0]
-// status = statusArr[alfa]
-// tempo = beta
-
-// products = [(Coxinha, 2), (Cachorro quente, 3), (Pao, 1)]

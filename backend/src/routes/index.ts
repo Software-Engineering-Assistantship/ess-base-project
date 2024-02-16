@@ -5,6 +5,7 @@ import OrderCancellationController from '../controllers/OrderCancellationControl
 import OrdersController from '../controllers/OrdersController';
 import RestaurantModel from '../models/RestaurantModel';
 import ShoppingCartController from '../controllers/ShoppingCartController';
+import ClientLoginController from '../controllers/ClientLoginController';
 import ClientController from '../controllers/ClientController';
 
 const router = Router();
@@ -41,6 +42,12 @@ router.put(
   '/clients/:clientId/orders/:orderId/cancellation',
   OrderCancellationController.update
 );
+
+router.post('/clients/login', ClientLoginController.login);
+
+router.get('/clients/home', ClientLoginController.verifyToken, (req, res) => {
+  res.status(200).json({ message: 'Acesso concedido.'}); //, userId: req.userId 
+});
 
 router.post(
   '/clients',
