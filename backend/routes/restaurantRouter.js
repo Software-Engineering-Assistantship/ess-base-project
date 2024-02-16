@@ -15,7 +15,5 @@ router.put('/edit/:id', RestaurantController.restaurant_edit)
 
 router.delete('/delete/:id', RestaurantController.restaurant_delete)
 
-router.post('/upload', upload.single("file"), RestaurantController.restaurant_upload)
-
 module.exports = router
 
