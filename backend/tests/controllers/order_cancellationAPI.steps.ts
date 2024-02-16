@@ -30,7 +30,7 @@ defineFeature(feature, (test) => {
         name: string,
         email: string,
         cpf: string,
-        endereco: string
+        address: string
       ) => {
         const client_1 = {
           id: parseInt(clientId, 10),
@@ -38,7 +38,7 @@ defineFeature(feature, (test) => {
           name: name,
           email: email,
           cpf: cpf,
-          endereco: endereco,
+          address: address,
         };
         clients.push(client_1);
       }
@@ -58,7 +58,7 @@ defineFeature(feature, (test) => {
           id: parseInt(orderId, 10),
           clientId: parseInt(clientId, 10),
           status: status,
-          time: parseFloat(time),
+          time: time,
           price: parseFloat(price),
         };
         orders.push(order_1);
