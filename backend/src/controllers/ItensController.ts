@@ -78,6 +78,20 @@ class ItensController {
       return next(error);
     }
   }
+  async findAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const itens = await ItensRepository.findAll();
+
+      res.locals = {
+        status: 200,
+        data: itens,
+      };
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {

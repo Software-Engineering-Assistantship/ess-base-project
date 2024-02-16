@@ -8,15 +8,24 @@ itensRouter.route('/')
     ItensController.create,
   );
 
-itensRouter.route('/:cuponsId')
+itensRouter.route('/:itemId')
   .get(
     ItensController.read,
   );
 
-itensRouter.route('/:cuponsId')
+itensRouter.route('/:itemId')
   .delete(
     ItensController.delete,
   );
 
+itensRouter.route('/:itemId')
+  .patch(
+    ItensController.update,
+  );
+
+itensRouter.route('/')
+  .get(
+    ItensController.findAll,
+  );
 
 export default itensRouter;

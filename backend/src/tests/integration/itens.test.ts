@@ -12,7 +12,7 @@ defineFeature(feature, test => {
     test('Criar Item', ({ given, when, then, and }) => {
         const prismaTestClient = new PrismaClient();
 
-        given(/^I don't have any item with name "(.*)"$/, async (name) => {
+        given(/^Eu não tenho nenhum item com o nome "(.*)"$/, async (name) => {
             await database.connect();
             const itemExists = await prismaTestClient.item.findFirst({
                 where: {
@@ -23,7 +23,7 @@ defineFeature(feature, test => {
             expect(itemExists).toBe(null);
         });
 
-        when(/^I insert a item with: name "(.*)", price "(.*)", category "(.*)", description "(.*)", image "(.*)", colors "(.*)", sizes "(.*)", amount "(.*)"$/, async (
+        when(/^Eu insiro um item com: nome "(.*)", preço "(.*)", categoria "(.*)", descrição "(.*)", imagem "(.*)", cores "(.*)", tamanhos "(.*)", quantidade "(.*)"$/, async (
             name, price, category, description, image, colors, sizes, amount
         ) => {
             const newItem = await prismaTestClient.item.create({
@@ -49,7 +49,7 @@ defineFeature(feature, test => {
             expect(newItem).toHaveProperty('amount', Number(amount));
         });
 
-        then(/^I should have a item with name "(.*)"$/, async (name) => {
+        then(/^Eu devo ter um item com nome "(.*)"$/, async (name) => {
             const item = await prismaTestClient.item.findFirst({
                 where: {
                     name,
@@ -59,7 +59,7 @@ defineFeature(feature, test => {
             expect(item).toHaveProperty('name', name);
         });
 
-        and(/^I should have this item with id "(.*)"$/, async (id) => {
+       and(/^Eu devo ter este item com id "(.*)"$/, async (id) => {
             const item = await prismaTestClient.item.findFirst({
                 where: {
                     id: Number(id),
@@ -72,6 +72,4 @@ defineFeature(feature, test => {
             await database.disconnect();
         });
 
-    });
-
-});
+});});
