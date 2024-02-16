@@ -35,10 +35,9 @@ class ClientModel {
     }
   }
 
-
   static async index() {
     const clients = await prisma.client.findMany({
-      select: { id: true, name: true, cpf: true, email: true,endereco: true,},
+      select: { id: true, name: true, cpf: true, email: true, endereco: true },
     });
 
     return clients;

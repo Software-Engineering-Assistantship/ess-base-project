@@ -33,7 +33,12 @@ class OrderCancellationController {
       const order = await OrderCancellationModel.orderExistence(
         Number(orderId)
       );
-      if (order && client && client.password === password) {
+      if (
+        order &&
+        order.status != 'cancelled' &&
+        client &&
+        client.password === password
+      ) {
         const status = 'cancelled';
         await OrderCancellationModel.update(
           Number(clientId),
@@ -47,13 +52,16 @@ class OrderCancellationController {
         );
         return res
           .status(200)
-          .json({ message: 'Pedido Cancelado', order_number: orderId });
+          .json({ message: 'Pedido Cancelado', order_number: Number(orderId) });
       } else {
         if (!client) {
           return res.status(404).json({ message: 'cliente nao existe!' });
         }
         if (!order) {
           return res.status(400).json({ message: 'pedido não existe' });
+        }
+        if (order.status === 'cancelled') {
+          return res.status(400).json({ message: 'pedido ja cancelado' });
         } else return res.status(401).json({ message: 'senha incorreta!' });
       }
     } catch (error: any) {
