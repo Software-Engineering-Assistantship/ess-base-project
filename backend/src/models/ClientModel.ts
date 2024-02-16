@@ -1,38 +1,36 @@
 import prisma from '../database';
 import { Prisma } from '@prisma/client';
 import DuplicateFieldError from '../errors/DuplicateFieldError';
+import { throws } from 'assert';
+import { error } from 'console';
 class ClientModel {
   static async insert(
     name: string,
-    CPF: string,
+    cpf: string,
     email: string,
     endereco: string,
     password: string
   ) {
-    try {
+      const Exist_Client = await prisma.client.findFirst({
+        where: {
+          OR : [{cpf},{email}]
+        },
+      });
+
+      if(Exist_Client){
+        throw new DuplicateFieldError("Cliente já cadastrado");
+      }
+
       await prisma.client.create({
         data: {
           name,
-          cpf: CPF,
+          cpf,
           email,
           endereco,
           password,
         },
       });
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2002' && error.meta?.target) {
-          const targetFields = error.meta.target as string[];
-          if (targetFields.includes('email')) {
-            throw new DuplicateFieldError('Erro! Email já cadastrado');
-          } else if (targetFields.includes('cpf')) {
-            throw new DuplicateFieldError('Erro! CPF já cadastrado');
-          }
-        } else {
-          throw error;
-        }
-      }
-    }
+     
   }
 
 
