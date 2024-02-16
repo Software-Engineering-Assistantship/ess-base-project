@@ -21,22 +21,6 @@ class UserController {
     );
  }
 
- /*   // Rota para obter todos os usuários
-    this.router.get(`${this.prefix}`, (req: Request, res: Response) =>
-        this.getAllUsers(req, res)
-    );
-
-    // Rota para obter um usuário pelo ID
-    this.router.get(`${this.prefix}/:id`, (req: Request, res: Response) =>
-        this.getUserById(req, res)
-    );
-
-    // Rota para atualizar um usuário pelo ID
-    this.router.put(`${this.prefix}/:id`, (req: Request, res: Response) =>
-      this.updateUserById(req, res)
-    );
-  }*/
-
   private async createUser(req: Request, res: Response) {
     // Extrai os dados do corpo da requisição
     const user = await this.userService.createUser(new UserEntity(req.body));
@@ -46,70 +30,6 @@ class UserController {
         msg: 'O cadastro foi realizado com sucesso',
         data: user,
     }).handle(res);
-  }
-
-  private async getAllUsers(req: Request, res: Response) {
-    try {
-      // Chama o serviço para obter todos os usuários
-      const users = await this.userService.getAllUsers();
-
-      // Retorna a lista de usuários
-      return new SuccessResult({
-        msg: 'Lista de usuários',
-        data: users,
-      }).handle(res);
-    } catch (error) {
-      // Trata erros de forma adequada
-      console.error('Erro ao obter usuários:', error);
-      return res.status(500).json({ error: 'Erro ao obter usuários' });
-    }
-  }
-
-  private async getUserById(req: Request, res: Response) {
-    try {
-      // Extrai o ID do parâmetro da requisição
-      const userId = req.params.id;
-
-      // Chama o serviço para obter o usuário pelo ID
-      const user = await this.userService.getUserById(userId);
-
-      // Verifica se o usuário foi encontrado
-      if (!user) {
-        return res.status(404).json({ error: 'Usuário não encontrado' });
-      }
-
-      // Retorna o usuário encontrado
-      return new SuccessResult({
-        msg: 'Usuário encontrado',
-        data: user,
-      }).handle(res);
-    } catch (error) {
-      // Trata erros de forma adequada
-      console.error('Erro ao obter usuário pelo ID:', error);
-      return res.status(500).json({ error: 'Erro ao obter usuário pelo ID' });
-    }
-  }
-
-  private async updateUserById(req: Request, res: Response) {
-    try {
-      // Extrai o ID do parâmetro da requisição
-      const userId = req.params.id;
-      // Extrai os dados atualizados do corpo da requisição
-      const updatedData = req.body;
-
-      // Chama o serviço para atualizar o usuário pelo ID
-      const updatedUser = await this.userService.updateUserById(userId, updatedData);
-
-      // Retorna o usuário atualizado
-      return new SuccessResult({
-        msg: 'Usuário atualizado com sucesso',
-        data: updatedUser,
-      }).handle(res);
-    } catch (error) {
-      // Trata erros de forma adequada
-      console.error('Erro ao atualizar usuário pelo ID:', error);
-      return res.status(500).json({ error: 'Erro ao atualizar usuário pelo ID' });
-    }
   }
 }
 

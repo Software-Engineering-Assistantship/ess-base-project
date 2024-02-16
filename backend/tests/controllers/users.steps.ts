@@ -4,6 +4,7 @@ import app from '../../src/app';
 import { di } from '../../src/di';
 import UserRepository from '../../src/repositories/user.repository';
 import UserModel from '../../src/models/user.model';
+import UserService from '../../src/services/user.service';
 import fs from 'fs';
 
 const feature = loadFeature('tests/features/users.feature');
@@ -20,12 +21,14 @@ defineFeature(feature, (test) => {
         login: '',
         senha: ''
     });
+    let userService: UserService;
 
     beforeEach(() => {
         mockUserRepository = di.getRepository<UserRepository>(UserRepository);
         if (fs.existsSync('users.json')) {
             fs.unlinkSync('users.json');
         }
+        userService = new UserService(mockUserRepository);
     });
 
     test('Cadastro de Usuário com Sucesso', ({ given, when, then, and }) => {
@@ -62,9 +65,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService.verificaBranco();
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -74,7 +77,7 @@ defineFeature(feature, (test) => {
         then(/^uma mensagem de confirmação é exibida indicando que "(.*)"$/, (expectedMessage) => {
             expect(response.status).toBe(200);
             expect(response.body.msg).toBe(expectedMessage);
-            userData.salvarUsuario(userData);
+            userService.salvarUsuario(userData);
         });
     });
     
@@ -124,9 +127,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService.verificaBranco();
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -189,9 +192,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService;
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -226,7 +229,7 @@ defineFeature(feature, (test) => {
                 login: 'teste',
                 senha: 'senhateste'
             });
-            userData.salvarUsuario(user);
+            userService.salvarUsuario(user);
         });       
 
         when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
@@ -254,9 +257,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha){
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService;
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha){
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -264,7 +267,6 @@ defineFeature(feature, (test) => {
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            console.log(response.body);
             if(response.status == 400){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
@@ -308,9 +310,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService;
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -361,9 +363,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService;
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
@@ -414,9 +416,9 @@ defineFeature(feature, (test) => {
         });
 
         and (/^realizo o cadastro do usuário$/, async () => {
-            const verifSenha = userData.verificaSenha();
-            const verifBranco = userData.verificaBranco();
-            if(!userData.verificarExistente('login', userData.login) || !userData.verificarExistente('cpf', userData.cpf) || !userData.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+            const verifSenha = userService.verificaSenha();
+            const verifBranco = userService;
+            if(!userService.verificarExistente('login', userData.login) || !userService.verificarExistente('cpf', userData.cpf) || !userService.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
             }else{
                 response.status = 400;
