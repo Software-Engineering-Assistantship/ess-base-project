@@ -18,7 +18,7 @@ export class UpdateMenuItemController {
   constructor(private readonly menuService: MenuService) {}
 
   @Patch()
-  @HttpCode(201)
+  @HttpCode(200)
   async handle(@Param('id') id: string, @Body() menu: UpdateMenuItemSchema) {
     try {
       updateMenuItemSchema.parse(menu);

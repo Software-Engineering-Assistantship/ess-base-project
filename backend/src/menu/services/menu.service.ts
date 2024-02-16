@@ -42,6 +42,6 @@ export class PrismaMenuService implements MenuService {
   }
 
   async delete(id: string) {
-    return await this.prisma.menu.delete({ where: { id } });
+    await this.prisma.menu.delete({ where: { id } });
   }
 }

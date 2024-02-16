@@ -29,7 +29,7 @@ export class InMemoryMenuService implements MenuService {
     return itemUpdated;
   }
 
-  async delete(id: string): Promise<MenuItem> {
+  async delete(id: string): Promise<void> {
     const itemToDelete = this.items.find((item) => item.id === id);
 
     if (!itemToDelete) {
@@ -37,7 +37,5 @@ export class InMemoryMenuService implements MenuService {
     }
 
     this.items = this.items.filter((item) => item.id !== id);
-
-    return itemToDelete;
   }
 }

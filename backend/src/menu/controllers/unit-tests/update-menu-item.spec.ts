@@ -15,13 +15,16 @@ describe('Update menu item', () => {
 
   it('should be able to update one menu item', async () => {
     const category = makeCategory();
-    const menuItem = makeMenuItem({ categoryId: category.id });
+    const menuItem = makeMenuItem({
+      description: 'description',
+      categoryId: category.id,
+    });
 
     inMemoryMenuService.create(menuItem);
 
     const newMenuItem = makeMenuItem({
       id: menuItem.id,
-      description: 'new description',
+      description: 'New description',
     });
 
     const result = await sut.handle(menuItem.id, newMenuItem);
@@ -32,7 +35,7 @@ describe('Update menu item', () => {
 
     expect(newItemInMemory).toEqual(result);
     expect(newItemInMemory).toEqual(
-      expect.objectContaining({ description: 'new description' }),
+      expect.objectContaining({ description: 'New description' }),
     );
   });
 });

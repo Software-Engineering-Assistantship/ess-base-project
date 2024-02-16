@@ -6,8 +6,8 @@ export class DeleteMenuItemController {
   constructor(private readonly menuService: MenuService) {}
 
   @Delete()
-  @HttpCode(200)
+  @HttpCode(204)
   async handle(@Param('id') id: string) {
-    return await this.menuService.delete(id);
+    await this.menuService.delete(id);
   }
 }

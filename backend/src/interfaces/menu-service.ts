@@ -5,5 +5,5 @@ export abstract class MenuService {
   abstract findOne(id: string): Promise<MenuItem>;
   abstract findAllByCategory(categoryId: string): Promise<MenuItem[]>;
   abstract update(id: string, menu: MenuItem): Promise<MenuItem>;
-  abstract delete(id: string): Promise<MenuItem>;
+  abstract delete(id: string): Promise<void>;
 }
