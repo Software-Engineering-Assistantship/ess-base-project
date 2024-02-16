@@ -1,8 +1,8 @@
 import { Controller, Get, HttpCode, Param } from '@nestjs/common';
-import { MenuService } from '../services/menu.service';
+import { MenuService } from 'src/interfaces/menu-service';
 
 @Controller('/menu/item/:id')
-export class GetItemById {
+export class GetItemByIdController {
   constructor(private readonly menuService: MenuService) {}
 
   @Get()

@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/database/prisma.service';
 import { CreateMenuItemSchema } from '../dto/create-menu-item';
+import { MenuService } from 'src/interfaces/menu-service';
 
 @Injectable()
-export class MenuService {
+export class PrismaMenuService implements MenuService {
   constructor(private prisma: PrismaService) {}
 
   async create(menu: CreateMenuItemSchema) {
@@ -13,7 +14,7 @@ export class MenuService {
         description: menu.description,
         price: menu.price,
         quantity: menu.quantity,
-        categoryId: menu.category,
+        categoryId: menu.categoryId,
       },
     });
   }

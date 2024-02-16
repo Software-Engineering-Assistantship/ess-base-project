@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
 import { CreateMenuItemController } from './controllers/create-menu-item.controller';
-import { MenuService } from './services/menu.service';
-import { GetItemsByCategory } from './controllers/get-items-by-category.controller';
-import { GetItemById } from './controllers/get-item-by-id.controller';
+import { GetItemsByCategoryController } from './controllers/get-items-by-category.controller';
+import { GetItemByIdController } from './controllers/get-item-by-id.controller';
+import { DatabaseModule } from 'src/database/database.module';
 
 @Module({
-  controllers: [CreateMenuItemController, GetItemsByCategory, GetItemById],
-  providers: [MenuService, PrismaService],
-  exports: [MenuService],
+  imports: [DatabaseModule],
+  controllers: [
+    CreateMenuItemController,
+    GetItemsByCategoryController,
+    GetItemByIdController,
+  ],
 })
 export class MenuModule {}
