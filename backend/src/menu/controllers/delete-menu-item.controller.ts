@@ -1,5 +1,5 @@
 import { Controller, Delete, HttpCode, Param } from '@nestjs/common';
-import { MenuService } from '../services/menu.service';
+import { MenuService } from 'src/interfaces/menu-service';
 
 @Controller('/menu/item/:id')
 export class DeleteMenuItemController {

@@ -17,4 +17,27 @@ export class InMemoryMenuService implements MenuService {
   async findAllByCategory(categoryId: string) {
     return this.items.filter((item) => item.categoryId === categoryId);
   }
+
+  async update(id: string, menu: MenuItem): Promise<MenuItem> {
+    const itemToUpdate = this.items.find((item) => item.id === id);
+
+    if (!itemToUpdate) {
+      throw new Error(`Ingredient with id: ${id} does not exist`);
+    }
+
+    const itemUpdated = Object.assign(itemToUpdate, menu);
+    return itemUpdated;
+  }
+
+  async delete(id: string): Promise<MenuItem> {
+    const itemToDelete = this.items.find((item) => item.id === id);
+
+    if (!itemToDelete) {
+      throw new Error(`Ingredient with id: ${id} does not exist`);
+    }
+
+    this.items = this.items.filter((item) => item.id !== id);
+
+    return itemToDelete;
+  }
 }

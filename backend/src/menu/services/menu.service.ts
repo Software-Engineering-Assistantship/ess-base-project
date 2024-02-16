@@ -36,7 +36,7 @@ export class PrismaMenuService implements MenuService {
         description: menu.description,
         price: menu.price,
         quantity: menu.quantity,
-        categoryId: menu.category,
+        categoryId: menu.categoryId,
       },
     });
   }
