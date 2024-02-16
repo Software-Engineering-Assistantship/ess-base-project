@@ -9,6 +9,12 @@ class DeliveryPersonRepository {
     const deliveryPerson = await prisma.deliveryPerson.create({ data });
     return deliveryPerson;
   }
+  async createAddress(
+    data: Prisma.AddressCreateInput,
+  ): Promise<Address | null> {
+    const address = await prisma.address.create({ data });
+    return address;
+  }
 
   async findBycpf(cpf: string): Promise<DeliveryPerson | null> {
     const deliveryPerson = await prisma.deliveryPerson.findUnique({
@@ -18,12 +24,11 @@ class DeliveryPersonRepository {
     return deliveryPerson;
   }
 
-  async findByName(name: string): Promise<DeliveryPerson[] | null> {
-    const deliveryPerson = await prisma.deliveryPerson.findMany({
-      where: { name },
-      include: { address: true },
+  async findAddressByCpf(userId: string): Promise<Address | null> {
+    const address = await prisma.address.findUnique({
+      where: { userId },
     });
-    return deliveryPerson;
+    return address;
   }
   async update(
     cpf: string,

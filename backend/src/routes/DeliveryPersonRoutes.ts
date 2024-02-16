@@ -5,11 +5,6 @@ const deliveryPersonRouter = Router();
 deliveryPersonRouter.route('/').post(DeliveryPersonController.create);
 
 deliveryPersonRouter.route('/cpf/:cpf').get(DeliveryPersonController.readByCPF);
-
-deliveryPersonRouter
-  .route('/name/:name')
-  .get(DeliveryPersonController.readByName);
-
 deliveryPersonRouter.route('/:cpf').patch(DeliveryPersonController.update);
 deliveryPersonRouter
   .route('/address/:cpf')

@@ -1,11 +1,16 @@
 import { DeliveryPersonRepository } from '../repositories';
 import { Request, Response, NextFunction } from 'express';
-import { DeliveryPerson, Prisma } from '@prisma/client';
+import { Address, DeliveryPerson, Prisma } from '@prisma/client';
 
 class DeliveryPersonController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const deliveryPersonData = req.body as DeliveryPerson;
+      const { deliveryPersonData, addressData } = req.body as {
+        deliveryPersonData: DeliveryPerson;
+        addressData: Address;
+      };
+
+      console.log('DELIVERY PERSON DATA', deliveryPersonData);
 
       const existsUserWithCpf = await DeliveryPersonRepository.findBycpf(
         deliveryPersonData.cpf,
@@ -30,11 +35,14 @@ class DeliveryPersonController {
       }
 
       const user = await DeliveryPersonRepository.create(deliveryPersonData);
-
+      const address = await DeliveryPersonRepository.createAddress({
+        ...addressData,
+        DeliveryPerson: { connect: { cpf: deliveryPersonData.cpf } },
+      });
       res.locals = {
         status: 201,
         message: 'User created',
-        data: user,
+        data: { user, address },
       };
 
       return next();
@@ -55,34 +63,12 @@ class DeliveryPersonController {
           message: 'User not found',
         });
       }
-
+      const address = await DeliveryPersonRepository.findAddressByCpf(
+        user?.cpf,
+      );
       res.locals = {
         status: 200,
-        data: user,
-      };
-
-      return next();
-    } catch (error) {
-      return next(error);
-    }
-  }
-
-  async readByName(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { name } = req.params;
-
-      const users = await DeliveryPersonRepository.findByName(name);
-
-      if (!users || users.length === 0) {
-        return next({
-          status: 404,
-          message: 'User not found',
-        });
-      }
-
-      res.locals = {
-        status: 200,
-        data: users,
+        data: { user, address },
       };
 
       return next();
@@ -94,9 +80,12 @@ class DeliveryPersonController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { cpf } = req.params;
-      const userData = req.body as Prisma.DeliveryPersonUpdateInput;
+      const { deliveryPersonData: userData, addressData } = req.body as {
+        deliveryPersonData: Prisma.DeliveryPersonUpdateInput;
+        addressData: Prisma.AddressUncheckedUpdateInput;
+      };
 
-      const user = await DeliveryPersonRepository.update(cpf, userData);
+      const user = await DeliveryPersonRepository.findBycpf(cpf);
 
       if (!user) {
         return next({
@@ -105,9 +94,27 @@ class DeliveryPersonController {
         });
       }
 
+      const address = await DeliveryPersonRepository.findAddressByCpf(cpf);
+
+      if (!address) {
+        return next({
+          status: 404,
+          message: 'Address not found',
+        });
+      }
+
+      const userUpdate = await DeliveryPersonRepository.update(cpf, userData);
+      const addressUpdate = await DeliveryPersonRepository.updateAddress(
+        cpf,
+        addressData,
+      );
+
       res.locals = {
         status: 200,
-        data: user,
+        data: {
+          userUpdate,
+          addressUpdate,
+        },
         message: 'User updated',
       };
 
