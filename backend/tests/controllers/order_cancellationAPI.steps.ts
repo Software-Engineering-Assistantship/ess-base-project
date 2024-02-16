@@ -18,9 +18,10 @@ defineFeature(feature, (test) => {
   // Clears the orders array after each scenario
   afterEach(() => {
     orders = [];
+    clients = [];
   });
 
-  test('Cancelamento de pedido bem sucedido', ({ given, and, when, then }) => {
+  const givenUserExist = (given: DefineStepFunction) =>
     given(
       /^existe um usuário com id "(.*)", com senha "(.*)", com nome "(.*)", email "(.*)", cpf "(.*)" e endereco "(.*)".$/,
       async (
@@ -43,7 +44,8 @@ defineFeature(feature, (test) => {
       }
     );
 
-    and(
+  const givenOrderExist = (given: DefineStepFunction) =>
+    given(
       /^um pedido com número "(.*)", status "(.*)", tempo "(.*)" e preco "(.*)" está registrado nos pedidos do usuario de id "(.*)".$/,
       async (
         orderId: string,
@@ -63,6 +65,7 @@ defineFeature(feature, (test) => {
       }
     );
 
+  const reqPut = (when: DefineStepFunction) =>
     when(
       /^uma requisição de PUT com id "(.*)", motivo "(.*)" e senha "(.*)" é enviada para "(.*)".$/,
       async (
@@ -71,32 +74,19 @@ defineFeature(feature, (test) => {
         password: string,
         url: string
       ) => {
-        const client_1 = {
-          id: parseInt(clientId),
-          password: password,
-          name: 'joao',
-          email: 'joao@cin.ufpe.br',
-          cpf: '11122233344',
-          endereco: 'rua 1',
-        };
-        const order_1 = {
-          id: 4,
-          clientId: parseInt(clientId),
-          status: 'Confirmado',
-          time: 2,
-          price: 50.0,
-        };
-        prismaMock.client.findUnique.mockResolvedValue(client_1);
-        prismaMock.orders.findUnique.mockResolvedValue(order_1);
+        prismaMock.client.findUnique.mockResolvedValue(clients[0]);
+        prismaMock.orders.findUnique.mockResolvedValue(orders[0]);
         response = await request.put(url).send({ reason, password });
       }
     );
 
+  const ansStatusMustBe = (then: DefineStepFunction) =>
     then(/^o status da resposta deve ser "(.*)".$/, async (val: string) => {
       expect(response.status).toBe(parseInt(val, 10));
     });
 
-    and(
+  const ansMsgMustBe = (then: DefineStepFunction) =>
+    then(
       /^uma mensagem de "(.*)" é retornada com id de pedido "(.*)".$/,
       async (txt: string, id: string) => {
         expect(response.body).toEqual(
@@ -107,167 +97,55 @@ defineFeature(feature, (test) => {
         );
       }
     );
+
+  test('Cancelamento de pedido bem sucedido', ({ given, and, when, then }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    reqPut(when);
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
   });
-  //   const givenExisteUmRestauranteCadastradoNoSistemaComOsDados = (
-  //     given: DefineStepFunction
-  //   ) =>
-  //     given(
-  //       /^existe um restaurante cadastrado no sistema com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-  //       async (
-  //         id: string,
-  //         name: string,
-  //         cnpj: string,
-  //         email: string,
-  //         password: string
-  //       ) => {
-  //         restaurants.push({
-  //           id: parseInt(id, 10),
-  //           name,
-  //           cnpj,
-  //           email,
-  //           password,
-  //         });
-  //       }
-  //     );
 
-  //   const thenAMensagemContem = (then: DefineStepFunction) =>
-  //     then(
-  //       /^a mensagem contém "(.*)", "(.*)", "(.*)"$/,
-  //       async (name, cnpj, email) => {
-  //         await expect(response.body).toEqual(
-  //           expect.arrayContaining([
-  //             expect.objectContaining({ name, cnpj, email }),
-  //           ])
-  //         );
-  //       }
-  //     );
+  test('Cancelamento mal sucedido (senha incorreta).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
 
-  //   const thenERetornadaUmaMensagemComStatus = (then: DefineStepFunction) =>
-  //     then(/^é retornada uma mensagem com status "(.*)"$/, async (status) => {
-  //       await expect(response.status).toBe(parseInt(status, 10));
-  //     });
+    givenOrderExist(and);
+    reqPut(when);
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
+  });
 
-  //   const thenAMensagemDiz = (then: DefineStepFunction) => {
-  //     then(/^a mensagem diz "(.*)"$/, async (message) => {
-  //       await expect(response.body).toEqual(expect.objectContaining({ message }));
-  //     });
-  //   };
+  test('Cancelamento mal sucedido (pedido já cancelado).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    reqPut(when);
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
+  });
 
-  //   const whenUmaRequisicaoPostEEnviadaPara = (when: DefineStepFunction) =>
-  //     when(
-  //       /^uma requisição POST é enviada para "(.*)" com os valores "(.*)", "(.*)", email "(.*)", senha "(.*)"$/,
-  //       async (url, name, cnpj, email, password) => {
-  //         prismaMock.restaurant.create.mockResolvedValue({
-  //           id: 1,
-  //           name,
-  //           cnpj,
-  //           email,
-  //           password,
-  //         });
-  //         response = await request
-  //           .post(url)
-  //           .send({ name, CNPJ: cnpj, email, password });
-  //       }
-  //     );
-  //   test('Leitura de restaurantes do sistema', async ({
-  //     given,
-  //     when,
-  //     then,
-  //     and,
-  //   }) => {
-  //     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
-  //     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
+  test('Carregamento pedidos (serviço)', ({ given, when, then, and }) => {
+    given(
+      /^existe um usuário com id "(.*)" com senha "(.*)".$/,
+      (arg0, arg1) => {}
+    );
 
-  //     when(/^uma requisição GET é enviada para "(.*)"$/, async (url) => {
-  //       prismaMock.restaurant.findMany.mockResolvedValue(restaurants);
-  //       response = await request.get(url);
-  //     });
+    when(
+      /^uma requisição de "(.*)" com id "(.*)" é enviada para "(.*)"$/,
+      (arg0, arg1, arg2) => {}
+    );
 
-  //     thenERetornadaUmaMensagemComStatus(then);
+    then(/^o status da resposta deve ser "(.*)"$/, (arg0) => {});
 
-  //     thenAMensagemContem(and);
-  //     thenAMensagemContem(and);
-  //   });
-
-  //   test('Cadastro bem sucedido de restaurante', async ({
-  //     given,
-  //     when,
-  //     then,
-  //     and,
-  //   }) => {
-  //     given(
-  //       /^não existe nenhum restaurante com o CNPJ "(.*)" nem com o email "(.*)" cadastrado no sistema$/,
-  //       async (cnpj, email) => {
-  //         prismaMock.restaurant.findFirst.mockResolvedValue(null);
-  //       }
-  //     );
-
-  //     whenUmaRequisicaoPostEEnviadaPara(when);
-
-  //     thenERetornadaUmaMensagemComStatus(then);
-  //     thenAMensagemDiz(and);
-  //   });
-
-  //   test('Remoção bem sucedida de um restaurante', async ({
-  //     given,
-  //     when,
-  //     then,
-  //     and,
-  //   }) => {
-  //     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
-
-  //     when(/^uma requisição DELETE é enviada para "(.*)"$/, async (url) => {
-  //       prismaMock.restaurant.delete.mockResolvedValue(restaurants[0]);
-  //       response = await request.delete(url.replace('{id}', restaurants[0].id));
-  //     });
-
-  //     thenERetornadaUmaMensagemComStatus(then);
-
-  //     thenAMensagemDiz(and);
-
-  //     and(
-  //       /^o restaurante "(.*)" não está mais salvo no banco de dados$/,
-  //       async (name) => {
-  //         expect(prismaMock.restaurant.delete).toHaveBeenCalledWith({
-  //           where: { id: restaurants[0].id },
-  //         });
-  //       }
-  //     );
-  //   });
-
-  //   test('Atualização bem sucedida de um restaurante', async ({
-  //     given,
-  //     when,
-  //     then,
-  //     and,
-  //   }) => {
-  //     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
-
-  //     when(
-  //       /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
-  //       async (url, name, key) => {
-  //         prismaMock.restaurant.update.mockResolvedValue({
-  //           ...restaurants[0],
-  //           name,
-  //         });
-  //         response = await request
-  //           .put(url.replace('{id}', restaurants[0].id))
-  //           .send({ name });
-  //       }
-  //     );
-
-  //     thenERetornadaUmaMensagemComStatus(then);
-
-  //     thenAMensagemDiz(and);
-
-  //     and(
-  //       /^o restaurante com o nome "(.*)", CNPJ "(.*)", email "(.*)", senha "(.*)" está armazenado no sistema$/,
-  //       async (name, cnpj, email, password) => {
-  //         expect(prismaMock.restaurant.update).toHaveBeenCalledWith({
-  //           where: { id: restaurants[0].id },
-  //           data: { name },
-  //         });
-  //       }
-  //     );
-  //   });
+    and(/^uma mensagem de "(.*)" é retornada.$/, (arg0) => {});
+  });
 });

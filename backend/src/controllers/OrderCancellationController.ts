@@ -55,14 +55,21 @@ class OrderCancellationController {
           .json({ message: 'Pedido Cancelado', order_number: Number(orderId) });
       } else {
         if (!client) {
-          return res.status(404).json({ message: 'cliente nao existe!' });
+          return res.status(404).json({ message: 'cliente não existe!' });
         }
         if (!order) {
           return res.status(400).json({ message: 'pedido não existe' });
         }
         if (order.status === 'cancelled') {
-          return res.status(400).json({ message: 'pedido ja cancelado' });
-        } else return res.status(401).json({ message: 'senha incorreta!' });
+          return res.status(400).json({
+            message: 'Pedido não cancelado: pedido já cancelado!',
+            order_number: Number(orderId),
+          });
+        } else
+          return res.status(401).json({
+            message: 'Pedido não cancelado: senha incorreta!',
+            order_number: Number(orderId),
+          });
       }
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
