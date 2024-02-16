@@ -6,6 +6,7 @@ import OrdersController from '../controllers/OrdersController';
 import RestaurantModel from '../models/RestaurantModel';
 import ShoppingCartController from '../controllers/ShoppingCartController';
 import ClientLoginController from '../controllers/ClientLoginController';
+import ClientController from '../controllers/ClientController';
 
 const router = Router();
 
@@ -47,5 +48,21 @@ router.post('/clients/login', ClientLoginController.login);
 router.get('/clients/home', ClientLoginController.verifyToken, (req, res) => {
   res.status(200).json({ message: 'Acesso concedido.'}); //, userId: req.userId 
 });
+
+router.post(
+  '/clients',
+  ClientController.validate('insert'),
+  ClientController.insert
+);
+
+router.get('/clients', ClientController.index);
+
+router.delete('/clients/:id', ClientController.delete);
+
+router.put(
+  '/clients/:id',
+  ClientController.validate('update'),
+  ClientController.update
+);
 
 export default router;

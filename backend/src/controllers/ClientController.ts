@@ -13,11 +13,11 @@ class ClientController {
       return res.status(422).json({ message: errors.array() });
     }
 
-    const { name, CPF, email, endereco, password } = req.body;
+    const { name, CPF, email, address, password } = req.body;
 
     bcrypt.hash(password, 10).then(async (encryptedPassword) => {
       try {
-        await ClientModel.insert(name, CPF, email, endereco ,encryptedPassword);
+        await ClientModel.insert(name, CPF, email, address, encryptedPassword);
         return res.status(201).json({ message: 'Client created' });
       } catch (error: any) {
         if (error instanceof DuplicateFieldError) {
@@ -55,11 +55,11 @@ class ClientController {
     }
 
     const { id } = req.params;
-    const { name, CPF, email,endereco, password } = req.body;
+    const { name, CPF, email, address, password } = req.body;
 
     try {
-      await RestaurantModel.update(Number(id), name, CNPJ, email, password);
-      return res.status(200).json({ message: 'Restaurant updated' });
+      await ClientModel.update(Number(id), name, CPF, email, address, password);
+      return res.status(200).json({ message: 'Client updated' });
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
