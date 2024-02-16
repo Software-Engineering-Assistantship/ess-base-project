@@ -13,6 +13,13 @@ And Eu vejo a informação “12 reviews” com nota média de 4 estrelas
 And Eu clico em "Reviews de Usuários"
 Then Eu vejo o review "O melhor bem casado da cidade"
 
+Cenário 1.1 (Serviço) - Adicionar Review
+Given Não existem reviews feitos para o restaurante de ID "30"
+And O usuário de ID "40" deseja criar um review de título "Coxinha Boa"
+When Uma requisição POST é feita para /review/ associada ao restaurante de ID "30" e usuário de ID "40"
+Then O status da resposta deve ser OK (200)
+And Uma requisição GET para /review/restaurant/30 deve retornar uma lista contendo apenas o review "Coxinha Boa"
+
 Cenário 2 - Adicionar Nota
 Given Eu estou logado com o usuário “Pedro Monte”
 And Eu estou na aba do restaurante “Casa dos Doces”
@@ -30,6 +37,15 @@ When Eu aperto em “Reviews de Usuários”
 Then Abre uma aba com reviews de usuários
 And Eu vejo o review "O melhor bem casado da cidade!" de Pedro Monte, com nota 5 e 5 likes
 And Eu vejo o review "Coxinha Fria" de Maria Letícia, com nota 3 e 1 like e 3 deslikes
+
+Cenário 3.1 (Serviço) - Visualização dos Reviews de um Restaurante
+Given O restaurante de id "30" contém três reviews
+When é feita uma requisição GET para "/reviews/restaurant/30"
+Then O status da resposta deve ser OK (200)
+And Deve ser retornado um JSON com três reviews
+And O review de id "5" e nome "Coxinha Boa" deve estar presente
+And O review de id "6" e nome "Bom bem casado" deve estar presente
+And O review de id "7" e nome "Torta" deve estar presente
  
 Cenário 4 - Visualização de um Review de um usuário
 Given Eu estou logado com o usuário “Maria Letícia”
@@ -45,8 +61,13 @@ And Eu vejo a nota 5 estrelas dadas para “Atendimento”
 And Eu vejo 3 cifrões dados para “Preço”
 And Eu vejo 5 likes
 
+Cenário 4.1 (Serviço) - Visualização de um Review
+Given O restaurante de id "30" contém um review de ID "123"
+When é feita uma requisição GET para "/reviews/123"
+Then O status da resposta deve ser OK (200)
+And Deve ser retornado um JSON com o review de ID "123"
 
-Cenário 5 - Visualização de um Review de um usuário
+Cenário 5 - Visualização de um Review criado pelo usuário logado
 Given Eu estou logado com o usuário “Maria Letícia”
 And Eu estou na aba de “Reviews de Usuários” do restaurante “Casa dos Doces”
 And Eu vejo o review "O melhor bem-casado da cidade!" por Pedro Monte
@@ -74,6 +95,12 @@ And Eu volto para a página do review
 And Eu vejo o título "Coxinha boa"
 And Eu vejo a nota 4 estrelas
 
+Cenário 6.1 (Serviço) - Edição de Review
+Given O restaurante de id "30" contém um review de ID "123" e título "Coxinha Boa"
+When é feita uma requisição PUT para "/reviews/123" alterando o título para "Coxinha Ruim"
+Then O status da resposta deve ser OK (200)
+And Uma requisição GET para /review/123 retorna um JSON contendo o review "Coxinha Ruim"
+
 Cenário 7 - Remoção de Review
 Given Eu estou logado com o usuário “Maria Letícia”
 And Eu estou na página do review “Coxinha Fria” escrita por “Maria Letícia” do restaurante “Casa dos Doces”
@@ -82,6 +109,11 @@ And Eu clico no botão “Excluir”
 Then Surge uma mensagem “Review excluído com sucesso”
 And Eu vejo o review "Brigadeiro belga delicioso" de Ana Sofia no lugar de "Coxinha fria"
 
+Cenário 7.1 (Serviço) - Remoção de Review
+Given O restaurante de id "30" contém um review de ID "123" e título "Coxinha Boa"
+When é feita uma requisição DELETE para "/reviews/123"
+Then O status da resposta deve ser OK (200)
+And Uma requisição GET para /review/123 deve ter como status de resposta "404"
 
 Cenário 8 - Dar Like num review
 Given Eu estou logado com o usuário “Maria Letícia”
@@ -108,3 +140,11 @@ When Eu clico em “Reviews(13)”
 Then Eu vou para uma página contendo todos os reviews feitos pelo usuário “Guilherme Maranhão”
 And Eu vejo o review "Torta perfeita!!" para o restaurante Casa dos Doces
 And Eu vejo o review "Melhores salgados da vida" para o restaurante Marcelinho dos Salgados
+
+Cenário 10.1 (Serviço) - Visualizar Reviews a partir de um user
+Given O usuário de ID "123" contém dois reviews feitos
+When é feita uma requisição GET para "/reviews/user/123"
+Then O status da resposta deve ser OK (200)
+And Deve retornar um JSON contendo dois reviews
+And O review de id "5" e nome "Coxinha Boa" deve estar presente
+And O review de id "6" e nome "Ótimo Sushi" deve estar presente
