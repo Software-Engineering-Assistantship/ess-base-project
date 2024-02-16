@@ -14,14 +14,6 @@ When Eu clico em “Excluir” para o cartão com número “************4823”
 Then Eu vejo uma mensagem de confirmação para a exclusão do cartão
 And O cartão com número “************4823” não está mais na lista de cartões cadastrados
 
-Scenario: Cadastrar um Novo Cupom
-Given Eu estou no menu “Cupons de Desconto”
-And O usuário de username “clara_abk” não tem o cupom com código “DESC10” cadastrado
-When Eu clico em “Adicionar novo cupom”
-And Eu cadastro o cupom com código “DESC10” e percentual de desconto “10%”
-Then Eu vejo uma mensagem de confirmação
-And Eu vejo o cupom com código “DESC10” na lista de cupons cadastrados
-
 Scenario: Pagamento por PIX ao Fazer um Pedido
 Given Eu estou no menu de “Pagamento”
 And Eu adicionei itens ao meu carrinho de compras
