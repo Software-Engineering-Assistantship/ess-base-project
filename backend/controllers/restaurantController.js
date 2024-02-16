@@ -90,5 +90,4 @@ module.exports = {
     restaurant_create,
     restaurant_edit,
     restaurant_delete,
-    restaurant_upload
 }
