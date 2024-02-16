@@ -42,3 +42,13 @@ Scenario: Removendo produtos do carrinho no Banco de Dados
     Then uma requisição "DELETE" com "3" unidade(s) de "Coxinha" do "Restaurante Glória Maria Juazeiro" por "1,0 $" é enviada para "/{id}/shopping_cart/"
     And o status da resposta deve ser "200"
     And o carrinho contém "1" unidade(s) de "Pitsa" por "10,0 $" do "Restaurante Glória Maria Juazeiro Oficial"
+
+Scenario: Finalizando pedidos no Banco de Dados
+    Given eu estou logado como "lgaj" na tela "Restaurantes"
+    And o carrinho contém "3" unidade(s) de "Coxinha" por "1,0 $" do "Restaurante Glória Maria Maria Juazeiro"
+    And o carrinho contém "1" unidade(s) de "Pitsa" por "10,0 $" do "Restaurante Glória Maria Juazeiro Oficial"
+    When eu seleciono a opção "finalizar pedido" no carrinho
+    Then uma requisição "PUT" é enviada para "/{id}/shopping_cart/"
+    And o status da resposta deve ser "200"
+    And o pedido tem status diferente de "Nao finalizado"
+    And o carrinho está vazio
