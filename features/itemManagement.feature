@@ -4,20 +4,20 @@ Feature: Gerenciamento de itens de cardápio
 As a Gerente do restaurante
 I want Conseguir fazer as mudanças necessárias nos itens do meu cardápio.
 
-Cenário: Atualização de um item do cardápio
-Given Estou na tela de editar um item com nome “Hamburguer 02”
-When Modifico a informação de nome para “Hamburguer 03” 
-And Seleciono para salvar as alterações
-Then Sou redirecionado de volta para a tela de listagem de itens
-And Vejo o item atualizado com o nome “Hamburguer 03” com uma mensagem de confirmação
+Cenário: Atualização de um item do cardápio bem sucedida
+Given O usuário "Marcos" está na tela de editar um item com nome “Hamburguer 02”
+When O usuário modifica a informação de nome para “Hamburguer 03” 
+And Seleciona para salvar as alterações
+Then Ele é redirecionado de volta para a tela de listagem de itens
+And E vê o item atualizado com o nome “Hamburguer 03” e uma mensagem de confirmação
 
-Cenário: Deleção de um item do cardápio
-Given Estou na tela de gerenciamento do item com nome “Hamburguer 02”
-When Seleciono a opção de deletar o item
-And Recebo um modal de confirmação da deleção do item
-And Aperto na opção de confirmar a deleção
-Then sou redirecionado para a tela de listagem de itens
-And Não vejo mais o item com o nome “Hamburguer 02” na listagem e obtenho uma uma mensagem de confirmação da deleção
+Cenário: Deleção de um item do cardápio bem sucedida
+Given O usuário "Marcos" está na tela de gerenciamento do item com nome “Hamburguer 03”
+When Ele seleciona a opção de deletar o item
+And E recebe um modal de confirmação da deleção do item
+And E seleciona a opção de confirmar a deleção
+Then Ele é redirecionado para a tela de listagem de itens
+And E não vê mais o item com o nome “Hamburguer 02” na listagem, obtendo uma mensagem de confirmação da deleção
 
 Cenário: Criação de um item do cardápio
 Given Estou na tela de gerenciamento de cardápio
@@ -34,12 +34,23 @@ Then Visualizo a lista atual de itens do cardápio
 And Vejo a lista com informações resumidas de cada item, como preço, descrição e nome
 And Ajuste no cenário
 
-Cenário: Deleção de um item do cardápio
-Given Estou na tela de gerenciamento do item com nome “Hamburguer 03”
-When Seleciono a opção de deletar o item
-And Recebo um modal de confirmação da deleção do item
-And Aperto na opção de confirmar a deleção
-Then sou redirecionado para a tela de listagem de itens
-And Não vejo mais o item com o nome “Hamburguer 03” na listagem e obtenho uma uma mensagem de confirmação da deleção
+Cenário: Deleção de um item do cardápio mal sucedida
+Given O usuário "Marcos" está na tela de gerenciamento do item com nome “Hamburguer 03”
+And O item com nome "Hambuguer 03" foi deletado
+When Ele seleciona a opção de deletar o item
+And E recebe um modal de confirmação da deleção do item
+And E seleciona a opção de confirmar a deleção
+Then Ele é redirecionado para a tela de listagem de itens
+And E recebe uma mensagem de erro informando que o item "Hambuguer 03" não existe
+
+Cenário: Atualização de um item do cardápio mal sucedida
+Given O usuário "Marcos" está na tela de editar um item com nome “Hamburguer 02”
+And O item com nome "Hamburguer 02" foi deletado
+When O usuário modifica a informação de nome para “Hamburguer 03” 
+And Seleciona para salvar as alterações
+Then Ele é redirecionado de volta para a tela de listagem de itens
+And E recebe uma mensagem de erro informando que o item "Hamburguer 02" não existe
+
+
 
 
