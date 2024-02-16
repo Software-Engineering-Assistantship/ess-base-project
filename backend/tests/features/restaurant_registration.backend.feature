@@ -17,7 +17,7 @@ Scenario: Leitura de restaurantes do sistema
 
 Scenario: Remoção bem sucedida de um restaurante
     Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "email_adm_restaurante" e senha "senha_adm_restaurante"
-    When uma requisição DELETE é enviada para "/restaurants/{id}"
+    When uma requisição DELETE é enviada para "/restaurants/1"
     Then é retornada uma mensagem com status "200"
     And a mensagem diz "Restaurant deleted"
     And o restaurante "Quentinha refeições" não está mais salvo no banco de dados
@@ -52,3 +52,18 @@ Scenario: Cadastro mal sucedido de um restaurante (email já cadastrado)
     And a mensagem diz "Restaurant already registered"
     And o restaurante "Guloso Trincado" não está salvo no banco de dados
     And o restaurante "Quentinha refeições" está salvo no banco de dados
+
+Scenario: Remoção mal sucedida de um restaurante (restaurante não encontrado)
+    Given não existe nenhum restaurante com o id "1" cadastrado no sistema
+    When uma requisição DELETE é enviada para "/restaurants/1"
+    Then é retornada uma mensagem com status "404"
+    And a mensagem diz "Restaurant not found"
+
+Scenario: Atualização mal sucedida dos dados de um restaurante (CNPJ já cadastrado)
+    Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "71.381.185/0001-70", email "email_adm_restaurante" e senha "senha_adm_restaurante"
+    And existe um restaurante cadastrado no sistema com os dados id "2", nome "Guloso Trincado", cnpj "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"
+    When uma requisição PUT é enviada para "/restaurants/2" com o valor "71.381.185/0001-70" no campo "CNPJ"
+    Then é retornada uma mensagem com status "409"
+    And a mensagem diz "Restaurant already registered"
+    And o restaurante "Quentinha refeições" está salvo no banco de dados com os dados id "1", nome "Quentinha refeições", cnpj "71.381.185/0001-70", email "email_adm_restaurante" e senha "senha_adm_restaurante"
+    And o restaurante "Guloso Trincado" está salvo no banco de dados com os dados id "2", nome "Guloso Trincado", cnpj "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"

@@ -128,8 +128,9 @@ defineFeature(feature, (test) => {
     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
 
     when(/^uma requisição DELETE é enviada para "(.*)"$/, async (url) => {
+      prismaMock.restaurant.findFirst.mockResolvedValue(restaurants[0]);
       prismaMock.restaurant.delete.mockResolvedValue(restaurants[0]);
-      response = await request.delete(url.replace('{id}', restaurants[0].id));
+      response = await request.delete(url);
     });
 
     thenERetornadaUmaMensagemComStatus(then);
@@ -157,6 +158,10 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
       async (url, name, key) => {
+        prismaMock.restaurant.findFirst
+          .mockResolvedValueOnce(null)
+          .mockResolvedValue(restaurants[0]);
+
         prismaMock.restaurant.update.mockResolvedValue({
           ...restaurants[0],
           name,
@@ -233,7 +238,9 @@ defineFeature(feature, (test) => {
     and(
       /^não existe nenhum restaurante com o email "(.*)" cadastrado no sistema$/,
       async (email) => {
-        prismaMock.restaurant.findFirst.mockResolvedValue(null);
+        prismaMock.restaurant.findFirst
+          .mockResolvedValueOnce(null)
+          .mockResolvedValue(restaurants[0]);
       }
     );
 
@@ -296,6 +303,66 @@ defineFeature(feature, (test) => {
       /^o restaurante "(.*)" está salvo no banco de dados$/,
       async (name, cnpj, email, password) => {
         expect(prismaMock.restaurant.update).not.toHaveBeenCalled();
+      }
+    );
+  });
+
+  test('Remoção mal sucedida de um restaurante (restaurante não encontrado)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    given(
+      /^não existe nenhum restaurante com o id "(.*)" cadastrado no sistema$/,
+      async (id) => {
+        prismaMock.restaurant.findFirst.mockResolvedValue(null);
+      }
+    );
+
+    when(/^uma requisição DELETE é enviada para "(.*)"$/, async (url) => {
+      response = await request.delete(url);
+    });
+
+    thenERetornadaUmaMensagemComStatus(then);
+    thenAMensagemDiz(and);
+  });
+
+  test('Atualização mal sucedida dos dados de um restaurante (CNPJ já cadastrado)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
+    when(
+      /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
+      async (url, CNPJ, key) => {
+        prismaMock.restaurant.findFirst.mockResolvedValueOnce(restaurants[0]);
+        response = await request.put(url).send({ CNPJ });
+      }
+    );
+    thenERetornadaUmaMensagemComStatus(then);
+    thenAMensagemDiz(and);
+
+    and(
+      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
+      async (name, id, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
+          where: { id: restaurants[0].id },
+          data: { cnpj, email, password, name, id },
+        });
+      }
+    );
+
+    and(
+      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
+      async (name, id, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
+          where: { id: restaurants[0].id },
+          data: { cnpj, email, password, name, id },
+        });
       }
     );
   });
