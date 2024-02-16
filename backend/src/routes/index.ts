@@ -44,10 +44,8 @@ router.put(
 
 router.post('/clients/login', ClientLoginController.login);
 
-/*
 router.get('/clients/home', ClientLoginController.verifyToken, (req, res) => {
-  res.status(200).json({ message: 'Acesso concedido. Seja bem vindo!'}); //, userId: req.userId 
+  res.status(200).json({ message: 'Acesso concedido.'}); //, userId: req.userId 
 });
-*/
 
 export default router;
