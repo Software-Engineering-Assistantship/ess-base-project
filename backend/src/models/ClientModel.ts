@@ -6,7 +6,7 @@ class ClientModel {
     name: string,
     CPF: string,
     email: string,
-    endereco: string,
+    address: string,
     password: string
   ) {
     try {
@@ -15,7 +15,7 @@ class ClientModel {
           name,
           cpf: CPF,
           email,
-          endereco,
+          address,
           password,
         },
       });
@@ -35,10 +35,9 @@ class ClientModel {
     }
   }
 
-
   static async index() {
     const clients = await prisma.client.findMany({
-      select: { id: true, name: true, cpf: true, email: true,endereco: true,},
+      select: { id: true, name: true, cpf: true, email: true, address: true },
     });
 
     return clients;
@@ -53,12 +52,12 @@ class ClientModel {
     name: string,
     CPF: string,
     email: string,
-    endereco: string,
+    address: string,
     password: string
   ) {
     await prisma.client.update({
       where: { id },
-      data: { name, cpf: CPF, email, endereco, password },
+      data: { name, cpf: CPF, email, address, password },
     });
   }
 }

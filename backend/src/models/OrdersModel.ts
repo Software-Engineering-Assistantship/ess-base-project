@@ -8,9 +8,8 @@ class OrdersModel {
   static async update(orderId: number, price: number) {
     try {
       const statusArr = ['em Preparo', 'Confirmado'];
-      const time = getRandomInt(10) + 1;
+      const time = String(getRandomInt(9)) + ':' + String(getRandomInt(59));
       const status = statusArr[getRandomInt(1)];
-
       await prisma.orders.update({
         where: { id: orderId },
         data: { status, time, price },
