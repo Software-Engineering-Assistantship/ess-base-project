@@ -41,18 +41,36 @@ restaurant_profile_get  = async (req, res) => {
 
 const restaurant_create = async (req, res) => {
 
+    const expectedProperties = ['name', 'address', 'typeOfFood', 'site'];
+
+    // checa se todas as propriedades obrigatórias estão presentes
+    const areAllPropertiesPresent = expectedProperties.every(prop => req.body.hasOwnProperty(prop));
+
+    if (!areAllPropertiesPresent) {
+        return res.status(400).json({ error: 'Dados obrigatórios estão incompletos na solicitação' });
+    }
+
+    // checa se já existe um restaurante com mesmo nome e mesmo endereço
     const restaurantExist = await Restaurant.find({'name' : req.body.name, 'address': req.body.address})
 
-    if(restaurantExist.length) {
-        res.json({ error: 'Restaurante já cadastrado' })
-     } else {
-        const restaurant = new Restaurant(req.body)
+    if (restaurantExist.length) {
+        return res.status(400).json({ error: 'Restaurante já cadastrado' });
+    }
 
-        restaurant.save()
+    const {destination} = req.file || { destination: 'None' }
+    const {name, address, typeOfFood, site} = req.body
 
-        res.json(restaurant)
-     }
+    const restaurant = await Restaurant.create({
+        name, 
+        address, 
+        typeOfFood, 
+        site,
+        profileImage: destination
+    })
+
+    res.json(restaurant)
 }
+
 
 const restaurant_edit = async (req, res) => {
     let restaurant = await Restaurant.findById(req.params.id, req.body)

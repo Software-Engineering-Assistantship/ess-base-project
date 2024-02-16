@@ -29,11 +29,16 @@ const RestaurantSchema = new Schema({
         required: true
     },
     site: {
-        type: String
+        type: String,
+        required: false
     },
     timestamp: {
         type: String,
         default: Date.now()
+    },
+    profileImage:  {
+        type: String,
+        required: false
     }
 })
 

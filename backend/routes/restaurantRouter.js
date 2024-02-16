@@ -9,7 +9,7 @@ router.get('/', RestaurantController.restaurants_get)
 
 router.get('/:id', RestaurantController.restaurant_profile_get)
 
-router.post('/create', RestaurantController.restaurant_create)
+router.post('/create', upload.single("file"), RestaurantController.restaurant_create)
 
 router.put('/edit/:id', RestaurantController.restaurant_edit)
 
