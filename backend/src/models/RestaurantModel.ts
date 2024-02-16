@@ -1,6 +1,7 @@
 import prisma from '../database';
 import { Prisma } from '@prisma/client';
 import DuplicateFieldError from '../errors/DuplicateFieldError';
+import NotFoundError from '../errors/NotFoundError';
 class RestaurantModel {
   static async insert(
     name: string,
@@ -34,6 +35,10 @@ class RestaurantModel {
   }
 
   static async delete(id: number) {
+    const restaurants = await prisma.restaurant.findFirst({ where: { id } });
+
+    if (!restaurants) throw new Error('Restaurant not found');
+
     await prisma.restaurant.delete({ where: { id } });
   }
 
@@ -44,6 +49,20 @@ class RestaurantModel {
     email: string,
     password: string
   ) {
+    const existingRestaurant = await prisma.restaurant.findFirst({
+      where: {
+        OR: [{ cnpj: CNPJ }, { email }],
+      },
+    });
+
+    if (existingRestaurant) {
+      throw new DuplicateFieldError('Restaurant already registered');
+    }
+
+    const restaurant = await prisma.restaurant.findFirst({ where: { id } });
+
+    if (!restaurant) throw new NotFoundError('Restaurant not found');
+
     await prisma.restaurant.update({
       where: { id },
       data: { name, cnpj: CNPJ, email, password },
