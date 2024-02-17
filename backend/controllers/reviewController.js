@@ -1,5 +1,7 @@
 const Review = require("../models/Review")
 const Restaurant = require("../models/Restaurant")
+const User = require("../models/User")
+const Rating = require("../models/Rating")
 
 //show all registered reviews from a given restaurant
 const review_show = async (req, res) => {
@@ -28,7 +30,19 @@ const review_get = async (req, res) => {
 
 //create a new review
 const review_post = async (req, res) => {
+    let rating = await Rating.findOne({restaurant: req.body.restaurant}, {user: req.body.user})
     const review = new Review({...req.body})
+
+    if (rating) {
+        if (review.rating != null) {
+            if(req.body.rating != rating.rating) {
+                rating.set('rating', req.body.rating)
+                rating.save()
+        } else {
+            review.set('rating', rating.rating);
+            }
+        }
+    }
 
     review.save()
 
@@ -81,8 +95,6 @@ const review_delete = async (req, res) => {
 }
 
 // show the review from a given user
-
-//show all registered reviews from a given restaurant
 const review_user = async (req, res) => {
     let user = await User.findById(req.params.id)
     const review = await Review.find({user: user._id})

@@ -13,6 +13,7 @@ const ReviewController = require('./controllers/reviewController')
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
 const reviewRouter = require("./routes/reviewRouter")
+const ratingRouter = require("./routes/ratingRouter")
 
 // use the PORT in .env or 3000 if it does not exist
 const port = process.env.PORT || 3000
@@ -34,4 +35,5 @@ app.listen(port, () => console.log("Server started on port 3001"))
 // Routes
 app.use("/restaurants", restaurantRouter)
 app.use("/reviews", reviewRouter)
+app.use("/ratings", ratingRouter)
 
