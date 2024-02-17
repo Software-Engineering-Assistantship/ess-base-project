@@ -7,7 +7,7 @@ function getRandomInt(max: number) {
 class OrdersModel {
   static async update(orderId: number, price: number): Promise<any> {
     try {
-      const statusArr = ['em Preparo', 'Confirmado'];
+      const statusArr = ['Aceito', 'Pendente'];
       const time = String(getRandomInt(9)) + ':' + String(getRandomInt(59));
       const status = statusArr[getRandomInt(1)];
       return await prisma.orders.update({

@@ -23,7 +23,7 @@ defineFeature(feature, (test) => {
 
   const givenUserExist = (given: DefineStepFunction) =>
     given(
-      /^existe um usuário com id "(.*)", com senha "(.*)", com nome "(.*)", email "(.*)", cpf "(.*)" e endereco "(.*)".$/,
+      /^existe um usuário com id "(.*)", com senha "(.*)", com nome "(.*)", email "(.*)", cpf "(.*)" e endereço "(.*)".$/,
       async (
         clientId: string,
         password: string,
@@ -46,7 +46,7 @@ defineFeature(feature, (test) => {
 
   const givenOrderExist = (given: DefineStepFunction) =>
     given(
-      /^um pedido com número "(.*)", status "(.*)", tempo "(.*)" e preco "(.*)" está registrado nos pedidos do usuario de id "(.*)".$/,
+      /^um pedido com número "(.*)", status "(.*)", tempo "(.*)" e preço "(.*)" está registrado nos pedidos do usuario de id "(.*)".$/,
       async (
         orderId: string,
         status: string,
@@ -67,16 +67,21 @@ defineFeature(feature, (test) => {
 
   const reqPut = (when: DefineStepFunction) =>
     when(
-      /^uma requisição de PUT com id "(.*)", motivo "(.*)" e senha "(.*)" é enviada para "(.*)".$/,
-      async (
-        clientId: string,
-        reason: string,
-        password: string,
-        url: string
-      ) => {
+      /^uma requisição de PUT com motivo "(.*)" e senha "(.*)" é enviada para "(.*)".$/,
+      async (reason: string, password: string, url: string) => {
         prismaMock.client.findUnique.mockResolvedValue(clients[0]);
         prismaMock.orders.findUnique.mockResolvedValue(orders[0]);
         response = await request.put(url).send({ reason, password });
+      }
+    );
+
+  const reqGet = (when: DefineStepFunction) =>
+    when(
+      /^uma requisição de GET com senha "(.*)" é enviada para "(.*)".$/,
+      async (password: string, url: string) => {
+        prismaMock.orders.findMany.mockResolvedValue(orders);
+        prismaMock.client.findUnique.mockResolvedValue(clients[0]);
+        response = await request.get(url).send({ password });
       }
     );
 
@@ -98,7 +103,24 @@ defineFeature(feature, (test) => {
       }
     );
 
-  test('Cancelamento de pedido bem sucedido', ({ given, and, when, then }) => {
+  const ansMustContain = (then: DefineStepFunction) =>
+    then(
+      /^a mensagem possui número: "(.*)", status: "(.*)", tempo "(.*)" e preço "(.*)".$/,
+      (id: string, status: string, time: string, price: string) => {
+        expect(response.body).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              id: parseInt(id, 10),
+              status: status,
+              time: time,
+              price: parseFloat(price),
+            }),
+          ])
+        );
+      }
+    );
+
+  test('Cancelamento de pedido bem sucedido.', ({ given, and, when, then }) => {
     givenUserExist(given);
     givenOrderExist(and);
     reqPut(when);
@@ -133,19 +155,138 @@ defineFeature(feature, (test) => {
     ansMsgMustBe(and);
   });
 
-  test('Carregamento pedidos (serviço)', ({ given, when, then, and }) => {
-    given(
-      /^existe um usuário com id "(.*)" com senha "(.*)".$/,
-      (arg0, arg1) => {}
+  test('Cancelamento mal sucedido (pedido já aceito).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    reqPut(when);
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
+  });
+
+  test('Cancelamento mal sucedido (tempo limite excedido).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    reqPut(when);
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
+  });
+
+  test('Cancelamento mal sucedido (cliente não existe).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    when(
+      /^uma requisição de PUT com motivo "(.*)" e senha "(.*)" é enviada para "(.*)".$/,
+      async (reason: string, password: string, url: string) => {
+        prismaMock.client.findUnique.mockResolvedValue(null);
+        prismaMock.orders.findUnique.mockResolvedValue(orders[0]);
+        response = await request.put(url).send({ reason, password });
+      }
     );
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
+  });
+
+  test('Cancelamento mal sucedido (pedido não existe).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    when(
+      /^uma requisição de PUT com motivo "(.*)" e senha "(.*)" é enviada para "(.*)".$/,
+      async (reason: string, password: string, url: string) => {
+        prismaMock.client.findUnique.mockResolvedValue(clients[0]);
+        prismaMock.orders.findUnique.mockResolvedValue(null);
+        response = await request.put(url).send({ reason, password });
+      }
+    );
+    ansStatusMustBe(then);
+    ansMsgMustBe(and);
+  });
+
+  test('Carregamento pedidos bem sucedido.', ({ given, and, when, then }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    givenOrderExist(and);
+    reqGet(when);
+    ansStatusMustBe(then);
+    ansMustContain(and);
+    ansMustContain(and);
+  });
+
+  test('Carregamento pedidos mal sucedido (senha incorreta).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    givenOrderExist(and);
+    reqGet(when);
+    ansStatusMustBe(then);
+    and(
+      /^uma mensagem de "(.*)" é retornada com id de usuário "(.*)".$/,
+      async (txt: string, id: string) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            client_id: parseInt(id, 10),
+            message: txt,
+          })
+        );
+      }
+    );
+  });
+
+  test('Carregamento pedidos mal sucedido (cliente não existe).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+
+    givenOrderExist(and);
+
+    givenOrderExist(and);
 
     when(
-      /^uma requisição de "(.*)" com id "(.*)" é enviada para "(.*)"$/,
-      (arg0, arg1, arg2) => {}
+      /^uma requisição de GET com senha "(.*)" é enviada para "(.*)".$/,
+      async (password: string, url: string) => {
+        prismaMock.orders.findMany.mockResolvedValue(orders);
+        prismaMock.client.findUnique.mockResolvedValue(null);
+        response = await request.get(url).send({ password });
+      }
     );
 
-    then(/^o status da resposta deve ser "(.*)"$/, (arg0) => {});
-
-    and(/^uma mensagem de "(.*)" é retornada.$/, (arg0) => {});
+    ansStatusMustBe(then);
+    and(
+      /^uma mensagem de "(.*)" é retornada com id de usuário "(.*)".$/,
+      async (txt: string, id: string) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            client_id: parseInt(id, 10),
+            message: txt,
+          })
+        );
+      }
+    );
   });
 });
