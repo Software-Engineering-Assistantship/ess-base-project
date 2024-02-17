@@ -1,9 +1,9 @@
 import { loadFeature, defineFeature, DefineStepFunction } from 'jest-cucumber';
 import supertest from 'supertest';
-import app from '../../src/app';
-import { prismaMock } from '../../setupTests';
+import app from '../src/app';
+import { prismaMock } from '../setupTests';
 import { Orders, Client } from '@prisma/client';
-import prisma from '../../src/database';
+import prisma from '../src/database';
 
 const feature = loadFeature(
   'tests/features/order_cancellation.backend.feature'
