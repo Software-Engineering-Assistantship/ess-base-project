@@ -1,3 +1,5 @@
+    ## Cenários de GUI
+    
     Scenario: cadastrar restaurante novo
         Given eu estou na página "cadastro de restaurante"
         And o restaurante "Marcelinho Salgados" não está cadastrada no site
@@ -64,3 +66,34 @@
         And eu defino tipo de comida como "asiática"
         When eu salvo o cadastro
         Then eu vejo a mensagem "Restaurante sem endereço não pode ser cadastrado"
+
+## Cenários de Serviço
+
+    Scenario: Obter restaurante por ID
+        Given existe um restaurante cadastrado com id "1234" e nome "Marcelinho Salgado"
+        When uma requisição "GET" foi enviada para "/restaurants/1234"
+        Then o status de resposta é "200"
+        And a resposta contém id "1234" e nome "Marcelinho Salgado"
+
+    Scenario: Editar restaurante por ID
+        Given existe um restaurante cadastrado com id "5432" e nome "Best Pizza"
+        When uma requisição "PUT" foi enviada para "/restaurants/edit/5432"
+        And o body da requisição contém nome "Worst Pizza"
+        Then o status de resposta é "200"
+        And existe um restaurante cadastrado com id "5432" e nome "Worst Pizza"
+        And não existe restaurante cadastrado com id "5432" e nome "Best Pizza"
+
+    Scenario: cadastrar novo restaurante
+        Given não existe um restaurante cadastrado com nome "Marcelinho Salgado" e endereço "Rua dos Reitores, 220 - Várzea, Recife"
+        When uma requisição "POST" foi enviada para "/restaurants"
+        And o body da requisição contém nome "Marcelinho Salgado", endereço "Rua dos Reitores, 220 - Várzea, Recife" e tipo de comida "Salgados"
+        Then o status de resposta é "200"
+        And um restaurante é cadastrado com nome "Marcelinho Salgado", endereço "Rua dos Reitores, 220 - Várzea, Recife" e tipo de comida "Salgados"
+
+    Scenario: erro ao cadastrar restaurante existente
+        Given existe um restaurante cadastrado com nome "Marcelinho Salgado" e endereço "Rua dos Reitores, 220 - Várzea, Recife"
+        When uma requisição "POST" foi enviada para "/restaurants"
+        And o body da requisição contém nome "Marcelinho Salgado", endereço "Rua dos Reitores, 220 - Várzea, Recife" e tipo de comida "Salgados"
+        Then o status de resposta é "400"
+        And a resposta é "Restaurante já cadastrado"
+    
