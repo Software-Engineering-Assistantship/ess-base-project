@@ -101,25 +101,7 @@ defineFeature(feature, (test) => {
   };
 
   //Test scenarios
-  test('Leitura de restaurantes do sistema', async ({
-    given,
-    when,
-    then,
-    and,
-  }) => {
-    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
-    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
-
-    when(/^uma requisição GET é enviada para "(.*)"$/, async (url) => {
-      prismaMock.restaurant.findMany.mockResolvedValue(restaurants);
-      response = await request.get(url);
-    });
-
-    thenERetornadaUmaMensagemComStatus(then);
-
-    thenAMensagemContem(and);
-    thenAMensagemContem(and);
-  });
+  // === Successful scenarios ===
 
   test('Cadastro bem sucedido de restaurante', async ({
     given,
@@ -138,6 +120,26 @@ defineFeature(feature, (test) => {
 
     thenERetornadaUmaMensagemComStatus(then);
     thenAMensagemDiz(and);
+  });
+
+  test('Leitura de restaurantes do sistema', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
+
+    when(/^uma requisição GET é enviada para "(.*)"$/, async (url) => {
+      prismaMock.restaurant.findMany.mockResolvedValue(restaurants);
+      response = await request.get(url);
+    });
+
+    thenERetornadaUmaMensagemComStatus(then);
+
+    thenAMensagemContem(and);
+    thenAMensagemContem(and);
   });
 
   test('Remoção bem sucedida de um restaurante', async ({
@@ -206,23 +208,6 @@ defineFeature(feature, (test) => {
     );
   });
 
-  test('Cadastro mal sucedido de um restaurante (CNPJ já cadastrado)', async ({
-    given,
-    when,
-    then,
-    and,
-  }) => {
-    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
-
-    whenUmaRequisicaoPostEEnviadaPara(when);
-
-    thenERetornadaUmaMensagemComStatus(then);
-
-    thenAMensagemDiz(and);
-
-    thenNaoEstaSalvoNoBancoDeDados(and);
-  });
-
   test('Atualização bem sucedida de um restaurante (email)', async ({
     given,
     when,
@@ -263,6 +248,25 @@ defineFeature(feature, (test) => {
         });
       }
     );
+  });
+
+  // === Unsuccesful scenarios ===
+
+  test('Cadastro mal sucedido de um restaurante (CNPJ já cadastrado)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+
+    whenUmaRequisicaoPostEEnviadaPara(when);
+
+    thenERetornadaUmaMensagemComStatus(then);
+
+    thenAMensagemDiz(and);
+
+    thenNaoEstaSalvoNoBancoDeDados(and);
   });
 
   test('Cadastro mal sucedido de um restaurante (email já cadastrado)', async ({
