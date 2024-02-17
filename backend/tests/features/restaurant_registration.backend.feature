@@ -67,3 +67,12 @@ Scenario: Atualização mal sucedida dos dados de um restaurante (CNPJ já cadas
     And a mensagem diz "Restaurant already registered"
     And o restaurante "Quentinha refeições" está salvo no banco de dados com os dados id "1", nome "Quentinha refeições", cnpj "71.381.185/0001-70", email "email_adm_restaurante" e senha "senha_adm_restaurante"
     And o restaurante "Guloso Trincado" está salvo no banco de dados com os dados id "2", nome "Guloso Trincado", cnpj "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"
+
+Scenario: Atualização mal sucedida dos dados de um restaurante (email já cadastrado)
+    Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "test@gmail.com" e senha "senha_adm_restaurante"
+    And existe um restaurante cadastrado no sistema com os dados id "2", nome "Guloso Trincado", cnpj "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"
+    When uma requisição PUT é enviada para "/restaurants/2" com o valor "test@gmail.com" no campo "email"
+    Then é retornada uma mensagem com status "409"
+    And a mensagem diz "Restaurant already registered"
+    And o restaurante "Quentinha refeições" está salvo no banco de dados com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "test@gmail.com" e senha "senha_adm_restaurante"
+    And o restaurante "Guloso Trincado" está salvo no banco de dados com os dados id "1", nome "Guloso Trincado", cnpj "40028922", email "email_adm_restaurante_2" e senha "senha_adm_restaurante_2"

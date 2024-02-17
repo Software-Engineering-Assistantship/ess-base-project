@@ -360,7 +360,46 @@ defineFeature(feature, (test) => {
       /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
       async (name, id, cnpj, email, password) => {
         expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
+          where: { id: restaurants[1].id },
+          data: { cnpj, email, password, name, id },
+        });
+      }
+    );
+  });
+
+  test('Atualização mal sucedida dos dados de um restaurante (email já cadastrado)', async ({
+    given,
+    when,
+    then,
+    and,
+  }) => {
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
+    when(
+      /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
+      async (url, email, key) => {
+        prismaMock.restaurant.findFirst.mockResolvedValueOnce(restaurants[0]);
+        response = await request.put(url).send({ email });
+      }
+    );
+    thenERetornadaUmaMensagemComStatus(then);
+    thenAMensagemDiz(and);
+
+    and(
+      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
+      async (name, id, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
           where: { id: restaurants[0].id },
+          data: { cnpj, email, password, name, id },
+        });
+      }
+    );
+
+    and(
+      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
+      async (name, id, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
+          where: { id: restaurants[1].id },
           data: { cnpj, email, password, name, id },
         });
       }
