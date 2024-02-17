@@ -14,7 +14,12 @@ class ItensController {
                 message: 'Item already exists',
             });
         }
-
+        if (!itemData.name || !itemData.amount || !itemData.description || !itemData.price || !itemData.image || !itemData.colors || !itemData.sizes || !itemData.category) {
+            return next({
+                status: 400,
+                message: 'Missing required fields',
+            });
+        }
         const item = await ItensRepository.create(itemData);
 
         res.locals = {
