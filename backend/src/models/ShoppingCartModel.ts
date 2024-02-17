@@ -31,6 +31,19 @@ class ShoppingCartModel {
         });
     }
 
+    static async indexRestaurants(): Promise<any[]> {
+        return await prisma.restaurant.findMany({
+            select: { id: true, name: true, cnpj: true, email: true, },
+        });
+    }
+
+    static async indexItems(restaurantId: number): Promise<any[]> {
+        return await prisma.item.findMany({
+            where: { restaurantId },
+            select: { id: true, name: true, price: true },
+        });
+    }
+
     //remove an orderItem from the database
     static async remove(clientId: number, itemId: number): Promise<any> {
         const orderId = await ShoppingCartModel.getOrderIdOfShoppingCart(clientId);
@@ -63,7 +76,7 @@ class ShoppingCartModel {
     }
 
     //returns the code of the current shopping cart of the client
-    private static async getOrderIdOfShoppingCart(clientId: number): Promise<number> {
+    static async getOrderIdOfShoppingCart(clientId: number): Promise<number> {
         const order =  (await prisma.orders.findFirst({
             where: {
                 clientId,
