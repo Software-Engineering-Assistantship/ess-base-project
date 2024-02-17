@@ -13,7 +13,7 @@ defineFeature(feature, (test) => {
 
   const givenClientExists = (given: DefineStepFunction) =>
     given(
-      /^existe um cliente cadastrado com email "(.*)" e com senha "(.*)".$/,
+      /^existe um cliente cadastrado com email "(.*)" e com senha "(.*)"$/,
       async (email: string, password: string) => {
         // Simulate client existence in database
         prismaMock.client.findUnique.mockResolvedValue({
@@ -29,32 +29,16 @@ defineFeature(feature, (test) => {
 
   const givenClientDoesNotExist = (given: DefineStepFunction) =>
     given(
-      /^não existe um cliente cadastrado com email "(.*)".$/,
+      /^não existe um cliente cadastrado com email "(.*)"$/,
       async (email: string) => {
         // Simulate client does not exist in database
         prismaMock.client.findUnique.mockResolvedValue(null);
       }
     );
 
-  const givenPasswordNotFoundInDatabase = (given: DefineStepFunction) =>
-    given(
-      /^a senha "(.*)" não é encontrada no banco de dados$/,
-      async (password: string) => {
-        // Simulate password not found in the database
-        prismaMock.client.findUnique.mockResolvedValue({
-          id: 1, // Supondo que o ID seja 1
-          password: 'wrong_password',
-          name: 'Caio Fernandes', // Nome de exemplo
-          email: 'cvmfc@cin.ufpe.br',
-          cpf: '123.456.789-00', // CPF de exemplo
-          address: 'Rua Exemplo, 123', // Endereço de exemplo
-        });
-      }
-    );
-
   const whenLoginRequestIsSent = (when: DefineStepFunction) =>
     when(
-      /^uma requisição POST é enviada para "(.*)" com os dados "(.*)" e "(.*)".$/,
+      /^uma requisição POST é enviada para "(.*)" com os dados "(.*)" e "(.*)"$/,
       async (url: string, email: string, password: string) => {
         // Simulate sending login request
         response = await request.post(url).send({ email, password });
@@ -75,8 +59,24 @@ defineFeature(feature, (test) => {
       });
     });
 
+  const thenPasswordNotFoundInDatabase = (then: DefineStepFunction) =>
+    then(
+      /^a senha "(.*)" não é encontrada no banco de dados$/,
+      async (password: string) => {
+        // Simulate password not found in the database
+        prismaMock.client.findUnique.mockResolvedValue({
+          id: 1, // Supondo que o ID seja 1
+          password: 'wrong_password',
+          name: 'Caio Fernandes', // Nome de exemplo
+          email: 'cvmfc@cin.ufpe.br',
+          cpf: '123.456.789-00', // CPF de exemplo
+          address: 'Rua Exemplo, 123', // Endereço de exemplo
+        });
+      }
+    );
+
   const thenStatusIsReturned = (then: DefineStepFunction) =>
-    then(/^é retornado status "(.*)".$/, async (status: string) => {
+    then(/^é retornado status "(.*)"$/, async (status: string) => {
       // Verify if expected status is returned
       expect(response.status).toBe(parseInt(status, 10));
     });
@@ -103,9 +103,8 @@ defineFeature(feature, (test) => {
 
   test('Login fracassou, pois a senha está incorreta', ({ given, when, then }) => {
     givenClientExists(given);
-    givenPasswordNotFoundInDatabase(given);
     whenLoginRequestIsSent(when);
-    thenDataIsFoundInDatabase(then);
+    thenPasswordNotFoundInDatabase(then);
     thenStatusIsReturned(then);
     thenLoginFails(then);
   });

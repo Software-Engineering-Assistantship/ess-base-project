@@ -18,7 +18,7 @@ Scenario: Login fracassou, pois a senha está incorreta
 	And o login não pode ser concluído
 
 Scenario: Login fracassou, pois o email não está cadastrado
-	Given não existe um cliente cadastrado com email "cvmfc@cin.ufpe.br"
+	Given não existe um cliente cadastrado com email "cvmfc@cin.ufpe.br" e com senha "777777"
 	When uma requisição POST é enviada para "/clients/login" com os dados "cvmfc@cin.ufpe.br" e "1234"
 	Then o email "cvmfc@cin.ufpe.br" não é encontrado no banco de dados
 	And é retornado status "401"
