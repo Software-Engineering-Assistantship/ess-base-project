@@ -42,3 +42,19 @@ model Payment {
 
   @@map("payment")
 }
+
+model CartItem {
+  id               String @id @default(uuid())
+  itemInformation  Menu
+  isSelected       Boolean
+
+  @@map("cartitem")
+}
+
+model Cart {
+  id               String @id @default(uuid())
+  items            CartItem[]
+  totalSum         Int
+
+  @@map("cart")
+}
