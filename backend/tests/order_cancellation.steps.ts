@@ -120,7 +120,7 @@ defineFeature(feature, (test) => {
       }
     );
 
-  test('Cancelamento de pedido bem sucedido', ({ given, and, when, then }) => {
+  test('Cancelamento de pedido bem sucedido.', ({ given, and, when, then }) => {
     givenUserExist(given);
     givenOrderExist(and);
     reqPut(when);
