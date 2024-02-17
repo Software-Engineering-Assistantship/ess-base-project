@@ -27,18 +27,19 @@ model Category {
   id          String @id @default(uuid())
   name        String
   description String
+  position    Int    @default(autoincrement())
   menuItems   Menu[]
 
   @@map("category")
 }
 
 model Payment {
-  id               String @id @default(uuid())
-  cardNumber       String
-  cardHolderName   String
-  expirationDate   String
-  cvv              Int
-  type             String
+  id             String @id @default(uuid())
+  cardNumber     String
+  cardHolderName String
+  expirationDate String
+  cvv            Int
+  type           String
 
   @@map("payment")
 }
