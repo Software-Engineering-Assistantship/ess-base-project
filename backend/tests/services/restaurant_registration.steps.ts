@@ -110,7 +110,7 @@ defineFeature(feature, (test) => {
     and,
   }) => {
     given(
-      /^não existe nenhum restaurante com o CNPJ "(.*)" nem com o email "(.*)" cadastrado no sistema$/,
+      /^não existe nenhum restaurante com o cnpj "(.*)" nem com o email "(.*)" cadastrado no sistema$/,
       async (cnpj, email) => {
         prismaMock.restaurant.findFirst.mockResolvedValue(null);
       }
@@ -198,7 +198,7 @@ defineFeature(feature, (test) => {
     thenAMensagemDiz(and);
 
     and(
-      /^o restaurante com o nome "(.*)", CNPJ "(.*)", email "(.*)", senha "(.*)" está armazenado no sistema$/,
+      /^o restaurante com o nome "(.*)", cnpj "(.*)", email "(.*)", senha "(.*)" está armazenado no sistema$/,
       async (name, cnpj, email, password) => {
         expect(prismaMock.restaurant.update).toHaveBeenCalledWith({
           where: { id: restaurants[0].id },
@@ -240,7 +240,7 @@ defineFeature(feature, (test) => {
     thenAMensagemDiz(and);
 
     and(
-      /^o restaurante com o nome "(.*)", CNPJ "(.*)", email "(.*)", senha "(.*)" está armazenado no sistema$/,
+      /^o restaurante com o nome "(.*)", cnpj "(.*)", email "(.*)", senha "(.*)" está armazenado no sistema$/,
       async (name, cnpj, email, password) => {
         expect(prismaMock.restaurant.update).toHaveBeenCalledWith({
           where: { id: restaurants[0].id },
