@@ -1,55 +1,45 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
-import { MenuService } from 'src/menu/services/menu.service';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import { PrismaService } from 'src/prisma.service';
-import { GetItemsByCategory } from '../get-items-by-category.controller';
-
-type category = 'BURGERS' | 'SIDES' | 'DRINKS';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { GetItemsByCategoryController } from '../get-items-by-category.controller';
+import { InMemoryMenuService } from 'test/services/in-memory-menu-service';
+import { makeCategory } from 'test/factories/make-category';
+import { makeMenuItem } from 'test/factories/make-menu-item';
 
 describe('Get menu item by category', () => {
-  let controller: GetItemsByCategory;
-  let service: MenuService;
+  let inMemoryMenuService: InMemoryMenuService;
+  let sut: GetItemsByCategoryController;
 
   beforeAll(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-      controllers: [GetItemsByCategory],
-      providers: [MenuService, PrismaService],
-    }).compile();
-
-    controller = moduleRef.get(GetItemsByCategory);
-    service = moduleRef.get(MenuService);
+    inMemoryMenuService = new InMemoryMenuService();
+    sut = new GetItemsByCategoryController(inMemoryMenuService);
   });
 
-  it('should be able get menu item by category', async () => {
-    const items = [
-      {
-        id: '1',
+  it('should be able to get all menu items by category', async () => {
+    const firstCategory = makeCategory();
+    const secondCategory = makeCategory();
+
+    inMemoryMenuService.create(
+      makeMenuItem({
         title: 'Burger',
-        description: 'description',
-        price: 500,
-        quantity: 1,
-        category: 'BURGERS' as category,
-      },
-      {
-        id: '2',
+        categoryId: firstCategory.id,
+      }),
+    );
+
+    inMemoryMenuService.create(
+      makeMenuItem({
         title: 'Fries',
-        description: 'description',
-        price: 500,
-        quantity: 1,
-        category: 'SIDES' as category,
-      },
-    ];
-
-    vi.spyOn(service, 'findAllByCategory').mockImplementation(() =>
-      Promise.resolve([items[0]]),
+        categoryId: secondCategory.id,
+      }),
     );
 
-    const response = await controller.handle(items[0].category);
+    const result = await sut.handle(firstCategory.id);
 
-    expect(response).toEqual(
-      expect.arrayContaining([expect.objectContaining(items[0])]),
+    expect(inMemoryMenuService.items).toHaveLength(2);
+
+    const filteredByFirstCategory = await inMemoryMenuService.findAllByCategory(
+      firstCategory.id,
     );
+
+    expect(filteredByFirstCategory).toHaveLength(1);
+    expect(filteredByFirstCategory).toEqual(result);
   });
 });

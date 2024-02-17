@@ -7,27 +7,27 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { MenuService } from '../services/menu.service';
 import {
   UpdateMenuItemSchema,
   updateMenuItemSchema,
 } from '../dto/update-menu-item';
+import { MenuService } from 'src/interfaces/menu-service';
 
 @Controller('menu/item/:id')
 export class UpdateMenuItemController {
   constructor(private readonly menuService: MenuService) {}
 
   @Patch()
-  @HttpCode(201)
+  @HttpCode(200)
   async handle(@Param('id') id: string, @Body() menu: UpdateMenuItemSchema) {
     try {
       updateMenuItemSchema.parse(menu);
-      await this.menuService.update(id, {
+      return await this.menuService.update(id, {
         title: menu.title,
         description: menu.description,
         price: menu.price,
         quantity: menu.quantity,
-        category: menu.category,
+        categoryId: menu.categoryId,
       });
     } catch (error) {
       throw new HttpException('Invalid body', HttpStatus.BAD_REQUEST);

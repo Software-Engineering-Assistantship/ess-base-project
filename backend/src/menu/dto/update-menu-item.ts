@@ -5,7 +5,7 @@ export const updateMenuItemSchema = z.object({
   description: z.string().optional(),
   price: z.number().optional(),
   quantity: z.number().optional(),
-  category: z.string().optional(),
+  categoryId: z.string().optional(),
 });
 
 export type UpdateMenuItemSchema = z.infer<typeof updateMenuItemSchema>;

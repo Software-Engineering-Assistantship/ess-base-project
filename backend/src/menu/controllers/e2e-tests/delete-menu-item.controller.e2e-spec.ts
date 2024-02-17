@@ -7,10 +7,11 @@ import request from 'supertest';
 import { PrismaService } from 'src/database/prisma.service';
 import { CategoryFactory } from 'test/factories/make-category';
 
-describe('Get one specific item by id (E2E)', () => {
+describe('Delete an item from the menu (E2E)', () => {
   let app: INestApplication;
   let menuItemFactory: MenuItemFactory;
   let categoryFactory: CategoryFactory;
+  let prisma: PrismaService;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,6 +21,8 @@ describe('Get one specific item by id (E2E)', () => {
 
     app = moduleRef.createNestApplication();
 
+    prisma = moduleRef.get(PrismaService);
+
     menuItemFactory = moduleRef.get(MenuItemFactory);
 
     categoryFactory = moduleRef.get(CategoryFactory);
@@ -27,23 +30,25 @@ describe('Get one specific item by id (E2E)', () => {
     await app.init();
   });
 
-  it('[GET] should get one specific item by id', async () => {
+  it('[DELETE] should delete an menu item', async () => {
     const category = await categoryFactory.makePrismaCategory();
 
     const menuItem = await menuItemFactory.makePrismaMenuItem({
-      title: 'Burger test',
       categoryId: category.id,
     });
 
-    const response = await request(app.getHttpServer()).get(
+    const response = await request(app.getHttpServer()).delete(
       `/menu/item/${menuItem.id}`,
     );
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        title: 'Burger test',
-      }),
-    );
+    expect(response.statusCode).toBe(204);
+
+    const menuItemOnDatabase = await prisma.menu.findUnique({
+      where: {
+        id: menuItem.id,
+      },
+    });
+
+    expect(menuItemOnDatabase).toBeNull();
   });
 });

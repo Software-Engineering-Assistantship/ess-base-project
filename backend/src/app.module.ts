@@ -5,6 +5,11 @@ import { PaymentModule } from './payment/payment.module';
 import { CategoriesModule } from './categories/categories.module';
 
 @Module({
-  imports: [MenuModule, ConfigModule.forRoot(), CategoriesModule, PaymentModule],
+  imports: [
+    MenuModule,
+    ConfigModule.forRoot(),
+    CategoriesModule,
+    PaymentModule,
+  ],
 })
 export class AppModule {}

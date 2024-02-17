@@ -7,10 +7,11 @@ import request from 'supertest';
 import { PrismaService } from 'src/database/prisma.service';
 import { CategoryFactory } from 'test/factories/make-category';
 
-describe('Get one specific item by id (E2E)', () => {
+describe('Update one specific menu item (E2E)', () => {
   let app: INestApplication;
   let menuItemFactory: MenuItemFactory;
   let categoryFactory: CategoryFactory;
+  let prisma: PrismaService;
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -20,6 +21,8 @@ describe('Get one specific item by id (E2E)', () => {
 
     app = moduleRef.createNestApplication();
 
+    prisma = moduleRef.get(PrismaService);
+
     menuItemFactory = moduleRef.get(MenuItemFactory);
 
     categoryFactory = moduleRef.get(CategoryFactory);
@@ -27,7 +30,7 @@ describe('Get one specific item by id (E2E)', () => {
     await app.init();
   });
 
-  it('[GET] should get one specific item by id', async () => {
+  it('[GET] should update one specific menu item', async () => {
     const category = await categoryFactory.makePrismaCategory();
 
     const menuItem = await menuItemFactory.makePrismaMenuItem({
@@ -35,15 +38,23 @@ describe('Get one specific item by id (E2E)', () => {
       categoryId: category.id,
     });
 
-    const response = await request(app.getHttpServer()).get(
-      `/menu/item/${menuItem.id}`,
-    );
+    const response = await request(app.getHttpServer())
+      .patch(`/menu/item/${menuItem.id}`)
+      .send({
+        title: 'New title edited',
+      });
 
     expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        title: 'Burger test',
-      }),
+
+    const menuItemOnDatabase = await prisma.menu.findUnique({
+      where: {
+        id: menuItem.id,
+      },
+    });
+
+    expect(menuItemOnDatabase).toBeTruthy();
+    expect(menuItemOnDatabase).toEqual(
+      expect.objectContaining({ title: 'New title edited' }),
     );
   });
 });
