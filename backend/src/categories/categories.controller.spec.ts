@@ -84,7 +84,7 @@ describe('CategoriesController', () => {
   });
 
   describe('findAll', () => {
-    it('should return array of users', async () => {
+    it('should return array of categories', async () => {
       vi.spyOn(service, 'findAll').mockImplementation(() =>
         Promise.resolve([mockCategoryResult]),
       );
@@ -95,14 +95,14 @@ describe('CategoriesController', () => {
 
   describe('update', () => {
     it('should update a category', async () => {
-      const updatedUser = { ...mockCategoryResult, position: 10 };
+      const updatedCategory = { ...mockCategoryResult, position: 10 };
 
       vi.spyOn(service, 'update').mockImplementation(() =>
-        Promise.resolve(updatedUser),
+        Promise.resolve(updatedCategory),
       );
 
-      expect(await controller.update(updatedUser.id, updatedUser)).toBe(
-        updatedUser,
+      expect(await controller.update(updatedCategory.id, updatedCategory)).toBe(
+        updatedCategory,
       );
     });
   });
