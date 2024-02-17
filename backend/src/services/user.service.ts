@@ -25,7 +25,7 @@ class UserService {
     fs.writeFileSync('./src/models/users.json', JSON.stringify(userData));
   }
 
-  public verificarExistente(campo: string, valor: string): boolean {
+  private verificarExistente(campo: string, valor: string): boolean {
     let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
     switch (campo) {
@@ -88,7 +88,7 @@ class UserService {
     return false;
   }
 
-  public verificaBranco(): boolean {
+  private verificaBranco(): boolean {
     let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
     switch (usuariosJson) {
@@ -151,7 +151,7 @@ class UserService {
     return false;
   }
 
-  public verificaSenha(): boolean {  
+  private verificaSenha(): boolean {  
     let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
     if (usuariosJson && Array.isArray(usuariosJson)) {
@@ -197,6 +197,16 @@ class UserService {
     const dataAbreviada = dia + mes + ano;
 
     return {dataCompleta, dataAbreviada};
+  }
+  
+  public validaSenha(userData: UserModel): boolean {
+    const verifSenha = this.verificaSenha();
+    const verifBranco = this.verificaBranco();
+    if(!this.verificarExistente('login', userData.login)  || !this.verificarExistente('cpf', userData.cpf) || !this.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
+        return false;
+    }
+  
+    return true;
   }
 }
 

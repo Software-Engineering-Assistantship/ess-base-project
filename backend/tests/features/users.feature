@@ -82,3 +82,4 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimen
     And preencho o campo "senha" com "04041994"
     And realizo o cadastro do usuário
     Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida"
+
