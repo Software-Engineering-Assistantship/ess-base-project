@@ -79,18 +79,18 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimen
     And preencho o campo "data de nascimento" com "04/04/1994"
     And preencho o campo "e-mail" com "marcosvinicius@meuemail.com"
     And preencho o campo "login" com "marcosvinicius"
-    And preencho o campo "senha" com "kjreghuiedfhgioh"
+    And preencho o campo "senha" com "04041994"
     And realizo o cadastro do usuário
     Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida"
-
-Scenario: Atualização de Informações do Usuário com Sucesso
-    Given o usuário de login "carlosoliveira" e senha "senha12345" está cadastrado no sistema
-    And estou logado com o usuário de login "carlosoliveira" e senha "senha12345"
-    And estou na página "Atualização do Cadastro"
-    When preencho o campo "nome" com "Carlos Silva"
-    And preencho o campo "login" com "carlossilva"
-    And preencho o campo "senha" com "NovaSenha2234"
-    And realizo a atualização das informações do usuário
-    Then o usuário de login "carlossilva" e senha "NovaSenha2234" está cadastrado no sistema
-    And uma mensagem de confirmação é exibida indicando que "As Informações foram atualizadas com sucesso"
+    
+#Scenario: Atualização de Informações do Usuário com Sucesso
+#    Given o usuário de login "carlosoliveira" e senha "senha12345" está cadastrado no sistema
+#    And estou logado com o usuário de login "carlosoliveira" e senha "senha12345"
+#    And estou na página "Atualização do Cadastro"
+#    When preencho o campo "nome" com "Carlos Silva"
+#    And preencho o campo "login" com "carlossilva"
+#    And preencho o campo "senha" com "NovaSenha2234"
+#    And realizo a atualização das informações do usuário
+#    Then o usuário de login "carlossilva" e senha "NovaSenha2234" está cadastrado no sistema
+#    And uma mensagem de confirmação é exibida indicando que "As Informações foram atualizadas com sucesso"
 

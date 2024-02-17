@@ -21,63 +21,45 @@ class UserService {
         return userModel;
     }
 
-    public verificarExistente(campo: string, valor: string): boolean {
-        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    public async getUserById(id: string): Promise<UserModel | null> {
+        const userEntity = await this.userRepository.getUserById(id);
+        const userModel = userEntity ? new UserModel(userEntity) : null;
 
-        console.log(campo, valor);
+        return userModel;
+    }
+
+    public verificarExistente(campo: string, valor: string): boolean {
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+
         switch (campo) {
             case 'nome':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.nome == valor) {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.nome === valor) {
+                    return true;
                 }
                 break;
             case 'cpf':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.cpf == valor) {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.cpf === valor) {
+                    return true;
                 }
                 break;
             case 'data de nascimento':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.dataNascimento == valor) {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.dataNascimento === valor) {
+                    return true;
                 }
                 break;
             case 'e-mail':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.email == valor) {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.email === valor) {
+                    return true;
                 }
                 break;
             case 'login':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.login == valor) {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.login === valor) {
+                    return true;
                 }
                 break;
             case 'senha':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.senha == valor) {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.senha === valor) {
+                    return true;
                 }
                 break;
         }
@@ -86,61 +68,37 @@ class UserService {
     }
 
     private verificaBranco(): boolean {
-        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-        switch (usuariosJson) {
+        switch (usuarioJson) {
             case 'nome':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.nome === '') {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.nome === '') {
+                    return true;
                 }
                 break;
             case 'cpf':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.cpf == '') {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.cpf == '') {
+                    return true;
                 }
                 break;
             case 'data de nascimento':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.dataNascimento === '') {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.dataNascimento === '') {
+                    return true;
                 }
                 break;
             case 'e-mail':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.email === '') {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.email === '') {
+                    return true;
                 }
                 break;
             case 'login':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.login === '') {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.login === '') {
+                    return true;
                 }
                 break;
             case 'senha':
-                if (usuariosJson && Array.isArray(usuariosJson)) {
-                    for (const usuario of usuariosJson) {
-                        if (usuario.senha === '') {
-                            return true;
-                        }
-                    }
+                if (usuarioJson.senha === '') {
+                    return true;
                 }
                 break;
         }
@@ -149,61 +107,79 @@ class UserService {
     }
 
     private verificaSenha(): boolean {  
-        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-        if (usuariosJson && Array.isArray(usuariosJson)) {
-            for (const usuario of usuariosJson) {
-                let nom = usuario.nome.replace(/\s/g, '');
-                if (usuario.senha === nom) {
-                    return true;
-                }
+        let nom = usuarioJson.nome.replace(/\s/g, '');
+        if (usuarioJson.senha === nom) {
+            return true;
+        }
 
-                nom = nom.toLowerCase();
-                if (usuario.senha === nom) {
-                    return true;
-                }
+        nom = nom.toLowerCase();
+        if (usuarioJson.senha === nom) {
+            return true;
+        }
 
-                nom = nom.toUpperCase();
-                if (usuario.senha === nom) {
-                    return true;
-                }
+        nom = nom.toUpperCase();
+        if (usuarioJson.senha === nom) {
+            return true;
+        }
 
-                const {dataAbreviada} = this.formatData(usuario.dataNascimento);
-                const {dataCompleta} = this.formatData(usuario.dataNascimento);
+        const {dataAbreviada} = this.formatData(usuarioJson.dataNascimento);
+        const {dataCompleta} = this.formatData(usuarioJson.dataNascimento);
 
-                if (usuario.senha === dataAbreviada) {
-                    return true;
-                }
+        if (usuarioJson.senha === dataAbreviada) {
+            return true;
+        }
 
-                if (usuario.senha === dataCompleta) {
-                    return true;
-                }
-            }
+        if (usuarioJson.senha === dataCompleta) {
+            return true;
         }
 
         return false;
     }
 
-    private formatData(data: Date): {dataCompleta: string, dataAbreviada: string}{
-        const dia = String(data.getDate()).padStart(2, '0');
-        const mes = String(data.getMonth() + 1).padStart(2, '0');
-        const anoCompleto = String(data.getFullYear());
-        const ano = anoCompleto.slice(-2);
-
-        const dataCompleta = dia + mes + anoCompleto;
-        const dataAbreviada = dia + mes + ano;
-
+    private formatData(data: string): {dataCompleta: string, dataAbreviada: string}{
+        const dataCompleta = data.replace(/\//g, '');
+        const dataAbreviada = dataCompleta.substring(0, 6) + dataCompleta.substring(8);
+    
         return {dataCompleta, dataAbreviada};
     }
     
-    public validaSenha(userData: UserModel): boolean {
+    public validaSenha(userData: UserModel): {result: boolean, erro: string} {
         const verifSenha = this.verificaSenha();
         const verifBranco = this.verificaBranco();
-        if(!this.verificarExistente('login', userData.login)  || !this.verificarExistente('cpf', userData.cpf) || !this.verificarExistente('email', userData.email) || !verifBranco || !verifSenha) {
-            return false;
+        const verificaLogin = this.verificarExistente('login', userData.login);
+        const verificaCpf = this.verificarExistente('cpf', userData.cpf);
+        const verificaEmail = this.verificarExistente('email', userData.email);
+        if(!verificaLogin && !verificaCpf && !verificaEmail && !verifBranco && !verifSenha) {
+            const result = false;
+            const erro = '';
+            return {result, erro};
         }
     
-        return true;
+        const result = true;
+        if(verificaLogin) {
+            const erro = 'O Login já está sendo utilizado';
+            return {result, erro};
+        }
+        if(verificaCpf) {
+            const erro = 'O CPF já está sendo utilizado';
+            return {result, erro};
+        }
+        if(verificaEmail) {
+            const erro = 'O Email já está sendo utilizado';
+            return {result, erro};
+        }
+        if(verifBranco) {
+            const erro = 'O cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório';
+            return {result, erro};
+        }
+        if(verifSenha) {
+            const erro = 'O cadastro não pode ser concluído devido à senha inválida';
+            return {result, erro};
+        }
+
+        return {result, erro: ''};
     }
 
     public async updateUserById(id: string, data: UserEntity): Promise<UserModel | null> {

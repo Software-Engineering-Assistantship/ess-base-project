@@ -52,6 +52,18 @@ class UserRepository extends BaseRepository<UserEntity> {
       }
     }
   }
+
+  public async getUserById(id: string): Promise<UserEntity | null> {
+    const usersJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    
+      if (usersJson.login === id) {
+        
+        return usersJson;
+      }
+    
+
+    return null;
+  }
 }
 
 export default UserRepository;

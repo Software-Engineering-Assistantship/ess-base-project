@@ -47,7 +47,7 @@ class UserController {
     const id = req.params.id;
 
     // Busca o usuário pelo ID
-    const user = await this.userService.verificarExistente('login', id);
+    const user = await this.userService.getUserById(id);
 
     // Retorna o usuário encontrado
     return new SuccessResult({
