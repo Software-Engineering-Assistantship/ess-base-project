@@ -168,14 +168,17 @@ defineFeature(feature, (test) => {
     ansMsgMustBe(and);
   });
 
-  test('Carregamento pedidos bem sucedido.', ({ given, and, when, then }) => {
+  test('Cancelamento mal sucedido (tempo limite excedido).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
     givenUserExist(given);
-    givenOrderExist(given);
-    givenOrderExist(given);
-    reqGet(when);
+    givenOrderExist(and);
+    reqPut(when);
     ansStatusMustBe(then);
-    ansMustContain(and);
-    ansMustContain(and);
+    ansMsgMustBe(and);
   });
 
   test('Cancelamento mal sucedido (cliente não existe).', ({
@@ -216,5 +219,74 @@ defineFeature(feature, (test) => {
     );
     ansStatusMustBe(then);
     ansMsgMustBe(and);
+  });
+
+  test('Carregamento pedidos bem sucedido.', ({ given, and, when, then }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    givenOrderExist(and);
+    reqGet(when);
+    ansStatusMustBe(then);
+    ansMustContain(and);
+    ansMustContain(and);
+  });
+
+  test('Carregamento pedidos mal sucedido (senha incorreta).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+    givenOrderExist(and);
+    givenOrderExist(and);
+    reqGet(when);
+    ansStatusMustBe(then);
+    and(
+      /^uma mensagem de "(.*)" é retornada com id de usuário "(.*)".$/,
+      async (txt: string, id: string) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            client_id: parseInt(id, 10),
+            message: txt,
+          })
+        );
+      }
+    );
+  });
+
+  test('Carregamento pedidos mal sucedido (cliente não existe).', ({
+    given,
+    and,
+    when,
+    then,
+  }) => {
+    givenUserExist(given);
+
+    givenOrderExist(and);
+
+    givenOrderExist(and);
+
+    when(
+      /^uma requisição de GET com senha "(.*)" é enviada para "(.*)".$/,
+      async (password: string, url: string) => {
+        prismaMock.orders.findMany.mockResolvedValue(orders);
+        prismaMock.client.findUnique.mockResolvedValue(null);
+        response = await request.get(url).send({ password });
+      }
+    );
+
+    ansStatusMustBe(then);
+    and(
+      /^uma mensagem de "(.*)" é retornada com id de usuário "(.*)".$/,
+      async (txt: string, id: string) => {
+        expect(response.body).toEqual(
+          expect.objectContaining({
+            client_id: parseInt(id, 10),
+            message: txt,
+          })
+        );
+      }
+    );
   });
 });
