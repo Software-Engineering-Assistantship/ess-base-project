@@ -14,8 +14,15 @@ class OrderCancellationController {
         return res.status(200).json(resData);
       } else {
         if (!client) {
-          return res.status(404).json({ message: 'cliente nao existe!' });
-        } else return res.status(401).json({ message: 'senha incorreta!' });
+          return res.status(404).json({
+            message: 'Acesso negado: cliente não existe!',
+            client_id: Number(clientId),
+          });
+        } else
+          return res.status(401).json({
+            message: 'Acesso negado: senha incorreta!',
+            client_id: Number(clientId),
+          });
       }
     } catch (error: any) {
       return res.status(500).json({ message: error.message });
@@ -33,11 +40,15 @@ class OrderCancellationController {
       const order = await OrderCancellationModel.orderExistence(
         Number(orderId)
       );
+
+      const timeFlag = order && parseInt(order.time[0], 10) < 5;
+
       if (
         order &&
         order.status == 'Pendente' &&
         client &&
-        client.password === password
+        client.password === password &&
+        timeFlag
       ) {
         const status = 'Cancelado';
         await OrderCancellationModel.update(
@@ -75,6 +86,12 @@ class OrderCancellationController {
         if (order.status === 'Aceito') {
           return res.status(400).json({
             message: 'Pedido não cancelado: pedido já foi aceito!',
+            order_number: Number(orderId),
+          });
+        }
+        if (!timeFlag) {
+          return res.status(400).json({
+            message: 'Pedido não cancelado: tempo limite excedido!',
             order_number: Number(orderId),
           });
         } else
