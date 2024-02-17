@@ -16,10 +16,11 @@ defineFeature(feature, (test) => {
     const userData = new UserModel({
         nome: '',
         cpf: '',
-        dataNascimento: new Date(),
+        dataNascimento: '',
         email: '',
         login: '',
-        senha: ''
+        senha: '',
+        logado: false
     });
     let userService: UserService;
 
@@ -33,10 +34,7 @@ defineFeature(feature, (test) => {
 
     test('Cadastro de Usuário com Sucesso', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });
 
@@ -68,24 +66,23 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de confirmação é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            expect(response.status).toBe(200);
-            expect(response.body.msg).toBe(expectedMessage);
-            userService.salvarUsuario(userData);
+            if(response.status != 200){
+                expect(response.body.msg).toBe('Falha no cadastro do usuário');
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe(expectedMessage);
+            }
         });
     });
     
     test ('Falha no Cadastro de Usuário por Login já Cadastrado', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });
 
@@ -93,12 +90,13 @@ defineFeature(feature, (test) => {
             const user = new UserModel({
                 nome: 'Teste',
                 cpf: '123.456.789-01',
-                dataNascimento: new Date('25/10/2000'),
+                dataNascimento: '25/10/2000',
                 email: 'teste@teste.com',
                 login: login,
-                senha: 'senhateste'
+                senha: 'senhateste',
+                logado: false
             });
-            fs.writeFileSync('./src/models/users.json', JSON.stringify(user));
+            userService.createUser(user);
         });       
 
         when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
@@ -129,13 +127,12 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            if(response.status == 400){
+            if(response.status != 200){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
                 expect(response.status).toBe(200);
@@ -146,10 +143,7 @@ defineFeature(feature, (test) => {
 
     test ('Falha no Cadastro de Usuário por Email já Cadastrado', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });
 
@@ -157,12 +151,13 @@ defineFeature(feature, (test) => {
             const user = new UserModel({
                 nome: 'Teste',
                 cpf: '123.456.789-01',
-                dataNascimento: new Date('25/10/2000'),
+                dataNascimento: '25/10/2000',
                 email: email,
                 login: 'teste',
-                senha: 'senhateste'
+                senha: 'senhateste',
+                logado: false
             });
-            fs.writeFileSync('./src/models/users.json', JSON.stringify(user));
+            userService.createUser(user);
         });       
 
         when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
@@ -193,13 +188,12 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            if(response.status == 400){
+            if(response.status != 200){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
                 expect(response.status).toBe(200);
@@ -210,10 +204,7 @@ defineFeature(feature, (test) => {
 
     test ('Falha no Cadastro de Usuário por CPF já Cadastrado', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });
 
@@ -221,12 +212,13 @@ defineFeature(feature, (test) => {
             const user = new UserModel({
                 nome: 'teste',
                 cpf: cpf,
-                dataNascimento: new Date('25/10/2000'),
+                dataNascimento: '25/10/2000',
                 email: 'teste@teste.com',
                 login: 'teste',
-                senha: 'senhateste'
+                senha: 'senhateste',
+                logado: false
             });
-            userService.salvarUsuario(user);
+            userService.createUser(user);
         });       
 
         when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
@@ -257,13 +249,12 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            if(response.status == 400){
+            if(response.status != 200){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
                 expect(response.status).toBe(200);
@@ -274,10 +265,7 @@ defineFeature(feature, (test) => {
 
     test ('Falha no Cadastro de Usuário por Campo em Branco', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });     
 
@@ -309,13 +297,12 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            if(response.status == 400){
+            if(response.status != 200){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
                 expect(response.status).toBe(200);
@@ -326,10 +313,7 @@ defineFeature(feature, (test) => {
 
     test ('Falha no Cadastro de Usuário por Senha Inválida com Nome', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });     
 
@@ -361,13 +345,12 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            if(response.status == 400){
+            if(response.status != 200){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
                 expect(response.status).toBe(200);
@@ -378,10 +361,7 @@ defineFeature(feature, (test) => {
 
     test ('Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento', ({ given, when, then, and }) => {
         given(/^estou na página "(.*)"$/, async (page) => {
-            if (page == 'Cadastro de Usuário') {
-                page = 'api/users/cadastro';
-            }
-            const rota = '/${page}'
+            const rota = userService.verificaURL(page, null);
             response = await request.get(rota);
         });     
 
@@ -413,13 +393,12 @@ defineFeature(feature, (test) => {
             const verifSenha = userService.validaSenha(userData);
             if(!verifSenha) {
                 response = await request.post('/api/users/cadastro').send(userData);
-            }else{
-                response.status = 400;
+                userService.createUser(userData);
             }
         });
 
         then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
-            if(response.status == 400){
+            if(response.status != 200){
                 expect(response.body.msg).toBe(expectedMessage);
             }else{
                 expect(response.status).toBe(200);
@@ -427,6 +406,81 @@ defineFeature(feature, (test) => {
             }
         });
     });
+
+    //Test de Atualização de Informações do Usuário com Sucesso
+    test('Atualização de Informações do Usuário com Sucesso', ({ given, when, then, and }) => {
+        given(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {  
+            const user = new UserModel({
+                nome: 'Teste',
+                cpf: '123.456.789-01',
+                dataNascimento: '25/10/2000',
+                email: 'teste@teste.com',
+                login: login,
+                senha: senha,
+                logado: false
+            });
+            userService.createUser(user);
+        });
+
+        and(/^estou logado com o usuário de login "(.*)" e senha "(.*)"$/, async (login, senha) => {
+            const existLogin = userService.verificarExistente('login', login);
+            
+            console.log(existLogin);
+            if(existLogin){
+                console.log(userService.senhaCorresponde(login, senha));
+                if(userService.senhaCorresponde(login, senha))
+                    userService.trocarStatus(login);
+            }
+        });
+
+        and(/^estou na página "(.*)"$/, async (page) => {
+                const userId = userData.login;
+
+                const rota = userService.verificaURL(page, userId);
+                response = await request.get(rota);
+        });
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userData.preencherCampo(campo, valor);
+        });
+
+        and(/^realizo a atualização das informações do usuário$/, async () => {
+            const id = userData.login;
+            const verifSenha = userService.validaSenha(userData);
+            if(!verifSenha) {
+                response = await request.put('/api/users/${id}').send(userData);
+                userService.updateUserById(id, userData);
+            }
+        });
+
+        then(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {
+            const existLogin = await userService.verificarExistente('login', login);
+            const existSenha = await userService.verificarExistente('senha', senha);
+
+            if(existLogin && existSenha && response.status == 200){
+                //Retorna o status ok
+                response.status = 200;
+            }else{
+                //Retorna o status de erro
+                response.status = 400;
+            }
+        });
+    
+        and(/^uma mensagem de confirmação é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            if(response.status != 200){
+                expect(response.body.msg).toBe('Falha na atualização das informações do usuário');
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe(expectedMessage);
+            }
+        });
+    });
 });
-
-

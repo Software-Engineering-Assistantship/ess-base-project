@@ -19,6 +19,16 @@ class UserController {
     this.router.post(`${this.prefix}/cadastro`, (req: Request, res: Response) =>
         this.createUser(req, res)
     );
+
+    // Rota para buscar um usuário pelo ID
+    this.router.get(`${this.prefix}/:id`, (req: Request, res: Response) =>
+        this.getUserById(req, res)
+    );
+
+    // Rota para atualizar um usuário pelo ID
+    this.router.put(`${this.prefix}/:id`, (req: Request, res: Response) =>
+        this.updateUserById(req, res)
+    );
  }
 
   private async createUser(req: Request, res: Response) {
@@ -28,6 +38,34 @@ class UserController {
     // Retorna o novo usuário criado
     return new SuccessResult({
         msg: 'O cadastro foi realizado com sucesso',
+        data: user,
+    }).handle(res);
+  }
+
+  private async getUserById(req: Request, res: Response) {
+    // Extrai o ID da requisição
+    const id = req.params.id;
+
+    // Busca o usuário pelo ID
+    const user = await this.userService.verificarExistente('login', id);
+
+    // Retorna o usuário encontrado
+    return new SuccessResult({
+        msg: 'Usuário encontrado',
+        data: user,
+    }).handle(res);
+  }
+
+  private async updateUserById(req: Request, res: Response) {
+    // Extrai o ID da requisição
+    const id = req.params.id;
+
+    // Extrai os dados do corpo da requisição
+    const user = await this.userService.updateUserById(id, new UserEntity(req.body));
+
+    // Retorna o usuário atualizado
+    return new SuccessResult({
+        msg: 'As Informações foram atualizadas com sucesso',
         data: user,
     }).handle(res);
   }
