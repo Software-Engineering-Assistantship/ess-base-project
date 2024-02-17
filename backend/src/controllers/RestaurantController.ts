@@ -42,7 +42,7 @@ class RestaurantController {
       await RestaurantModel.delete(Number(id));
       return res.status(200).json({ message: 'Restaurant deleted' });
     } catch (error: any) {
-      return res.status(500).json({ message: error.message });
+      return res.status(404).json({ message: error.message });
     }
   }
 
@@ -60,7 +60,7 @@ class RestaurantController {
       await RestaurantModel.update(Number(id), name, CNPJ, email, password);
       return res.status(200).json({ message: 'Restaurant updated' });
     } catch (error: any) {
-      return res.status(500).json({ message: error.message });
+      return res.status(error.statusCode).json({ message: error.message });
     }
   }
 
