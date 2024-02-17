@@ -3,7 +3,6 @@ import supertest from 'supertest';
 import app from '../../src/app';
 import { prismaMock } from '../../setupTests';
 import { Restaurant } from '@prisma/client';
-import prisma from '../../src/database';
 
 const feature = loadFeature(
   'tests/features/restaurant_registration.backend.feature'
@@ -19,18 +18,13 @@ defineFeature(feature, (test) => {
     restaurants = [];
   });
 
+  // Definition of common steps
   const givenExisteUmRestauranteCadastradoNoSistemaComOsDados = (
     given: DefineStepFunction
   ) =>
     given(
       /^existe um restaurante cadastrado no sistema com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-      async (
-        id: string,
-        name: string,
-        cnpj: string,
-        email: string,
-        password: string
-      ) => {
+      async (id, name, cnpj, email, password) => {
         restaurants.push({
           id: parseInt(id, 10),
           name,
@@ -45,7 +39,7 @@ defineFeature(feature, (test) => {
     then(
       /^a mensagem contém "(.*)", "(.*)", "(.*)"$/,
       async (name, cnpj, email) => {
-        await expect(response.body).toEqual(
+        expect(response.body).toEqual(
           expect.arrayContaining([
             expect.objectContaining({ name, cnpj, email }),
           ])
@@ -55,12 +49,12 @@ defineFeature(feature, (test) => {
 
   const thenERetornadaUmaMensagemComStatus = (then: DefineStepFunction) =>
     then(/^é retornada uma mensagem com status "(.*)"$/, async (status) => {
-      await expect(response.status).toBe(parseInt(status, 10));
+      expect(response.status).toBe(parseInt(status, 10));
     });
 
   const thenAMensagemDiz = (then: DefineStepFunction) => {
     then(/^a mensagem diz "(.*)"$/, async (message) => {
-      await expect(response.body).toEqual(expect.objectContaining({ message }));
+      expect(response.body).toEqual(expect.objectContaining({ message }));
     });
   };
 
@@ -68,8 +62,9 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição POST é enviada para "(.*)" com os valores "(.*)", "(.*)", email "(.*)", senha "(.*)"$/,
       async (url, name, cnpj, email, password) => {
+        prismaMock.restaurant.findFirst.mockResolvedValueOnce(restaurants[0]);
         prismaMock.restaurant.create.mockResolvedValue({
-          id: 1,
+          id: restaurants.length + 1,
           name,
           cnpj,
           email,
@@ -80,6 +75,32 @@ defineFeature(feature, (test) => {
           .send({ name, CNPJ: cnpj, email, password });
       }
     );
+
+  const thenNaoEstaSalvoNoBancoDeDados = (then: DefineStepFunction) => {
+    then(
+      /^o restaurante "(.*)" não está salvo no banco de dados$/,
+      async (name) => {
+        expect(prismaMock.restaurant.create).not.toHaveBeenCalled();
+      }
+    );
+  };
+
+  const thenORestauranteEstaSalvoNoBancoDeDados = (
+    then: DefineStepFunction,
+    index: number
+  ) => {
+    then(
+      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
+      async (name, id, cnpj, email, password) => {
+        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
+          where: { id: restaurants[index].id },
+          data: { cnpj, email, password, name, id },
+        });
+      }
+    );
+  };
+
+  //Test scenarios
   test('Leitura de restaurantes do sistema', async ({
     given,
     when,
@@ -166,9 +187,7 @@ defineFeature(feature, (test) => {
           ...restaurants[0],
           name,
         });
-        response = await request
-          .put(url.replace('{id}', restaurants[0].id))
-          .send({ name });
+        response = await request.put(url).send({ name });
       }
     );
 
@@ -193,38 +212,15 @@ defineFeature(feature, (test) => {
     then,
     and,
   }) => {
-    given(
-      /^existe um restaurante cadastrado no sistema com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-      async (id, name, cnpj, email, password) => {
-        restaurants.push({
-          id: parseInt(id, 10),
-          name,
-          cnpj,
-          email,
-          password,
-        });
-      }
-    );
+    givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
 
-    when(
-      /^uma requisição POST é enviada para "(.*)" com os valores "(.*)", "(.*)", email "(.*)", senha "(.*)"$/,
-      async (url, name, cnpj, email, password) => {
-        prismaMock.restaurant.findFirst.mockResolvedValue(restaurants[0]);
-        response = await request
-          .post(url)
-          .send({ name, CNPJ: cnpj, email, password });
-      }
-    );
+    whenUmaRequisicaoPostEEnviadaPara(when);
 
     thenERetornadaUmaMensagemComStatus(then);
+
     thenAMensagemDiz(and);
 
-    and(
-      /^o restaurante "(.*)" não está salvo no banco de dados$/,
-      async (name) => {
-        expect(prismaMock.restaurant.create).not.toHaveBeenCalled();
-      }
-    );
+    thenNaoEstaSalvoNoBancoDeDados(and);
   });
 
   test('Atualização bem sucedida de um restaurante (email)', async ({
@@ -251,9 +247,7 @@ defineFeature(feature, (test) => {
           ...restaurants[0],
           email,
         });
-        response = await request
-          .put(url.replace('{id}', restaurants[0].id))
-          .send({ email });
+        response = await request.put(url).send({ email });
       }
     );
 
@@ -279,32 +273,20 @@ defineFeature(feature, (test) => {
   }) => {
     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
 
-    when(
-      /^uma requisição POST é enviada para "(.*)" com os valores "(.*)", "(.*)", email "(.*)", senha "(.*)"$/,
-      async (url, name, cnpj, email, password) => {
-        prismaMock.restaurant.findFirst.mockResolvedValue(restaurants[0]);
-        response = await request
-          .post(url)
-          .send({ name, CNPJ: cnpj, email, password });
-      }
-    );
+    whenUmaRequisicaoPostEEnviadaPara(when);
 
     thenERetornadaUmaMensagemComStatus(then);
+
     thenAMensagemDiz(and);
 
-    and(
-      /^o restaurante "(.*)" não está salvo no banco de dados$/,
-      async (name) => {
-        expect(prismaMock.restaurant.create).not.toHaveBeenCalled();
-      }
-    );
+    thenNaoEstaSalvoNoBancoDeDados(and);
 
-    and(
-      /^o restaurante "(.*)" está salvo no banco de dados$/,
-      async (name, cnpj, email, password) => {
-        expect(prismaMock.restaurant.update).not.toHaveBeenCalled();
-      }
-    );
+    and(/^o restaurante "(.*)" está salvo no banco de dados$/, async (name) => {
+      expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
+        where: { id: restaurants[0].id },
+        data: { name },
+      });
+    });
   });
 
   test('Remoção mal sucedida de um restaurante (restaurante não encontrado)', async ({
@@ -335,7 +317,9 @@ defineFeature(feature, (test) => {
     and,
   }) => {
     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+
     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
+
     when(
       /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
       async (url, CNPJ, key) => {
@@ -344,27 +328,12 @@ defineFeature(feature, (test) => {
       }
     );
     thenERetornadaUmaMensagemComStatus(then);
+
     thenAMensagemDiz(and);
 
-    and(
-      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-      async (name, id, cnpj, email, password) => {
-        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
-          where: { id: restaurants[0].id },
-          data: { cnpj, email, password, name, id },
-        });
-      }
-    );
+    thenORestauranteEstaSalvoNoBancoDeDados(and, 0);
 
-    and(
-      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-      async (name, id, cnpj, email, password) => {
-        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
-          where: { id: restaurants[1].id },
-          data: { cnpj, email, password, name, id },
-        });
-      }
-    );
+    thenORestauranteEstaSalvoNoBancoDeDados(and, 1);
   });
 
   test('Atualização mal sucedida dos dados de um restaurante (email já cadastrado)', async ({
@@ -374,7 +343,9 @@ defineFeature(feature, (test) => {
     and,
   }) => {
     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(given);
+
     givenExisteUmRestauranteCadastradoNoSistemaComOsDados(and);
+
     when(
       /^uma requisição PUT é enviada para "(.*)" com o valor "(.*)" no campo "(.*)"$/,
       async (url, email, key) => {
@@ -382,27 +353,13 @@ defineFeature(feature, (test) => {
         response = await request.put(url).send({ email });
       }
     );
+
     thenERetornadaUmaMensagemComStatus(then);
+
     thenAMensagemDiz(and);
 
-    and(
-      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-      async (name, id, cnpj, email, password) => {
-        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
-          where: { id: restaurants[0].id },
-          data: { cnpj, email, password, name, id },
-        });
-      }
-    );
+    thenORestauranteEstaSalvoNoBancoDeDados(and, 0);
 
-    and(
-      /^o restaurante "(.*)" está salvo no banco de dados com os dados id "(.*)", nome "(.*)", cnpj "(.*)", email "(.*)" e senha "(.*)"$/,
-      async (name, id, cnpj, email, password) => {
-        expect(prismaMock.restaurant.update).not.toHaveBeenCalledWith({
-          where: { id: restaurants[1].id },
-          data: { cnpj, email, password, name, id },
-        });
-      }
-    );
+    thenORestauranteEstaSalvoNoBancoDeDados(and, 1);
   });
 });

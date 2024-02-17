@@ -22,10 +22,9 @@ Scenario: Remoção bem sucedida de um restaurante
     And a mensagem diz "Restaurant deleted"
     And o restaurante "Quentinha refeições" não está mais salvo no banco de dados
 
-
 Scenario: Atualização bem sucedida de um restaurante
     Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "email_adm_restaurante" e senha "senha_adm_restaurante"
-    When uma requisição PUT é enviada para "/restaurants/{id}" com o valor "Almir quentinhas" no campo "nome"
+    When uma requisição PUT é enviada para "/restaurants/1" com o valor "Almir quentinhas" no campo "nome"
     Then é retornada uma mensagem com status "200"
     And a mensagem diz "Restaurant updated"
     And o restaurante com o nome "Almir quentinhas", CNPJ "123321222", email "email_adm_restaurante", senha "senha_adm_restaurante" está armazenado no sistema
@@ -40,7 +39,7 @@ Scenario: Cadastro mal sucedido de um restaurante (CNPJ já cadastrado)
 Scenario: Atualização bem sucedida de um restaurante (email)
         Given existe um restaurante cadastrado no sistema com os dados id "1", nome "Quentinha refeições", cnpj "123321222", email "test@gmail.com" e senha "senha_adm_restaurante"
         And não existe nenhum restaurante com o email "newrestaurant@gmail.com" cadastrado no sistema
-        When uma requisição PUT é enviada para "/restaurants/{id}" com o valor "newrestaurant@gmail.com" no campo "email"
+        When uma requisição PUT é enviada para "/restaurants/1" com o valor "newrestaurant@gmail.com" no campo "email"
         Then é retornada uma mensagem com status "200"
         And a mensagem diz "Restaurant updated"
         And o restaurante com o nome "Quentinha refeições", CNPJ "123321222", email "newrestaurant@gmail.com", senha "senha_adm_restaurante" está armazenado no sistema
