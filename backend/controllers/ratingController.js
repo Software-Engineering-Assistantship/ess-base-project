@@ -12,14 +12,21 @@ const rating_post = async (req, res) => {
 //avg of ratings
 const rating_avg = async (req, res) => {
 
-    const average = await Rating.aggregate([{$group: {_id: "$restaurant", avg_rating: {$avg: "$rating"}}}]);
+    const average = await Rating.aggregate([{"$match": { "restaurant": req.params.idrest } },
+    {
+        $group:
+           {
+             _id: null,
+             averageRating: { $avg: "$rating" }
+           }
+      }]);
 
     res.json(average)
 }
 
 const rating_get = async (req, res) => {
 
-    const rating = await Rating.findById(req.params.id)
+    const rating = await Rating.findOne({user: req.params.iduser, restaurant: req.params.idrest})
 
     if (!rating) {
         return res.status(404).json({ error: 'Nota não encontrada' })
@@ -31,7 +38,7 @@ const rating_get = async (req, res) => {
 
 const rating_list = async (req, res) => {
 
-    const rating = await Rating.find({restaurant: req.params.id})
+    const rating = await Rating.find({restaurant: req.params.idrest})
 
     if (!rating) {
         return res.status(404).json({ error: 'Não existem notas cadastradas para este restaurante' })

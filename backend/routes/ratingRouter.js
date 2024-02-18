@@ -3,12 +3,12 @@ const router = express.Router()
 
 const RatingController = require("../controllers/ratingController")
 
-router.post('/', RatingController.rating_post)
+router.post('/:idrest/:iduser', RatingController.rating_post)
 
-router.get('/restaurants/:id/avg', RatingController.rating_avg)
+router.get('/:idrest/avg', RatingController.rating_avg)
 
-router.get('/restaurants/:id/', RatingController.rating_list)
+router.get('/:idrest', RatingController.rating_list)
 
-router.get('/:id', RatingController.rating_get)
+router.get('/:idrest/:iduser', RatingController.rating_get)
 
 module.exports = router

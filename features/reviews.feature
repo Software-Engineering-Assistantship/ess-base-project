@@ -112,63 +112,67 @@ And Eu vejo o review "Melhores salgados da vida" para o restaurante Marcelinho d
 Cenários de Serviço:
 
 Cenário 1 - Criar Review
-Given Não existem reviews feitos para o restaurante de ID "30"
-And O usuário de ID "40" deseja criar um review de título "Coxinha Boa"
-When Uma requisição POST é feita para /review/ associada ao restaurante de ID "30" e usuário de ID "40"
+Given Não existe review feito pelo usuário de ID "40" no restaurante de ID "30"
+When Uma requisição POST é feita para /reviews/30/40 com título "Coxinha Boa"
 Then O status da resposta deve ser OK (200)
-And Uma requisição GET para /review/restaurant/30 deve retornar uma lista contendo apenas o review "Coxinha Boa"
+And O review "Coxinha Boa" associada ao usuário "40" e restaurante "30" está no banco de dados
 
 Cenário 2 - Adicionar Nota
-Given Não existem notas dadas para o restaurante de ID "30"
-And O usuário de ID "40" deseja dar a nota 5 para o restaurant de ID "30"
-When Uma requisição POST é feita para /ratings/ associada ao restaurante de ID "30" e usuário de ID "40"
+Given Não existe nota dada para o restaurante de ID "30" pelo usuário de ID "40"
+When Uma requisição POST é feita para /reviews/30/40 com a nota "5"
 Then O status da resposta deve ser OK (200)
-And Uma requisição GET para /ratings/restaurant/30 deve retornar uma lista contendo apenas 
+And A nota "5" associada ao usuário "40" e restaurante "30" está no banco de dados
 
 Cenário 3 - Obter Média de Notas de um Restaurante
 Given O restaurante de ID "30" contém três notas dadas em reviews "5", "4", "3"
-When Uma requisição GET é feita para /ratings/restaurant/30/avg
+When Uma requisição GET é feita para /reviews/30/40/avg
 Then O status de resposta deve ser OK (200)
 And O JSON da resposta deve conter o ID "30" do restaurante e a média "4" 
 
 Cenário 4 - Obter lista de reviews de um restaurante
-Given O restaurante de id "30" contém três reviews
-When é feita uma requisição GET para "/reviews/restaurant/30"
+Given O restaurante de id "30" contém três reviews "Coxinha Boa", "Bom bem casado" e "Torta"
+When é feita uma requisição GET para "/reviews/30"
 Then O status da resposta deve ser OK (200)
-And Deve ser retornado um JSON com três reviews
-And O review de id "5" e nome "Coxinha Boa" deve estar presente
-And O review de id "6" e nome "Bom bem casado" deve estar presente
-And O review de id "7" e nome "Torta" deve estar presente
+And Deve ser retornado um JSON com os três reviews "Coxinha Boa", "Bom bem casado" e "Torta"
 
 Cenário 5 - Visualização de um Review
-Given O restaurante de id "30" contém um review de ID "123"
-When é feita uma requisição GET para "/reviews/123"
+Given O restaurante de ID "30" contém um review feito pelo usuário de ID "40" de título "Coxinha Boa"
+When é feita uma requisição GET para "/reviews/30/40"
 Then O status da resposta deve ser OK (200)
-And Deve ser retornado um JSON com o review de ID "123"
+And Deve ser retornado um JSON com o review "Coxinha Boa"
 
 Cenário 6 - Edição de Review
-Given O restaurante de id "30" contém um review de ID "123" e título "Coxinha Boa"
-When é feita uma requisição PUT para "/reviews/123" alterando o título para "Coxinha Ruim"
+Given O restaurante de ID "30" contém um review feito pelo usuário de ID "40" e título "Coxinha Boa"
+When é feita uma requisição PUT para "/reviews/30/40" alterando o título para "Coxinha Ruim"
 Then O status da resposta deve ser OK (200)
-And Uma requisição GET para /review/123 retorna um JSON contendo o review "Coxinha Ruim"
+And Deve ser retornado um JSON contendo o review "Coxinha Ruim"
 
 Cenário 7 - Remoção de Review
-Given O restaurante de id "30" contém um review de ID "123" e título "Coxinha Boa"
-When é feita uma requisição DELETE para "/reviews/123"
+Given O restaurante de ID "30" contém um review feito pelo usuário de ID "40" e título "Coxinha Boa"
+When é feita uma requisição DELETE para "/reviews/30/40"
 Then O status da resposta deve ser OK (200)
-And Uma requisição GET para /review/123 deve ter como status de resposta "404"
+And Deve ser retornado um JSON vazio
 
 Cenário 8 - Visualizar Reviews a partir de um user
-Given O usuário de ID "123" contém dois reviews feitos
-When é feita uma requisição GET para "/reviews/user/123"
+Given O usuário de ID "40" contém dois reviews feitos "Coxinha Boa" e "Ótimo Sushi"
+When É feita uma requisição GET para "/reviews/user/40"
 Then O status da resposta deve ser OK (200)
-And Deve retornar um JSON contendo dois reviews
-And O review de id "5" e nome "Coxinha Boa" deve estar presente
-And O review de id "6" e nome "Ótimo Sushi" deve estar presente
+And Deve retornar um JSON contendo os dois reviews "Coxinha Boa" e "Ótimo Sushi"
 
 Cenário 9 - Criar review dado que uma nota já existe
-Given O usuário de ID "123" deu a nota "4" para o restaurante de ID "30"
-When É feita uma requisição POST para /reviews/ com ID do restaurante "30", ID do usuário "123", título "Coxinha Boa" e nota "4.5"
+Given O usuário de ID "40" deu a nota "4" para o restaurante de ID "30"
+When É feita uma requisição POST para "/reviews/30/40" de título "Coxinha Boa" e nota "4.5"
 Then O status da resposta deve ser OK (200)
-And Uma requisição get para /reviews/30 deve retornar um JSON que contém o review "Coxinha Boa" feito pelo usuário de ID "123"
-And Uma requisição get para /ratings/30 deve retornar um JSON que contém a nota atualizada "4.5" dada pelo usuário de ID "123"
+And O JSON de retorno etornar o JSON do review "Coxinha Boa"
+And Deve retornar o JSON com a nota atualizada "4.5"
+
+Cenário 10 - Acessar Review Inexistente
+Given Não há review feito pelo usuário de ID "40" no restaurante de ID "30"
+When É feita uma requisição GET para "/reviews/30/40"
+Then O status da resposta deve ser NOT FOUND (404)
+
+Cenário 11 - Obter nota
+Given O restaurante de ID "30" contém uma nota "5" dada pelo usuário de ID "40"
+When é feita uma requisição GET para "/reviews/30/40"
+Then O status da resposta deve ser OK (200)
+And Deve ser retornado um JSON com a nota "5"
