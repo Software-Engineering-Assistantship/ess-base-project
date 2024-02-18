@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const sendEmail = require("../utils/sendEmail")
 
 const users_get = async (req, res) => {
     const users = await User.find()
@@ -134,7 +135,23 @@ const user_follow = async (req, res) => {
                     {new: true}        
                 ) 
 
-                return res.status(200).json({mensagem: "Usuário seguido com sucesso", data: {user_log, user_page}})
+                try{
+                    const send_to = user_followed.email
+                    const subject = "Você tem um novo seguidor!"
+                    const message = `
+                        <h3> Olá, ${user_followed.name}</h3>
+                        <p> Você tem um novo seguidor: ${user_following.name}</p>
+                        <a href="http://localhost:3001/users/${user_following.id}" target="_blank" title = "Visitar página de ${user_following.name}"> Página de ${user_following.name}</a>
+                    `
+                    await sendEmail(subject, message, send_to)
+
+                    return res.status(200).json({mensagem: "Usuário seguido com sucesso. Mensagem enviada com sucesso.", data: {user_following, user_followed}})
+                    
+                } catch (error_email) {
+
+                    return res.status(200).json({mensagem: "Usuário seguido com sucesso. Error ao enviar mensagem.", data: {user_following, user_followed}})
+                }
+
             } else {
 
                 return res.status(409).send({ error : "Usuário já segue " + user_page.name, data: {user_log, user_page}})
@@ -174,7 +191,7 @@ const user_unfollow = async (req, res) => {
                     {new: true}        
                 ) 
 
-                return res.status(200).json({ mensagem: "Deixou de seguir usuário com sucesso", data: {user_log, user_page}})
+                return res.status(200).json({ mensagem: "Deixou de seguir usuário com sucesso", data: {user_unfollowing, user_unfollowed}})
             } else {
                 
                 return res.status(409).send({ error : "Usuário não segue " + user_page.name, data: {user_log, user_page}})
