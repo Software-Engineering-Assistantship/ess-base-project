@@ -1,7 +1,7 @@
 import { loadFeature, defineFeature, DefineStepFunction } from 'jest-cucumber';
 import supertest from 'supertest';
-import app from '../../src/app';
-import { prismaMock } from '../../setupTests';
+import app from '../src/app';
+import { prismaMock } from '../setupTests';
 import { Restaurant } from '@prisma/client';
 
 const feature = loadFeature(
