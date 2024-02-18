@@ -27,3 +27,5 @@ class CategoriesRepository {
         return categories;
     }
 }
+
+export default CategoriesRepository();
