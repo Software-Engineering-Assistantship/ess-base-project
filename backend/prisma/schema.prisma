@@ -45,3 +45,29 @@ model Address {
 
   DeliveryPerson DeliveryPerson @relation(fields: [userId], references: [cpf], onDelete: Cascade)
 }
+model Promotion {
+  id Int @id @default(autoincrement())
+  category String
+  discount Float
+  start_date DateTime
+  end_date DateTime
+}
+
+model Cupom {
+  id Int @id @default(autoincrement())
+  name String
+  discount Float
+  start_date DateTime
+  end_date DateTime
+}
+model Item {
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  category String
+  description String
+  image String
+  colors String
+  sizes String
+  amount Int
+}
