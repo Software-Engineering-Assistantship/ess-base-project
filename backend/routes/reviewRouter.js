@@ -5,7 +5,7 @@ const ReviewController = require("../controllers/reviewController")
 
 router.get('/restaurants/:id', ReviewController.review_show)
 
-router.get('/', ReviewController.review_get)
+router.get('/:id', ReviewController.review_get)
 
 router.post('/', ReviewController.review_post)
 
