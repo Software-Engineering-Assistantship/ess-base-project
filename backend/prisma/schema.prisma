@@ -24,11 +24,13 @@ model Menu {
 }
 
 model Category {
-  id          String @id @default(uuid())
-  name        String
-  description String
-  position    Int    @default(autoincrement())
-  menuItems   Menu[]
+  id           String      @id @default(uuid())
+  name         String
+  description  String
+  position     Int         @default(autoincrement())
+  menuItems    Menu[]
+  restaurantId String?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
 
   @@map("category")
 }
@@ -42,4 +44,15 @@ model Payment {
   type           String
 
   @@map("payment")
+}
+
+model Restaurant {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  address     String
+  closingTime DateTime
+  type        String
+  categories  Category[]
+
+  @@map("restaurant")
 }

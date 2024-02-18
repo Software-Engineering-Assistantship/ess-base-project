@@ -15,6 +15,7 @@ describe('CategoriesController', () => {
     name: 'Sushi',
     description: 'Great food',
     position: 0,
+    restaurantId: null,
   };
 
   const mockCategoryResult = {
@@ -22,6 +23,7 @@ describe('CategoriesController', () => {
     name: 'Sushi',
     description: 'Great food',
     position: 0,
+    restaurantId: null,
     menuItems: [],
   };
 
