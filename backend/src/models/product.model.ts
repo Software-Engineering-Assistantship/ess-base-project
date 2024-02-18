@@ -1,24 +1,21 @@
 import fs from 'fs';
 
-interface ProductProps {
-    nome: string;
-    id: string;
-    quantidade: number;
-    preco: number;
-    Local: string;
-}
-
-
 export default class ProductModel{
-    private _props: ProductProps;
+    private _props = {
+        nome: '',
+        id: '',
+        quantidade: 0,
+        preco: 0,
+        Local: ''
+    }
 
-    constructor(props: ProductProps) {
+    constructor(nome: string, id: string, quantidade: number, preco: number, Local: string) {
 
-        this._props.nome = props.nome;
-        this._props.id = props.id;
-        this._props.quantidade = props.quantidade;
-        this._props.preco = props.preco;
-        this._props.Local = props.Local;
+        this._props.nome = nome;
+        this._props.id = id;
+        this._props.quantidade = quantidade;
+        this._props.preco = preco;
+        this._props.Local = Local;
     }
 
     set setQuantidade(quantidade:number) {
