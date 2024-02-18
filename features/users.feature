@@ -5,129 +5,120 @@ Feature: Cadastro e Manutenção de usuários
 
 Scenario: Cadastro de Usuário com Sucesso
     Given estou na página "Cadastro de Usuário"
-    When preencho os campos:
-    | Nome          | CPF            | Data de Nascimento | E-mail                    | Login        | Senha          |
-    | Pedro Correia | 123.456.789-09 | 01/01/1990         | pedrocorreia@meuemail.com | pedrocorreia | SenhaSegura123 |
-    And clico em "Cadastrar"
+    When preencho o campo "nome" com "Pedro Correia"
+    And preencho o campo "cpf" com "123.456.789-09"
+    And preencho o campo "data de nascimento" com "01/01/1990"
+    And preencho o campo "e-mail" com "pedrocorreia@meuemail.com"
+    And preencho o campo "login" com "pedrocorreia"
+    And preencho o campo "senha" com "SenhaSegura123"
+    And realizo o cadastro do usuário
     Then uma mensagem de confirmação é exibida indicando que "O cadastro foi realizado com sucesso"
 
 Scenario: Falha no Cadastro de Usuário por Login já Cadastrado
     Given estou na página "Cadastro de Usuário"
     And o usuário de login "jorgelemos" está cadastrado no sistema
-    When preencho os campos:
-    | Nome        | CPF            | Data de Nascimento | E-mail                  | Login      | Senha          |
-    | Jorge Lemos | 143.416.189-06 | 08/08/1975         | jorgelemos@meuemail.com | jorgelemos | SenhaSegura903 |
-    And clico em "Cadastrar"
+    When preencho o campo "nome" com "Jorge Lemos"
+    And preencho o campo "cpf" com "143.416.189-06"
+    And preencho o campo "data de nascimento" com "08/08/1975"
+    And preencho o campo "e-mail" com "jorgelemos@meuemail.com"
+    And preencho o campo "login" com "jorgelemos"
+    And preencho o campo "senha" com "SenhaSegura903"
+    And realizo o cadastro do usuário
     Then uma mensagem de erro é exibida indicando que "O Login já está sendo utilizado"
 
 Scenario: Falha no Cadastro de Usuário por Email já Cadastrado
     Given estou na página "Cadastro de Usuário"
     And o usuário de email "clarafonseca@meuemail.com" está cadastrado no sistema
-    When preencho os campos:
-    | Nome          | CPF            | Data de Nascimento | E-mail                    | Login        | Senha          |
-    | Clara Fonseca | 113.415.989-36 | 12/03/1998         | clarafonseca@meuemail.com | clarafonseca | SenhaSegura923 |
-    And clico em "Cadastrar"
+    When preencho o campo "nome" com "Clara Fonseca"
+    And preencho o campo "cpf" com "113.415.989-36"
+    And preencho o campo "data de nascimento" com "12/03/1998"
+    And preencho o campo "e-mail" com "clarafonseca@meuemail.com"
+    And preencho o campo "login" com "clarafonseca"
+    And preencho o campo "senha" com "SenhaSegura923"
+    And realizo o cadastro do usuário
     Then uma mensagem de erro é exibida indicando que "O Email já está sendo utilizado"
 
 Scenario: Falha no Cadastro de Usuário por CPF já Cadastrado
     Given estou na página "Cadastro de Usuário"
     And o usuário de cpf "173.515.289-96" está cadastrado no sistema
-    When preencho os campos:
-    | Nome           | CPF            | Data de Nascimento | E-mail                     | Login         | Senha          |
-    | Letícia Santos | 173.515.289-96 | 22/03/2005         | leticiasantos@meuemail.com | leticiasantos | SenhaSegura229 |
-    And clico em "Cadastrar"
+    When preencho o campo "nome" com "Letícia Santos"
+    And preencho o campo "cpf" com "173.515.289-96"
+    And preencho o campo "data de nascimento" com "22/03/2005"
+    And preencho o campo "e-mail" com "leticiasantos@meuemail.com"
+    And preencho o campo "login" com "leticiasantos"
+    And preencho o campo "senha" com "SenhaSegura229"
+    And realizo o cadastro do usuário
     Then uma mensagem de erro é exibida indicando que "O CPF já está sendo utilizado"
 
 Scenario: Falha no Cadastro de Usuário por Campo em Branco
     Given estou na página "Cadastro de Usuário"
-    When preencho os campos:
-    | Nome          | Data de Nascimento | E-mail                    | Login        | Senha          |
-    | Alice Almeida | 02/02/1992         | alicealmeida@meuemail.com | alicealmeida | SenhaSegura456 |
-    And clico em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório"
+    When preencho o campo "nome" com "Alice Almeida"
+    And preencho o campo "cpf" com ""
+    And preencho o campo "data de nascimento" com "02/02/1992"
+    And preencho o campo "e-mail" com "alicealmeida@meuemail.com"
+    And preencho o campo "login" com "alicealmeida"
+    And preencho o campo "senha" com "SenhaSegura456"
+    And realizo o cadastro do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à falta de preenchimento de campo obrigatório"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     Given estou na página "Cadastro de Usuário"
-    When preencho os campos:
-    | Nome           | CPF            | Data de Nascimento | E-mail                     | Login         | Senha            |
-    | Samuel Barbosa | 123.456.789-10 | 03/03/1993         | samuelbarbosa@meuemail.com | samuelbarbosa | SamuelBarbosa123 | 
-    And clico em "Cadastrar"
-    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida devido nome de usuário na senha"
+    When preencho o campo "nome" com "Samuel Barbosa"
+    And preencho o campo "cpf" com "123.456.789-10"
+    And preencho o campo "data de nascimento" com "03/03/1993"
+    And preencho o campo "e-mail" com "samuelbarbosa@meuemail.com"
+    And preencho o campo "login" com "samuelbarbosa"
+    And preencho o campo "senha" com "SamuelBarbosa"
+    And realizo o cadastro do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento
     Given estou na página "Cadastro de Usuário"
-    When preencho os campos:
-    | Nome            | CPF            | Data de Nascimento | E-mail                      | Login          | Senha         |
-    | Marcos Vinícuis | 123.456.789-08 | 04/04/1994         | marcosvinicius@meuemail.com | marcosvinicius | Senha04041994 |
-    And clico em "Cadastrar" 
-    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida devido data de nascimento na senha"
+    When preencho o campo "nome" com "Marcos Vinícuis"
+    And preencho o campo "cpf" com "123.456.789-08"
+    And preencho o campo "data de nascimento" com "04/04/1994"
+    And preencho o campo "e-mail" com "marcosvinicius@meuemail.com"
+    And preencho o campo "login" com "marcosvinicius"
+    And preencho o campo "senha" com "04041994"
+    And realizo o cadastro do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
 
 Scenario: Atualização de Informações do Usuário com Sucesso
-    Given estou logado com o usuário de login "carlossilva" e senha "senha12345"
-    And estou na página "Perfil"
-    When clico em "Atualização do Cadastro"
-    And preencho os campos:
-    | Novo Nome    | Novo Login  | Nova Senha    |
-    | Carlos Silva | carlossilva | NovaSenha2234 |
-    And clico em "Atualizar" 
+    Given o usuário de login "carlosoliveira" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "carlosoliveira" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Carlos Silva"
+    And preencho o campo "login" com "carlossilva"
+    And preencho o campo "senha" com "NovaSenha2234"
+    And realizo a atualização das informações do usuário
     Then uma mensagem de confirmação é exibida indicando que "As Informações foram atualizadas com sucesso"
 
 Scenario: Falha na Atualização de Informações do Usuário por Campo em Branco
-    Given estou logado com o usuário de login "carlossilva" e senha "senha12345"
-    And estou na página "Perfil"
-    When clico em "Atualização do Cadastro"
-    And preencho os campos:
-    | Novo Nome    | Nova Senha    |
-    | Carlos Silva | NovaSenha2234 |
-    And clico em "Atualizar"
-    Then uma mensagem de erro é exibida indicando que "A atualização não pode ser concluída devido à falta de preenchimento de campo obrigatório"
+    Given o usuário de login "heitorbatista" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "heitorbatista" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Heitor Carvalho"
+    And preencho o campo "login" com ""
+    And preencho o campo "senha" com "NovaSenha2234"
+    And realizo a atualização das informações do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à falta de preenchimento de campo obrigatório"
 
 Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Nome
-    Given estou logado com o usuário de login "teresasantos" e senha "senha12345"
-    And estou na página "Perfil"
-    When clico em "Atualização do Cadastro"
-    And preencho os campos:
-    | Novo Nome     | Novo Login   | Nova Senha     |
-    | Teresa Santos | teresasantos | TeresaSantos23 |
-    And clico em "Atualizar"
-    Then uma mensagem de erro é exibida indicando que "A atualização não pode ser concluída devido à senha inválida por nome de usuário na senha"
+    Given o usuário de login "teresasantos" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "teresasantos" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Teresa Santos"
+    And preencho o campo "login" com "teresasantos"
+    And preencho o campo "senha" com "TeresaSantos"
+    And realizo a atualização das informações do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
 
 Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento
-    Given estou logado com o usuário de login "beatrizoliveira" e senha "senha12345"
-    And estou na página "Perfil"
-    When clicaoem "Atualização do Cadastro"
-    And preencho os campos:
-    | Novo Nome        | Novo Login      | Nova Senha    |
-    | Beatriz Oliveira | beatrizoliveira | Senha09092003 |
-    And clico em "Atualizar"
-    Then uma mensagem de erro é exibida indicando que "A atualização não pode ser concluída devido à senha inválida por data de nascimento na senha"
-
-Scenario: Cadastro de Cartão de Crédito
-    Given estou logado com o usuário de login "carloseduardo" e senha "senha12345"
-    And estou na página "Perfil"
-    When clico em "Cadastrar Cartão de Crédito"
-    And preenche os campos:
-    | Número do Cartão    | Data de Expiração | Código de Segurança |              
-    | 5555 1234 5678 9876 | 08/27             | 789                 |
-    And clico em "Adicionar Cartão de Crédito"
-    Then uma mensagem de confirmação é exibida indicando que "O cartão de crédito foi adicionado com sucesso ao perfil"
-
-Scenario: Falha no Cadastro do Cartão de Crédito por Campo em Branco
-    Given estou logado com o usuário de login "josealdair" e senha "senha12345"
-    And estou na página "Perfil"
-    When clica em "Cadastrar Cartão de Crédito"
-    And preenche os campos:
-    | Número do Cartão    | Data de Expiração |              
-    | 2294 5178 9713 3359 | 05/21             |
-    And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de erro é exibida indicando que "O cartão de crédito não pode ser adicionado à devido falta de preenchimento de campo obrigatório"
-
-Scenario: Falha no Cadastro do Cartão de Crédito por Data Inválida
-    Given estou logado com o usuário de login "joaosilva" e senha "senha12345"
-    And estou na página "Perfil"
-    When clica em "Cadastrar Cartão de Crédito"
-    And preenche os campos:
-    | Número do Cartão    | Data de Expiração | Código de Segurança |              
-    | 1234 5678 9012 3456 | 05/21             | 023                 |
-    And clica em "Adicionar Cartão de Crédito"
-    Then uma mensagem de erro é exibida indicando que "O cartão de crédito não pode ser adicionado à devido a informações inválidas"
+    Given o usuário de login "beatrizoliveira" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "beatrizoliveira" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Beatriz Oliveira"
+    And preencho o campo "login" com "beatrizoliveira"
+    And preencho o campo "senha" com "09092003"
+    And realizo a atualização das informações do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
