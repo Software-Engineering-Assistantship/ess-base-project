@@ -20,7 +20,10 @@ export class CategoriesService {
   }
 
   async findOne(id: string) {
-    return await this.prisma.category.findUnique({ where: { id } });
+    return await this.prisma.category.findUnique({
+      where: { id },
+      include: { menuItems: true },
+    });
   }
 
   async findByName(name: string) {
@@ -30,11 +33,12 @@ export class CategoriesService {
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
     return await this.prisma.category.update({
       where: { id },
-      data: {
-        menuItems: {
-          connect: updateCategoryDto.menuItems.map((id) => ({ id })),
-        },
-      },
+      data: updateCategoryDto,
+      include: { menuItems: true },
     });
+  }
+
+  async remove(id: string) {
+    return await this.prisma.category.delete({ where: { id } });
   }
 }

@@ -11,9 +11,18 @@ describe('CategoriesController', () => {
   let service: CategoriesService;
 
   const mockCategory = {
-    id: 'a',
+    id: 'fc194a06-4502-445f-9a03-7f22c8b8d21d',
     name: 'Sushi',
-    description: 'good',
+    description: 'Great food',
+    position: 0,
+  };
+
+  const mockCategoryResult = {
+    id: 'fc194a06-4502-445f-9a03-7f22c8b8d21d',
+    name: 'Sushi',
+    description: 'Great food',
+    position: 0,
+    menuItems: [],
   };
 
   beforeEach(async () => {
@@ -65,35 +74,47 @@ describe('CategoriesController', () => {
   describe('findOne', () => {
     it('should return the category', async () => {
       vi.spyOn(service, 'findOne').mockImplementation(() =>
-        Promise.resolve(mockCategory),
+        Promise.resolve(mockCategoryResult),
       );
 
-      expect(await controller.findOne(mockCategory.id)).toBe(mockCategory);
+      expect(await controller.findOne(mockCategory.id)).toBe(
+        mockCategoryResult,
+      );
     });
   });
 
   describe('findAll', () => {
-    it('should return array of users', async () => {
-      const categories = [{ ...mockCategory, menuItems: [] }];
-
+    it('should return array of categories', async () => {
       vi.spyOn(service, 'findAll').mockImplementation(() =>
-        Promise.resolve(categories),
+        Promise.resolve([mockCategoryResult]),
       );
 
-      expect(await controller.findAll()).toBe(categories);
+      expect(await controller.findAll()).toStrictEqual([mockCategoryResult]);
     });
   });
 
   describe('update', () => {
     it('should update a category', async () => {
-      const updatedUser = { ...mockCategory, menuItems: ['id 1'] };
+      const updatedCategory = { ...mockCategoryResult, position: 10 };
 
       vi.spyOn(service, 'update').mockImplementation(() =>
-        Promise.resolve(updatedUser),
+        Promise.resolve(updatedCategory),
       );
 
-      expect(await controller.update(updatedUser.id, updatedUser)).toBe(
-        updatedUser,
+      expect(await controller.update(updatedCategory.id, updatedCategory)).toBe(
+        updatedCategory,
+      );
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a existing category', async () => {
+      vi.spyOn(service, 'remove').mockImplementation(() =>
+        Promise.resolve(mockCategory),
+      );
+
+      expect(await controller.remove(mockCategory.id)).toBe(
+        'Deleted item succesfully',
       );
     });
   });

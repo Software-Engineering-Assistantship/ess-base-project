@@ -5,6 +5,7 @@ import {
   Body,
   Patch,
   Param,
+  Delete,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
@@ -33,20 +34,26 @@ export class CategoriesController {
   }
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  async findAll() {
+    return await this.categoriesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.categoriesService.findOne(id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(id, updateCategoryDto);
+    return await this.categoriesService.update(id, updateCategoryDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    await this.categoriesService.remove(id);
+    return 'Deleted item succesfully';
   }
 }

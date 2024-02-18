@@ -18,7 +18,7 @@ export class PaymentService {
   }
 
   async findOne(id: string) {
-    return await this.prisma.category.findUnique({ where: { id } });
+    return await this.prisma.payment.findUnique({ where: { id } });
   }
 
   async update(id: string, updatePaymentDto: UpdatePaymentDto) {
