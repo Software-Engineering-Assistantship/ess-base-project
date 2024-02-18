@@ -1,13 +1,11 @@
-interface ProductProps {
-    nome: string;
-    id: string;
-    quantidade: number;
-    preco: number;
-    Local: string;
-}
-
 export default class ProductEntity {
-    private _props: ProductProps;
+    private _props = {
+        nome: '',
+        id: '',
+        quantidade: 0,
+        preco: 0,
+        Local: ''
+    }
 
     constructor(nome:string, 
         id:string, 
