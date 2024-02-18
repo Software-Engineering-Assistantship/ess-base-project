@@ -22,7 +22,7 @@ restaurant_profile_get  = async (req, res) => {
 
 const restaurant_create = async (req, res) => {
 
-    const expectedProperties = ['name', 'address', 'typeOfFood', 'site'];
+    const expectedProperties = ['name', 'address', 'typeOfFood'];
 
     // checa se todas as propriedades obrigatórias estão presentes
     const areAllPropertiesPresent = expectedProperties.every(prop => req.body.hasOwnProperty(prop));

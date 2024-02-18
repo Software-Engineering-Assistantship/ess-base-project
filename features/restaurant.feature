@@ -1,6 +1,8 @@
-    ## Cenários de GUI
+Feature: Restaurant
+
+## Cenários de GUI
     
-    Scenario: cadastrar restaurante novo
+    Scenario: cadastrar restaurante novo GUI
         Given eu estou na página "cadastro de restaurante"
         And o restaurante "Marcelinho Salgados" não está cadastrada no site
         When eu defino o nome do restaurante como "Marcelinho Salgados"
@@ -83,7 +85,7 @@
         And existe um restaurante cadastrado com id "5432" e nome "Worst Pizza"
         And não existe restaurante cadastrado com id "5432" e nome "Best Pizza"
 
-    Scenario: cadastrar novo restaurante
+    Scenario: cadastrar restaurante novo serviço
         Given não existe um restaurante cadastrado com nome "Marcelinho Salgado" e endereço "Rua dos Reitores, 220 - Várzea, Recife"
         When uma requisição "POST" foi enviada para "/restaurants"
         And o body da requisição contém nome "Marcelinho Salgado", endereço "Rua dos Reitores, 220 - Várzea, Recife" e tipo de comida "Salgados"
