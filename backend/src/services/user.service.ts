@@ -67,71 +67,53 @@ class UserService {
         return false;
     }
 
-    private verificaBranco(): boolean {
-        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    private verificaBranco(userData: UserModel ): boolean {
+        
 
-        switch (usuarioJson) {
-            case 'nome':
-                if (usuarioJson.nome === '') {
-                    return true;
-                }
-                break;
-            case 'cpf':
-                if (usuarioJson.cpf == '') {
-                    return true;
-                }
-                break;
-            case 'data de nascimento':
-                if (usuarioJson.dataNascimento === '') {
-                    return true;
-                }
-                break;
-            case 'e-mail':
-                if (usuarioJson.email === '') {
-                    return true;
-                }
-                break;
-            case 'login':
-                if (usuarioJson.login === '') {
-                    return true;
-                }
-                break;
-            case 'senha':
-                if (usuarioJson.senha === '') {
-                    return true;
-                }
-                break;
+        if (userData.nome === '') {
+            return true;
         }
-
+        if (userData.cpf === '') {
+            return true;
+        }
+        if (userData.login === '') {
+            return true;
+        }
+        if (userData.senha === '') {
+            return true;
+        }
+        if (userData.email === '') {
+            return true;
+        }
+    
         return false;
     }
 
-    private verificaSenha(): boolean {  
-        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+    private verificaSenha(userData: UserModel): boolean {  
 
-        let nom = usuarioJson.nome.replace(/\s/g, '');
-        if (usuarioJson.senha === nom) {
+        let nom = userData.nome.replace(/\s/g, '');
+        if (userData.senha === nom) {
             return true;
         }
 
         nom = nom.toLowerCase();
-        if (usuarioJson.senha === nom) {
+        if (userData.senha === nom) {
             return true;
         }
 
         nom = nom.toUpperCase();
-        if (usuarioJson.senha === nom) {
+        if (userData.senha === nom) {
             return true;
         }
 
-        const {dataAbreviada} = this.formatData(usuarioJson.dataNascimento);
-        const {dataCompleta} = this.formatData(usuarioJson.dataNascimento);
+        const {dataAbreviada} = this.formatData(userData.dataNascimento);
+        const {dataCompleta} = this.formatData(userData.dataNascimento);
 
-        if (usuarioJson.senha === dataAbreviada) {
+        if (userData.senha === dataAbreviada) {
             return true;
         }
 
-        if (usuarioJson.senha === dataCompleta) {
+        if (userData.senha === dataCompleta) {
             return true;
         }
 
@@ -146,8 +128,8 @@ class UserService {
     }
     
     public validaSenha(userData: UserModel): {result: boolean, erro: string} {
-        const verifSenha = this.verificaSenha();
-        const verifBranco = this.verificaBranco();
+        const verifSenha = this.verificaSenha(userData);
+        const verifBranco = this.verificaBranco(userData);
         const verificaLogin = this.verificarExistente('login', userData.login);
         const verificaCpf = this.verificarExistente('cpf', userData.cpf);
         const verificaEmail = this.verificarExistente('email', userData.email);
@@ -171,18 +153,40 @@ class UserService {
             return {result, erro};
         }
         if(verifBranco) {
-            const erro = 'O cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório';
+            const erro = 'A operação não pode ser concluída devido à falta de preenchimento de campo obrigatório';
             return {result, erro};
         }
         if(verifSenha) {
-            const erro = 'O cadastro não pode ser concluído devido à senha inválida';
+            const erro = 'A operação não pode ser concluída devido à senha inválida';
             return {result, erro};
         }
 
         return {result, erro: ''};
     }
 
-    public atualizaUsuario(userId: string, userData: UserModel){
+    public validaUpdate(userData: UserModel): {result: boolean, erro: string} {
+        const verifBranco = this.verificaBranco(userData);
+        const verifSenha = this.verificaSenha(userData);
+        if(!verifBranco && !verifSenha) {
+            const result = false;
+            const erro = '';
+            return {result, erro};
+        }
+    
+        const result = true;
+        if(verifBranco) {
+            const erro = 'A operação não pode ser concluída devido à falta de preenchimento de campo obrigatório';
+            return {result, erro};
+        }
+        if(verifSenha) {
+            const erro = 'A operação não pode ser concluída devido à senha inválida';
+            return {result, erro};
+        }
+
+        return {result, erro: ''};
+    }
+
+    public atualizaUsuario(userData: UserModel){
         let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
         usuarioJson.id = userData.login;
@@ -193,6 +197,36 @@ class UserService {
         usuarioJson.email = usuarioJson.email;
         usuarioJson.cpf = usuarioJson.cpf;
         usuarioJson.logado = usuarioJson.logado;
+
+        fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
+    }
+
+    public atualizaCampo(campo: string, valor: string){
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+
+        switch (campo) {
+            case 'nome':
+                usuarioJson.nome = valor;
+                break;
+            case 'cpf':
+                usuarioJson.cpf = valor;
+                break;
+            case 'data de nascimento':
+                usuarioJson.dataNascimento = valor;
+                break;
+            case 'e-mail':
+                usuarioJson.email = valor;
+                break;
+            case 'login':
+                usuarioJson.login = valor;
+                break;
+            case 'senha':
+                usuarioJson.senha = valor;
+                break;
+            case 'logado':
+                usuarioJson.logado = valor === 'true' ? true : false;
+                break;
+        }
 
         fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
     }

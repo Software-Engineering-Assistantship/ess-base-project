@@ -14,12 +14,21 @@ defineFeature(feature, (test) => {
     let mockUserRepository: UserRepository;
     let response: supertest.Response;
     const userData = new UserModel({
-        nome: '',
-        cpf: '',
-        dataNascimento: '',
-        email: '',
-        login: '',
-        senha: '',
+        nome: 'teste',
+        cpf: 'teste',
+        dataNascimento: '25/10/1999',
+        email: 'teste@teste.com',
+        login: 'teste',
+        senha: 'teste123',
+        logado: false
+    });
+    const userBck = new UserModel({
+        nome: 'teste',
+        cpf: 'teste',
+        dataNascimento: '25/10/1999',
+        email: 'teste@teste.com',
+        login: 'teste',
+        senha: 'teste123',
         logado: false
     });
     let userService: UserService;
@@ -462,7 +471,7 @@ defineFeature(feature, (test) => {
             userService.createUser(user);
         });
 
-        and(/^estou logado com o usuário de login "(.*)" e senha "(.*)"$/, async (login, senha) => {
+        and(/^o usuário de login "(.*)" e senha "(.*)" está logado no sistema$/, async (login, senha) => {
             const existLogin = userService.verificarExistente('login', login);
 
             if(existLogin){
@@ -479,23 +488,24 @@ defineFeature(feature, (test) => {
         });
 
         when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
-            userData.preencherCampo(campo, valor);
+            userService.atualizaCampo(campo, valor);
         });
 
         and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
-            userData.preencherCampo(campo, valor);
+            userService.atualizaCampo(campo, valor);
         });
 
         and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
-            userData.preencherCampo(campo, valor);
+            userService.atualizaCampo(campo, valor);
         });
 
         and(/^realizo a atualização das informações do usuário$/, async () => {
-            const verifSenha = userService.validaSenha(userData).result;
-            const verifErro = userService.validaSenha(userData).erro;
+            const userData = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8')) 
+            const verifSenha = userService.validaUpdate(userData).result;
+            const verifErro = userService.validaUpdate(userData).erro;
             if(!verifSenha) {
                 response = await request.put('/api/users/${userId}').send(userData);
-                userService.atualizaUsuario(userData.login, userData);
+                userService.atualizaUsuario(userData);
             }else{
                 response.body.msg = verifErro;
                 response.status = 400;
@@ -508,6 +518,205 @@ defineFeature(feature, (test) => {
             }else{
                 expect(response.status).toBe(200);
                 expect(response.body.msg).toBe(expectedMessage);
+            }
+        });
+    });
+
+    //Test Falha na Atualização de Informações do Usuário por Campo em Branco
+    test('Falha na Atualização de Informações do Usuário por Campo em Branco', ({ given, when, then, and }) => {
+        given(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {  
+            const user = new UserModel({
+                nome: 'Teste',
+                cpf: '123.456.789-01',
+                dataNascimento: '25/10/2000',
+                email: 'teste@teste.com',
+                login: login,
+                senha: senha,
+                logado: false
+            });
+            userService.createUser(user);
+        });
+
+        and(/^o usuário de login "(.*)" e senha "(.*)" está logado no sistema$/, async (login, senha) => {
+            const existLogin = userService.verificarExistente('login', login);
+
+            if(existLogin){
+                if(userService.senhaCorresponde(login, senha))
+                    userService.trocarStatus(login);
+            }
+        });
+
+        and(/^estou na página "(.*)"$/, async (page) => {
+                const userId = userData.login;
+
+                const rota = userService.verificaURL(page, userId);
+                response = await request.get(rota);
+        });
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^realizo a atualização das informações do usuário$/, async () => {
+            const userData = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8')) 
+            const verifSenha = userService.validaUpdate(userData).result;
+            const verifErro = userService.validaUpdate(userData).erro;
+            if(!verifSenha) {
+                response = await request.put('/api/users/${userId}').send(userData);
+                userService.atualizaUsuario(userData);
+            }else{
+                response.body.msg = verifErro;
+                response.status = 400;
+            }
+        });
+
+        then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            if(response.status != 200){
+                expect(response.body.msg).toBe(expectedMessage);
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe('Falha na atualização das informações do usuário');
+            }
+        });
+    });
+
+    //Test Falha na Atualização de Informações do Usuário por Senha Inválida com Nome
+    test('Falha na Atualização de Informações do Usuário por Senha Inválida com Nome', ({ given, when, then, and }) => {
+        given(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {  
+            const user = new UserModel({
+                nome: 'Teste',
+                cpf: '123.456.789-01',
+                dataNascimento: '25/10/2000',
+                email: 'teste@teste.com',
+                login: login,
+                senha: senha,
+                logado: false
+            });
+            userService.createUser(user);
+        });
+
+        and(/^o usuário de login "(.*)" e senha "(.*)" está logado no sistema$/, async (login, senha) => {
+            const existLogin = userService.verificarExistente('login', login);
+
+            if(existLogin){
+                if(userService.senhaCorresponde(login, senha))
+                    userService.trocarStatus(login);
+            }
+        });
+
+        and(/^estou na página "(.*)"$/, async (page) => {
+                const userId = userData.login;
+
+                const rota = userService.verificaURL(page, userId);
+                response = await request.get(rota);
+        });
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^realizo a atualização das informações do usuário$/, async () => {
+            const userData = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8')) 
+            const verifSenha = userService.validaUpdate(userData).result;
+            const verifErro = userService.validaUpdate(userData).erro;
+            if(!verifSenha) {
+                response = await request.put('/api/users/${userId}').send(userData);
+                userService.atualizaUsuario(userData);
+            }else{
+                response.body.msg = verifErro;
+                response.status = 400;
+            }
+        });
+
+        then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            if(response.status != 200){
+                expect(response.body.msg).toBe(expectedMessage);
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe('Falha na atualização das informações do usuário');
+            }
+        });
+    });
+
+       //Test Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento
+       test('Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento', ({ given, when, then, and }) => {
+        given(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {  
+            const user = new UserModel({
+                nome: 'Teste',
+                cpf: '123.456.789-01',
+                dataNascimento: '09/09/2003',
+                email: 'teste@teste.com',
+                login: login,
+                senha: senha,
+                logado: false
+            });
+            userService.createUser(user);
+        });
+
+        and(/^o usuário de login "(.*)" e senha "(.*)" está logado no sistema$/, async (login, senha) => {
+            const existLogin = userService.verificarExistente('login', login);
+
+            console.log(existLogin);
+            if(existLogin){
+                if(userService.senhaCorresponde(login, senha))
+                    userService.trocarStatus(login);
+            }
+        });
+
+        and(/^estou na página "(.*)"$/, async (page) => {
+                const userId = userData.login;
+
+                const rota = userService.verificaURL(page, userId);
+                response = await request.get(rota);
+        });
+
+        when(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^preencho o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            userService.atualizaCampo(campo, valor);
+        });
+
+        and(/^realizo a atualização das informações do usuário$/, async () => {
+            const userData = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8')) 
+            const verifSenha = userService.validaUpdate(userData).result;
+            const verifErro = userService.validaUpdate(userData).erro;
+            if(!verifSenha) {
+                response = await request.put('/api/users/${userId}').send(userData);
+                userService.atualizaUsuario(userData);
+            }else{
+                response.body.msg = verifErro;
+                response.status = 400;
+            }
+        });
+
+        then(/^uma mensagem de erro é exibida indicando que "(.*)"$/, (expectedMessage) => {
+            if(response.status != 200){
+                expect(response.body.msg).toBe(expectedMessage);
+            }else{
+                expect(response.status).toBe(200);
+                expect(response.body.msg).toBe('Falha na atualização das informações do usuário');
             }
         });
     });

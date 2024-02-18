@@ -31,18 +31,25 @@ class UserModel{
         switch (campo) {
             case 'nome':
                 this.nome = valor;
+                break;
             case 'cpf':
                 this.cpf = valor;
+                break;
             case 'data de nascimento':
                 this.dataNascimento = valor;
+                break;
             case 'e-mail':
                 this.email = valor;
+                break;
             case 'login':
                 this.login = valor;
+                break;
             case 'senha':
                 this.senha = valor;
+                break;
             case 'logado':
                 this.logado = valor === 'true' ? true : false;
+                break;
         }
 
     }

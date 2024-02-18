@@ -59,7 +59,7 @@ Scenario: Falha no Cadastro de Usuário por Campo em Branco
     And preencho o campo "login" com "alicealmeida"
     And preencho o campo "senha" com "SenhaSegura456"
     And realizo o cadastro do usuário
-    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à falta de preenchimento de campo obrigatório"
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à falta de preenchimento de campo obrigatório"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     Given estou na página "Cadastro de Usuário"
@@ -70,7 +70,7 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Nome
     And preencho o campo "login" com "samuelbarbosa"
     And preencho o campo "senha" com "SamuelBarbosa"
     And realizo o cadastro do usuário
-    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida"
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
 
 Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimento
     Given estou na página "Cadastro de Usuário"
@@ -81,11 +81,11 @@ Scenario: Falha no Cadastro de Usuário por Senha Inválida com Data de Nascimen
     And preencho o campo "login" com "marcosvinicius"
     And preencho o campo "senha" com "04041994"
     And realizo o cadastro do usuário
-    Then uma mensagem de erro é exibida indicando que "O cadastro não pode ser concluído devido à senha inválida"
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
 
 Scenario: Atualização de Informações do Usuário com Sucesso
     Given o usuário de login "carlosoliveira" e senha "senha12345" está cadastrado no sistema
-    And estou logado com o usuário de login "carlosoliveira" e senha "senha12345"
+    And o usuário de login "carlosoliveira" e senha "senha12345" está logado no sistema
     And estou na página "Atualização do Cadastro"
     When preencho o campo "nome" com "Carlos Silva"
     And preencho o campo "login" com "carlossilva"
@@ -93,3 +93,32 @@ Scenario: Atualização de Informações do Usuário com Sucesso
     And realizo a atualização das informações do usuário
     Then uma mensagem de confirmação é exibida indicando que "As Informações foram atualizadas com sucesso"
 
+Scenario: Falha na Atualização de Informações do Usuário por Campo em Branco
+    Given o usuário de login "heitorbatista" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "heitorbatista" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Heitor Carvalho"
+    And preencho o campo "login" com ""
+    And preencho o campo "senha" com "NovaSenha2234"
+    And realizo a atualização das informações do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à falta de preenchimento de campo obrigatório"
+
+Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Nome
+    Given o usuário de login "teresasantos" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "teresasantos" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Teresa Santos"
+    And preencho o campo "login" com "teresasantos"
+    And preencho o campo "senha" com "TeresaSantos"
+    And realizo a atualização das informações do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
+
+Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento
+    Given o usuário de login "beatrizoliveira" e senha "senha12345" está cadastrado no sistema
+    And o usuário de login "beatrizoliveira" e senha "senha12345" está logado no sistema
+    And estou na página "Atualização do Cadastro"
+    When preencho o campo "nome" com "Beatriz Oliveira"
+    And preencho o campo "login" com "beatrizoliveira"
+    And preencho o campo "senha" com "09092003"
+    And realizo a atualização das informações do usuário
+    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
