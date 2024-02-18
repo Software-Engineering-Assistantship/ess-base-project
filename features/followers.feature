@@ -122,122 +122,81 @@ Cenários GUI
 
 Cenários de Serviço
 
-    Cenário 12: Notificação de novo seguidor
-        Given "Guilherme Maranhão" está cadastrado no sistema
-        And "Amanda Napolitano" está cadastrada no sistema com o e-mail "amanda@email.com"
-        When "Guilherme Maranhão" segue "Amanda Napolitano"
-        And o servidor retorna o e-mail "amanda@email.com"
-        Then o sistema envia uma mensagem para "amanda@email.com"
-        And a mensagem contém um link seguro para o perfil de "Guilherme Maranhão"
-
-    Cenário 13: Pegar lista de seguidores
-        Given o usuário "Guilherme Maranhão" está armazenado no sistema
-        And o id "147" está vinculado ao usuário "Guilherme Maranhão"
+    Cenário 12: Pegar lista de seguidores
+        Given o usuário com id "147" está armazenado no sistema
         And tem como lista de seguidores "123, 456, 789"
-        When eu peço ao sistema pela lista de seguidores do usuário com id "147"
-        Then o sistema retorna a lista "123, 456, 789"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147" 
-        And com a lista "123, 456, 789" com os ids dos seguidores
+        When fizer uma requisição "GET" com rota "/users/followers/147"
+        Then o sistema retorna o JSON com a lista "123, 456, 789"
         And o status do sistema é "200 OK"
 
-    Cenário 14: Pegar lista de seguidores vazia
-        Given o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de seguidores está vazia
-        When eu peço ao sistema a lista de seguidores do usuário com id "258"
-        Then o sistema retorna a mensagem "error: 'Usuário não possui seguidores'"
-        And retorna o JSON com os dados de "Carla Marinho"
-        And o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de seguidores está vazia
-        And o status do sistema é "404 Not Found"
+    Cenário 13: Pegar lista de seguidores vazia
+        Given o usuário com id "258" está armazenado no sistema com a lista de seguidores vazia
+        When fizer uma requisição "GET" com rota "/users/followers/258"
+        Then o status do sistema é "404 Not Found"
+        And retorna o JSON vazio
 
-    Cenário 15: Seguir um usuário
-        Given o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que "Carla Marinho" segue é "123, 789"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789"
-        When eu peço ao sistema que "Carla Marinho" siga "Guilherme Maranhão"
-        Then sistema retorna a mensagem "mensagem: Usuário seguido com sucesso"
-        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
-            seguidores "123, 456, 789, 258"
-        And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
-            que segue "123, 789, 147"
-        And o status do sistma é "200 OK"
+    Cenário 14: Seguir um usuário
+        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "123, 789"
+        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "123, 456, 789"
+        When fizer uma requisição "PUT" com rota "/users/follow/147"
+        And o body contendo o id "258"
+        Then uma mensagem é enviada para o e-mail cadastrado do usuário com id "147"
+        And o status do sistema é "200 OK"
+        And retorna um JSON com os dados dos usuários com ids "147" e "258"
+        And o usuário com o id "147" tem a lista de seguidores "123, 456, 789, 258"
+        And o usuário com id "258" tem a lista de usuários que segue "123, 789, 147"
 
-    Cenário 16: Pegar lista de usuários que segue
-        Given o usuário "Carla Marinho" está armazenado no sistema com o id "258"
+    Cenário 15: Pegar lista de usuários que segue
+        Given o usuário com o id "258" está armazenado no sistema
         And tem a lista "123, 789, 147" de usuários que segue
-        When eu peço ao sistema pela lista de usuários que o usuário com id "258" segue
-        Then o sistema retorna a lista "123, 789, 147"
-        And o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que segue é "123, 789, 147"
+        When fizer uma requesição "GET" com rota "/users/following/258"
+        Then o sistema retorna um JSON com a lista "123, 789, 147"
         And o status do sistema é "200 OK"
 
-    Cenário 17: Pegar lista de usuários que segue vazia
-        Given o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de usuários que segue está vazia
-        When eu peço ao sistema a lista de usuários que segue do usuário com id "147"
-        Then o sistema retorna a mensagem "error: 'Usuário não está seguindo outros usuários'"
-        And retorna o JSON com os dados de "Guilherme Maranhão"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de usuários que segue está vazia
-        And o status do sistema é "404 Not Found"
+    Cenário 16: Pegar lista de usuários que segue vazia
+        Given o usuário com o id "147" está armazenado no sistema com a lista de usuários que segue vazia
+        When fizer uma requesição "GET" com rota "/users/following/147"
+        Then o status do sistema é "404 Not Found"
+        And retorna o JSON vazio
 
-    Cenário 18: Seguir um usuário que já segue
-        Given o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que "Carla Marinho" segue é "123, 789, 147"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789, 258"
-        When eu peço ao sistema que "Carla Marinho" siga "Guilherme Maranhão"
-        Then sistema retorna a mensagem "error: Usuário já segue Guilherme Maranhão"
-        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
-            seguidores "123, 456, 789, 258"
-        And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
-            que segue "123, 789, 147"
-        And o status do sistma é "409 Conflict"
+    Cenário 17: Seguir um usuário que já segue
+        Given o usuário com o id "258" está armazenado no sistema
+        And tem a lista "123, 789, 147" de usuários que segue
+        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "123, 456, 789, 258"
+        When fizer uma requisição "PUT" com rota "/users/follow/147"
+        And o body contendo o id "258"
+        Then o status do sistema é "409 Conflict"
+        And retorna um JSON contendo o id "258" e a lista de usuários que segue "123, 789, 147"
+        And contendo o id "147" e a lista de seguidores "123, 456, 789, 258"
 
-    Cenário 19: Deixar de seguir um usuário
-        Given o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que "Carla Marinho" segue é "123, 789, 147"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789, 258"
-        When eu peço ao sistema que "Carla Marinho" deixe de seguir "Guilherme Maranhão"
-        Then sistema retorna a mensagem "mensagem: Deixou de seguir usuário com sucesso"
-        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
-            seguidores "123, 456, 789"
-        And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
-            que segue "123, 789"
-        And o status do sistma é "200 OK"
+    Cenário 18: Deixar de seguir um usuário
+        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "123, 789, 147"
+        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "123, 456, 789, 258"
+        When fizer uma requisição "PUT" com rota "/users/unfollow/147"
+        And o body contendo o id "258"
+        Then o status do sistema é "200 OK"
+        And retorna um JSON contendo o id "258" e a lista de usuários que segue "123, 789"
+        And contendo o id "147" e a lista de seguidores "123, 456, 789"
 
-    Cenário 20: Deixar de seguir um usuário que não segue
-        Given o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que "Carla Marinho" segue é "123, 789"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789"
-        When eu peço ao sistema que "Carla Marinho" deixe de seguir "Guilherme Maranhão"
-        Then sistema retorna a mensagem "error: Usuário não segue Guilherme Maranhão"
-        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
-            seguidores "123, 456, 789"
-        And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
-            que segue "123, 789"
-        And o status do sistma é "409 Conflict"
+    Cenário 19: Deixar de seguir um usuário que não segue
+        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "123, 789"
+        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "123, 456, 789"
+        When fizer uma requisição "PUT" com rota "/users/unfollow/147"
+        And o body contendo o id "258"
+        Then o status do sistema é "409 Conflict"
+        And retorna um JSON contendo o id "258" e a lista de usuários que segue "123, 789"
+        And contendo o id "147" e a lista de seguidores "123, 456, 789"
 
-    Cenário 21: Deletar lista de seguidores e seguidos de um usuário na deleção do usuário
-        Given o usuário "Caio Lins" está armazenado no sistema com id "123"
+    Cenário 20: Deletar lista de seguidores e seguidos de um usuário na deleção do usuário
+        Given o usuário com id "123" está armazenado no sistema
         And tem a lista de seguidores "258"
         And tem a lista de usuários que segue "147"
-        And o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que "Carla Marinho" segue é "123, 789"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789"
-        When eu peço ao sistema para deletar o usuário "Caio Lins" com id "123"
-        Then o sistema retorna a mensagem "mensagem: Usuário deletado com sucesso"
-        And o usuário "Carla Marinho" está armazenado no sistema com o id "258"
-        And a lista de usuários que "Carla Marinho" segue é "789"
-        And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
-        And a lista de seguidores de "Guilherme Maranhão" é "456, 789"
-        And o usuário "Caio Lins" não está armazenado no sistema
-        And o status do sistema é "200 OK"
+        And o usuário com o id "258" está armazenado no sistema
+        And tem a lista de usuários que segue "123, 789"
+        And o usuário com o id "147" está armazenado no sistema
+        And tem a lista de seguidores "123, 456, 789"
+        When fizer a requesição "DELETE" com rota "/users/delete/123"
+        Then o status do sistema é "200 OK"
+        And o usuário com o id "258" tem a lista de usuários que segue "789"
+        And o usuário com o id "147" tem a lista de seguidores "456, 789"
+        And o usuário com o id "123" não está armazenado no sistema
