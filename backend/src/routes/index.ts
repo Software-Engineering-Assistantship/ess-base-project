@@ -2,13 +2,13 @@ import { Router } from 'express';
 
 import UserRouter from './UserRoutes';
 
-import ComprovanteRouter from './ComprovanteRoutes';
+import ReceiptRouter from './ReceiptRoutes';
 
 const router = Router();
 
 router.use('/user', UserRouter);
 
-router.use('/comprovante', ComprovanteRouter);
+router.use('/receipt', ReceiptRouter);
 
 router.route('/').get((_, res) => {
   res.status(200).send('🚀 ESS Server running');

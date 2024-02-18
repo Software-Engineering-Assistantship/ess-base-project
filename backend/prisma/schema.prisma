@@ -35,7 +35,7 @@ model Cupom {
   end_date DateTime
 }
 
-model Comprovante{
+model Receipt{
   id Int @id @default(autoincrement())
   product String
   quantity Int

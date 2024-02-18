@@ -1,21 +1,21 @@
 import { Router } from 'express';
-import { ComprovanteController } from '../controllers';
+import { ReceiptController } from '../controllers';
 
-const comprovanteRouter = Router();
+const receiptRouter = Router();
 
-comprovanteRouter.route('/')
+receiptRouter.route('/')
   .post(
-    ComprovanteController.create,
+    ReceiptController.create,
   );
 
-comprovanteRouter.route('/:comprovanteId')
+  receiptRouter.route('/:receiptId')
   .get(
-    ComprovanteController.read,
+    ReceiptController.read,
   );
 
-comprovanteRouter.route('/:comprovanteId')
+  receiptRouter.route('/:receiptId')
   .delete(
-    ComprovanteController.delete,
+    ReceiptController.delete,
   );
 
-export default comprovanteRouter;
+export default receiptRouter;

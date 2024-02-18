@@ -1,6 +1,6 @@
 import UserRepository from './userRepository';
 import PromotionRepository from './promotionRepository';
 import CuponsRepository from './cuponsRepository'
-import ComprovanteRepository from './ComprovanteRepository'
+import ReceiptRepository from './receiptRepository'
 
-export { UserRepository, PromotionRepository, CuponsRepository, ComprovanteRepository };
+export { UserRepository, PromotionRepository, CuponsRepository, ReceiptRepository };
