@@ -16,8 +16,8 @@ class ProductService {
 
     public async getAllProducts(): Promise<ProductModel[]> {
         const productsEntity = await this.productRepository.getAllProducts();
-
-        const productsModel = productsEntity.map((product: ProductEntity) => new ProductModel(product.nome, product.id, product.quantidade, product.preco, product.Local));
+        
+        const productsModel = productsEntity.map((product: ProductEntity) => new ProductModel(product));
 
         return productsModel;
     }
@@ -32,14 +32,14 @@ class ProductService {
             });
         }
 
-        const productModel = new ProductModel(productEntity.nome, productEntity.id, productEntity.quantidade, productEntity.preco, productEntity.Local);
+        const productModel = new ProductModel(productEntity);
 
         return productModel;
     }
 
     public async createProduct(data: ProductEntity): Promise<ProductModel> {
         const productEntity = await this.productRepository.createProduct(data);
-        const productModel = new ProductModel(productEntity.nome, productEntity.id, productEntity.quantidade, productEntity.preco, productEntity.Local);
+        const productModel = new ProductModel(productEntity);
 
         return productModel;
     }

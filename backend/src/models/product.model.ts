@@ -1,56 +1,56 @@
 import fs from 'fs';
 
 export default class ProductModel{
-    private _props = {
-        nome: '',
-        id: '',
-        quantidade: 0,
-        preco: 0,
-        Local: ''
-    }
+        nome: string;
+        id: string
+        quantidade: number;
+        preco: number;
+        Local: string;
 
-    constructor(nome: string, id: string, quantidade: number, preco: number, Local: string) {
 
-        this._props.nome = nome;
-        this._props.id = id;
-        this._props.quantidade = quantidade;
-        this._props.preco = preco;
-        this._props.Local = Local;
+    constructor( data : {
+        nome: string, 
+        id: string, 
+        quantidade: number, 
+        preco: number, 
+        Local: string}) {
+
+        this.nome = data.nome;
+        this.id = data.id;
+        this.quantidade = data.quantidade;
+        this.preco = data.preco;
+        this.Local = data.Local;
     }
 
     set setQuantidade(quantidade:number) {
-        this.props.quantidade = quantidade;
+        this.quantidade = quantidade;
     }
 
     public removeQuantidade(quantidade:number) {
-        if (this.props.quantidade >= quantidade)
-            this.props.quantidade -= quantidade;
+        if (this.quantidade >= quantidade)
+            this.quantidade -= quantidade;
 
         else
             throw new Error('Quantidade insuficiente');
     }
 
-    get props() {
-        return this._props;
+    get getNome() {
+        return this.nome;
     }
 
-    get nome() {
-        return this.props.nome;
+    get getId() {
+        return this.id;
     }
 
-    get id() {
-        return this.props.id;
+    get getQuantidade() {
+        return this.quantidade;
     }
 
-    get quantidade() {
-        return this.props.quantidade;
+    get getPreco() {
+        return this.preco;
     }
 
-    get preco() {
-        return this.props.preco;
-    }
-
-    get Local() {
-        return this.props.Local;
+    get getLocal() {
+        return this.Local;
     }
 }
