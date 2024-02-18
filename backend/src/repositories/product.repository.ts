@@ -1,8 +1,7 @@
 import ProductEntity from "../entities/product.entity";
-import ProductModel from "../models/product.model";
 import BaseRepository from "./base.repository";
 
-export class ProductRepository extends BaseRepository<ProductEntity> {
+export default class ProductRepository extends BaseRepository<ProductEntity> {
   constructor() {
     super('products');
   }
@@ -16,7 +15,7 @@ export class ProductRepository extends BaseRepository<ProductEntity> {
   }
 
   public async createProduct(data: ProductEntity): Promise<ProductEntity> {
-    return await this.add(data);
+    return await this.add(data); 
   }
 
   public async updateProductById(id: string, data: ProductEntity): Promise<ProductEntity | null> {
