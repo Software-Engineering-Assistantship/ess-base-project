@@ -34,3 +34,9 @@ model Cupom {
   start_date DateTime
   end_date DateTime
 }
+
+model Categorie {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String?
+}
