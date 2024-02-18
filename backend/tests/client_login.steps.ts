@@ -23,7 +23,7 @@ defineFeature(feature, (test) => {
         // Simulate client existence in database
         prismaMock.client.findUnique.mockResolvedValue({
           id: 1, // Supondo que o ID seja 1
-          password: password,
+          password: await bcrypt.hash(password, 10),
           name: 'Caio Fernandes', // Nome de exemplo
           email: email,
           cpf: '123.456.789-00', // CPF de exemplo
@@ -56,27 +56,13 @@ defineFeature(feature, (test) => {
       /^uma requisição POST é enviada para "(.*)" com os dados "(.*)" e "(.*)"$/,
       async (url: string, email: string, password: string) => {
         // Simulate sending login request
+        //prismaMock.client.findUnique.mockResolvedValue({ cvmfc })
         response = await request.post(url).send({ email, password });
 
         const client = await prismaMock.client.findUnique({
           where: { email }
         });
-        if(client) {
-        //console.log(client.email);
-        //console.log(client.password);
-        //console.log(password);
-          if (password === client.password) {
-            response.status = 200;
-          }
-          else {
-            //console.log(1);
-            response.status = 401;
-          }
-        }
-        else {
-          //console.log(2);
-          response.status = 401;
-        }
+        //console.log(response.body);
       }
     );
   
@@ -109,7 +95,7 @@ defineFeature(feature, (test) => {
       async (token: string) => {
         // Simulate extracting token from header
         ObtainedToken = AuthHeader.split(' ')[1];
-        console.log(ObtainedToken, 'deve ser igual a', token);
+        //console.log(ObtainedToken, 'deve ser igual a', token);
       }
     );
 
@@ -119,8 +105,8 @@ defineFeature(feature, (test) => {
       async () => {
 
         ObtainedToken = AuthHeader.split(' ')[1]; // Extrair token do cabeçalho vazio
-        console.log("Valor do token extraído:", ObtainedToken);
-        console.log("O token extraído deve ser uma string vazia.");
+        //console.log("Valor do token extraído:", ObtainedToken);
+        //console.log("O token extraído deve ser uma string vazia.");
       }
     );
 
@@ -167,13 +153,14 @@ defineFeature(feature, (test) => {
   const thenStatusIsReturned = (then: DefineStepFunction) =>
     then(/^é retornado status "(.*)"$/, async (status: string) => {
       // Verify if expected status is returned
-      console.log(response.status);
+      //console.log(response.status);
       expect(response.status).toBe(parseInt(status, 10));
     });
 
   const thenLoginSucceeds = (then: DefineStepFunction) =>
     then(/^o login é realizado com sucesso$/, async () => {
       // Verify if login succeeds
+      //console.log(response.body);
       expect(response.body).toEqual(expect.objectContaining({ message: 'Login bem sucedido' }));
     });
 

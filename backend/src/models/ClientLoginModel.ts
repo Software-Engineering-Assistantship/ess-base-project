@@ -9,14 +9,16 @@ class ClientLoginModel{
     password: string
     ) {
     const client = await prisma.client.findUnique({where: {email}});
+    //console.log(client);
     if (!client)
     {
       throw new Error('Login e/ou senha incorretos');
     }
 
-    //const passwordIsCorrect = await bcrypt.compare(password, client.password);
-    if (password !== client.password)
+    const passwordIsCorrect = await bcrypt.compare(password, client.password);
+    if (!passwordIsCorrect)
     {
+      console.log(7);
       throw new Error('Login e/ou senha incorretos');
     }
 

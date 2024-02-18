@@ -14,8 +14,10 @@ class ClientLoginController {
       if (status === 'OK') {
         // Geração do token de autenticação
         const token = jwt.sign({ clientId: client.id }, 'chave_secreta_token', { expiresIn: '18h' });
+        //console.log(token + token);
+        //console.log(req.body);
 
-        res.status(200).json({ message: 'Login bem sucedido', header:token });
+        res.status(200).json({ message: 'Login bem sucedido', header: token });
         //res.locals = { data: {token} };
         //res.status(200).json({ message: 'Login bem sucedido', token });
       }
@@ -25,7 +27,8 @@ class ClientLoginController {
   }
 
   static async verifyToken(req: Request, res: Response, next: Function) {
-    const authToken = req.headers.authorization;
+    //console.log(req.body);
+    const authToken = req.body.header;
     if (!authToken) {
       return res.status(401).json({ error: 'Token de autorização não fornecido' });
     }
