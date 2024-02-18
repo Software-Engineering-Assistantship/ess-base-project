@@ -1,13 +1,13 @@
-export default class PromocoesEntity {
+export default class PromocaoEntity {
     id: string;
     nome: string;
-    valor: Number;
+    valor: string;
     tipo: string;
     validade: string;
   
     constructor(data: {
         nome: string;
-        valor: Number;
+        valor: string;
         tipo: string;
         validade: string;
     }) {
