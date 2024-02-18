@@ -34,3 +34,11 @@ model Cupom {
   start_date DateTime
   end_date DateTime
 }
+
+model Comprovante{
+  id Int @id @default(autoincrement())
+  product String
+  quantity Int
+  price Float
+  username String  
+}
