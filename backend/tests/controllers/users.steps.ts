@@ -448,7 +448,7 @@ defineFeature(feature, (test) => {
     });
 
     //Test de Atualização de Informações do Usuário com Sucesso
-    /*test('Atualização de Informações do Usuário com Sucesso', ({ given, when, then, and }) => {
+    test('Atualização de Informações do Usuário com Sucesso', ({ given, when, then, and }) => {
         given(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {  
             const user = new UserModel({
                 nome: 'Teste',
@@ -464,10 +464,8 @@ defineFeature(feature, (test) => {
 
         and(/^estou logado com o usuário de login "(.*)" e senha "(.*)"$/, async (login, senha) => {
             const existLogin = userService.verificarExistente('login', login);
-            
-            console.log(existLogin);
+
             if(existLogin){
-                console.log(userService.senhaCorresponde(login, senha));
                 if(userService.senhaCorresponde(login, senha))
                     userService.trocarStatus(login);
             }
@@ -493,28 +491,18 @@ defineFeature(feature, (test) => {
         });
 
         and(/^realizo a atualização das informações do usuário$/, async () => {
-            const id = userData.login;
-            const verifSenha = userService.validaSenha(userData);
+            const verifSenha = userService.validaSenha(userData).result;
+            const verifErro = userService.validaSenha(userData).erro;
             if(!verifSenha) {
-                response = await request.put('/api/users/${id}').send(userData);
-                userService.updateUserById(id, userData);
-            }
-        });
-
-        then(/^o usuário de login "(.*)" e senha "(.*)" está cadastrado no sistema$/, async (login, senha) => {
-            const existLogin = await userService.verificarExistente('login', login);
-            const existSenha = await userService.verificarExistente('senha', senha);
-
-            if(existLogin && existSenha && response.status == 200){
-                //Retorna o status ok
-                response.status = 200;
+                response = await request.put('/api/users/${userId}').send(userData);
+                userService.atualizaUsuario(userData.login, userData);
             }else{
-                //Retorna o status de erro
+                response.body.msg = verifErro;
                 response.status = 400;
             }
         });
-    
-        and(/^uma mensagem de confirmação é exibida indicando que "(.*)"$/, (expectedMessage) => {
+
+        then(/^uma mensagem de confirmação é exibida indicando que "(.*)"$/, (expectedMessage) => {
             if(response.status != 200){
                 expect(response.body.msg).toBe('Falha na atualização das informações do usuário');
             }else{
@@ -522,5 +510,5 @@ defineFeature(feature, (test) => {
                 expect(response.body.msg).toBe(expectedMessage);
             }
         });
-    });*/
+    });
 });

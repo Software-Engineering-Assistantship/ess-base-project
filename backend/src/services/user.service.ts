@@ -182,8 +182,23 @@ class UserService {
         return {result, erro: ''};
     }
 
-    public async updateUserById(id: string, data: UserEntity): Promise<UserModel | null> {
-        const userEntity = await this.userRepository.updateUserById(id, data);
+    public atualizaUsuario(userId: string, userData: UserModel){
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+
+        usuarioJson.id = userData.login;
+        usuarioJson.login = userData.login;
+        usuarioJson.nome = userData.nome
+        usuarioJson.senha = userData.senha;
+        usuarioJson.dataNascimento = usuarioJson.dataNascimento;
+        usuarioJson.email = usuarioJson.email;
+        usuarioJson.cpf = usuarioJson.cpf;
+        usuarioJson.logado = usuarioJson.logado;
+
+        fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
+    }
+
+    public async updateUser(data: UserEntity): Promise<UserModel | null>{
+        const userEntity = await this.userRepository.updateUser(data);
         const userModel = userEntity ? new UserModel(userEntity) : null;
 
         return userModel;
@@ -205,29 +220,25 @@ class UserService {
     }
 
     public async trocarStatus(id: string){
-        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-        for (let i = 0; i < usuariosJson.length; i++) {
-            if (usuariosJson[i].login === id) {
-                usuariosJson[i].logado = !usuariosJson[i].logado;
-                fs.writeFileSync('./src/models/users.json', JSON.stringify(usuariosJson));
-            }
+        if (usuarioJson.login === id) {
+            usuarioJson.logado = !usuarioJson.logado;
+            fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
         }
+        
     }
 
     public senhaCorresponde(login: string, senha: string): boolean {
-        let usuariosJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-        if (usuariosJson && Array.isArray(usuariosJson)) {
-            for (const usuario of usuariosJson) {
-                if (usuario.login === login) {
-                    if (usuario.senha === senha) {
-                        return true;
-                    }
-                }
+        
+        if (usuarioJson.login === login) {
+            if (usuarioJson.senha === senha) {
+                return true;
             }
         }
-
+           
         return false;
     }
 

@@ -25,9 +25,9 @@ class UserController {
         this.getUserById(req, res)
     );
 
-    // Rota para atualizar um usuário pelo ID
+    // Rota para atualizar um usuário
     this.router.put(`${this.prefix}/:id`, (req: Request, res: Response) =>
-        this.updateUserById(req, res)
+        this.updateUser(req, res)
     );
  }
 
@@ -42,6 +42,17 @@ class UserController {
     }).handle(res);
   }
 
+  private async updateUser(req: Request, res: Response) {
+    // Extrai os dados do corpo da requisição
+    const user = await this.userService.updateUser(new UserEntity(req.body));
+
+    // Retorna o usuário atualizado
+    return new SuccessResult({
+        msg: 'As Informações foram atualizadas com sucesso',
+        data: user,
+    }).handle(res);
+  }
+
   private async getUserById(req: Request, res: Response) {
     // Extrai o ID da requisição
     const id = req.params.id;
@@ -52,20 +63,6 @@ class UserController {
     // Retorna o usuário encontrado
     return new SuccessResult({
         msg: 'Usuário encontrado',
-        data: user,
-    }).handle(res);
-  }
-
-  private async updateUserById(req: Request, res: Response) {
-    // Extrai o ID da requisição
-    const id = req.params.id;
-
-    // Extrai os dados do corpo da requisição
-    const user = await this.userService.updateUserById(id, new UserEntity(req.body));
-
-    // Retorna o usuário atualizado
-    return new SuccessResult({
-        msg: 'As Informações foram atualizadas com sucesso',
         data: user,
     }).handle(res);
   }
