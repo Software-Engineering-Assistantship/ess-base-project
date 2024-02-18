@@ -13,7 +13,7 @@ class ClientLoginController {
       const { status, client } = await ClientLoginModel.authenticate(email, password);
       if (status === 'OK') {
         // Geração do token de autenticação
-        const token = jwt.sign({ clientId: client.id }, 'chave_secreta_token', { expiresIn: '18h' });
+        const token = jwt.sign({ clientId: client.id }, process.env.JWT_SECRET as string , { expiresIn: '18h' });
         //console.log(token + token);
         //console.log(req.body);
 
@@ -35,7 +35,7 @@ class ClientLoginController {
 
     try {
       const token = authToken.split(' ')[1]; // Excluindo o prefixo 'Bearer' do token
-      const decodedToken: any = jwt.verify(token, 'chave_secreta_token');
+      const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET as string);
       //req.userId = decodedToken.clientId;
       next();
     } catch (error) {

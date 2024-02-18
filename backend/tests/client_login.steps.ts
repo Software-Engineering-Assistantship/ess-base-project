@@ -5,9 +5,19 @@ import { prismaMock } from '../setupTests';
 import bcrypt from 'bcrypt'; //hash de senhas e comparação
 import { Client } from '@prisma/client';
 import prisma from '../src/database';
+import jwt from 'jsonwebtoken';
 
 const feature = loadFeature('tests/features/client_login.feature');
 const request = supertest(app);
+const User = async (email: string, password: string) => {return{
+  id: 1, // Supondo que o ID seja 1
+  password: await bcrypt.hash(password, 10),
+  name: 'Caio Fernandes', // Nome de exemplo
+  email: email,
+  cpf: '123.456.789-00', // CPF de exemplo
+  address: 'Rua Exemplo, 123', // Endereço de exemplo
+}};
+
 
 defineFeature(feature, (test) => {
   let response: supertest.Response;
@@ -21,14 +31,7 @@ defineFeature(feature, (test) => {
       /^existe um cliente cadastrado com email "(.*)" e com senha "(.*)"$/,
       async (email: string, password: string) => {
         // Simulate client existence in database
-        prismaMock.client.findUnique.mockResolvedValue({
-          id: 1, // Supondo que o ID seja 1
-          password: await bcrypt.hash(password, 10),
-          name: 'Caio Fernandes', // Nome de exemplo
-          email: email,
-          cpf: '123.456.789-00', // CPF de exemplo
-          address: 'Rua Exemplo, 123', // Endereço de exemplo
-        });
+        prismaMock.client.findUnique.mockResolvedValue(await User(email, password));
       }
     );
 
@@ -66,11 +69,24 @@ defineFeature(feature, (test) => {
       }
     );
   
-  const whenRequestIsSentToClientsHome = (when: DefineStepFunction) =>
+  const whenRequestIsSentToClientsHome = (when: DefineStepFunction, situation: string) =>
   when(
     /^uma requisição GET é enviada para "(.*)"$/,
     async (url: string) => {
-      response = await request.get(url);
+      const usuario = await User("email","password");
+      //const client = await prisma.client.findUnique(where: )
+      const validtoken =  jwt.sign({ usuarioId: usuario.id }, process.env.JWT_SECRET as string, { expiresIn: '18h' });
+      const invalidtoken =  jwt.sign({ usuarioId: usuario.id }, "chave_incorreta", { expiresIn: '18h' });
+      if (situation === "válido") {
+      response = await request.get(url).send({ header: 'Bearer ' + validtoken});
+    }
+      if (situation === "inválido") {
+      response = await request.get(url).send({ header: 'Bearer ' + invalidtoken});
+    }
+      if (situation === "não fornecido") {
+      response = await request.get(url).send({ header: ''});
+    }
+      //console.log(response.body);
     })
 
   const whenAuthorizationHeaderIsSent = (when: DefineStepFunction) =>
@@ -109,7 +125,6 @@ defineFeature(feature, (test) => {
         //console.log("O token extraído deve ser uma string vazia.");
       }
     );
-
 
   const whenTokenIsComparedToExpectedValue = (when: DefineStepFunction) =>
     when(
@@ -174,7 +189,7 @@ defineFeature(feature, (test) => {
     then(
       /^o valor do token obtido é igual ao esperado$/,
       async () => {
-        response.status = 200;
+        expect(response.status).toEqual(200);
       }
     );
 
@@ -182,14 +197,14 @@ defineFeature(feature, (test) => {
     then(
       /^o valor do token obtido difere do esperado$/,
       async () => {
-        response.status = 401;
+        expect(response.status).toEqual(401);
       }
     );
 
   const thenLoginSucceedsValidToken = (then: DefineStepFunction) =>
     then(/^login é realizado com sucesso$/, async () => {
       //
-      expect(response.body).toEqual(expect.objectContaining({ error: "Login bem sucedido" }));
+      expect(response.body).toEqual(expect.objectContaining({ message: 'Acesso concedido.'}));
     });
 
   const thenLoginFailsInvalidToken = (then: DefineStepFunction) =>
@@ -230,7 +245,7 @@ defineFeature(feature, (test) => {
   
   test('Token de autorização válido', ({ given, and, when, then }) => {
     givenExpectedToken(given);
-    whenRequestIsSentToClientsHome(when);
+    whenRequestIsSentToClientsHome(when, "válido");
     whenAuthorizationHeaderIsSent(and);
     whenTokenIsExtractedFromHeader(and);
     whenTokenIsComparedToExpectedValue(and);
@@ -241,7 +256,7 @@ defineFeature(feature, (test) => {
 
   test('Token de autorização inválido', ({ given, and, when, then }) => {
     givenExpectedToken(given);
-    whenRequestIsSentToClientsHome(when);
+    whenRequestIsSentToClientsHome(when, "inválido");
     whenAuthorizationHeaderIsSent(and);
     whenTokenIsExtractedFromHeader(and);
     whenTokenIsComparedToExpectedValue(and);
@@ -252,7 +267,7 @@ defineFeature(feature, (test) => {
 
   test('Token de autorização não fornecido', ({ given, and, when, then }) => {
     givenExpectedToken(given);
-    whenRequestIsSentToClientsHome(when);
+    whenRequestIsSentToClientsHome(when, "não fornecido");
     whenAuthorizationHeaderIsNotSent(and);
     whenTokenIsExtractedFromHeaderEmpty(and);
     whenTokenIsComparedToExpectedValue(and);

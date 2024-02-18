@@ -18,7 +18,7 @@ class ClientLoginModel{
     const passwordIsCorrect = await bcrypt.compare(password, client.password);
     if (!passwordIsCorrect)
     {
-      console.log(7);
+      //console.log(7);
       throw new Error('Login e/ou senha incorretos');
     }
 
