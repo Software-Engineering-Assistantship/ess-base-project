@@ -114,11 +114,11 @@ Cenários GUI
         Then eu deveria ver uma mensagem "Você ainda não tem nenhum seguidor"
 
     Cenário 11: Visualização de lista de seguindo vazia 
-    Given estou cadastrado no sistema
-    And estou na minha página de perfil
-    And tenho "0 seguindo"
-    When eu seleciono "seguindor"
-    Then eu deveria ver uma mensagem "Você não segue nenhum usuário"
+        Given estou cadastrado no sistema
+        And estou na minha página de perfil
+        And tenho "0 seguindo"
+        When eu seleciono "seguindor"
+        Then eu deveria ver uma mensagem "Você não segue nenhum usuário"
 
 Cenários de Serviço
 
@@ -155,7 +155,7 @@ Cenários de Serviço
         And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
         And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789"
         When eu peço ao sistema que "Carla Marinho" siga "Guilherme Maranhão"
-        Then sistema retorna a mensagem "mensagem: Seguir usuário com sucesso"
+        Then sistema retorna a mensagem "mensagem: Usuário seguido com sucesso"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
             seguidores "123, 456, 789, 258"
         And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
@@ -199,7 +199,7 @@ Cenários de Serviço
         And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
         And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789, 258"
         When eu peço ao sistema que "Carla Marinho" deixe de seguir "Guilherme Maranhão"
-        Then sistema retorna a mensagem "mensagem: Deixar de seguir usuário com sucesso"
+        Then sistema retorna a mensagem "mensagem: Deixou de seguir usuário com sucesso"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
             seguidores "123, 456, 789"
         And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 

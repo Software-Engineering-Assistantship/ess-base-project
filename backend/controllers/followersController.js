@@ -29,31 +29,35 @@ const user_create = async (req, res) => {
 const user_delete = async (req, res) => {
     let user_page = await User.findById(req.params.id)
 
-    if (user_page.followers.length !== 0){
-        for (const following_id of user_page.followers){
-            let user_following = await User.findByIdAndUpdate(
-                {_id: following_id}, 
-                {$pull : {following: user_page._id}}, 
-                {new: true}
-            )
+    if(!user_page){
+        return res.status(404).json({ error: 'Usuário não encontrado'})
+    } else {
+        if (user_page.followers.length !== 0){
+            for (const following_id of user_page.followers){
+                let user_following = await User.findByIdAndUpdate(
+                    {_id: following_id}, 
+                    {$pull : {following: user_page._id}}, 
+                    {new: true}
+                )
 
+            }
         }
-    }
 
-    if (user_page.following.length !== 0){
-        for (const followed_id of user_page.following){
-            let user_followed = await User.findByIdAndUpdate(
-                {_id: followed_id}, 
-                {$pull : {following: user_page._id}}, 
-                {new: true}
-            )
+        if (user_page.following.length !== 0){
+            for (const followed_id of user_page.following){
+                let user_followed = await User.findByIdAndUpdate(
+                    {_id: followed_id}, 
+                    {$pull : {following: user_page._id}}, 
+                    {new: true}
+                )
 
+            }
         }
+
+        user_page = await User.findByIdAndDelete(req.params.id)
+
+        return res.status(200).json({message: 'Usuário deletado com sucesso'})
     }
-
-    user_page = await User.findByIdAndDelete(req.params.id)
-
-    res.json(user_page)
 }
 
 const user_profile_get = async (req, res) => {
@@ -63,7 +67,7 @@ const user_profile_get = async (req, res) => {
     if(!user_page){
         return res.status(404).json({ error: 'Usuário não encontrado'})
     } else{
-        return res.json(user_page)
+        return res.status(200).json(user_page)
     }
 
 }
@@ -71,13 +75,18 @@ const user_profile_get = async (req, res) => {
 const user_followers_get = async (req, res) => {
 
     const user_page = await User.findById(req.params.id)
+    
+    if(!user_page){
+        return res.status(404).json({ error: 'Usuário não encontrado'})
 
-    const list_followers = user_page.followers
+    } else{
+        const list_followers = user_page.followers
 
-    if (!list_followers.length){
-        return res.status(404).json({ error: 'Usuário não possui seguidores'})
-    } else {
-        return res.status(200).json(list_followers)
+        if (!list_followers.length){
+            return res.status(404).json({ error: 'Usuário não possui seguidores'})
+        } else {
+            return res.status(200).json(list_followers)
+        }
     }
 
 }
@@ -85,12 +94,17 @@ const user_followers_get = async (req, res) => {
 const user_following_get = async (req, res) => {
     const user_page = await User.findById(req.params.id)
 
-    const list_following = user_page.following
+    if(!user_page){
+        return res.status(404).json({ error: 'Usuário não encontrado'})
 
-    if (!list_following.length){
-        return res.status(404).json({ error: 'Usuário não está seguindo outros usuários'})
-    } else {
-        return res.status(200).json(list_following)
+    } else{
+        const list_following = user_page.following
+
+        if (!list_following.length){
+            return res.status(404).json({ error: 'Usuário não está seguindo outros usuários'})
+        } else {
+            return res.status(200).json(list_following)
+        }
     }
 
 }
@@ -99,33 +113,38 @@ const user_follow = async (req, res) => {
     
     const user_page = await User.findById(req.params.id)
 
-    const user_log = await User.findById(req.body) 
+    if(!user_page){
+        return res.status(404).json({ error: 'Usuário não encontrado'})
 
-    try{
+    } else{
+        const user_log = await User.findById(req.body) 
+
+        try{
+            
+            if (!user_page.followers.includes(user_log.id)){
+                let user_followed = await User.findByIdAndUpdate(
+                    {_id: user_page._id}, 
+                    {$push : {followers: user_log.id}}, 
+                    {new: true}
+                )
+
+                let user_following = await User.findByIdAndUpdate(
+                    {_id: user_log._id}, 
+                    {$push: {following: user_page.id}},
+                    {new: true}        
+                ) 
+
+                return res.status(200).json({mensagem: "Usuário seguido com sucesso"})
+            } else {
+
+                return res.status(409).send({ error : "Usuário já segue " + user_page.name})
         
-        if (!user_page.followers.includes(user_log.id)){
-            let user_followed = await User.findByIdAndUpdate(
-                {_id: user_page._id}, 
-                {$push : {followers: user_log.id}}, 
-                {new: true}
-            )
+            }
 
-            let user_following = await User.findByIdAndUpdate(
-                {_id: user_log._id}, 
-                {$push: {following: user_page.id}},
-                {new: true}        
-            ) 
+        } catch (e) {
 
-            return res.status(200).json({user_followed, user_following})
-        } else {
-
-            return res.status(409).send({ error : "Você já segue " + user_page.name})
-    
+            return res.status(500).send({ message: "Erro ao seguir " + user_page.name})
         }
-
-    } catch (e) {
-
-        return res.status(500).send({ message: "Erro ao seguir " + user_page.name})
     }
 
 }
@@ -134,33 +153,38 @@ const user_unfollow = async (req, res) => {
     
     const user_page = await User.findById(req.params.id)
 
-    const user_log = await User.findById(req.body) 
+    if(!user_page){
+        return res.status(404).json({ error: 'Usuário não encontrado'})
 
-    try{
-        
-        if (user_page.followers.includes(user_log.id)){
-            let user_unfollowed = await User.findByIdAndUpdate(
-                {_id: user_page._id}, 
-                {$pull : {followers: user_log.id}}, 
-                {new: true}
-            )
+    } else{
+        const user_log = await User.findById(req.body) 
 
-            let user_unfollowing = await User.findByIdAndUpdate(
-                {_id: user_log._id}, 
-                {$pull: {following: user_page.id}},
-                {new: true}        
-            ) 
-
-            return res.status(200).json({user_unfollowed, user_unfollowing})
-        } else {
+        try{
             
-            return res.status(409).send({ error : "Você não segue " + user_page.name})
-    
+            if (user_page.followers.includes(user_log.id)){
+                let user_unfollowed = await User.findByIdAndUpdate(
+                    {_id: user_page._id}, 
+                    {$pull : {followers: user_log.id}}, 
+                    {new: true}
+                )
+
+                let user_unfollowing = await User.findByIdAndUpdate(
+                    {_id: user_log._id}, 
+                    {$pull: {following: user_page.id}},
+                    {new: true}        
+                ) 
+
+                return res.status(200).json({ mensagem: "Deixou de seguir usuário com sucesso"})
+            } else {
+                
+                return res.status(409).send({ error : "Usuário não segue " + user_page.name})
+        
+            }
+
+        } catch (e) {
+
+            return res.status(500).send({ message: "Erro ao deixar de seguir " + user_page.name})
         }
-
-    } catch (e) {
-
-        return res.status(500).send({ message: "Erro ao deixar de seguir " + user_page.name})
     }
 }
 
