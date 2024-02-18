@@ -6,6 +6,15 @@ class CategoriesController{
     async create(req: Request, res: Response, next: NextFunction){
         try{
             const categorieData = req.body as Categorie;
+            const checkCategorie =await CategoriesRepository.findByName(categorieData.name);
+
+            if (checkCategorie) {
+              return next({
+                  status: 400,
+                  message: 'Categorie already exists',
+              });
+            }
+
             const categorie = await CategoriesRepository.create(categorieData);
 
             res.locals = {
@@ -21,7 +30,7 @@ class CategoriesController{
     async read(req: Request, res: Response, next: NextFunction){
         try{
             const { categorieId } = req.params;
-            const categorie = await CategoriesRepository.findByID(Number(categorieId));
+            const categorie = await CategoriesRepository.findById(Number(categorieId));
 
             if (!categorie){
               return next({
