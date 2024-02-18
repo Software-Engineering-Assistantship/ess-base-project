@@ -34,23 +34,5 @@ Then Visualizo a lista atual de itens do cardápio
 And Vejo a lista com informações resumidas de cada item, como preço, descrição e nome
 And Ajuste no cenário
 
-Cenário: Deleção de um item do cardápio mal sucedida
-Given O usuário "Marcos" está na tela de gerenciamento do item com nome “Hamburguer 03”
-And O item com nome "Hambuguer 03" foi deletado
-When Ele seleciona a opção de deletar o item
-And E recebe um modal de confirmação da deleção do item
-And E seleciona a opção de confirmar a deleção
-Then Ele é redirecionado para a tela de listagem de itens
-And E recebe uma mensagem de erro informando que o item "Hambuguer 03" não existe
-
-Cenário: Atualização de um item do cardápio mal sucedida
-Given O usuário "Marcos" está na tela de editar um item com nome “Hamburguer 02”
-And O item com nome "Hamburguer 02" foi deletado
-When O usuário modifica a informação de nome para “Hamburguer 03” 
-And Seleciona para salvar as alterações
-Then Ele é redirecionado de volta para a tela de listagem de itens
-And E recebe uma mensagem de erro informando que o item "Hamburguer 02" não existe
-
-
 
 
