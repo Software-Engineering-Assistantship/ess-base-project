@@ -11,6 +11,10 @@ const request = supertest(app);
 
 defineFeature(feature, (test) => {
   let response: supertest.Response;
+  let ExpectedAuthToken: string;
+  let AuthHeader: string;
+  let ObtainedToken: string;
+  let IsTokenValueTheExpected: boolean;
 
   const givenClientExists = (given: DefineStepFunction) =>
     given(
@@ -37,6 +41,16 @@ defineFeature(feature, (test) => {
       }
     );
 
+  const givenExpectedToken = (given: DefineStepFunction) =>
+    given(
+      /^o valor esperado para o token de autorização é "(.*)"$/,
+      async (expectedToken: string) => {
+        // Define o valor esperado para o token de autorização
+        // Isso pode ser armazenado em uma variável para uso posterior
+        ExpectedAuthToken = expectedToken;
+      }
+    );
+
   const whenLoginRequestIsSent = (when: DefineStepFunction) =>
     when(
       /^uma requisição POST é enviada para "(.*)" com os dados "(.*)" e "(.*)"$/,
@@ -48,21 +62,63 @@ defineFeature(feature, (test) => {
           where: { email }
         });
         if(client) {
-        console.log(client.email);
-        console.log(client.password);
-        console.log(password);
+        //console.log(client.email);
+        //console.log(client.password);
+        //console.log(password);
           if (password === client.password) {
             response.status = 200;
           }
           else {
-            console.log(1);
+            //console.log(1);
             response.status = 401;
           }
         }
         else {
-          console.log(2);
+          //console.log(2);
           response.status = 401;
         }
+      }
+    );
+  
+  const whenRequestIsSentToClientsHome = (when: DefineStepFunction) =>
+  when(
+    /^uma requisição GET é enviada para "(.*)"$/,
+    async (url: string) => {
+      response = await request.get(url);
+    })
+
+  const whenAuthorizationHeaderIsSent = (when: DefineStepFunction) =>
+    when(
+      /^essa requisição possui um cabeçalho de autorização "(.*)"$/,
+      async (authenticationheader: string) => {
+        AuthHeader = authenticationheader;
+      }
+    )
+
+  const whenAuthorizationHeaderIsNotSent = (when: DefineStepFunction) =>
+    when(
+      /^essa requisição não possui um cabeçalho de autorização$/,
+      async () => {
+        AuthHeader = "";
+      }
+    )
+
+  const whenTokenIsExtractedFromHeader = (when: DefineStepFunction) =>
+    when(
+      /^o valor do token é extraído do cabeçalho como "(.*)"$/,
+      async (token: string) => {
+        // Simulate extracting token from header
+        ObtainedToken = AuthHeader.split(' ')[1];
+        console.log(ObtainedToken, 'deve ser igual a', token);
+      }
+    );
+
+  const whenTokenIsComparedToExpectedValue = (when: DefineStepFunction) =>
+    when(
+      /^esse valor é comparado com o valor esperado para o token$/,
+      async () => {
+        if (ObtainedToken === ExpectedAuthToken) IsTokenValueTheExpected = true;
+        else IsTokenValueTheExpected = false;
       }
     );
 
@@ -114,27 +170,77 @@ defineFeature(feature, (test) => {
       expect(response.body).toEqual(expect.objectContaining({ message: 'Login bem sucedido' }));
     });
 
-  test('Login realizado com sucesso', ({ given, when, then }) => {
+  const thenTokenValueMatchesExpected = (then: DefineStepFunction) =>
+    then(
+      /^o valor do token obtido é igual ao esperado$/,
+      async () => {
+        response.status = 200;
+      }
+    );
+
+  const thenTokenValueDoesNotMatchExpected = (then: DefineStepFunction) =>
+    then(
+      /^o valor do token obtido difere do esperado$/,
+      async () => {
+        response.status = 401;
+      }
+    );
+
+  test('Login realizado com sucesso', ({ given, and, when, then }) => {
     givenClientExists(given);
     whenLoginRequestIsSent(when);
     thenDataIsFoundInDatabase(then);
-    thenStatusIsReturned(then);
-    thenLoginSucceeds(then);
+    thenStatusIsReturned(and);
+    thenLoginSucceeds(and);
   });
 
-  test('Login fracassou, pois a senha está incorreta', ({ given, when, then }) => {
+  test('Login fracassou, pois a senha está incorreta', ({ given, and, when, then }) => {
     givenClientExists(given);
     whenLoginRequestIsSent(when);
     thenPasswordNotFoundInDatabase(then);
-    thenStatusIsReturned(then);
-    thenLoginFails(then);
+    thenStatusIsReturned(and);
+    thenLoginFails(and);
   });
 
-  test('Login fracassou, pois o email não está cadastrado', ({ given, when, then }) => {
+  test('Login fracassou, pois o email não está cadastrado', ({ given, and, when, then }) => {
     givenClientDoesNotExist(given);
     whenLoginRequestIsSent(when);
     thenDataIsNotFoundInDatabase(then);
-    thenStatusIsReturned(then);
-    thenLoginFails(then);
+    thenStatusIsReturned(and);
+    thenLoginFails(and);
+  });
+
+  
+  test('Token de autorização válido', ({ given, and, when, then }) => {
+    givenExpectedToken(given);
+    whenRequestIsSentToClientsHome(when);
+    whenAuthorizationHeaderIsSent;
+    whenTokenIsExtractedFromHeader(and);
+    whenTokenIsComparedToExpectedValue(and);
+    thenTokenValueMatchesExpected(then);
+    thenStatusIsReturned(and);
+    thenLoginSucceeds(and);
+  });
+
+  test('Token de autorização inválido', ({ given, and, when, then }) => {
+    givenExpectedToken(given);
+    whenRequestIsSentToClientsHome(when);
+    whenAuthorizationHeaderIsSent;
+    whenTokenIsExtractedFromHeader(and);
+    whenTokenIsComparedToExpectedValue(and);
+    thenTokenValueDoesNotMatchExpected(then);
+    thenStatusIsReturned(and);
+    thenLoginFails(and);
+  });
+
+  test('Token de autorização não fornecido', ({ given, and, when, then }) => {
+    givenExpectedToken(given);
+    whenRequestIsSentToClientsHome(when);
+    whenAuthorizationHeaderIsNotSent;
+    whenTokenIsExtractedFromHeader(and);
+    whenTokenIsComparedToExpectedValue(and);
+    thenTokenValueDoesNotMatchExpected(then);
+    thenStatusIsReturned(and);
+    thenLoginFails(and);
   });
 });
