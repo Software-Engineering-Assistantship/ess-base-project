@@ -15,7 +15,9 @@ class ClientLoginController {
         // Geração do token de autenticação
         const token = jwt.sign({ clientId: client.id }, 'chave_secreta_token', { expiresIn: '18h' });
 
-        res.status(200).json({ message: 'Login bem sucedido', token });
+        res.status(200).json({ message: 'Login bem sucedido', header:token });
+        //res.locals = { data: {token} };
+        //res.status(200).json({ message: 'Login bem sucedido', token });
       }
     } catch (error: any) {
       res.status(401).json({ error: 'Login falhou' });

@@ -113,6 +113,18 @@ defineFeature(feature, (test) => {
       }
     );
 
+  const whenTokenIsExtractedFromHeaderEmpty = (when: DefineStepFunction) =>
+    when(
+      /^o valor do token é extraído do cabeçalho como uma string vazia$/,
+      async () => {
+
+        ObtainedToken = AuthHeader.split(' ')[1]; // Extrair token do cabeçalho vazio
+        console.log("Valor do token extraído:", ObtainedToken);
+        console.log("O token extraído deve ser uma string vazia.");
+      }
+    );
+
+
   const whenTokenIsComparedToExpectedValue = (when: DefineStepFunction) =>
     when(
       /^esse valor é comparado com o valor esperado para o token$/,
@@ -155,19 +167,20 @@ defineFeature(feature, (test) => {
   const thenStatusIsReturned = (then: DefineStepFunction) =>
     then(/^é retornado status "(.*)"$/, async (status: string) => {
       // Verify if expected status is returned
+      console.log(response.status);
       expect(response.status).toBe(parseInt(status, 10));
-    });
-
-  const thenLoginFails = (then: DefineStepFunction) =>
-    then(/^o login não pode ser concluído$/, async () => {
-      // Verify if login fails
-      expect(response.body).toEqual(expect.objectContaining({ error: "Login falhou" }));
     });
 
   const thenLoginSucceeds = (then: DefineStepFunction) =>
     then(/^o login é realizado com sucesso$/, async () => {
       // Verify if login succeeds
       expect(response.body).toEqual(expect.objectContaining({ message: 'Login bem sucedido' }));
+    });
+
+  const thenLoginFails = (then: DefineStepFunction) =>
+    then(/^o login não pode ser concluído$/, async () => {
+      // Verify if login fails
+      expect(response.body).toEqual(expect.objectContaining({ error: "Login falhou" }));
     });
 
   const thenTokenValueMatchesExpected = (then: DefineStepFunction) =>
@@ -185,6 +198,24 @@ defineFeature(feature, (test) => {
         response.status = 401;
       }
     );
+
+  const thenLoginSucceedsValidToken = (then: DefineStepFunction) =>
+    then(/^login é realizado com sucesso$/, async () => {
+      //
+      expect(response.body).toEqual(expect.objectContaining({ error: "Login bem sucedido" }));
+    });
+
+  const thenLoginFailsInvalidToken = (then: DefineStepFunction) =>
+    then(/^o login não é autorizado$/, async () => {
+      //
+      expect(response.body).toEqual(expect.objectContaining({ error: "Token de autorização inválido" }));
+    });
+
+  const thenLoginFailsTokenNotFound = (then: DefineStepFunction) =>
+    then(/^o login não pode ser concluído$/, async () => {
+      //
+      expect(response.body).toEqual(expect.objectContaining({ error: "Token de autorização não fornecido" }));
+    });
 
   test('Login realizado com sucesso', ({ given, and, when, then }) => {
     givenClientExists(given);
@@ -209,38 +240,37 @@ defineFeature(feature, (test) => {
     thenStatusIsReturned(and);
     thenLoginFails(and);
   });
-
   
   test('Token de autorização válido', ({ given, and, when, then }) => {
     givenExpectedToken(given);
     whenRequestIsSentToClientsHome(when);
-    whenAuthorizationHeaderIsSent;
+    whenAuthorizationHeaderIsSent(and);
     whenTokenIsExtractedFromHeader(and);
     whenTokenIsComparedToExpectedValue(and);
     thenTokenValueMatchesExpected(then);
     thenStatusIsReturned(and);
-    thenLoginSucceeds(and);
+    thenLoginSucceedsValidToken(and);
   });
 
   test('Token de autorização inválido', ({ given, and, when, then }) => {
     givenExpectedToken(given);
     whenRequestIsSentToClientsHome(when);
-    whenAuthorizationHeaderIsSent;
+    whenAuthorizationHeaderIsSent(and);
     whenTokenIsExtractedFromHeader(and);
     whenTokenIsComparedToExpectedValue(and);
     thenTokenValueDoesNotMatchExpected(then);
     thenStatusIsReturned(and);
-    thenLoginFails(and);
+    thenLoginFailsInvalidToken(and);
   });
 
   test('Token de autorização não fornecido', ({ given, and, when, then }) => {
     givenExpectedToken(given);
     whenRequestIsSentToClientsHome(when);
-    whenAuthorizationHeaderIsNotSent;
-    whenTokenIsExtractedFromHeader(and);
+    whenAuthorizationHeaderIsNotSent(and);
+    whenTokenIsExtractedFromHeaderEmpty(and);
     whenTokenIsComparedToExpectedValue(and);
     thenTokenValueDoesNotMatchExpected(then);
     thenStatusIsReturned(and);
-    thenLoginFails(and);
+    thenLoginFailsTokenNotFound(and);
   });
 });
