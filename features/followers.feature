@@ -126,14 +126,14 @@ Cenários de Serviço
         Given o usuário com id "147" está armazenado no sistema
         And tem como lista de seguidores "123, 456, 789"
         When fizer uma requisição "GET" com rota "/users/followers/147"
-        Then o sistema retorna o JSON com a lista "123, 456, 789"
+        Then o sistema retorna um JSON com a lista "123, 456, 789"
         And o status do sistema é "200 OK"
 
     Cenário 13: Pegar lista de seguidores vazia
         Given o usuário com id "258" está armazenado no sistema com a lista de seguidores vazia
         When fizer uma requisição "GET" com rota "/users/followers/258"
         Then o status do sistema é "404 Not Found"
-        And retorna o JSON vazio
+        And retorna um JSON vazio
 
     Cenário 14: Seguir um usuário
         Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "123, 789"
@@ -149,15 +149,15 @@ Cenários de Serviço
     Cenário 15: Pegar lista de usuários que segue
         Given o usuário com o id "258" está armazenado no sistema
         And tem a lista "123, 789, 147" de usuários que segue
-        When fizer uma requesição "GET" com rota "/users/following/258"
+        When fizer uma requisição "GET" com rota "/users/following/258"
         Then o sistema retorna um JSON com a lista "123, 789, 147"
         And o status do sistema é "200 OK"
 
     Cenário 16: Pegar lista de usuários que segue vazia
         Given o usuário com o id "147" está armazenado no sistema com a lista de usuários que segue vazia
-        When fizer uma requesição "GET" com rota "/users/following/147"
+        When fizer uma requisição "GET" com rota "/users/following/147"
         Then o status do sistema é "404 Not Found"
-        And retorna o JSON vazio
+        And retorna um JSON vazio
 
     Cenário 17: Seguir um usuário que já segue
         Given o usuário com o id "258" está armazenado no sistema
