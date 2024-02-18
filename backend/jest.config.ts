@@ -31,9 +31,8 @@ export default {
   // ],
 
   testMatch: [
-    '<rootDir>/src/tests/unit/**/*.test.ts',
-    '<rootDir>/src/tests/integration/**/*.test.ts',
-  ],
+    '<rootDir>/src/tests/**/*.test.ts',
+    ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',

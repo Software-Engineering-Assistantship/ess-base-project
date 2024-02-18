@@ -34,3 +34,14 @@ model Cupom {
   start_date DateTime
   end_date DateTime
 }
+model Item {
+  id Int @id @default(autoincrement())
+  name String
+  price Float
+  category String
+  description String
+  image String
+  colors String
+  sizes String
+  amount Int
+}
