@@ -1,12 +1,14 @@
 import { Router } from 'express';
 
 import UserRouter from './UserRoutes';
+import itensRouter from './ItensRoutes';
 
 import CategoriesRouter from './CategoriesRouter';
 
 const router = Router();
 
 router.use('/user', UserRouter);
+router.use('/itens', itensRouter);
 
 router.use('/categories', CategoriesRouter);
 
