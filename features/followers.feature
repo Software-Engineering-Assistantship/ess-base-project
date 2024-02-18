@@ -145,6 +145,7 @@ Cenários de Serviço
         And a lista de seguidores está vazia
         When eu peço ao sistema a lista de seguidores do usuário com id "258"
         Then o sistema retorna a mensagem "error: 'Usuário não possui seguidores'"
+        And retorna o JSON com os dados de "Carla Marinho"
         And o usuário "Carla Marinho" está armazenado no sistema com o id "258"
         And a lista de seguidores está vazia
         And o status do sistema é "404 Not Found"
@@ -156,6 +157,7 @@ Cenários de Serviço
         And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789"
         When eu peço ao sistema que "Carla Marinho" siga "Guilherme Maranhão"
         Then sistema retorna a mensagem "mensagem: Usuário seguido com sucesso"
+        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
             seguidores "123, 456, 789, 258"
         And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
@@ -176,6 +178,7 @@ Cenários de Serviço
         And a lista de usuários que segue está vazia
         When eu peço ao sistema a lista de usuários que segue do usuário com id "147"
         Then o sistema retorna a mensagem "error: 'Usuário não está seguindo outros usuários'"
+        And retorna o JSON com os dados de "Guilherme Maranhão"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com o id "147"
         And a lista de usuários que segue está vazia
         And o status do sistema é "404 Not Found"
@@ -187,6 +190,7 @@ Cenários de Serviço
         And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789, 258"
         When eu peço ao sistema que "Carla Marinho" siga "Guilherme Maranhão"
         Then sistema retorna a mensagem "error: Usuário já segue Guilherme Maranhão"
+        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
             seguidores "123, 456, 789, 258"
         And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
@@ -200,6 +204,7 @@ Cenários de Serviço
         And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789, 258"
         When eu peço ao sistema que "Carla Marinho" deixe de seguir "Guilherme Maranhão"
         Then sistema retorna a mensagem "mensagem: Deixou de seguir usuário com sucesso"
+        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
             seguidores "123, 456, 789"
         And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 
@@ -213,6 +218,7 @@ Cenários de Serviço
         And a lista de seguidores de "Guilherme Maranhão" é "123, 456, 789"
         When eu peço ao sistema que "Carla Marinho" deixe de seguir "Guilherme Maranhão"
         Then sistema retorna a mensagem "error: Usuário não segue Guilherme Maranhão"
+        And retorna um JSON com os dados de "Carla Marinho" e "Guilherme Maranhão"
         And o usuário "Guilherme Maranhão" está armazenado no sistema com a lista de 
             seguidores "123, 456, 789"
         And o usuário "Carla Marinho" está armazenado no sistema com a lista de usuários 

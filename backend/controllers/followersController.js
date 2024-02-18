@@ -13,10 +13,10 @@ const users_get = async (req, res) => {
 
 const user_create = async (req, res) => {
 
-    const userExist = await User.find({'name' : req.body.name})
+    const user_page = await User.find({'name' : req.body.name})
 
-    if(userExist.length) {
-        res.json({ error: 'Usuário já cadastrado' })
+    if(user_page.length) {
+        res.status(409).json({ error: 'Usuário já cadastrado', data: user_page})
     } else {
         const user = new User(req.body)
 
@@ -83,7 +83,7 @@ const user_followers_get = async (req, res) => {
         const list_followers = user_page.followers
 
         if (!list_followers.length){
-            return res.status(404).json({ error: 'Usuário não possui seguidores'})
+            return res.status(404).json({ error: 'Usuário não possui seguidores', data: user_page})
         } else {
             return res.status(200).json(list_followers)
         }
@@ -101,7 +101,7 @@ const user_following_get = async (req, res) => {
         const list_following = user_page.following
 
         if (!list_following.length){
-            return res.status(404).json({ error: 'Usuário não está seguindo outros usuários'})
+            return res.status(404).json({ error: 'Usuário não está seguindo outros usuários', data: user_page})
         } else {
             return res.status(200).json(list_following)
         }
@@ -134,16 +134,16 @@ const user_follow = async (req, res) => {
                     {new: true}        
                 ) 
 
-                return res.status(200).json({mensagem: "Usuário seguido com sucesso"})
+                return res.status(200).json({mensagem: "Usuário seguido com sucesso", data: {user_log, user_page}})
             } else {
 
-                return res.status(409).send({ error : "Usuário já segue " + user_page.name})
+                return res.status(409).send({ error : "Usuário já segue " + user_page.name, data: {user_log, user_page}})
         
             }
 
         } catch (e) {
 
-            return res.status(500).send({ message: "Erro ao seguir " + user_page.name})
+            return res.status(500).send({ message: "Erro ao seguir " + user_page.name, data: {user_log, user_page}})
         }
     }
 
@@ -174,16 +174,16 @@ const user_unfollow = async (req, res) => {
                     {new: true}        
                 ) 
 
-                return res.status(200).json({ mensagem: "Deixou de seguir usuário com sucesso"})
+                return res.status(200).json({ mensagem: "Deixou de seguir usuário com sucesso", data: {user_log, user_page}})
             } else {
                 
-                return res.status(409).send({ error : "Usuário não segue " + user_page.name})
+                return res.status(409).send({ error : "Usuário não segue " + user_page.name, data: {user_log, user_page}})
         
             }
 
         } catch (e) {
 
-            return res.status(500).send({ message: "Erro ao deixar de seguir " + user_page.name})
+            return res.status(500).send({ message: "Erro ao deixar de seguir " + user_page.name, data: {user_log, user_page}})
         }
     }
 }
