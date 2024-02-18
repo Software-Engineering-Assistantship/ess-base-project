@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 interface ProductProps {
     nome: string;
     id: string;
@@ -6,24 +8,17 @@ interface ProductProps {
     Local: string;
 }
 
-export default class ProductEntity {
+
+export default class ProductModel{
     private _props: ProductProps;
 
-    constructor(nome:string, 
-        id:string, 
-        quantidade:number, 
-        preco:number, 
-        Local:string) {
+    constructor(props: ProductProps) {
 
-        this._props.nome = nome;
-        this._props.id = id;
-        this._props.quantidade = quantidade;
-        this._props.preco = preco;
-        this._props.Local = Local;
-    }
-
-    get props() {
-        return this._props;
+        this._props.nome = props.nome;
+        this._props.id = props.id;
+        this._props.quantidade = props.quantidade;
+        this._props.preco = props.preco;
+        this._props.Local = props.Local;
     }
 
     set setQuantidade(quantidade:number) {
@@ -36,6 +31,10 @@ export default class ProductEntity {
 
         else
             throw new Error('Quantidade insuficiente');
+    }
+
+    get props() {
+        return this._props;
     }
 
     get nome() {
@@ -57,4 +56,4 @@ export default class ProductEntity {
     get Local() {
         return this.props.Local;
     }
-}   
+}
