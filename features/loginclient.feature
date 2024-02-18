@@ -59,7 +59,7 @@ Scenario: Login fracassou pois um dos campos não foi preenchido
 	Given existe um cliente cadastrado com email “cvmfc@cin.ufpe.br” e com senha “777777”
 	When uma requisição POST é enviada para “/clients/login” com os dados “cvmfc@cin.ufpe.br” e “”
 	Then o campo da senha está vazio
-	And é retornado status “204”
+	And é retornado status “400”
 	And o login não pode ser concluído
 
 Scenario: Token de autorização válido
