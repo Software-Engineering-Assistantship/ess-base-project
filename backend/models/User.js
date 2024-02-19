@@ -4,12 +4,14 @@ const Schema = mongoose.Schema
 const UserSchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
 
     email: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
 
     password: {
@@ -33,8 +35,21 @@ const UserSchema = new Schema({
 
     coverImage:{
         type: String
-    }
-    
+ 
+    },
+
+    following:{
+        type: Array
+    },
+
+    followers: {
+        type: Array
+    },
+  
+    reviews: [{
+        type: Schema.Types.ObjectId, 
+        ref:"Review"
+    }]
 })
 
 const User = mongoose.model("User", UserSchema)
