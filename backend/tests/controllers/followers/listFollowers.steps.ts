@@ -30,6 +30,9 @@ defineFeature(feature, test => {
     
     let response: AxiosResponse
     let user1: typeof User
+    let user2: typeof User
+    let user3: typeof User
+    let user4: typeof User
 
     beforeAll(async () => {
         await connectDBForTesting();
@@ -44,6 +47,21 @@ defineFeature(feature, test => {
             let user1 = await User.findByIdAndUpdate(
                 {_id: id1}, 
                 {followers: [id2, id3, id4]}, 
+                {new: true}
+            )
+            let user2 = await User.findByIdAndUpdate(
+                {_id: id2}, 
+                {following: [id1]}, 
+                {new: true}
+            )
+            let user3 = await User.findByIdAndUpdate(
+                {_id: id3}, 
+                {following: [id1]}, 
+                {new: true}
+            )
+            let user4 = await User.findByIdAndUpdate(
+                {_id: id4}, 
+                {following: [id1]}, 
                 {new: true}
             )
         });

@@ -104,16 +104,13 @@ const user_follow = async (req, res) => {
                     //from ../utils/sendEmail
                     const status_email = await sendEmail(subject, message, send_to)
 
-                    const followers = user_followed.followers
-                    const following = user_following.following
-
                     //return status:200 and JSON with followed.id + followers and follower.id + following
                     return res.status(200).json({
                         followed: {"id": user_followed.id,
-                         "followers": followers},
+                         "followers": user_followed.followers},
 
                         follower: {"id": user_following.id, 
-                         "following": following}, 
+                         "following": user_following.following}, 
 
                         status_email: status_email})
                     

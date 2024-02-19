@@ -60,7 +60,7 @@ const deleteUser = async (req, res) =>{
             for (const following_id of deletedUser.followers){
                 let user_following = await User.findByIdAndUpdate(
                     {_id: following_id}, 
-                    {$pull : {following: deletedUser._id}}, 
+                    {$pull : {following: deletedUser.id}}, 
                     {new: true}
                 )
 
@@ -72,7 +72,7 @@ const deleteUser = async (req, res) =>{
             for (const followed_id of deletedUser.following){
                 let user_followed = await User.findByIdAndUpdate(
                     {_id: followed_id}, 
-                    {$pull : {followers: deletedUser._id}}, 
+                    {$pull : {followers: deletedUser.id}}, 
                     {new: true}
                 )
 

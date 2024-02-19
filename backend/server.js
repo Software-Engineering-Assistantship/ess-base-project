@@ -16,7 +16,6 @@ const ForumController = require('./controllers/forumController')
 const UserController = require('./controllers/userController')
 const followersController = require('./controllers/followersController')
 const ReviewController = require('./controllers/reviewController')
-const RatingController = require("../controllers/ratingController")
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
