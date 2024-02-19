@@ -9,15 +9,14 @@ const User = require('./models/User')
 
 // import controllers
 const RestaurantController = require('./controllers/restaurantController')
+const UserController = require('./controllers/userController')
 const followersController = require('./controllers/followersController')
-
-// import routers
-const restaurantRouter = require("./routes/restaurantRouter")
-const followersRouter = require("./routes/followersRouter")
 const ReviewController = require('./controllers/reviewController')
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
+const userRouter = require("./routes/userRouter")
+const followersRouter = require("./routes/followersRouter")
 const reviewRouter = require("./routes/reviewRouter")
 const ratingRouter = require("./routes/ratingRouter")
 
@@ -45,7 +44,7 @@ app.listen(port, () => console.log("Server started on port 3001"))
 
 // Routes
 app.use("/restaurants", restaurantRouter)
+app.use("/users", userRouter)
 app.use("/users", followersRouter)
 app.use("/reviews", reviewRouter)
 app.use("/ratings", ratingRouter)
-

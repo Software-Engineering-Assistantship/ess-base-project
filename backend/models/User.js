@@ -14,6 +14,30 @@ const UserSchema = new Schema({
         trim: true
     },
 
+    password: {
+        type: String,
+        required: true,
+    },
+
+    newPassword: {
+        type: String,
+        required: false
+    },
+
+    bio: {
+        type: String,
+        required: false
+    },
+
+    profileImage:{
+        type: String
+    },
+
+    coverImage:{
+        type: String
+ 
+    },
+
     following:{
         type: Array
     },
@@ -21,6 +45,7 @@ const UserSchema = new Schema({
     followers: {
         type: Array
     },
+  
     reviews: [{
         type: Schema.Types.ObjectId, 
         ref:"Review"
