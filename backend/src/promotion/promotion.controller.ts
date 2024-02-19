@@ -8,8 +8,17 @@ export class PromotionController {
   constructor(private readonly promotionService: PromotionService) {}
 
   @Post()
-  create(@Body() createPromotionDto: CreatePromotionDto) {
-    return this.promotionService.create(createPromotionDto);
+  async create(@Body() createPromotionDto: CreatePromotionDto) {
+
+    const promotionExists = await this.promotionService.findByName(
+      createPromotionDto.name,
+    );
+
+    if (promotionExists) {
+      throw new HttpException('Promotion already exists', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.promotionService.create(createPromotionDto);
   }
 
   @Get()

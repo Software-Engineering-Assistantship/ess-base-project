@@ -31,4 +31,8 @@ export class PromotionService {
   async remove(id: string) {
     return await this.prisma.promotion.delete({ where: { id } });
   }
+
+  async findByName(name: string) {
+    return await this.prisma.promotion.findFirst({ where: { name } });
+  }
 }
