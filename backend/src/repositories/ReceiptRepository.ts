@@ -12,13 +12,13 @@ class ReceiptRepository {
         return receipt;
     }
 
-    async delete(id: number): Promise<Receipt> {
+    async delete(id: number): Promise<Receipt | null>{
         const receipt = await prisma.receipt.delete({ where: { id } });
         return receipt;
     }
 
     async findAll(): Promise<Receipt[]> {
-        const receipts = await prisma.receipts.findMany();
+        const receipts = await prisma.receipt.findMany();
         return receipts;
     }
 }

@@ -8,6 +8,16 @@ class ReceiptController {
         try {
             const receiptData = req.body as Receipt;
 
+            const requiredFields = ['name', 'product', 'amount', 'price'];
+            const missingFields = requiredFields.filter(field => !(field in receiptData));
+
+            if (missingFields.length > 0) {
+                return next({
+                    status: 400,
+                    message: 'Missing required fields',
+                });
+            }
+
             const receipt = await ReceiptRepository.create(receiptData);
 
             res.locals = {

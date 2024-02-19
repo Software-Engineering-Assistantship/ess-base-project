@@ -39,6 +39,6 @@ model Receipt{
   id Int @id @default(autoincrement())
   name String
   product String
-  quantity Int
+  amount Int
   price Float
 }
