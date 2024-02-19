@@ -13,7 +13,7 @@ Scenario: E-mail usado no cadastro já está cadastrado
 
 Scenario: CPF usado no cadastro já está cadastrado
     Given um cliente cadastrado no sistema com os dados id "2" "user1" "123321222", email "cvsj@cin.ufpe.br" endereço "rua1" senha "123456"		
-    When uma requisição POST é enviada para "/clients" com os valores "user2",  "123.321.222-56", email "user_email", senha "123456", endereco "rua1"
+    When uma requisição POST é enviada para "/clients" com os valores "user2",  "123.321.222-56", email "ham4@cin.ufpe.br", senha "123456", endereco "rua1"
     Then é retornada uma mensagem com status "409"
     And retorna uma mensagem "Cliente já cadastrado"
 

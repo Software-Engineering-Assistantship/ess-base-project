@@ -73,7 +73,7 @@ class ClientController {
           body('cpf', "Campo 'CPF' inválido'")
             .exists()
             .notEmpty()
-            .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
+            .matches(/^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").exists().isEmail(),
               ];
       }
@@ -83,7 +83,7 @@ class ClientController {
           body('cpf', "Campo 'CPF' inválido'")
             .optional()
             .notEmpty()
-            .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
+            .matches(/^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").isEmail().optional(),
             ];
       }
