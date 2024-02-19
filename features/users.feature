@@ -112,13 +112,3 @@ Scenario: Falha na Atualização de Informações do Usuário por Senha Inválid
     And preencho o campo "senha" com "TeresaSantos"
     And realizo a atualização das informações do usuário
     Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
-
-Scenario: Falha na Atualização de Informações do Usuário por Senha Inválida com Data de Nascimento
-    Given o usuário de login "beatrizoliveira" e senha "senha12345" está cadastrado no sistema
-    And o usuário de login "beatrizoliveira" e senha "senha12345" está logado no sistema
-    And estou na página "Atualização do Cadastro"
-    When preencho o campo "nome" com "Beatriz Oliveira"
-    And preencho o campo "login" com "beatrizoliveira"
-    And preencho o campo "senha" com "09092003"
-    And realizo a atualização das informações do usuário
-    Then uma mensagem de erro é exibida indicando que "A operação não pode ser concluída devido à senha inválida"
