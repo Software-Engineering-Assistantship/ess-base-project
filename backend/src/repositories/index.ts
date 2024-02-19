@@ -6,5 +6,6 @@ import CuponsRepository from './cuponsRepository';
 import ItensRepository from './itensRepository';
 import DeliveryRepository from './deliveryRepository';
 import RatingRepository from './ratingRepository';
+import CategoriesRepository from './CategoriesRepository';
 
-export { PromotionRepository, CuponsRepository, ItensRepository, DeliveryRepository, RatingRepository};
+export { PromotionRepository, CuponsRepository, CategoriesRepository, ItensRepository, DeliveryRepository, RatingRepository};
