@@ -15,6 +15,7 @@ describe('CategoriesController', () => {
     name: 'Sushi',
     description: 'Great food',
     position: 0,
+    restaurantId: '1',
   };
 
   const mockCategoryResult = {
@@ -22,6 +23,7 @@ describe('CategoriesController', () => {
     name: 'Sushi',
     description: 'Great food',
     position: 0,
+    restaurantId: '1',
     menuItems: [],
   };
 
@@ -85,11 +87,15 @@ describe('CategoriesController', () => {
 
   describe('findAll', () => {
     it('should return array of categories', async () => {
+      const restaurantId = '1';
+
       vi.spyOn(service, 'findAll').mockImplementation(() =>
         Promise.resolve([mockCategoryResult]),
       );
 
-      expect(await controller.findAll()).toStrictEqual([mockCategoryResult]);
+      expect(await controller.findAll(restaurantId)).toStrictEqual([
+        mockCategoryResult,
+      ]);
     });
   });
 
