@@ -1,4 +1,5 @@
 const User = require("../models/User")
+const bcrypt = require('bcrypt');
 
 const getAll = async (req, res) => {
     const users = await User.find()
@@ -20,16 +21,119 @@ getUser = async (req, res) => {
     }
 }
 
-// essa função aqui é temporária, apenas para jogar usuários no bd
-const createUser = async (req, res) => {
+const user_signup = async (req, res) => {
+    let { name, email, password } = req.body;
+    name = name.trim();
+    email = email.trim();
+    password = password.trim();
 
-    const newUser = new User(req.body)
+    // Validação dos campos de entrada
+    if (name == "" || email == "" || password == "") {
+        return res.json({
+            status: "FAILURE",
+            message: "Empty input fields"
+        });
+    }
 
-    newUser.save()
+    if (!/^[a-zA-Z]*$/.test(name)) {
+        return res.json({
+            status: "FAILURE",
+            message: "Invalid name"
+        });
+    }
 
-    res.json(newUser)
+    if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+        return res.json({
+            status: "FAILURE",
+            message: "Invalid email"
+        });
+    }
 
-}
+    if (password.length < 8) {
+        return res.json({
+            status: "FAILURE",
+            message: "Password too short"
+        });
+    }
+
+    try {
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.json({
+                status: "FAILURE",
+                message: "User with this email already exists"
+            });
+        }
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword
+        });
+        await newUser.save();
+
+        return res.json({
+            status: "SUCCESS",
+            message: "Registration successful",
+            data: newUser
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            status: "FAILURE",
+            message: "Internal server error"
+        });
+    }
+};
+
+const user_signin = async (req, res) => {
+    let { email, password } = req.body;
+    email = email.trim();
+    password = password.trim();
+
+    if (email == "" || password == "") {
+        return res.json({
+            status: "FAILURE",
+            message: "Empty credentials supplied"
+        });
+    }
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.json({
+                status: "FAILURE",
+                message: "Invalid credentials"
+            });
+        }
+
+        const hashedPassword = user.password;
+        const match = await bcrypt.compare(password, hashedPassword);
+
+        if (match) {
+            return res.json({
+                status: "SUCCESS",
+                message: "Signin successful",
+                data: user
+            });
+        } else {
+            return res.json({
+                status: "FAILURE",
+                message: "Invalid password"
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            status: "FAILURE",
+            message: "Internal server error"
+        });
+    }
+};
 
 const updateUser = async (req, res) => {
     let user = await User.findById(req.params.id, req.body);
@@ -79,13 +183,15 @@ const updatePassword = async (req, res) => {
         //se a senha existir no body corretamente
         if(req.body.password && req.body.newPassword){
 
+            const match = await bcrypt.compare(req.body.password, user.password);
+
             //caso a senha seja diferente da atual
-            if(user.password !== req.body.password){
+            if(!match){
                 return res.status(400).json({ error: 'Senha atual incorreta.' });
             }
 
             //quando a tentativa de troca é para a mesma senha
-            if(user.password === req.body.newPassword){
+            if(req.body.password === req.body.newPassword){
                 return res.status(400).json({ error: 'A nova senha deve ser diferente da senha atual.' });
             }
 
@@ -95,16 +201,19 @@ const updatePassword = async (req, res) => {
                 return res.status(404).json({ error: 'A senha deve conter no mínimo 1 caracter maiúsculo, 1 caracter minúsculo, 1 simbolo especial e tamanho de pelo menos 8.' });
             }
 
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(req.body.newPassword, saltRounds);
+
             //atualiza a senha
             user = await User.findByIdAndUpdate(
                 req.params.id,
-                { password: req.body.newPassword },
+                { password: hashedPassword},
                 { new: true }
             );
             
-                    res.json({
-                        message: 'Senha alterada com sucesso!'
-                    });
+            res.json({
+                message: 'Senha alterada com sucesso!'
+            });
         }
     }
     else{
@@ -112,4 +221,4 @@ const updatePassword = async (req, res) => {
     }
 }
 
-module.exports = {deleteUser, getAll, getUser, createUser, updateUser, updatePassword};
+module.exports = {user_signup, user_signin, deleteUser, getAll, getUser, updateUser, updatePassword};

@@ -80,3 +80,45 @@ Scenario: Remoção de perfil com falha
     And confirmo minha decisão
     Then uma mensagem de falha aparece
     And sou redirecionado para tela "Avançado"
+
+## Cenários de Serviço
+
+Scenario: Obter usuário por ID
+
+    Given existe um usuário cadastrado com ID “1989” e nome “Guilherme”
+	When uma requisição “GET” foi enviada para /user/1989
+	Then o status de resposta é “200”
+	And a resposta contém ID “1989” e nome “Guilherme”
+
+Scenario: Editar nome de perfil por ID
+
+	Given existe um usuário cadastrado com ID “1259” e nome “Guilhme”
+	When uma requisição “PUT” foi enviada para “/user/edit/1259”
+	And o body da requisição contém o nome “Guilherme”
+	Then o status da resposta é “200”
+	And existe um usuário cadastrado com ID “1259” e nome “Guilherme”
+
+Scenario: Editar senha de perfil com sucesso
+
+	Given existe um usuário cadastrado com ID “1259” e senha “abcD12!3”
+	When uma requisição “PUT” foi enviada para “user/editPass/1259”
+	And o body da requisição contém a senha “dAac$123v”
+	Then o status da resposta é “200”
+	And a resposta é “Senha alterada com sucesso!”
+	And o ID “1259” estará associado com a senha “dAac$123v”
+
+Scenario: Editar senha de perfil com falha
+	
+    Given existe um usuário cadastrado com ID “1259” e senha “abcD12!3”
+	When uma requisição “PUT” foi enviada para “user/editPass/1259”
+	And o body da requisição contém a senha “abcd123e”
+	Then o status da resposta é “404”
+	And a resposta é “A senha deve conter no mínimo 1 caractere maiúsculo, 1  caractere minúsculo, 1 simbolo especial e tamanho de pelo menos 8.” 
+    And o ID “1259” estará associado com a senha  “abcD12!3”
+
+Scenario: Deletar usuário por ID
+
+	Given existe um usuário cadastrado com ID “8192”
+	When uma requisição “DELETE” foi enviada para “user/delete/8192”
+	Then o status da resposta é “200”
+	And o ID “8192” não existirá no banco de dados
