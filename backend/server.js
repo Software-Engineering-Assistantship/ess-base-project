@@ -25,9 +25,14 @@ const app = express()
 app.use(express.json())
 
 // connect to data base
-mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`)
-    .then(() => console.log("Connected to data base"))
-    .catch(console.error)
+const run = async () => {
+    await mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`);
+    console.log("Connected to data base")
+}
+    
+run()
+.catch((err) => console.error(err))
+
 
 // start app 
 app.listen(port, () => console.log("Server started on port 3001"))

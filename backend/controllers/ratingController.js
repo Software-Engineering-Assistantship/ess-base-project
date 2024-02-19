@@ -12,16 +12,15 @@ const rating_post = async (req, res) => {
 //avg of ratings
 const rating_avg = async (req, res) => {
 
-    const average = await Rating.aggregate([{"$match": { "restaurant": req.params.idrest } },
-    {
-        $group:
-           {
-             _id: null,
-             averageRating: { $avg: "$rating" }
-           }
-      }]);
+    const averages = await Rating.aggregate([{$group: {_id: "$restaurant", avg_rating: {$avg: "$rating"}}}]);
 
-    res.json(average)
+    for(avg of averages) {
+        if (avg._id == req.params.idrest) {
+            const average = avg.avg_rating
+            res.json(average)
+            break;
+        }
+    }
 }
 
 const rating_get = async (req, res) => {

@@ -16,7 +16,7 @@ const review_show = async (req, res) => {
 
 //show the page of a given review
 const review_get = async (req, res) => {
-    const review = await Review.findOne({user: req.params.iduser, restaurant: req.params.idrest})
+    const review = await Review.findOne({user: req.params.iduser, restaurant: req.params.idrest});
     
 
     if (!review) {
@@ -30,6 +30,13 @@ const review_get = async (req, res) => {
 
 //create a new review
 const review_post = async (req, res) => {
+    let existReview = await Review.findOne({user: req.params.iduser, restaurant: req.params.idrest})
+
+    if (existReview) {
+        return res.status(400).json({ error: 'Review já existente' })
+    }
+
+
     let rating = await Rating.findOne({user: req.params.iduser, restaurant: req.params.idrest})
     const review = new Review({...req.body})
 
@@ -92,6 +99,8 @@ const review_edit = async (req, res) => {
 const review_delete = async (req, res) => {
     
     let review = await Review.findOneAndDelete({user: req.params.iduser, restaurant: req.params.idrest})
+    let rating = await Rating.findOneAndDelete({user: req.params.iduser, restaurant: req.params.idrest})
+
 
     if (!review) {
         return res.status(404).json({ error: 'Review não encontrado' })
@@ -103,9 +112,13 @@ const review_delete = async (req, res) => {
 
 // show the review from a given user
 const review_user = async (req, res) => {
-    const review = await Review.find({user: req.params.iduser})
+    const reviews = await Review.find({restaurant: req.params.iduser})
 
-    res.json(review)
+    if (reviews.length === 0) {
+        return res.status(404).json({ error: 'Ainda não há reviews para este usuário' })
+    } else {
+        res.json(reviews)
+    }
 }
 
 module.exports = {
