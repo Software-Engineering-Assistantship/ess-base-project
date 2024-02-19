@@ -1,6 +1,7 @@
 import { Controller, Get, Patch, Delete, Post, Param, Body } from '@nestjs/common';
 import { CartService } from '../services/cart.service';
 import { CartDto } from '../dto/cart.dto';
+import { MenuItem } from '../../menu/entities/menu-item';
 import { CreateMenuItemSchema } from '../../menu/dto/create-menu-item';
 import { UpdateMenuItemSchema } from '../../menu/dto/update-menu-item';
 
@@ -12,6 +13,14 @@ export class CartController {
   async getCartById(@Param('id') id: string): Promise<CartDto> { 
     return this.cartService.getCartById(id);
   }
+
+  @Get(':id/items/:itemId')
+  async getCartItemById(
+    @Param('id') id: string,
+    @Param('itemId') itemId: string
+    ): Promise<MenuItem> {
+      return this.cartService.getCartItemById(id, itemId)
+    }
 
   @Patch(':id/items/:itemId')
   async updateCartItem(

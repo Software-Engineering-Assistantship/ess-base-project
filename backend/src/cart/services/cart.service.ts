@@ -43,6 +43,20 @@ export class CartService {
     return cart;
   }
 
+  async getCartItemById(id: string, itemId: string): Promise<MenuItem> {
+    const cart = await this.getCartById(id);
+    const itemIndex = cart.items.findIndex(item => item.id === itemId);
+    if (itemIndex === -1) {
+      throw new NotFoundException('Item not found in cart');
+    }
+
+    return await this.prisma.cart.findUnique({
+      where: {
+        id: itemId,
+      }, 
+    });
+  }
+
   async updateCartItem(id: string, itemId: string, updatedItem: MenuItem): Promise<CartDto> {
     const cart = await this.getCartById(id);
     const itemIndex = cart.items.findIndex(item => item.id === itemId);
@@ -73,7 +87,6 @@ export class CartService {
     }
 
     cart.items.splice(itemIndex, 1);
-
 
   }
 
