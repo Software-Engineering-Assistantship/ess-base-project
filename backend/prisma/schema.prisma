@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64", "linux-musl", "linux-musl-arm64-openssl-1.1.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Menu {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  price       Int
+  quantity    Int
+  categoryId  String?
+  cartId      String?
+  cart        Cart? @relation(fields: [cartId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  orderMenu OrderMenu[]
+
+  @@map("menu")
+}
+
+model Category {
+  id           String      @id @default(uuid())
+  name         String
+  description  String
+  position     Int         @default(autoincrement())
+  menuItems    Menu[]
+  restaurantId String?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+
+  @@map("category")
+}
+
+model Payment {
+  id             String @id @default(uuid())
+  cardNumber     String
+  cardHolderName String
+  expirationDate String
+  cvv            Int
+  type           String
+
+  @@map("payment")
+}
+
+model Cart {
+  id           String @id @default(uuid())
+  items        Menu[]
+  totalSum     Int
+
+  @@map("cart")
+}
+
+model Restaurant {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  address     String
+  closingTime DateTime
+  type        String
+  categories  Category[]
+
+  @@map("restaurant")
+}
+
+model Orders {
+  id        String   @id @default(uuid())
+  comment   String?
+  rate      Float?
+  createdAt DateTime @default(now())
+
+  menuItems OrderMenu[]
+
+  @@map("orders")
+}
+
+model OrderMenu {
+  id      String @id @default(uuid())
+  orderId String
+  menuId  String
+
+  order Orders @relation(fields: [orderId], references: [id])
+  menu  Menu   @relation(fields: [menuId], references: [id])
+
+  @@map("order_menu")
+}
