@@ -5,5 +5,6 @@ import ItensController from './ItensController';
 import DeliveryController from './DeliveryController';
 import RatingController from './RatingController';
 import UserController from './UserController';
+import DeliveryNotificationController from './DeliveryNotificationController';
 
-export { UserController, DeliveryPersonController, PromotionController, CuponsController, ItensController, DeliveryController, RatingController };
+export { UserController, DeliveryPersonController, PromotionController, CuponsController, ItensController, DeliveryController, RatingController, DeliveryNotificationController };
