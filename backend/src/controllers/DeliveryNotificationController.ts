@@ -29,7 +29,13 @@ class DeliveryNotificationController {
         })
       }
 
-      const updatedDelivery = await DeliveryRepository.update(parseInt(deliveryId), { status, deliveryPerson: { connect: { email: deliveryPersonEmail } }});
+      const updatedDelivery = await DeliveryRepository.update(parseInt(deliveryId), { status, deliveryPerson: { connectOrCreate: { where: { email: deliveryPersonEmail } , create: {
+        email: deliveryPersonEmail,
+        cpf: "000.000.000-00",
+        name: "Entregador",
+        phone: "000000000",
+        status: "ativo",
+      } } } });
 
       const notification = await deliveryNotificationRepository.create({
         category: "new-delivery",
@@ -39,7 +45,7 @@ class DeliveryNotificationController {
 
       res.locals = {
         status: 200,
-        data: {notification, delivery: updatedDelivery},
+        data: {notification, deliveryPersonEmail},
       }
 
       return next();
@@ -73,17 +79,23 @@ class DeliveryNotificationController {
         })
       }
 
-      const updatedDelivery = await DeliveryRepository.update(parseInt(deliveryId), { status, deliveryPerson: { connect: { email: deliveryPersonEmail } }});
+      const updatedDelivery = await DeliveryRepository.update(parseInt(deliveryId), { status, deliveryPerson: { connectOrCreate: { where: {email: deliveryPersonEmail}, create: {
+        email: deliveryPersonEmail,
+        cpf: "000.000.000-00",
+        name: "Entregador",
+        phone: "000000000",
+        status: "ativo",
+      } } }});
 
       const notification = await deliveryNotificationRepository.create({
-        category: "delivery-finished",
+        category: "delivery-status",
         title: `Entrega ${updatedDelivery.id} realizada com sucesso`,
         delivery: {connect: {id: updatedDelivery.id}},
       })
 
       res.locals = {
         status: 200,
-        data: {notification, delivery: updatedDelivery},
+        data: {notification, deliveryPersonEmail},
       }
 
       return next();
