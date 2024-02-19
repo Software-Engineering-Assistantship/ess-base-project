@@ -21,6 +21,7 @@ export class CategoriesController {
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     const categoryExists = await this.categoriesService.findByName(
       createCategoryDto.name,
+      createCategoryDto.restaurantId,
     );
 
     if (categoryExists) {
@@ -33,9 +34,9 @@ export class CategoriesController {
     return await this.categoriesService.create(createCategoryDto);
   }
 
-  @Get()
-  async findAll() {
-    return await this.categoriesService.findAll();
+  @Get('/restaurant/:restaurantId')
+  async findAll(@Param('restaurantId') restaurantId: string) {
+    return await this.categoriesService.findAll(restaurantId);
   }
 
   @Get(':id')
