@@ -1,9 +1,9 @@
 const express = require("express")
 const router = express.Router()
 
-const RestaurantController = require("../controllers/restaurantController")
+const SearchController = require("../controllers/searchesController")
 
 // necessary to do the search for content
-router.get('/', RestaurantController.restaurants_get)
+router.get('/search_restaurant', SearchController.search_get)
 
 module.exports = router
