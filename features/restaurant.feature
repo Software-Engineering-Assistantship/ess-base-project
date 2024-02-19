@@ -44,21 +44,33 @@ Cenários de Serviço
 
 Scenario: Criação de um restaurante bem sucedida
 Given O sistema está sendo executado normalmente
-When uma requisição "POST" for enviada a partir da rota /restaurants/ com as informações nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
-Then O status da resposta dever ser "200"
-And o JSON de resposta deve conter nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
+When uma requisição "POST" for enviada a partir da rota /restaurants/ com as informações nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, e horário de fechamento "1970-01-01T00:00:00.000Z"
+Then O status da resposta dever ser "201"
+And o JSON de resposta deve conter nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, e horário de fechamento "1970-01-01T00:00:00.000Z"
+
+Scenario: Criação de um restaurante com nome já existente
+Given O sistema tem a informação de um restaurante guardada com nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
+When uma requisição "POST" for enviada a partir da rota /restaurants/ com as informações nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, e horário de fechamento "1970-01-01T00:00:00.000Z"
+Then O status da resposta dever ser "400"
+And o JSON de resposta deve conter nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, e horário de fechamento "1970-01-01T00:00:00.000Z"
 
 Scenario: Atualização de um restaurante bem sucedida
 Given O sistema tem a informação de um restaurante guardada com nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
-When Uma requisição PATCH for enviada a partir da rota /restaurants/2 com a informação de nome “Carlos Burguer Updated”
+When Uma requisição "PATCH" for enviada a partir da rota "/restaurants/2" com a informação de nome “Jonas Burguer”
 Then O status da resposta deve ser "200"
-And o JSON de resposta deve conter nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
+And o JSON de resposta deve conter nome “Jonas Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
 
-Scenario: Atualização de um restaurante mal sucedida
+Scenario: Atualização de um restaurante com nome já existente
 Given O sistema tem a informação de um restaurante guardada com nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
 When Uma requisição PATCH for enviada a partir da rota /restaurants/2 com a informação de nome “Carlos Burguer”
 Then o status da resposta deve ser "400"
 And uma mensagem com "Restaurant name already taken" deve vir no JSON da resposta
+
+Scenario: Atualização de um restaurante com ID não existente
+Given O sistema não tem a informação de um restaurante com ID "3" guardada
+When Uma requisição PATCH for enviada a partir da rota "/restaurants/3" com a informação de nome “Carlos Burguer”
+Then o status da resposta deve ser "404"
+And uma mensagem com "Restaurant not found" deve vir no JSON da resposta
 
 Scenario: Obter um restaurante por ID
 Given O sistema tem a informação de um restaurante guardada com nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"

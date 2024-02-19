@@ -53,6 +53,11 @@ export class RestaurantsController {
     @Param('id') id: string,
     @Body() restaurant: UpdateRestaurantSchema,
   ) {
+    const idExists = await this.restaurantsService.findOne(id);
+    if (!idExists) {
+      throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
+    }
+
     if (restaurant.name) {
       const nameExists = await this.restaurantsService.findByName(
         restaurant.name,
