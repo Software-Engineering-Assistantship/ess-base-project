@@ -96,3 +96,11 @@ model Rating {
   delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
   deliveryId Int
 }
+
+model Receipt{
+  id Int @id @default(autoincrement())
+  name String
+  product String
+  amount Int
+  price Float
+}

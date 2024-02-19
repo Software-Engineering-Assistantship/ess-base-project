@@ -8,6 +8,8 @@ import ratingRouter from './RatingRoutes';
 import PromotionRouter from './PromotionRoutes';
 import cuponsRouter from './CuponsRoutes';import CategoriesRouter from './CategoriesRoutes';
 
+import ReceiptRouter from './ReceiptRoutes';
+
 const router = Router();
 
 router.use('/user', UserRouter);
@@ -20,6 +22,8 @@ router.use('/promotion', PromotionRouter);
 router.use('/cupons', cuponsRouter);
 
 router.use('/categories', CategoriesRouter);
+
+router.use('/receipt', ReceiptRouter);
 
 router.route('/').get((_, res) => {
   res.status(200).send('🚀 ESS Server running');
