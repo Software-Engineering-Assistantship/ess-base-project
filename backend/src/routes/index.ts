@@ -10,6 +10,8 @@ import cuponsRouter from './CuponsRoutes';import CategoriesRouter from './Catego
 
 import ReceiptRouter from './ReceiptRoutes';
 
+import DeliveryNotificationRouter from './DeliveryNotificationRoutes';
+
 const router = Router();
 
 router.use('/user', UserRouter);
@@ -24,6 +26,7 @@ router.use('/cupons', cuponsRouter);
 router.use('/categories', CategoriesRouter);
 
 router.use('/receipt', ReceiptRouter);
+router.use('/delivery-notifications', DeliveryNotificationRouter);
 
 router.route('/').get((_, res) => {
   res.status(200).send('🚀 ESS Server running');
