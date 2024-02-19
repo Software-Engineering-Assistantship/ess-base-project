@@ -7,7 +7,7 @@ Feature: seguidores/lista de seguidores
     And visualizar os reviews desses usuários
     And achar outros usuários que seguem e são seguidos por esse usuário
 
-Cenários GUI 
+//Cenários GUI 
 
     Scenario: Visualização seguidores na página do usuário
         Given eu estou cadastrado no sistema
@@ -115,7 +115,7 @@ Cenários GUI
         When eu seleciono "seguindor"
         Then eu deveria ver uma mensagem "Você não segue nenhum usuário"
 
-Cenários de Serviço
+//Cenários de Serviço
 
     Scenario: Pegar lista de seguidores
         Given o usuário com id "147" está armazenado no sistema

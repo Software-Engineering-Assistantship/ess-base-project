@@ -213,8 +213,10 @@ const user_follow = async (req, res) => {
                 return res.status(409).json({
                     followed: {"id": user_page.id,
                      "followers": user_page.followers},
+
                     follower: {"id": user_log.id, 
                      "following": user_log.following},
+
                     status_email: "error"})
         
             }
@@ -268,6 +270,7 @@ const user_unfollow = async (req, res) => {
                 return res.status(200).json({
                     unfollowed: {"id": user_unfollowed.id,
                      "followers": user_unfollowed.followers},
+
                     unfollower: {"id": user_unfollowing.id, 
                      "following": user_unfollowing.following}})
 
@@ -278,6 +281,7 @@ const user_unfollow = async (req, res) => {
                 return res.status(409).json({
                     unfollowed: {"id": user_page.id,
                      "followers": user_page.followers},
+                     
                     unfollower: {"id": user_log.id, 
                      "following": user_log.following}})      
             }

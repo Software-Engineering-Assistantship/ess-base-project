@@ -23,11 +23,11 @@ export async function disconnectDBForTesting() {
 }
 
 const User = require('../../../models/User.js');
-const feature = loadFeature('tests/features/followers/seguirUsuario.feature');
+const feature = loadFeature('tests/features/followers/unfollow.feature');
 const SERVER_URL = 'http://localhost:3001'
 
 defineFeature(feature, test => {
-    
+
     let response: AxiosResponse
     let user1: typeof User
     let user2: typeof User
@@ -38,22 +38,22 @@ defineFeature(feature, test => {
       afterAll(async () => {
         await disconnectDBForTesting();
     });
+    
 
-    test('Seguir um usuário', ({ given, when, then }) => {
-        given(/^o usuário com id "(.*)" está armazenado no sistema com a lista de usuários que segue vazia$/, async (id) => {
+    test('Deixar de seguir um usuário', ({ given, when, then }) => {
+        given(/^o usuário com id "(.*)" está armazenado no sistema com a lista de usuários que segue "(.*)"$/, async (id_following, id_followed) => {
             let user1 = await User.findByIdAndUpdate(
-                {_id: id}, 
-                {following: []}, 
+                {_id: id_following}, 
+                {following: [id_followed]}, 
                 {new: true}
             )
         });
 
-        given(/^o usuário com o id "(.*)" está armazenado no sistema com a lista de seguidores vazia e com e-mail "(.*)"$/, 
-        async (id, email) => {
+        given(/^o usuário com o id "(.*)" está armazenado no sistema com a lista de seguidores "(.*)"$/, 
+        async (id_followed, id_following) => {
             let user2 = await User.findByIdAndUpdate(
-                {_id: id}, 
-                {followers: []},
-                {email: email}, 
+                {_id: id_followed}, 
+                {followers: [id_following]}, 
                 {new: true}
             )
         });
@@ -71,18 +71,14 @@ defineFeature(feature, test => {
 
         });
 
-        then(/^retorna um JSON com os dados do usuário com o id "(.*)" que tem a lista de seguidores "(.*)"$/, async (id_followed, list_followers) => {
-            expect(response.data.followed.id).toBe(id_followed)
-            expect(response.data.followed.followers).toEqual(expect.arrayContaining([list_followers]))
+        then(/^retorna um JSON contendo o id "(.*)" e a lista de seguidores vazia$/, async (id_followed) => {
+            expect(response.data.unfollowed.id).toBe(id_followed)
+            expect(response.data.unfollowed.followers).toEqual([])
         });
 
-        then(/^com os dados do usuário com id "(.*)" tem a lista de usuários que segue "(.*)"$/, async (id_follower, list_following) => {
-            expect(response.data.follower.id).toBe(id_follower)
-    expect(response.data.follower.following).toEqual(expect.arrayContaining([list_following]))
-        });
-        
-        then(/^a mensagem enviada para o e-mail cadastrado do usuário seguido tem status "(.*)"$/, async (email_status) => {
-            expect(response.data.status_email).toBe(email_status)
+        then(/^contendo o id "(.*)" e a lista de usuários que segue vazia$/, async (id_follower) => {
+            expect(response.data.unfollower.id).toBe(id_follower)
+            expect(response.data.unfollower.following).toEqual([])
         });
     });
   });
