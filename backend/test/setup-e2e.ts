@@ -31,7 +31,7 @@ beforeAll(async () => {
 
   process.env.DATABASE_URL = databaseUrl;
 
-  execSync('pnpm prisma migrate deploy');
+  execSync('yarn prisma migrate deploy');
 });
 
 afterAll(async () => {
