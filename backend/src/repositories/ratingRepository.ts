@@ -2,7 +2,7 @@ import prisma from '@database';
 import { Prisma, Rating } from '@prisma/client';
 
 class RatingRepository {
-    async create(data: Prisma.RatingCreateInput): Promise<Rating> {
+    async create(data: Rating): Promise<Rating> {
         const rating = await prisma.rating.create({ data });
         return rating;
     }

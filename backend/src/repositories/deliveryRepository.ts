@@ -1,9 +1,13 @@
 import prisma from '@database';
 import { Prisma, Delivery } from '@prisma/client';
 
+interface DeliveryDataDto extends Delivery {
+    ItemsId: number[]
+}
+
 class DeliveryRepository {
-    async create(data: Prisma.DeliveryCreateInput): Promise<Delivery> {
-        const delivery = await prisma.delivery.create({ data });
+    async create({ItemsId, ...data}: DeliveryDataDto): Promise<Delivery> {
+        const delivery = await prisma.delivery.create({ data: {...data, item: {connect: ItemsId.map(id=>({id}))}} });
         return delivery;
     }
 

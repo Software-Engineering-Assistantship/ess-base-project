@@ -2,17 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import { DeliveryRepository } from '../repositories';
 import { Prisma, Delivery } from '@prisma/client';
 
+interface DeliveryDataDto extends Delivery {
+    ItemsId: number[]
+}
+
 class DeliveryController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-        const deliveryData = req.body as Delivery;
+        const deliveryData = req.body as DeliveryDataDto;
         
-        /*if (!deliveryData) {
+        if (deliveryData.ItemsId.length == 0) {
             return next({
                 status: 400,
                 message: 'Missing required item',
             });
-        }*/
+        }
         const delivery = await DeliveryRepository.create(deliveryData);
 
         res.locals = {

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { RatingRepository } from '../repositories';
 import { Prisma, Rating } from '@prisma/client';
+import deliveryRepository from '../repositories/deliveryRepository';
 
 class RatingController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -11,6 +12,14 @@ class RatingController {
             return next({
                 status: 400,
                 message: 'Missing required field',
+            });
+        }
+        const delivery = await deliveryRepository.findById(ratingData.deliveryId)
+
+        if (delivery?.status != 'Entregue') {
+            return next({
+                status: 400,
+                message: 'Rating not allowed yet',
             });
         }
         const rating = await RatingRepository.create(ratingData);
