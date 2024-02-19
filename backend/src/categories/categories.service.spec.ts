@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterAll } from 'vitest';
+import { describe, it, expect, afterAll, beforeAll } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CategoriesService } from './categories.service';
@@ -25,7 +25,7 @@ describe('CategoriesService', () => {
     restaurantId: '1',
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [CategoriesService, PrismaService, RestaurantsService],
     }).compile();
@@ -33,13 +33,9 @@ describe('CategoriesService', () => {
     service = module.get<CategoriesService>(CategoriesService);
     restaurantService = module.get<RestaurantsService>(RestaurantsService);
 
-    if (!firstRestaurantId) {
-      const createdRestaurant = await restaurantService.create(mockRestaurant);
-
-      firstRestaurantId = createdRestaurant.id;
-
-      mockCategory.restaurantId = firstRestaurantId;
-    }
+    const createdRestaurant = await restaurantService.create(mockRestaurant);
+    firstRestaurantId = createdRestaurant.id;
+    mockCategory.restaurantId = firstRestaurantId;
   });
 
   afterAll(async () => {
@@ -53,11 +49,11 @@ describe('CategoriesService', () => {
       expect(createdCategory).toHaveProperty('id');
       expect(createdCategory).toHaveProperty('position');
 
-      expect(createdCategory['id']).toBeTypeOf('string');
-      expect(createdCategory['position']).toBeTypeOf('number');
+      expect(typeof createdCategory.id).toBe('string');
+      expect(typeof createdCategory.position).toBe('number');
 
-      expect(createdCategory['name']).toBe(mockCategory.name);
-      expect(createdCategory['description']).toBe(mockCategory.description);
+      expect(createdCategory.name).toBe(mockCategory.name);
+      expect(createdCategory.description).toBe(mockCategory.description);
 
       firstCategoryId = createdCategory.id;
     });
@@ -65,6 +61,7 @@ describe('CategoriesService', () => {
 
   describe('findAll', () => {
     it('should find all categories', async () => {
+      console.log('here', firstRestaurantId);
       const categories = await service.findAll(firstRestaurantId);
 
       expect(categories).toBeTypeOf('object');
