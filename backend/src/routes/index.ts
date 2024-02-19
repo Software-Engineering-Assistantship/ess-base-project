@@ -5,6 +5,10 @@ import TestController from '../controllers/test.controller';
 import TestService from '../services/test.service';
 import UserController from '../controllers/user.controller'; // Importa o controlador de usuário
 import UserService from '../services/user.service'; // Import the UserService class
+import ProductService from '../services/product.service';
+import CarrinhoService from '../services/carrinho.service';
+import ProductController from '../controllers/product.controller';
+import CarrinhoController from '../controllers/carrinho.controller';
 import PromocaoController from '../controllers/promocao.controler'; // Importa o controlador de promocao
 import PromocaoService from '../services/promocao.service'; // Import the PromocaoService class
 import UserController from '../controllers/user.controller';
@@ -49,6 +53,13 @@ export default (app: Express) => {
 
   app.use(
     prefix,
+    new ProductController(router, di.getService(ProductService)).router
+  )
+
+  app.use(
+    prefix,
+    new CarrinhoController(router, di.getService(CarrinhoService)).router
+  )
     new EmailController(router, di.getService(EmailService)).router
   );
 
