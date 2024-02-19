@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "jest-cucumber": "^3.0.1"
+  },
+  "dependencies": {
+    "supertest": "^6.3.4"
+  }
+}
