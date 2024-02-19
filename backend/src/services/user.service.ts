@@ -28,39 +28,67 @@ class UserService {
         return userModel;
     }
 
+    public async getAllUsers(): Promise<UserModel[]> {
+        const userEntities = await this.userRepository.getAllUsers();
+        const userModel: UserModel[] = [];
+        
+        let i = 0;
+        const totalUsers = userEntities.length;
+    
+        for (i = 0; i < totalUsers; i++) {
+            const user = new UserModel(userEntities[i]);
+            userModel[i] = user;
+        }
+    
+        return userModel;
+    }
+
+    public async updateUser(id: string, data: UserEntity): Promise<UserModel | null> {
+        const userEntity = await this.userRepository.updateUser(id, data);
+        const userModel = userEntity ? new UserModel(userEntity) : null;
+    
+        return userModel;
+    }
+
     public verificarExistente(campo: string, valor: string): boolean {
         let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
         switch (campo) {
             case 'nome':
-                if (usuarioJson.nome === valor) {
-                    return true;
-                }
+                for(let i = 0; i < usuarioJson.length; i++)
+                    if (usuarioJson[i].nome === valor) {
+                        return true;
+                    }
                 break;
             case 'cpf':
-                if (usuarioJson.cpf === valor) {
-                    return true;
-                }
+                for(let i = 0; i < usuarioJson.length; i++)
+                    if (usuarioJson[i].cpf === valor) {
+                        return true;
+                    }
                 break;
             case 'data de nascimento':
-                if (usuarioJson.dataNascimento === valor) {
-                    return true;
-                }
+                for(let i = 0; i < usuarioJson.length; i++)
+                    if (usuarioJson[i].dataNascimento === valor) {
+                        return true;
+                    }
                 break;
-            case 'e-mail':
-                if (usuarioJson.email === valor) {
-                    return true;
-                }
+            case 'email':
+                for(let i = 0; i < usuarioJson.length; i++)
+                    if (usuarioJson[i].email === valor) {
+                        return true;
+                    }
                 break;
             case 'login':
-                if (usuarioJson.login === valor) {
-                    return true;
-                }
+                for(let i = 0; i < usuarioJson.length; i++)
+                    if (usuarioJson[i].login === valor) {
+                        return true;
+                    }
                 break;
             case 'senha':
-                if (usuarioJson.senha === valor) {
-                    return true;
-                }
+                for(let i = 0; i < usuarioJson.length; i++)
+                    if (usuarioJson[i].senha === valor) {
+                        return true;
+                    }
                 break;
         }
 
@@ -127,7 +155,7 @@ class UserService {
         return {dataCompleta, dataAbreviada};
     }
     
-    public validaSenha(userData: UserModel): {result: boolean, erro: string} {
+    public validaUsuario(userData: UserModel): {result: boolean, erro: string} {
         const verifSenha = this.verificaSenha(userData);
         const verifBranco = this.verificaBranco(userData);
         const verificaLogin = this.verificarExistente('login', userData.login);
@@ -201,79 +229,41 @@ class UserService {
         fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
     }
 
-    public atualizaCampo(campo: string, valor: string){
-        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
-
-        switch (campo) {
-            case 'nome':
-                usuarioJson.nome = valor;
-                break;
-            case 'cpf':
-                usuarioJson.cpf = valor;
-                break;
-            case 'data de nascimento':
-                usuarioJson.dataNascimento = valor;
-                break;
-            case 'e-mail':
-                usuarioJson.email = valor;
-                break;
-            case 'login':
-                usuarioJson.login = valor;
-                break;
-            case 'senha':
-                usuarioJson.senha = valor;
-                break;
-            case 'logado':
-                usuarioJson.logado = valor === 'true' ? true : false;
-                break;
-        }
-
-        fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
-    }
-
-    public async updateUser(data: UserEntity): Promise<UserModel | null>{
-        const userEntity = await this.userRepository.updateUser(data);
-        const userModel = userEntity ? new UserModel(userEntity) : null;
-
-        return userModel;
-    }
-
-    public verificaURL(page: string, userId: string | null): string {
-        switch (page) {
-            case 'Cadastro de Usuário':
-                page = '/api/users/cadastro';
-                break;
-            case 'Atualização do Cadastro':
-                page = '/api/users/${userId}';
-                break;
-            default:
-                page = '/api/users';
-                break;
-        } 
-        return page;
-    }
-
     public async trocarStatus(id: string){
         let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-        if (usuarioJson.login === id) {
-            usuarioJson.logado = !usuarioJson.logado;
-            fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
-        }
-        
+        for (let i = 0; i < usuarioJson.length; i++){
+            if (usuarioJson[i].login === id) {
+                usuarioJson[i].logado = !usuarioJson[i].logado;
+                fs.writeFileSync('./src/models/users.json', JSON.stringify(usuarioJson));
+            }  
+        }   
     }
 
     public senhaCorresponde(login: string, senha: string): boolean {
         let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-        
-        if (usuarioJson.login === login) {
-            if (usuarioJson.senha === senha) {
-                return true;
+        for (let i = 0; i < usuarioJson.length; i++){
+            if (usuarioJson[i].login === login) {
+                if (usuarioJson[i].senha === senha) {
+                    return true;
+                }
             }
-        }
-           
+        }  
+
         return false;
+    }
+
+    //acha o id do user
+    public achaId(login: string): string {
+        let usuarioJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+
+        for (let i = 0; i < usuarioJson.length; i++){
+            if (usuarioJson[i].login === login) {
+                return usuarioJson[i].id;
+            }
+        }  
+        return '';
     }
 
 }

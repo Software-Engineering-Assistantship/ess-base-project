@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 class UserModel{
     id: string;
     nome: string;
@@ -51,7 +53,6 @@ class UserModel{
                 this.logado = valor === 'true' ? true : false;
                 break;
         }
-
     }
 }
   
