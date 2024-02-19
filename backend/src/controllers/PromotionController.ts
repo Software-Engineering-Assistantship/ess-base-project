@@ -10,6 +10,13 @@ class PromotionController {
 
             const promotion = await PromotionRepository.create(promotionData);
 
+            if (!promotionData.category || !promotionData.start_date || !promotionData.end_date || !promotionData.discount) {
+                return next({
+                    status: 400,
+                    message: 'Missing required fields',
+                });
+            }
+
             res.locals = {
                 status: 201,
                 message: 'Promotion created',
@@ -63,6 +70,21 @@ class PromotionController {
             res.locals = {
                 status: 200,
                 message: 'Promotion deleted',
+            };
+
+            return next();
+        } catch (error) {
+            return next(error);
+        }
+    }
+
+    async findAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const promotions = await PromotionRepository.findAll();
+
+            res.locals = {
+                status: 200,
+                data: promotions,
             };
 
             return next();

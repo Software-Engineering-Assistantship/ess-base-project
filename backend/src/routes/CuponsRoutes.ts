@@ -18,4 +18,9 @@ cuponsRouter.route('/:cuponsId')
     CuponsController.delete,
   );
 
+cuponsRouter.route('/')
+  .get(
+    CuponsController.findAll,
+  );
+
 export default cuponsRouter;

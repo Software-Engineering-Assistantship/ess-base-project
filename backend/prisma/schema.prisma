@@ -48,18 +48,19 @@ model Address {
 model Promotion {
   id Int @id @default(autoincrement())
   category String
-  discount Float
-  start_date DateTime
-  end_date DateTime
+  discount String
+  start_date String
+  end_date String
 }
 
 model Cupom {
   id Int @id @default(autoincrement())
   name String
-  discount Float
-  start_date DateTime
-  end_date DateTime
+  discount String
+  start_date String
+  end_date String
 }
+
 model Item {
   id Int @id @default(autoincrement())
   name String

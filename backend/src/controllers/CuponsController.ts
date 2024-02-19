@@ -69,6 +69,21 @@ class CuponsController {
             return next(error);
         }
     }
+
+    async findAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const cupons = await CuponsRepository.findAll();
+
+            res.locals = {
+                status: 200,
+                data: cupons,
+            };
+
+            return next();
+        } catch (error) {
+            return next(error);
+        }
+    }
 }
 
 export default new CuponsController();

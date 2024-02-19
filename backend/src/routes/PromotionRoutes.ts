@@ -18,4 +18,9 @@ promotionRouter.route('/:promotionId')
     PromotionController.delete,
   );
 
+promotionRouter.route('/')
+  .get(
+    PromotionController.findAll,
+  );
+
 export default promotionRouter;
