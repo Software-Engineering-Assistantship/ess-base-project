@@ -16,14 +16,17 @@ class CarrinhoController {
     }
 
     private initRoutes() {
+        // cria um carrinho
         this.router.post(`${this.prefix}/create`, (req: Request, res: Response) =>
             this.createCarrinho(req, res)
         );
 
+        // busca um carrinho pelo id
         this.router.get(`${this.prefix}/:id`, (req: Request, res: Response) =>
             this.getCarrinhoById(req, res)
         );
 
+        // adiciona um produto ao carrinho
         this.router.post(`${this.prefix}/addProduct`, (req: Request, res: Response) =>
             this.addProductToCarrinho(req, res)
         );
