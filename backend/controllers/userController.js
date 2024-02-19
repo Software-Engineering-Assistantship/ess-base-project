@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/user'); // Verifique o caminho e a capitalização aqui
+const User = require('../models/user'); 
 
 const user_signup = async (req, res) => {
     let { name, email, password } = req.body;
@@ -7,7 +7,7 @@ const user_signup = async (req, res) => {
     email = email.trim();
     password = password.trim();
 
-    // Validação dos campos de entrada
+    
     if (name == "" || email == "" || password == "") {
         return res.json({
             status: "FAILURE",
@@ -29,12 +29,10 @@ const user_signup = async (req, res) => {
         });
     }
 
-    if (password.length < 8) {
-        return res.json({
-            status: "FAILURE",
-            message: "Password too short"
-        });
-    }
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>?]).{8,}$/;
+            if (!passwordRegex.test(password)) {
+                return res.status(404).json({ error: 'A senha deve conter no mínimo 1 caracter maiúsculo, 1 caracter minúsculo, 1 simbolo especial e tamanho de pelo menos 8.' });
+            }
 
     try {
         const existingUser = await User.findOne({ email });
