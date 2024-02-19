@@ -9,7 +9,7 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Get(':id')
-  async getCartById(@Param('id') id: string): Promise<CartDto> { // Change return type to Promise<CartDto>
+  async getCartById(@Param('id') id: string): Promise<CartDto> { 
     return this.cartService.getCartById(id);
   }
 
@@ -18,7 +18,7 @@ export class CartController {
     @Param('id') id: string,
     @Param('itemId') itemId: string,
     @Body() updatedItem: UpdateMenuItemSchema
-  ): Promise<CartDto> { // Change return type to Promise<CartDto>
+  ): Promise<CartDto> { 
     return this.cartService.updateCartItem(id, itemId, updatedItem);
   }
 
@@ -26,15 +26,15 @@ export class CartController {
   async deleteCartItem(
     @Param('id') id: string,
     @Param('itemId') itemId: string
-  ): Promise<void> { // Change return type to Promise<void>
-    await this.cartService.deleteCartItem(id, itemId); // Await the asynchronous method call
+  ): Promise<void> { 
+    await this.cartService.deleteCartItem(id, itemId);
   }
 
   @Post(':id/items')
   async addItemToCart(
     @Param('id') id: string,
     @Body() newItem: CreateMenuItemSchema
-  ): Promise<CartDto> { // Change return type to Promise<CartDto>
+  ): Promise<CartDto> { 
     return this.cartService.addItemToCart(id, newItem);
   }
 }

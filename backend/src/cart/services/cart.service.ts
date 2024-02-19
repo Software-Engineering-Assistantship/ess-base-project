@@ -8,7 +8,30 @@ import { MenuItem } from '../../menu/entities/menu-item';
 
 @Injectable()
 export class CartService {
-  private carts: CartDto[] = [];
+    private carts: CartDto[] = [
+        {
+          id: '1',
+          items: [
+            {
+              id: '1',
+              title: 'Product 1',
+              description: 'Description of product 1',
+              price: 10.99,
+              quantity: 2,
+              categoryId: '1',
+            },
+            {
+              id: '2',
+              title: 'Product 2',
+              description: 'Description of product 2',
+              price: 15.99,
+              quantity: 1,
+              categoryId: '2',
+            },
+          ],
+          totalSum: 37.97,
+        },
+      ];
 
   constructor(private prisma: PrismaService) {}
 
@@ -52,7 +75,6 @@ export class CartService {
     cart.items.splice(itemIndex, 1);
 
 
-    // this.saveCart(cart);
   }
 
   async addItemToCart(id: string, newItem: CreateMenuItemSchema): Promise<CartDto> {

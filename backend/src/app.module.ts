@@ -5,11 +5,13 @@ import { PaymentModule } from './payment/payment.module';
 import { CategoriesModule } from './categories/categories.module';
 import { RestaurantModule } from './restaurants/restaurant.module';
 import { OrderModule } from './orders/order.module';
+import { CartModule } from './cart/cart.module'
 
 @Module({
   imports: [
     MenuModule,
     OrderModule,
+    CartModule,
     CategoriesModule,
     PaymentModule,
     RestaurantModule,
