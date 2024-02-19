@@ -69,23 +69,23 @@ class ClientController {
     switch (method) {
       case 'insert': {
         return [
-/*          body('name', "Campo 'nome' inválido'").exists().notEmpty(),
+          body('name', "Campo 'nome' inválido'").exists().notEmpty(),
           body('cpf', "Campo 'CPF' inválido'")
             .exists()
             .notEmpty()
             .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").exists().isEmail(),
-        */      ];
+              ];
       }
       case 'update': {
         return [
- /*         body('name', "Campo 'nome' inválido'").notEmpty().optional(),
+          body('name', "Campo 'nome' inválido'").notEmpty().optional(),
           body('cpf', "Campo 'CPF' inválido'")
             .optional()
             .notEmpty()
             .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").isEmail().optional(),
-        */    ];
+            ];
       }
       default:
         return [];

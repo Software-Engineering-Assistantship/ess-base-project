@@ -14,6 +14,8 @@ CREATE TABLE `Restaurant` (
 -- CreateTable
 CREATE TABLE `Item` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+    `price` DOUBLE NOT NULL,
     `restaurantId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
