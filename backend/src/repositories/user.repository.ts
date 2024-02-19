@@ -8,7 +8,14 @@ class UserRepository extends BaseRepository<UserEntity> {
   }
   
   public async createUser(data: UserEntity): Promise<UserEntity> {
-    fs.writeFileSync('./src/models/users.json', JSON.stringify(data));
+    if(!fs.existsSync('./src/models/users.json')){
+      fs.writeFileSync('./src/models/users.json', '[]');
+    }
+    const usersJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+
+    const addData = [...usersJson, data];
+
+    fs.writeFileSync('./src/models/users.json', JSON.stringify(addData));
 
     return data;
   }
@@ -16,25 +23,41 @@ class UserRepository extends BaseRepository<UserEntity> {
   public async getUserById(id: string): Promise<UserEntity | null> {
     const usersJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-      if (usersJson.login === id) {
-        
-        return usersJson;
+      for (let index = 0; index < usersJson.length; index++) {
+        if (usersJson[index].login === id) {
+          return usersJson[index];
+        }
       }
     
-
     return null;
   }
 
-  public async updateUser(data: UserEntity): Promise<UserEntity | null> {
+  public async updateUser(id: string, data: UserEntity): Promise<UserEntity | null> {
     const usersJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
 
-    if (usersJson.login === data.login) {
-      fs.writeFileSync('./src/models/users.json', JSON.stringify(data));
+    // Encontra o usuário no array pelo ID
+    const userToUpdate = usersJson.find((user: UserEntity) => user.id === id);
 
-      return data;
+    if (userToUpdate) {
+        // Atualiza apenas os campos relevantes do usuário
+        userToUpdate.nome = data.nome ?? userToUpdate.nome;
+        userToUpdate.login = data.login ?? userToUpdate.login;
+        userToUpdate.senha = data.senha ?? userToUpdate.senha;
+        userToUpdate.logado = data.logado ?? userToUpdate.logado;
+
+        // Escreve a lista atualizada de usuários de volta no arquivo JSON
+        fs.writeFileSync('./src/models/users.json', JSON.stringify(usersJson));
+
+        return userToUpdate; // Retorna o usuário atualizado
     }
 
-    return null;
+    return null; // Usuário não encontrado
+}
+
+  public async getAllUsers(): Promise<UserEntity[]> {
+    const usersJson = JSON.parse(fs.readFileSync('./src/models/users.json', 'utf-8'));
+
+    return usersJson;
   }
 }
 

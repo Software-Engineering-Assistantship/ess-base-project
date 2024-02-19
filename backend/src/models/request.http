@@ -1,0 +1,20 @@
+POST http://localhost:5001/api/users/cadastro
+Content-Type: application/json
+
+{
+    "nome": "João Silva",
+    "cpf": "123.456.789-01",
+    "dataNascimento": "25/10/2000",
+    "email": "joao@example.com",
+    "login": "joaosilva",
+    "senha": "senha_segura123",
+    "logado": false
+}
+
+###
+PUT http://localhost:5001/api/users/joaosilva
+Content-Type: application/json
+
+{
+    "senha": "nova_senha123"
+}

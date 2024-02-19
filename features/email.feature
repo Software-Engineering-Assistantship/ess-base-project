@@ -24,3 +24,9 @@ Scenario: E-mail não foi enviado
   When Abro aba de e-mails marcados como Spam
   Then Vou para a pasta de Spam
   And Visualizo que o e-mail não foi enviado
+
+Scenario: E-mail foi enviado sem o comprovante 
+  Given Estou na caixa de entrada do e-mail
+  And Visualizo que o e-mail com o comprovante está na caixa de entrada
+  When Abro o e-mail com o comprovante do pedido
+  Then Percebo que o comprovante não está no e-mail
