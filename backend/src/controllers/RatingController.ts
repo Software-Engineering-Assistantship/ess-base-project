@@ -16,7 +16,7 @@ class RatingController {
         }
         const delivery = await deliveryRepository.findById(ratingData.deliveryId)
 
-        if (delivery?.status != 'Entregue') {
+        if (delivery?.status != 'entregue') {
             return next({
                 status: 400,
                 message: 'Rating not allowed yet',
@@ -26,7 +26,7 @@ class RatingController {
 
         res.locals = {
             status: 201,
-            message: 'rating created',
+            message: 'Rating created',
             data: rating,
         };
 
@@ -38,9 +38,9 @@ class RatingController {
 
   async read(req: Request, res: Response, next: NextFunction) {
     try {
-      const { ratingId } = req.params;
+      const { itemId } = req.params;
 
-      const rating = await RatingRepository.findById(Number(ratingId));
+      const rating = await RatingRepository.findById(Number(itemId));
 
       if (!rating) {
         return next({

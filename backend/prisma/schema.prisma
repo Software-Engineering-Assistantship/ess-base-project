@@ -60,8 +60,8 @@ model Rating {
   id         Int      @id @default(autoincrement())
   rating     Int
   comment    String?
-  item       Item     @relation(fields: [itemId], references: [id])
+  item       Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
   itemId     Int
-  delivery   Delivery @relation(fields: [deliveryId], references: [id])
+  delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
   deliveryId Int
 }

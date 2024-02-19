@@ -1,5 +1,5 @@
 import prisma from '@database';
-import { Prisma, Rating } from '@prisma/client';
+import { Prisma, Rating, Item } from '@prisma/client';
 
 class RatingRepository {
     async create(data: Rating): Promise<Rating> {
@@ -7,9 +7,9 @@ class RatingRepository {
         return rating;
     }
 
-    async findById(id: number): Promise<Rating | null> {
-        const rating = await prisma.rating.findUnique({ where: { id } });
-        return rating;
+    async findById(id: number): Promise<Item | null> {
+        const item = await prisma.item.findUnique({ where: { id } });
+        return item;
     }
 
     async update(id: number, data: Prisma.RatingUpdateInput): Promise<Rating> {

@@ -8,7 +8,7 @@ ratingRouter.route('/')
     RatingController.create,
   );
 
-ratingRouter.route('/:ratingId')
+ratingRouter.route('/:itemId')
   .get(
     RatingController.read,
   );
