@@ -13,8 +13,9 @@ export class CategoriesService {
     });
   }
 
-  async findAll() {
+  async findAll(restaurantId: string) {
     return await this.prisma.category.findMany({
+      where: { restaurantId },
       include: { menuItems: true },
     });
   }
@@ -26,8 +27,10 @@ export class CategoriesService {
     });
   }
 
-  async findByName(name: string) {
-    return await this.prisma.category.findFirst({ where: { name } });
+  async findByName(name: string, restaurantId: string) {
+    return await this.prisma.category.findFirst({
+      where: { name, restaurantId },
+    });
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
