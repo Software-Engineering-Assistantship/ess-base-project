@@ -1,8 +1,7 @@
 Feature: Reviews
 
-Scenario: Edição de Review
-        Given O restaurante de ID "65d2cfb1620894960053d364" contém um review feito pelo usuário de ID "25d29514713ed7cc6fcf3635" e título "Coxinha Ruim"
-        When é feita uma requisição PUT para "/reviews/65d2cfb1620894960053d364/25d29514713ed7cc6fcf3635" alterando o título para "Coxinha Mais ou Menos"
+Scenario: Remoção de Review
+        Given O restaurante de ID "65d2cfb1620894960053d364" contém um review feito pelo usuário de ID "05d29514713ed7cc6fcf3635" e título "Coxinha eh"
+        When é feita uma requisição DELETE para "/reviews/65d2cfb1620894960053d364/05d29514713ed7cc6fcf3635"
         Then O status da resposta deve ser "200"
-        And Deve ser retornado um JSON contendo o review "Coxinha Mais ou Menos"
-        backend\tests\features\reviews\review5.feature
+        And O review "Coxinha eh" do restaurante de ID "65d2cfb1620894960053d364" e usuário de ID "05d29514713ed7cc6fcf3635" não deve constar no banco de dados

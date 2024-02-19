@@ -38,35 +38,27 @@ defineFeature(feature, test => {
 
     let response: AxiosResponse
 
-    test('Obter lista de reviews de um restaurante', ({ given, when, then, and }) => {
-        given(/^O restaurante de id "(.*)" contém três reviews "(.*)", "(.*)" e "(.*)"$/, async (idrest, title1, title2, title3) => {
+    test('Edição de Review', ({ given, when, then, and }) => {
+        given(/^O restaurante de ID "(.*)" contém um review feito pelo usuário de ID "(.*)" e título "(.*)"$/, async (idrest, iduser, title) => {
             
-            const rev1 = await Review.findOne({restaurant: idrest, title: title1})
-            const rev2 = await Review.findOne({restaurant: idrest, title: title2})
-            const rev3 = await Review.findOne({restaurant: idrest, title: title3})
+            const review = await Review.findOne({user: iduser, restaurant: idrest, title: title})
 
-            expect(rev1).toEqual(
+            expect(review).toEqual(
               expect.objectContaining({
-                  title: title1
+                  title: title,
               })
           )
-
-          expect(rev2).toEqual(
-              expect.objectContaining({
-                  title: title2
-              })
-          )
-
-          expect(rev3).toEqual(
-              expect.objectContaining({
-                  title: title3
-              })
-          )
+            
             
         })
-        when(/^é feita uma requisição GET para "(.*)"$/, async (path) => {
+        when(/^é feita uma requisição PUT para "(.*)" alterando o título para "(.*)"$/, async (path, title) => {
+            const pathSplit = path.split("/");
+            const iduser = pathSplit[3]
+            const idrest = pathSplit[2]
+            const review  = await Review.findOne({user: iduser, restaurant: idrest})
+
             try {
-                response = await axios.get(`${SERVER_URL}${path}`)
+                response = await axios.put(`${SERVER_URL}${path}`, {title: title, text: review.text, rating: review.rating, user: iduser, restaurant: idrest})
             } catch (error) {
                 console.error('Error during HTTP request:', error)
                 return
@@ -75,24 +67,11 @@ defineFeature(feature, test => {
         then(/^O status da resposta deve ser "(.*)"$/, (status) => {
             expect(String(response.status)).toBe(status)
         })
-        and(/^Deve ser retornado um JSON com os três reviews "(.*)", "(.*)" e "(.*)"$/, async (title1, title2, title3) => { 
-            expect(response.data[0]).toEqual(
+        and(/^Deve ser retornado um JSON contendo o review "(.*)"$/, async (title) => { 
+            expect(response.data).toEqual(
                 expect.objectContaining({
-                    title: title1
+                    title: title
                 })
-            )
-
-            expect(response.data[1]).toEqual(
-                expect.objectContaining({
-                    title: title2
-                })
-            )
-
-            expect(response.data[2]).toEqual(
-                expect.objectContaining({
-                    title: title3
-                })
-            )
+            )})
         });
-    });
 });

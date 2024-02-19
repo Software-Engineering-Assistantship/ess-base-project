@@ -44,10 +44,11 @@ defineFeature(feature, test => {
             
             const review = await Review.findOne({user: iduser, restaurant: idrest, title: title, text: text, rating: rating})
 
-            if (!review) {
-                console.log("Esse restaurante não existe no DB")
-                return
-            }
+            expect(review).toEqual(
+              expect.objectContaining({
+                  title: title
+              })
+          )
             
         })
         when(/^é feita uma requisição GET para "(.*)"$/, async (path) => {

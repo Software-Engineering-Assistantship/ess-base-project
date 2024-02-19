@@ -1,7 +1,7 @@
 Feature: Reviews
 
-Scenario: Obter lista de reviews de um restaurante
-        Given O restaurante de id "65d29514713ed7cc6fcf3635" contém três reviews "Coxinha Boa", "Coxinha ok" e "Coxinha meh"
-        When é feita uma requisição GET para "/reviews/65d29514713ed7cc6fcf3635"
+Scenario: Edição de Review
+        Given O restaurante de ID "65d2cfb1620894960053d364" contém um review feito pelo usuário de ID "25d29514713ed7cc6fcf3635" e título "Coxinha Ruim"
+        When é feita uma requisição PUT para "/reviews/65d2cfb1620894960053d364/25d29514713ed7cc6fcf3635" alterando o título para "Coxinha Mais ou Menos"
         Then O status da resposta deve ser "200"
-        And Deve ser retornado um JSON com os três reviews "Coxinha Boa", "Coxinha ok" e "Coxinha meh"
+        And Deve ser retornado um JSON contendo o review "Coxinha Mais ou Menos"

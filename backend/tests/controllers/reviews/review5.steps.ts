@@ -6,6 +6,7 @@ const Review = require("../../../models/Review")
 const feature = loadFeature('tests/features/reviews/review5.feature');
 
 const SERVER_URL = 'http://localhost:3001'
+
 export async function connectDBForTesting() {
     try {
       const dbUri = "mongodb://localhost:27017";
@@ -35,30 +36,24 @@ defineFeature(feature, test => {
       afterAll(async () => {
         await disconnectDBForTesting();
       });
-
     let response: AxiosResponse
 
-    test('Edição de Review', ({ given, when, then, and }) => {
+    test('Remoção de Review', ({ given, when, then, and }) => {
         given(/^O restaurante de ID "(.*)" contém um review feito pelo usuário de ID "(.*)" e título "(.*)"$/, async (idrest, iduser, title) => {
             
-            const review = await Review.findOne({user: iduser, restaurant: idrest, title: title})
+          const review = await Review.findOne({user: iduser, restaurant: idrest, title: title})
 
-            expect(review).toEqual(
-              expect.objectContaining({
-                  title: title,
-              })
-          )
+          expect(review).toEqual(
+            expect.objectContaining({
+                title: title,
+            })
+        )
             
             
         })
-        when(/^é feita uma requisição PUT para "(.*)" alterando o título para "(.*)"$/, async (path, title) => {
-            const pathSplit = path.split("/");
-            const iduser = pathSplit[3]
-            const idrest = pathSplit[2]
-            const review  = await Review.findOne({user: iduser, restaurant: idrest})
-
+        when(/^é feita uma requisição DELETE para "(.*)"$/, async (path) => {
             try {
-                response = await axios.put(`${SERVER_URL}${path}`, {title: title, text: review.text, rating: review.rating, user: iduser, restaurant: idrest})
+                response = await axios.delete(`${SERVER_URL}${path}`)
             } catch (error) {
                 console.error('Error during HTTP request:', error)
                 return
@@ -67,11 +62,10 @@ defineFeature(feature, test => {
         then(/^O status da resposta deve ser "(.*)"$/, (status) => {
             expect(String(response.status)).toBe(status)
         })
-        and(/^Deve ser retornado um JSON contendo o review "(.*)"$/, async (title) => { 
-            expect(response.data).toEqual(
-                expect.objectContaining({
-                    title: title
-                })
-            )})
+        and(/^O review "(.*)" do restaurante de ID "(.*)" e usuário de ID "(.*)" não deve constar no banco de dados$/, async (title, idrest, iduser) => { 
+          const review = await Review.findOne({user: iduser, restaurant: idrest, title: title})  
+          
+          expect(review).toEqual(null)
         });
+    });
 });
