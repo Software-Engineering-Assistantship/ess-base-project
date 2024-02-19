@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { PaymentService } from './payment.service';
@@ -16,7 +16,7 @@ describe('PaymentService', () => {
     type: 'credit',
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [PaymentService, PrismaService],
     }).compile();
