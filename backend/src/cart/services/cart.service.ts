@@ -45,17 +45,13 @@ export class CartService {
 
   async getCartItemById(id: string, itemId: string): Promise<MenuItem> {
     const cart = await this.getCartById(id);
-    const itemIndex = cart.items.findIndex(item => item.id === itemId);
-    if (itemIndex === -1) {
+    const item = cart.items.find((item) => item.id === itemId);
+    if (!item) {
       throw new NotFoundException('Item not found in cart');
     }
-
-    return await this.prisma.cart.findUnique({
-      where: {
-        id: itemId,
-      }, 
-    });
+    return this.prisma.menu.findUnique({ where: { id: itemId } });
   }
+
 
   async updateCartItem(id: string, itemId: string, updatedItem: MenuItem): Promise<CartDto> {
     const cart = await this.getCartById(id);
