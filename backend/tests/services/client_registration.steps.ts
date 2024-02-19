@@ -1,62 +1,227 @@
-import { loadFeature, defineFeature } from 'jest-cucumber';
-import { prismaMock } from '../../setupTests';
-import OrderItemEntity from '../../src/entities/OrderItemEntity';
-import ClientController from '../../src/controllers/ClientController';
-
-
-import request from 'supertest';
+import { loadFeature, defineFeature, DefineStepFunction } from 'jest-cucumber';
+import supertest from 'supertest';
 import app from '../../src/app';
+import { prismaMock } from '../../setupTests';
+import { Client } from '@prisma/client';
 
-const feature = loadFeature('tests/features/client_registration.feature');
-var response: any;
+const feature = loadFeature(
+  'tests/features/client_registration.feature'
+);
+const request = supertest(app);
+
 defineFeature(feature, (test) => {
+  let response: supertest.Response;
+  let clients: Client[] = [];
 
+  
   afterEach(() => {
-      jest.clearAllMocks();
+    clients = [];
   });
 
-  test('E-mail usado no cadastro já está cadastrado', ({ given, when, then,}) => {
 
-    given(/^um cliente cadastrado no sistema com os dados “user1” “(.*)”, email “cvsj@cin.ufpe.br” e senha “(.*)”$/, async (arg1, arg2) =>{
-        await prismaMock.client.create({
-          data: {
-            name: 'user1',
-            cpf: '12.332.122/2222-11',
-            email: 'cvsj@cin.ufpe.br',
-            endereco : 'rua',
-            password: arg2,
-          },
-        }); 
-      });
- 
-      when(/^uma requisição “POST” é enviada com o campo email "(.*)"$/, async (arg0) => {
-        const route = '/clients'; // Defina a rota correta para onde você está enviando a requisição POST
-        response = await request(app)
-          .post(route)
-          .send({
-            name: 'user2',
-            CPF: '12.332.122/2222-11',
-            email: arg0,
-            endereco: 'rua1',
-            password: '12454',
-          });
-      
-      
-      });
-                  
-      then(/^é retornada uma mensagem com status "(.*)"$/, (statusCode) => {
-        expect(response.status).toBe(statusCode);
-      });
 
-  //    and(/^retorna uma mensagem "(.*)"$/, (message) => {
-   //     fail('E-mail já cadastrado');
-  //    });
+  test('E-mail usado no cadastro já está cadastrado', ({ given, when, then, and }) => {
+    given(/^um cliente cadastrado no sistema com os dados id "(.*)" "(.*)" "(.*)", email "(.*)" endereço "(.*)" senha "(.*)"$/,
+     async (id, name, cpf, email, address, password) => {
+      clients.push({
+        id: parseInt(id, 10),
+        password,
+        name,
+        email,
+        cpf,
+        address,
+      })
+    });
 
-  //    and(/^o cliente "(.*)" não está salvo no banco de dados$/, async (name) => {
-  //      ClientController.index()
-        //const client = await findClientByName(name); // Supondo que você tenha uma função para encontrar um cliente pelo nome no seu banco de dados
-        //expect(client).toBeNull();
-   //   });
+    when(/^uma requisição POST é enviada para "(.*)" com os valores "(.*)",  "(.*)", email "(.*)", senha "(.*)", endereco "(.*)"$/,
+      async (url, name, cpf, email, address, password) => {
+        prismaMock.client.findFirst.mockResolvedValueOnce(clients[0]);
+        prismaMock.client.create.mockResolvedValue({
+          id: clients.length + 1,
+          password,
+          name,
+          email,
+          cpf,
+          address
+        });
+        response = await request.post(url).send({
+          password,
+          name,
+          email,
+          cpf,
+          address
+        });
+    });
+
+    then(/^é retornada uma mensagem com status "(.*)"$/,
+    async (status) => {
+      expect(response.status).toBe(parseInt(status,10));
+    });
+
+    and(/^retorna uma mensagem "(.*)"$/,
+    async (message) => {
+      expect(response.body).toEqual(expect.objectContaining({ message }));
+    });
+
   });
+
+
+
+  test('CPF usado no cadastro já está cadastrado', ({ given, when, then, and }) => {
+    given(/^um cliente cadastrado no sistema com os dados id "(.*)" "(.*)" "(.*)", email "(.*)" endereço "(.*)" senha "(.*)"$/,
+    async (id, name, cpf, email, address, password) => {
+      clients.push({
+        id: parseInt(id, 10),
+        password,
+        name,
+        email,
+        cpf,
+        address,
+      })
+    });
+
+
+    when(/^uma requisição POST é enviada para "(.*)" com os valores "(.*)",  "(.*)", email "(.*)", senha "(.*)", endereco "(.*)"$/,
+    async (url, name, cpf, email, address, password) => {
+      prismaMock.client.findFirst.mockResolvedValueOnce(clients[0]);
+      prismaMock.client.create.mockResolvedValue({
+        id: clients.length + 1,
+        password,
+        name,
+        email,
+        cpf,
+        address
+      });
+      response = await request.post(url).send({
+        password,
+        name,
+        email,
+        cpf,
+        address
+      });
+    });
+
+    then(/^é retornada uma mensagem com status "(.*)"$/,
+    async (status) => {
+      expect(response.status).toBe(parseInt(status,10));
+    });
+
+    and(/^retorna uma mensagem "(.*)"$/,
+    async (message) => {
+      expect(response.body).toEqual(expect.objectContaining({ message }));
+    });
+  });
+
+
+  test('Remover conta', ({ given, when, then, and }) => {
+    given(/^um cliente cadastrado no sistema com os dados id "(.*)" "(.*)" "(.*)", email "(.*)" endereço "(.*)" senha "(.*)"$/,
+    async (Id, name, cpf, email, address, password) => {
+      clients.push({
+        id: parseInt(Id, 10),
+        password,
+        name,
+        email,
+        cpf,
+        address,
+      })
+    });
+
+
+    when(/^uma requisição DELETE é enviada para "(.*)"$/,
+    async (url) => {
+      prismaMock.client.findFirst.mockResolvedValue(clients[0]);
+      prismaMock.client.delete.mockResolvedValue(clients[0]);
+      response = await request.delete(url);
+    });
+
+    then(/^é retornada uma mensagem com o status "(.*)"$/,
+    async (status) => {
+      expect(response.status).toBe(parseInt(status,10));
+    });
+
+
+    and(/^retorna uma mensagem "(.*)"$/,
+    async (message) => {
+      expect(response.body).toEqual(expect.objectContaining({ message }));
+    });
+
+  });
+
+  test('Leitura de cliente do sistema', ({ given, when, then, and }) => {
+    given(/^um cliente cadastrado no sistema com os dados id "(.*)" "(.*)" "(.*)", email "(.*)" endereço "(.*)" senha "(.*)"$/,
+    async (id, name, cpf, email, address, password) => {
+      clients.push({
+        id: parseInt(id, 10),
+        password,
+        name,
+        email,
+        cpf,
+        address,
+      })
+    });
+
+    when(/^uma requisição GET é enviada para "(.*)"$/,
+    async ( url) => {
+      prismaMock.client.findMany.mockResolvedValue(clients);
+      response = await request.get(url);
+    });
+
+    then(/^é retornada uma mensagem com status "(.*)"$/,
+    async (status) => {
+      expect(response.status).toBe(parseInt(status,10));
+    });
+
+    and(/^a mensagem contém "(.*)" "(.*)", email "(.*)" endereço "(.*)"$/,
+    async (arg0, arg1, arg2, arg3) => {
+
+    });
+  });
+
+
+  test('Alteração de e-mail mal sucedida', ({ given, and, when, then }) => {
+    given(/^um cliente cadastrado no sistema com os dados id "(.*)" "(.*)" "(.*)", email "(.*)" endereço "(.*)" senha "(.*)"$/,
+    async (id, name, cpf, email, address, password) => {
+      clients.push({
+        id: parseInt(id, 10),
+        password,
+        name,
+        email,
+        cpf,
+        address,
+      })
+    });
+
+    and(/^um cliente cadastrado no sistema com os dados id "(.*)" "(.*)" "(.*)", email "(.*)" endereço "(.*)" senha "(.*)"$/,
+    async (id, name, cpf, email, address, password) => {
+      clients.push({
+        id: parseInt(id, 10),
+        password,
+        name,
+        email,
+        cpf,
+        address,
+      })
+    });
+
+    when(/^uma requisição PUT é enviada para "(.*)" com os valores "(.*)",  "(.*)", email "(.*)", endereco "(.*)" senha "(.*)"$/,
+    async (url, name, cpf, email, address, password) => {
+      prismaMock.client.findFirst.mockResolvedValueOnce(clients[0]);
+      console.log(email);
+      console.log(clients[0].email);
+      console.log(clients[1].email);
+    response = await request.put(url).send({ email });
+    });
+
+    then(/^é retornada uma mensagem com status "(.*)"$/,
+    async (status) => {
+      expect(response.status).toBe(parseInt(status,10));
+    });
+
+    and(/^retorna uma mensagem "(.*)"$/,
+    async (message) => {
+      expect(response.body).toEqual(expect.objectContaining({ message }));
+    });
+  });
+
 
 });

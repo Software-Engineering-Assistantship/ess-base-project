@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import RestaurantModel from '../models/RestaurantModel';
+
 import DuplicateFieldError from '../errors/DuplicateFieldError';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
@@ -13,11 +13,11 @@ class ClientController {
       return res.status(422).json({ message: errors.array() });
     }
 
-    const { name, CPF, email, address, password } = req.body;
+    const {password, name, cpf, email, address} = req.body;
 
     bcrypt.hash(password, 10).then(async (encryptedPassword) => {
       try {
-        await ClientModel.insert(name, CPF, email, address, encryptedPassword);
+        await ClientModel.insert(encryptedPassword, name, cpf, email, address);
         return res.status(201).json({ message: 'Client created' });
       } catch (error: any) {
         if (error instanceof DuplicateFieldError) {
@@ -55,13 +55,13 @@ class ClientController {
     }
 
     const { id } = req.params;
-    const { name, CPF, email, address, password } = req.body;
+    const { password, name, cpf, email, address } = req.body;
 
     try {
-      await ClientModel.update(Number(id), name, CPF, email, address, password);
+      await ClientModel.update(Number(id), password, name, cpf, email, address);
       return res.status(200).json({ message: 'Client updated' });
     } catch (error: any) {
-      return res.status(500).json({ message: error.message });
+      return res.status(error.statusCode).json({ message: error.message });
     }
   }
 
@@ -69,23 +69,23 @@ class ClientController {
     switch (method) {
       case 'insert': {
         return [
-          body('name', "Campo 'nome' inválido'").exists().notEmpty(),
-          body('CPF', "Campo 'CPF' inválido'")
+/*          body('name', "Campo 'nome' inválido'").exists().notEmpty(),
+          body('cpf', "Campo 'CPF' inválido'")
             .exists()
             .notEmpty()
             .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").exists().isEmail(),
-        ];
+        */      ];
       }
       case 'update': {
         return [
-          body('name', "Campo 'nome' inválido'").notEmpty().optional(),
-          body('CPF', "Campo 'CPF' inválido'")
+ /*         body('name', "Campo 'nome' inválido'").notEmpty().optional(),
+          body('cpf', "Campo 'CPF' inválido'")
             .optional()
             .notEmpty()
             .matches(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/),
           body('email', "Campo 'email' inválido'").isEmail().optional(),
-        ];
+        */    ];
       }
       default:
         return [];

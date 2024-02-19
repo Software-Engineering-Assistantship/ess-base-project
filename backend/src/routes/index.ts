@@ -51,7 +51,7 @@ router.get('/clients/home', ClientLoginController.verifyToken, (req, res) => {
 
 router.post(
   '/clients',
-  ClientController.validate('insert'),
+  //ClientController.validate('insert'),
   ClientController.insert
 );
 
