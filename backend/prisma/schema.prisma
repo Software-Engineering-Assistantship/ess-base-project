@@ -18,6 +18,8 @@ model Menu {
   price       Int
   quantity    Int
   categoryId  String?
+  cartId      String?
+  cart        Cart? @relation(fields: [cartId], references: [id])
   category    Category? @relation(fields: [categoryId], references: [id])
 
   @@map("menu")
@@ -43,18 +45,10 @@ model Payment {
   @@map("payment")
 }
 
-model CartItem {
-  id               String @id @default(uuid())
-  itemInformation  Menu
-  isSelected       Boolean
-
-  @@map("cartitem")
-}
-
 model Cart {
-  id               String @id @default(uuid())
-  items            CartItem[]
-  totalSum         Int
+  id           String @id @default(uuid())
+  items        Menu[]
+  totalSum     Int
 
   @@map("cart")
 }

@@ -21,3 +21,7 @@ Content-Type: application/json
 # @name get-menu-item-by-id
 GET http://localhost:3333/menu/item/31ea0cea-de78-4e69-bc48-dac4d6f1bbd2
 Content-Type: application/json
+
+# @name get-all-cart-items
+GET http://localhost:3333/cart/item/31ea0cea-de78-4e69-bc48-dac4d6f1bbd2
+Content-Type: application/json
