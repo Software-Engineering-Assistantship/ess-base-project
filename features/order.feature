@@ -37,76 +37,52 @@ SERVICE:
 
 Scenario: Recuperar Histórico de Pedidos
 
-Given o sistema possui registros no banco de pedidos para o cliente "UserID123"
-When Eu faço uma requisição GET para a rota “/usuario/UserID123/order”
+Given o sistema possui registros no banco de pedidos
+When Eu faço uma requisição GET para a rota “/order”
 Then Eu recebo uma resposta 200
 And o JSON da resposta deve ser uma lista de pedidos em ordem cronológica
-And a data "01/01/2023" está nos detalhes do pedido
-And o restaurante "Restaurante 1" está nos detalhes do pedido
+And a data "2024-02-18" está nos detalhes do pedido
 And o valor "R$30,00" está nos detalhes do pedido
 
 
+Scenario: Sem Histórico de Pedidos
 
-Scenario: Falha ao Recuperar Histórico de Pedidos para Cliente Inexistente
-
-Given o sistema possui registros no banco de pedidos para o cliente "UserID123"
-When Eu faço uma requisição GET para a rota “/usuario/UserID456/orders”
-Then Eu recebo uma resposta 404
-And a resposta JSON deve conter "Cliente não encontrado"
-
-
-
-Scenario: Cliente sem Histórico de Pedidos
-
-Given o sistema não possui registros de pedidos para o cliente "UserID456"
-When Eu faço uma requisição GET para a rota “/usuario/UserID456/orders”
+Given o sistema não possui registros de pedidos
+When Eu faço uma requisição GET para a rota “/orders”
 Then Eu recebo uma resposta 200
 And o JSON da resposta deve ser uma lista vazia []
 
 
-
 Scenario: Adicionar Avaliação ao Restaurante
 
-Given o sistema possui registros no banco de pedidos para o cliente "UserID123" do restaurante "Restaurante 1" de ID "578"
-When Eu faço uma requisição POST para a rota “/restaurantes/578/avaliacoes”
-And no corpo da requisição eu incluo o cliente "UserID123", o comentário opcional "Ótimo serviço, comida deliciosa!" e classificação "5" estrelas
+Given o sistema possui registros no banco de pedidos
+When Eu faço uma requisição POST para a rota “/order”
+And no corpo da requisição eu incluo o comentário opcional "Ótimo serviço, comida deliciosa!" e classificação "5" estrelas
 Then Eu recebo uma resposta 200
-And a mensagem de confirmação deve ser "Avaliação adicionada com sucesso ao restaurante 'Restaurante 1'"
-
 
 
 Scenario: Falha ao Adicionar Avaliação ao Restaurante
 
-Given o sistema possui registros no banco de pedidos para o cliente "UserID123" do restaurante "Restaurante 1" de ID "578"
-When Eu faço uma requisição POST para a rota “/restaurantes/578/avaliacoes”
-And no corpo da requisição eu incluo o cliente "UserID123", o comentário opcional "Ótimo serviço, comida deliciosa!" e a classificação "5" estrelas
+Given o sistema possui registros no banco de pedidos
+When Eu faço uma requisição POST para a rota “/order”
+And no corpo da requisição eu incluo os itens do pedido e avaliação opcional "Ótimo serviço, comida deliciosa!" e classificação "5"
 And o sistema encontra um erro durante o processamento da requisição
 Then a resposta JSON deve conter "Falha ao adicionar avaliação ao restaurante 'Restaurante 1'"
 
 
-
 Scenario: Visualizar Detalhes de um Pedido do Histórico
 
-Given o sistema possui registros no banco de pedidos para o cliente "UserID123"
-And o sistema possui um pedido com a data "01/01/2023", do restaurante "Restaurante 1" e com o valor "R$30,00" para o cliente "UserID123"
-When Eu faço uma requisição GET para a rota “/usuario/UserID123/pedido/123”
+Given o sistema possui registros no banco de pedidos
+And o sistema possui um pedido com a data "2024-02-18" e as informações específicas de cada produto do pedido
+When Eu faço uma requisição GET para a rota “/order/:id”
 Then Eu recebo uma resposta 200
 And o JSON da resposta deve ser uma lista de itens e detalhes do pedido
-And o item com nome "Item 1" e valor "R$10,00" está na lista
-And o item com nome "Item 2" e valor "R$15,00" está na lista
-And o frete de valor "R$5,00" está nos detalhes do pedido
-And o total pago de valor "R$30,00" está nos detalhes do pedido
-And o restaurante de nome "Restaurante 1" e endereço "Av Zuzinha, 2" está nos detalhes do pedido
-And o endereço "Av Caxangá, 34" do cliente "UserID123" está nos detalhes do pedido
-And o horário do pedido "18:30" e o horário da entrega "19:15" estão nos detalhes do pedido
-
 
 
 Scenario: Falha ao Visualizar Detalhes de um Pedido do Histórico
 
-Given o sistema possui registros no banco de pedidos para o cliente "UserID123"
-And o sistema possui um pedido com a data "01/01/2023", do restaurante "Restaurante 1" e com o valor "R$30,00" para o cliente "UserID123"
-When Eu faço uma requisição GET para a rota “/usuario/UserID123/pedido/456”
+Given o sistema possui registros no banco de pedidos
+And o sistema possui um pedido com a data "2024-02-18"
+When Eu faço uma requisição GET para a rota “/order/:id”
 Then Eu recebo uma resposta 404
 And a resposta JSON deve conter "Pedido não encontrado"
-
