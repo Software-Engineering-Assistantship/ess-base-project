@@ -7,5 +7,6 @@ import RatingController from './RatingController';
 import UserController from './UserController';
 import CategoriesController from './CategoriesController';
 import ReceiptController from './ReceiptController';
+import DeliveryNotificationController from './DeliveryNotificationController';
 
-export { UserController, DeliveryPersonController, PromotionController, CuponsController, CategoriesController, ItensController, DeliveryController, RatingController, ReceiptController };
+export { UserController, DeliveryPersonController, PromotionController, CuponsController, CategoriesController, ItensController, DeliveryController, RatingController, ReceiptController, DeliveryNotificationController };

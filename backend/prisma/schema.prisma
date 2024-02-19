@@ -20,14 +20,15 @@ model User {
 }
 
 model DeliveryPerson {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
-  cpf       String    @unique
+  cpf       String     @unique
   phone     String
-  email     String    @unique
+  email     String     @unique
   status    String
   address   Address[]
-  createdAt DateTime  @default(now())
+  createdAt DateTime   @default(now())
+  Delivery  Delivery[]
 }
 
 model Address {
@@ -45,20 +46,21 @@ model Address {
 
   DeliveryPerson DeliveryPerson @relation(fields: [userId], references: [cpf], onDelete: Cascade)
 }
+
 model Promotion {
-  id Int @id @default(autoincrement())
-  category String
-  discount String
+  id         Int    @id @default(autoincrement())
+  category   String
+  discount   String
   start_date String
-  end_date String
+  end_date   String
 }
 
 model Cupom {
-  id Int @id @default(autoincrement())
-  name String
-  discount String
+  id         Int    @id @default(autoincrement())
+  name       String
+  discount   String
   start_date String
-  end_date String
+  end_date   String
 }
 
 model Categorie {
@@ -81,10 +83,13 @@ model Item {
 }
 
 model Delivery {
-  id     Int      @id @default(autoincrement())
-  status String   @default("pendente")
-  item   Item[]
-  Rating Rating[]
+  id               Int             @id @default(autoincrement())
+  status           String          @default("pendente")
+  deliveryPersonId String?
+  item             Item[]
+  Rating           Rating[]
+  Notification     Notification[]
+  deliveryPerson   DeliveryPerson? @relation(fields: [deliveryPersonId], references: [id], onDelete: SetNull)
 }
 
 model Rating {
@@ -95,6 +100,14 @@ model Rating {
   itemId     Int
   delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
   deliveryId Int
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  category   String
+  title      String
+  deliveryId Int
+  delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
 }
 
 model Receipt{
