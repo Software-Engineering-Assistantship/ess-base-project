@@ -32,3 +32,5 @@ class ProductController {
         }).handle(res);
     }
 }
+
+export default ProductController;

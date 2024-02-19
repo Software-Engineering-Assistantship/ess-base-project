@@ -2,34 +2,129 @@ import {loadFeature, defineFeature} from 'jest-cucumber';
 import supertest from 'supertest';
 import app from '../../src/app';
 import {di} from '../../src/di';
-import TestRepository from '../../src/repositories/test.repository';
+import ProductService from '../../src/services/product.service';
+import CarrinhoModel from '../../src/models/carrinho.model';
+import UserModel from '../../src/models/user.model';
+import ProductModel from '../../src/models/product.model';
+import UserService from '../../src/services/user.service';
+import UserRepository from '../../src/repositories/user.repository';
+import ProductRepository from '../../src/repositories/product.repository';
+import CarrinhoRepository from '../../src/repositories/carrinho.repository';
+import CarrinhoService from '../../src/services/carrinho.service';
 
 const feature = loadFeature('tests/features/carrinho.feature');
 const request = supertest(app);
 
 defineFeature(feature, (test) => {
-    let mockTestRepository: TestRepository;
+    let mockUserRepository: UserRepository;
+    let mockProductRepository: ProductRepository;
+    let mockCarrinhoRepository: CarrinhoRepository;
     let response: supertest.Response;
+    let userService: UserService;
+    let productService: ProductService;
+    let carrinhoService: CarrinhoService;
 
-    beforeEach(() => {
-        mockTestRepository = di.getRepository<TestRepository>(TestRepository);
+
+    const carrinhoData = new CarrinhoModel({
+        id: "123",
+        id_produtos: [],
+        quantidade: 0,
+        data_criacao: new Date(),
+        data_atualizacao: new Date()
+    });
+    const productData = new ProductModel({
+        nome: 'Piada Mortal',
+        id: '12346',
+        quantidade: 7,
+        preco: 20.00,
+        local: 'São Paulo',
+    });
+    const userData = new UserModel({
+        nome: 'Teste',
+        cpf: '123.456.789-01',
+        dataNascimento: '25/10/1999',
+        email: '',
+        login: 'teste',
+        senha: 'senhateste',
+        logado: false
     });
 
-    test('Adicionar produto ao carrinho', ({given, when, then, and}) => {
-        given('que o usuário tem um carrinho vazio', async () => {
-        // Nothing to do here
+    beforeEach(() => {
+        mockUserRepository = di.getRepository<UserRepository>(UserRepository);
+        mockProductRepository = di.getRepository<ProductRepository>(ProductRepository);
+        mockCarrinhoRepository = di.getRepository<CarrinhoRepository>(CarrinhoRepository);
+
+        const user = new UserModel({
+            nome: 'Teste',
+            cpf: '123.456.789-01',
+            dataNascimento: '25/10/1999',
+            email: '',
+            login: 'teste',
+            senha: 'senhateste',
+            logado: false
+        })
+        const userCart = new CarrinhoModel({
+            id: "123",
+            id_produtos: [],
+            quantidade: 0,
+            data_criacao: new Date(),
+            data_atualizacao: new Date()
+        })
+        const product = new ProductModel({
+            nome: 'Piada Mortal',
+            id: '123.456.789-01',
+            quantidade: 7,
+            preco: 20.00,
+            local: 'São Paulo',
+        })
+
+        userService = new UserService(mockUserRepository);
+        userService.createUser(user);
+        productService = new ProductService(mockProductRepository);
+        productService.createProduct(product);
+        carrinhoService = new CarrinhoService(mockCarrinhoRepository);
+        carrinhoService.createCarrinho(userCart);
+    });
+
+    test('Adicionar item ao carrinho', ({given, when, then, and}) => {
+
+        given(/^Estou na página do item de id "(.*)" cujo item está presente no sistema com os campos$/, async (id) => {
+            productData.id = id;
+
+            // criando carrinho
+            const rotaCarrinho = '/api/carrinho/create';
+            response = await request.post(rotaCarrinho).send(carrinhoData);
+            carrinhoService.createCarrinho(carrinhoData);
+            console.log(response.body);
+            console.log(response.status);
+        });
+
+        when('eu o adiciono ao carrinho', async () => {
+            // const carrinho = await carrinhoService.getCarrinhoById(userData.cpf);
+            // if (carrinho) {
+            //     carrinhoService.addProductToCarrinho(carrinho.id, productData.id, productData.preco);
+            // }
+
+            const rota = '/api/carrinho/addProduct';
+            response = await request.post(rota).send(
+                {
+                    id_carrinho: carrinhoData.id,
+                    id_product: productData.id,
+                    valor: productData.preco
+                }
+            );
+            console.log(response.body);
+            console.log(response.status);
         });
     
-        when('o usuário adicionar um produto ao carrinho', async () => {
-        // Nothing to do here
-        });
-    
-        then('o carrinho deve conter um produto', async () => {
-        // Nothing to do here
-        });
-    
-        and('o carrinho deve conter um total de 1 produto', async () => {
-        // Nothing to do here
+        then('apenas o item adicionado estará presente na lista do carrinho', async () => {
+            // const carrinho = await carrinhoService.getCarrinhoById(userData.cpf);
+            // console.log(carrinho);
+            // expect(carrinho?.id_produtos).toContain(productData.id); // Verifica se o produto foi adicionado ao carrinho
+            
+            console.log(response.body.data);
+            expect(response.body.data).toBeDefined();
+            expect(response.body.data.id_produtos).toContain(productData.id);
         });
     });
     });

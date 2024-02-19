@@ -5,7 +5,7 @@ export default class ProductModel{
         id: string
         quantidade: number;
         preco: number;
-        Local: string;
+        local: string;
 
 
     constructor( data : {
@@ -13,13 +13,13 @@ export default class ProductModel{
         id: string, 
         quantidade: number, 
         preco: number, 
-        Local: string}) {
+        local: string}) {
 
         this.nome = data.nome;
         this.id = data.id;
         this.quantidade = data.quantidade;
         this.preco = data.preco;
-        this.Local = data.Local;
+        this.local = data.local;
     }
 
     set setQuantidade(quantidade:number) {
@@ -51,6 +51,6 @@ export default class ProductModel{
     }
 
     get getLocal() {
-        return this.Local;
+        return this.local;
     }
 }

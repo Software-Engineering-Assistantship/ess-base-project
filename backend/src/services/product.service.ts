@@ -1,6 +1,6 @@
 import ProductEntity from "../entities/product.entity";
 import ProductModel from "../models/product.model";
-import { ProductRepository } from "../repositories/product.repository";
+import ProductRepository from "../repositories/product.repository";
 import { HttpNotFoundError } from "../utils/errors/http.error";
 
 class ProductServiceMessageCode {
@@ -12,6 +12,13 @@ class ProductService {
 
   constructor(productRepository: ProductRepository) {
     this.productRepository = productRepository;
+    }
+
+    public async createProduct(data: ProductEntity): Promise<ProductModel> {
+        const productEntity = await this.productRepository.createProduct(data);
+        const productModel = new ProductModel(productEntity);
+
+        return productModel;
     }
 
     public async getAllProducts(): Promise<ProductModel[]> {
@@ -37,11 +44,12 @@ class ProductService {
         return productModel;
     }
 
-    public async createProduct(data: ProductEntity): Promise<ProductModel> {
-        const productEntity = await this.productRepository.createProduct(data);
-        const productModel = new ProductModel(productEntity);
-
-        return productModel;
+    public static verificaURL(page: string, id: string): string {
+        if (page === 'produto') {
+            return `/produto/${id}`;
+        } else {
+            return `/carrinho/${id}`;
+        }
     }
 }
 
