@@ -20,17 +20,17 @@ model Menu {
   categoryId  String?
   category    Category? @relation(fields: [categoryId], references: [id])
 
+  orderMenu OrderMenu[]
+
   @@map("menu")
 }
 
 model Category {
-  id           String      @id @default(uuid())
-  name         String
-  description  String
-  position     Int         @default(autoincrement())
-  menuItems    Menu[]
-  restaurantId String?
-  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
+  id          String @id @default(uuid())
+  name        String
+  description String
+  position    Int    @default(autoincrement())
+  menuItems   Menu[]
 
   @@map("category")
 }
@@ -46,13 +46,24 @@ model Payment {
   @@map("payment")
 }
 
-model Restaurant {
-  id          String     @id @default(uuid())
-  name        String     @unique
-  address     String
-  closingTime DateTime
-  type        String
-  categories  Category[]
+model Orders {
+  id        String   @id @default(uuid())
+  comment   String?
+  rate      Float?
+  createdAt DateTime @default(now())
 
-  @@map("restaurant")
+  menuItems OrderMenu[]
+
+  @@map("orders")
+}
+
+model OrderMenu {
+  id      String @id @default(uuid())
+  orderId String
+  menuId  String
+
+  order Orders @relation(fields: [orderId], references: [id])
+  menu  Menu   @relation(fields: [menuId], references: [id])
+
+  @@map("order_menu")
 }

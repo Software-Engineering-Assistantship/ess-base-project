@@ -6,7 +6,4 @@ export class CreateCategoryDto {
 
   @IsNotEmpty()
   description: string;
-
-  @IsNotEmpty()
-  restaurantId: string;
 }
