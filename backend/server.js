@@ -5,6 +5,8 @@ require("dotenv").config()
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
+const searchesRouter = require("./routes/searchesRouter")
+const tendenciesRouter = require("./routes/tendenciesRouter")
 const forumRouter = require("./routes/forumRouter")
 const userRouter = require("./routes/userRouter")
 const followersRouter = require("./routes/followersRouter")
@@ -36,6 +38,8 @@ app.listen(port, () => console.log("Server started on port 3001"))
 
 // Routes
 app.use("/restaurants", restaurantRouter)
+app.use("/searches", searchesRouter)
+app.use("/tendencies", tendenciesRouter)
 app.use("/forum", forumRouter)
 app.use("/users", userRouter)
 app.use("/users", followersRouter)
