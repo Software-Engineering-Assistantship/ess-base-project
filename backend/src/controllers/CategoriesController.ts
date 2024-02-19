@@ -29,8 +29,8 @@ class CategoriesController{
 
     async read(req: Request, res: Response, next: NextFunction){
         try{
-            const { categorieId } = req.params;
-            const categorie = await CategoriesRepository.findById(Number(categorieId));
+            const { id } = req.params;
+            const categorie = await CategoriesRepository.findById(Number(id));
 
             if (!categorie){
               return next({
@@ -48,12 +48,32 @@ class CategoriesController{
         }catch(e) {return next(e)}
     }
 
+    async readAll(req: Request, res: Response, next: NextFunction){
+      try{
+          const categorie = await CategoriesRepository.findAll();
+
+          if (!categorie){
+            return next({
+              status: 404,
+              message: 'Categorie not found',
+            });
+          }
+
+          res.locals = {
+            status: 200,
+            data: categorie,
+          }
+
+          return next();
+      }catch(e) {return next(e)}
+  }
+
     async update(req: Request, res: Response, next: NextFunction){
         try{
-            const { categorieID } = req.params;
+            const { id } = req.params;
             const categorieData = req.body as Prisma.CategorieUpdateInput;
 
-            const categorie = await CategoriesRepository.update(Number(categorieID), categorieData);
+            const categorie = await CategoriesRepository.update(Number(id), categorieData);
 
             if(!categorie){
               return next({
@@ -74,8 +94,8 @@ class CategoriesController{
 
     async delete(req: Request, res:Response, next: NextFunction) {
         try{
-            const { categorieID } = req.params;
-            const categorie = await CategoriesRepository.delete(Number(categorieID));
+            const { id } = req.params;
+            const categorie = await CategoriesRepository.delete(Number(id));
 
             if (!categorie){
               return next({
@@ -88,7 +108,6 @@ class CategoriesController{
               status: 200,
               message: 'Categorie deleted'
             }
-
             return next();
         }catch(e) {return next(e)}
     }

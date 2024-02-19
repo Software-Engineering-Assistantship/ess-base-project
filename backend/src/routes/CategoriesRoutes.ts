@@ -10,7 +10,7 @@ categoriesRouter.route('/')
 
 categoriesRouter.route('/')
   .get(
-    CategoriesController.read,
+    CategoriesController.readAll,
   );
 
 categoriesRouter.route('/:id')
