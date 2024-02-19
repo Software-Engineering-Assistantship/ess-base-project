@@ -4,4 +4,4 @@ import CuponsRepository from './cuponsRepository';
 import ItensRepository from './itensRepository';
 import CategoriesRepository from './CategoriesRepository';
 
-export { UserRepository, PromotionRepository, CuponsRepository, ItensRepository, CategoriesRepository};
+export { UserRepository, PromotionRepository, CuponsRepository, CategoriesRepository, ItensRepository};
