@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { DeleteMenuItemController } from '../delete-menu-item.controller';
-import { InMemoryMenuService } from 'test/services/in-memory-menu-service';
+import { InMemoryMenuService } from 'test/services/in-memory-menu.service';
 import { makeCategory } from 'test/factories/make-category';
 import { makeMenuItem } from 'test/factories/make-menu-item';
 

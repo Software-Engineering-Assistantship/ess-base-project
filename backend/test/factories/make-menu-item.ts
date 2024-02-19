@@ -9,8 +9,8 @@ export function makeMenuItem(override: Partial<MenuItem> = {}) {
     id: faker.string.uuid(),
     title: faker.string.nanoid(),
     description: faker.string.nanoid(),
-    price: Math.random() * 1000,
-    quantity: Math.random() * 4,
+    price: faker.number.int({ max: 5000 }),
+    quantity: faker.number.int({ max: 10 }),
     categoryId: faker.string.uuid(),
     ...override,
   };

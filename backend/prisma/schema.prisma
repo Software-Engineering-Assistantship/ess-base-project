@@ -22,6 +22,8 @@ model Menu {
   cart        Cart? @relation(fields: [cartId], references: [id])
   category    Category? @relation(fields: [categoryId], references: [id])
 
+  orderMenu OrderMenu[]
+
   @@map("menu")
 }
 
@@ -65,4 +67,26 @@ model Restaurant {
   categories  Category[]
 
   @@map("restaurant")
+}
+
+model Orders {
+  id        String   @id @default(uuid())
+  comment   String?
+  rate      Float?
+  createdAt DateTime @default(now())
+
+  menuItems OrderMenu[]
+
+  @@map("orders")
+}
+
+model OrderMenu {
+  id      String @id @default(uuid())
+  orderId String
+  menuId  String
+
+  order Orders @relation(fields: [orderId], references: [id])
+  menu  Menu   @relation(fields: [menuId], references: [id])
+
+  @@map("order_menu")
 }
