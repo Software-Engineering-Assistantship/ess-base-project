@@ -1,83 +1,6 @@
 const User = require("../models/User")
 const sendEmail = require("../utils/sendEmail")
 
-const users_get = async (req, res) => {
-    const users = await User.find()
-
-    if (users.length === 0) {
-        return res.status(404).json({ error: 'Ainda não há usuários cadastrados' })
-    }else{
-        res.json(users)
-    }
-
-}
-
-const user_create = async (req, res) => {
-
-    const user_page = await User.find({'name' : req.body.name})
-
-    if(user_page.length) {
-        res.status(409).json({ error: 'Usuário já cadastrado', data: user_page})
-    } else {
-        const user = new User(req.body)
-
-        user.save()
-
-        return res.status(200).json(user)
-    }
-}
-
-const user_delete = async (req, res) => {
-    let user_page = await User.findById(req.params.id)
-
-    if(!user_page){
-        return res.status(404).json({ error: 'Usuário não encontrado'})
-    } else {
-
-        //if the user being deleted and has followers
-        if (user_page.followers.length !== 0){
-
-            //for each follower: pull user_page.id from the following list
-            for (const following_id of user_page.followers){
-                let user_following = await User.findByIdAndUpdate(
-                    {_id: following_id}, 
-                    {$pull : {following: user_page._id}}, 
-                    {new: true}
-                )
-
-            }
-        }
-
-        //for each user followed: pull user_page.id from the followers list
-        if (user_page.following.length !== 0){
-            for (const followed_id of user_page.following){
-                let user_followed = await User.findByIdAndUpdate(
-                    {_id: followed_id}, 
-                    {$pull : {followers: user_page._id}}, 
-                    {new: true}
-                )
-
-            }
-        }
-
-        user_page = await User.findByIdAndDelete(req.params.id)
-
-        return res.status(200).json({message: 'Usuário deletado com sucesso'})
-    }
-}
-
-const user_profile_get = async (req, res) => {
-
-    const user_page = await User.findById(req.body)
-
-    if(!user_page){
-        return res.status(404).json({ error: 'Usuário não encontrado'})
-    } else{
-        return res.status(200).json(user_page)
-    }
-
-}
-
 //list of followers
 const user_followers_get = async (req, res) => {
 
@@ -295,11 +218,7 @@ const user_unfollow = async (req, res) => {
 
 
 module.exports = {
-
-    users_get,
-    user_create,
-    user_delete,
-    user_profile_get,
+    
     user_followers_get,
     user_following_get,
     user_follow,

@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
     res.json(users)
 }
 
-getUser = async (req, res) => {
+const getUser = async (req, res) => {
     const user = await User.findById(req.params.id)
     if (!user) {
         return res.status(404).json({ error: 'Usuário não encontrado' })
@@ -47,13 +47,41 @@ const updateUser = async (req, res) => {
 }
 
 const deleteUser = async (req, res) =>{
-    const deletedUser = await User.findByIdAndDelete(req.params.id)
+    const deletedUser = await User.findById(req.params.id)
 
     if(!deletedUser){
         return res.status(404).json({ error: 'Usuário não encontrado' })
-    }
-    else{
-        res.json({
+    }else{
+
+        //if the user being deleted and has followers
+        if (deletedUser.followers.length !== 0){
+
+            //for each follower: pull user_page.id from the following list
+            for (const following_id of deletedUser.followers){
+                let user_following = await User.findByIdAndUpdate(
+                    {_id: following_id}, 
+                    {$pull : {following: deletedUser._id}}, 
+                    {new: true}
+                )
+
+            }
+        }
+
+        //for each user followed: pull user_page.id from the followers list
+        if (deletedUser.following.length !== 0){
+            for (const followed_id of deletedUser.following){
+                let user_followed = await User.findByIdAndUpdate(
+                    {_id: followed_id}, 
+                    {$pull : {followers: deletedUser._id}}, 
+                    {new: true}
+                )
+
+            }
+        }
+
+        const user_deleted = await User.findByIdAndDelete(req.params.id)
+
+        return res.status(200).json({
             name:deletedUser.name,
             bio:deletedUser.bio,
             profileImage:deletedUser.profileImage,
