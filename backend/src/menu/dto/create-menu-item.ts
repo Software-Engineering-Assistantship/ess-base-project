@@ -5,7 +5,7 @@ export const createMenuItemSchema = z.object({
   description: z.string(),
   price: z.number(),
   quantity: z.number(),
-  category: z.string(),
+  categoryId: z.string(),
 });
 
 export type CreateMenuItemSchema = z.infer<typeof createMenuItemSchema>;

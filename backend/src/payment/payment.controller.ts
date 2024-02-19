@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
@@ -8,19 +18,16 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  async create(@Body() CreatePaymentDto: CreatePaymentDto) {
+  async create(@Body() createPaymentDto: CreatePaymentDto) {
     const cardExists = await this.paymentService.findByNumber(
-      CreatePaymentDto.cardNumber,
+      createPaymentDto.cardNumber,
     );
 
     if (cardExists) {
-      throw new HttpException(
-        'Card already exists',
-        HttpStatus.BAD_REQUEST,
-      );
+      throw new HttpException('Card already exists', HttpStatus.BAD_REQUEST);
     }
 
-    return await this.paymentService.create(CreatePaymentDto);
+    return await this.paymentService.create(createPaymentDto);
   }
 
   @Get()

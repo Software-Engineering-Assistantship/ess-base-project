@@ -6,11 +6,11 @@ import {
   HttpStatus,
   Post,
 } from '@nestjs/common';
-import { MenuService } from '../services/menu.service';
 import {
   CreateMenuItemSchema,
   createMenuItemSchema,
 } from '../dto/create-menu-item';
+import { MenuService } from 'src/interfaces/menu-service';
 
 @Controller('menu')
 export class CreateMenuItemController {
@@ -22,12 +22,12 @@ export class CreateMenuItemController {
     try {
       createMenuItemSchema.parse(menu);
 
-      await this.menuService.create({
+      return await this.menuService.create({
         title: menu.title,
         description: menu.description,
         price: menu.price,
         quantity: menu.quantity,
-        category: menu.category,
+        categoryId: menu.categoryId,
       });
     } catch (error) {
       throw new HttpException('Invalid body', HttpStatus.BAD_REQUEST);

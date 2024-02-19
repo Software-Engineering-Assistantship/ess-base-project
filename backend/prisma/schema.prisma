@@ -26,21 +26,24 @@ model Menu {
 }
 
 model Category {
-  id          String @id @default(uuid())
-  name        String
-  description String
-  menuItems   Menu[]
+  id           String      @id @default(uuid())
+  name         String
+  description  String
+  position     Int         @default(autoincrement())
+  menuItems    Menu[]
+  restaurantId String?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id])
 
   @@map("category")
 }
 
 model Payment {
-  id               String @id @default(uuid())
-  cardNumber       String
-  cardHolderName   String
-  expirationDate   String
-  cvv              Int
-  type             String
+  id             String @id @default(uuid())
+  cardNumber     String
+  cardHolderName String
+  expirationDate String
+  cvv            Int
+  type           String
 
   @@map("payment")
 }
@@ -51,4 +54,15 @@ model Cart {
   totalSum     Int
 
   @@map("cart")
+}
+
+model Restaurant {
+  id          String     @id @default(uuid())
+  name        String     @unique
+  address     String
+  closingTime DateTime
+  type        String
+  categories  Category[]
+
+  @@map("restaurant")
 }

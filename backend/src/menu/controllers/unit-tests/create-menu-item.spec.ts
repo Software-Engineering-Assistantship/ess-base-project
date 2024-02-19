@@ -1,43 +1,29 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { CreateMenuItemController } from '../create-menu-item.controller';
-import { MenuService } from 'src/menu/services/menu.service';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import { PrismaService } from 'src/prisma.service';
-
-type category = 'BURGERS' | 'SIDES' | 'DRINKS';
+import { InMemoryMenuService } from 'test/services/in-memory-menu-service';
+import { makeCategory } from 'test/factories/make-category';
 
 describe('Create menu item', () => {
-  let controller: CreateMenuItemController;
-  let service: MenuService;
+  let inMemoryMenuService: InMemoryMenuService;
+  let sut: CreateMenuItemController;
 
   beforeAll(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-      controllers: [CreateMenuItemController],
-      providers: [MenuService, PrismaService],
-    }).compile();
-
-    controller = moduleRef.get(CreateMenuItemController);
-    service = moduleRef.get(MenuService);
+    inMemoryMenuService = new InMemoryMenuService();
+    sut = new CreateMenuItemController(inMemoryMenuService);
   });
 
   it('should be able to create one menu item', async () => {
-    const menuItem = {
-      id: '1',
+    const category = makeCategory();
+
+    const result = await sut.handle({
       title: 'Burger',
       description: 'description',
-      price: 500,
-      quantity: 1,
-      category: 'BURGERS' as category,
-    };
+      price: 12,
+      quantity: 2,
+      categoryId: category.id,
+    });
 
-    vi.spyOn(service, 'create').mockImplementation(() =>
-      Promise.resolve(menuItem),
-    );
-
-    const response = await controller.handle(menuItem);
-
-    expect(response).toBeUndefined();
+    expect(inMemoryMenuService.items).toHaveLength(1);
+    expect(inMemoryMenuService.items[0]).toEqual(result);
   });
 });

@@ -5,6 +5,7 @@ import {
   Body,
   Patch,
   Param,
+  Delete,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
@@ -20,6 +21,7 @@ export class CategoriesController {
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     const categoryExists = await this.categoriesService.findByName(
       createCategoryDto.name,
+      createCategoryDto.restaurantId,
     );
 
     if (categoryExists) {
@@ -32,21 +34,27 @@ export class CategoriesController {
     return await this.categoriesService.create(createCategoryDto);
   }
 
-  @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  @Get('/restaurant/:restaurantId')
+  async findAll(@Param('restaurantId') restaurantId: string) {
+    return await this.categoriesService.findAll(restaurantId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.categoriesService.findOne(id);
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(id, updateCategoryDto);
+    return await this.categoriesService.update(id, updateCategoryDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    await this.categoriesService.remove(id);
+    return 'Deleted item succesfully';
   }
 }

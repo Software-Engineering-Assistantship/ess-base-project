@@ -1,13 +1,13 @@
 import { Controller, Get, HttpCode, Param } from '@nestjs/common';
-import { MenuService } from '../services/menu.service';
+import { MenuService } from 'src/interfaces/menu-service';
 
-@Controller('/menu/:category/items')
-export class GetItemsByCategory {
+@Controller('/menu/:categoryId/items')
+export class GetItemsByCategoryController {
   constructor(private readonly menuService: MenuService) {}
 
   @Get()
   @HttpCode(200)
-  async handle(@Param('category') category: string) {
-    return await this.menuService.findAllByCategory(category);
+  async handle(@Param('categoryId') categoryId: string) {
+    return await this.menuService.findAllByCategory(categoryId);
   }
 }

@@ -1,8 +1,8 @@
 export interface MenuItem {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   price: number;
   quantity: number;
-  category: string;
+  categoryId: string;
 }

@@ -7,7 +7,7 @@ Content-Type: application/json
   "description": "Description",
   "price": 500,
   "quantity": 1,
-  "category": "BURGERS"
+  "categoryId": "85de391e-070f-4bf0-ab38-61c035b5d7a4"
 }
 
 ###

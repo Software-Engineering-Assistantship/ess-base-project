@@ -1,53 +1,38 @@
-import { describe, it, expect, vi, beforeAll } from 'vitest';
-import { MenuService } from 'src/menu/services/menu.service';
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from 'src/app.module';
-import { PrismaService } from 'src/prisma.service';
-import { GetItemById } from '../get-item-by-id.controller';
-
-type category = 'BURGERS' | 'SIDES' | 'DRINKS';
+import { describe, it, expect, beforeAll } from 'vitest';
+import { GetItemByIdController } from '../get-item-by-id.controller';
+import { InMemoryMenuService } from 'test/services/in-memory-menu-service';
+import { makeCategory } from 'test/factories/make-category';
+import { makeMenuItem } from 'test/factories/make-menu-item';
 
 describe('Get menu item by id', () => {
-  let controller: GetItemById;
-  let service: MenuService;
+  let inMemoryMenuService: InMemoryMenuService;
+  let sut: GetItemByIdController;
 
   beforeAll(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-      controllers: [GetItemById],
-      providers: [MenuService, PrismaService],
-    }).compile();
-
-    controller = moduleRef.get(GetItemById);
-    service = moduleRef.get(MenuService);
+    inMemoryMenuService = new InMemoryMenuService();
+    sut = new GetItemByIdController(inMemoryMenuService);
   });
 
-  it('should be able get menu item by id', async () => {
-    const items = [
-      {
-        id: '1',
-        title: 'Burger',
-        description: 'description',
-        price: 500,
-        quantity: 1,
-        category: 'BURGERS' as category,
-      },
-      {
-        id: '2',
-        title: 'Fries',
-        description: 'description',
-        price: 500,
-        quantity: 1,
-        category: 'SIDES' as category,
-      },
-    ];
+  it('should be able to get menu item by id', async () => {
+    const category = makeCategory();
 
-    vi.spyOn(service, 'findOne').mockImplementation(() =>
-      Promise.resolve(items[1]),
+    const firstMenuItem = makeMenuItem({ categoryId: category.id });
+    const secondMenuItem = makeMenuItem({ categoryId: category.id });
+    const thirdMenuItem = makeMenuItem({ categoryId: category.id });
+
+    inMemoryMenuService.create(firstMenuItem);
+    inMemoryMenuService.create(secondMenuItem);
+    inMemoryMenuService.create(thirdMenuItem);
+
+    const result = await sut.handle(firstMenuItem.id);
+
+    expect(inMemoryMenuService.items).toHaveLength(3);
+
+    const filteredByFirstCategory = await inMemoryMenuService.findOne(
+      firstMenuItem.id,
     );
 
-    const response = await controller.handle(items[1].id);
-
-    expect(response).toEqual(expect.objectContaining(items[1]));
+    expect(filteredByFirstCategory).toBeTruthy();
+    expect(filteredByFirstCategory).toEqual(result);
   });
 });
