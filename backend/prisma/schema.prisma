@@ -62,13 +62,32 @@ model Cupom {
 }
 
 model Item {
-  id Int @id @default(autoincrement())
-  name String
-  price Float
-  category String
+  id          Int        @id @default(autoincrement())
+  name        String
+  price       Float
+  category    String
   description String
-  image String
-  colors String
-  sizes String
-  amount Int
+  image       String
+  colors      String
+  sizes       String
+  amount      Int
+  Delivery    Delivery[]
+  Rating      Rating[]
+}
+
+model Delivery {
+  id     Int      @id @default(autoincrement())
+  status String   @default("pendente")
+  item   Item[]
+  Rating Rating[]
+}
+
+model Rating {
+  id         Int      @id @default(autoincrement())
+  rating     Int
+  comment    String?
+  item       Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId     Int
+  delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  deliveryId Int
 }
