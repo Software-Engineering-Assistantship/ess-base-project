@@ -21,13 +21,19 @@ const sendEmail = async (subject, message, send_to) => {
         html: message
     }
 
+    let error = false
+
     transporter.sendMail(options, function(err, info){
         if (err){
-            console.log(err)
-        } else {
-            console.log(info)
-        }
+            error = true
+        } 
     })
+    
+    if(error){
+        return "error"
+    } else {
+        return "success"
+    }
 }
 
 module.exports = sendEmail

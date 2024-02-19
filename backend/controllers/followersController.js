@@ -179,32 +179,43 @@ const user_follow = async (req, res) => {
                     `
 
                     //from ../utils/sendEmail
-                    await sendEmail(subject, message, send_to)
+                    const status_email = await sendEmail(subject, message, send_to)
+
+                    const followers = user_followed.followers
+                    const following = user_following.following
 
                     //return status:200 and JSON with followed.id + followers and follower.id + following
-                    return res.status(200).json(
-                        {"id": user_followed.id,
-                         "followers": user_followed.followers},
-                        {"id": user_following.id, 
-                         "following": user_following.following})
+                    return res.status(200).json({
+                        followed: {"id": user_followed.id,
+                         "followers": followers},
+
+                        follower: {"id": user_following.id, 
+                         "following": following}, 
+
+                        status_email: status_email})
                     
                 } catch (error_email) {
 
-                    return res.status(200).json(
-                        {"id": user_followed.id,
+
+                    return res.status(200).json({
+                        followed: {"id": user_followed.id,
                          "followers": user_followed.followers},
-                        {"id": user_following.id, 
-                         "following": user_following.following})
+
+                        follower: {"id": user_following.id, 
+                         "following": user_following.following},
+
+                        status_email:"error"})
                 }
 
             //if user_log already follows user_page
             } else {
                 //return status:409 conflict and JSON with followed.id + followers and follower.id + following
-                return res.status(409).json(
-                    {"id": user_page.id,
+                return res.status(409).json({
+                    followed: {"id": user_page.id,
                      "followers": user_page.followers},
-                    {"id": user_log.id, 
-                     "following": user_log.following})
+                    follower: {"id": user_log.id, 
+                     "following": user_log.following},
+                    status_email: "error"})
         
             }
 
@@ -253,22 +264,22 @@ const user_unfollow = async (req, res) => {
                     {new: true}        
                 ) 
                 
-                //return status:200 and JSON with unfollowing.id + following and unfollowed.id + follower
-                return res.status(200).json(
-                    {"id": user_unfollowing.id, 
-                     "following": user_unfollowing.following},
-                    {"id": user_unfollowed.id,
-                     "followers": user_unfollowed.followers})
+                //return status:200 and JSON with unfollowed.id + follower and unfollowing.id + following
+                return res.status(200).json({
+                    unfollowed: {"id": user_unfollowed.id,
+                     "followers": user_unfollowed.followers},
+                    unfollower: {"id": user_unfollowing.id, 
+                     "following": user_unfollowing.following}})
 
             //if user_log does not follow user_page
             } else {
                 
-                //return status:409 conflict and JSON with unfollowing.id + following and unfollowed.id + follower
-                return res.status(409).json(
-                    {"id": user_log.id, 
-                     "following": user_log.following},
-                    {"id": user_page.id,
-                     "followers": user_page.followers})      
+                //return status:409 conflict and JSON with unfollowed.id + follower and unfollowing.id + following
+                return res.status(409).json({
+                    unfollowed: {"id": user_page.id,
+                     "followers": user_page.followers},
+                    unfollower: {"id": user_log.id, 
+                     "following": user_log.following}})      
             }
 
         } catch (e) {
