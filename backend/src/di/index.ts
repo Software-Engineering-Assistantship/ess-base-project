@@ -26,3 +26,4 @@ di.registerService(
     di.getRepository(UserRepository),
   )
 );
+
