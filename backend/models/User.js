@@ -20,7 +20,11 @@ const UserSchema = new Schema({
 
     followers: {
         type: Array
-    }
+    },
+    reviews: [{
+        type: Schema.Types.ObjectId, 
+        ref:"Review"
+    }]
 })
 
 const User = mongoose.model("User", UserSchema)
