@@ -5,12 +5,15 @@ require("dotenv").config()
 
 // import models
 const Restaurant = require('./models/Restaurant')
+const Forum = require('./models/Forum')
 
 // import controllers
 const RestaurantController = require('./controllers/restaurantController')
+const ForumController = require('./controllers/forumController')
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
+const forumRouter = require("./routes/forumRouter")
 
 // use the PORT in .env or 3000 if it does not exist
 const port = process.env.PORT || 3000
@@ -31,4 +34,5 @@ app.listen(port, () => console.log("Server started on port 3001"))
 
 // Routes
 app.use("/restaurants", restaurantRouter)
+app.use("/forum", forumRouter)
 
