@@ -131,12 +131,12 @@ Feature: seguidores/lista de seguidores
         And retorna um JSON vazio
 
     Scenario: Seguir um usuário
-        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "123, 789"
-        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "123, 456, 789" e com e-mail "almocin.ess@gmail.com"
+        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue vazia
+        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores vazia e com e-mail "almocin.ess@gmail.com"
         When fizer uma requisição PUT com rota "/users/follow/147" e o body contendo o id "258"
         Then o status do sistema é "200 OK"
-        And retorna um JSON com os dados do usuário com o id "147" que tem a lista de seguidores "123, 456, 789, 258"
-        And com os dados do usuário com id "258" tem a lista de usuários que segue "123, 789, 147"
+        And retorna um JSON com os dados do usuário com o id "147" que tem a lista de seguidores "258"
+        And com os dados do usuário com id "258" tem a lista de usuários que segue "147"
         And a mensagem enviada para o e-mail cadastrado do usuário seguido tem status "success"
 
     Scenario: Pegar lista de usuários que segue
@@ -163,13 +163,13 @@ Feature: seguidores/lista de seguidores
         And contendo o id "147" e a lista de seguidores "123, 456, 789, 258"
 
     Scenario: Deixar de seguir um usuário
-        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "123, 789, 147"
-        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "123, 456, 789, 258"
+        Given o usuário com id "258" está armazenado no sistema com a lista de usuários que segue "147"
+        And o usuário com o id "147" está armazenado no sistema com a lista de seguidores "258"
         When fizer uma requisição PUT com rota "/users/unfollow/147"
         And o body contendo o id "258"
         Then o status do sistema é "200 OK"
-        And retorna um JSON contendo o id "147" e a lista de seguidores "123, 456, 789"
-        And contendo o id "258" e a lista de usuários que segue "123, 789"
+        And retorna um JSON contendo o id "147" e a lista de seguidores vazia
+        And contendo o id "258" e a lista de usuários que segue vazia
         
 
     Scenario: Deixar de seguir um usuário que não segue
