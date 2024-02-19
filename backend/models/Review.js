@@ -56,7 +56,7 @@ const ReviewSchema = new Schema({
     views: {
         type: Number,
         default: 0
-    },
+    }
 })
 
 const Review = mongoose.model("Review", ReviewSchema)
