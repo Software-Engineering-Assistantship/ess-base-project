@@ -61,6 +61,11 @@ model Cupom {
   end_date String
 }
 
+model Categorie {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String?
+}
 model Item {
   id          Int        @id @default(autoincrement())
   name        String
