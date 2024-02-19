@@ -12,16 +12,24 @@ const request = supertest(app);
 defineFeature(feature, (test) => {
     let mockPromocaoRepository: PromocaoRepository;
     let response: supertest.Response;
-    const promocaoData = new PromocaoModel({
+    let promocaoData = new PromocaoModel({
         nome: '',
         valor: '',
         tipo: '',
         validade: ''
     });
 
+
     beforeEach(() => {
         mockPromocaoRepository = di.getRepository<PromocaoRepository>(PromocaoRepository);
+        
         promocaoData.deletarPromocoes();
+
+        promocaoData.id = '';
+        promocaoData.nome = '';
+        promocaoData.valor = '';
+        promocaoData.tipo = '';
+        promocaoData.validade = '';
     });
 
     test('Cadastro de promoção com sucesso Serviço', ({ given, when, then, and }) => {
@@ -51,7 +59,7 @@ defineFeature(feature, (test) => {
             promocao.salvarPromocao(promocao)
         });
 
-        and(/^estou na página "(.*)"$/, async (page) => {
+        and(/^está na página "(.*)"$/, async (page) => {
             if (page == 'Cadastro de promoção') {
                 page = 'api/promocoes/cadastro';
             }
@@ -77,7 +85,9 @@ defineFeature(feature, (test) => {
 
         and (/^solicita o cadastro da promoção$/, async () => {
             const verifBranco = promocaoData.verificarBranco(promocaoData);
-            if(promocaoData.verificarExistente('nome', promocaoData.nome)) {
+            if(promocaoData.verificarExistente(promocaoData.id)) {
+                console.log("Id: " + promocaoData.id);
+                console.log("Nome: " + promocaoData.nome);
                 response.status = 400;
                 console.log('1.1 '+ JSON.stringify(response));
 
@@ -90,6 +100,10 @@ defineFeature(feature, (test) => {
                 response = await request.post('/api/promocoes/cadastro').send(JSON.stringify(promocaoData));
                 console.log('1 '+ JSON.stringify(response));
 
+            }else if(!promocaoData.verificarValor()){
+                response.status = 400;
+                console.log('1 '+ JSON.stringify(response));
+                
             }else{  
                 response = await request.post('/api/promocoes/cadastro').send(JSON.stringify(promocaoData));
                 console.log('2 '+ JSON.stringify(response));
@@ -102,23 +116,109 @@ defineFeature(feature, (test) => {
             promocaoData.salvarPromocao(promocaoData);
         });
 
-        and(/^o sistema tem armazenado em "(.*)" o cupom "(.*)"$/, async (local,nome) => {
+        and(/^o sistema tem armazenado em "(.*)" o cupom "(.*)"$/, async (local,id) => {
             if (local == 'Cupons cadastrados') {
-                expect(promocaoData.verificarExistente("nome",nome)).toBe(true);
+                expect(promocaoData.verificarExistente(id)).toBe(true);
             }
+        });
+
+        and(/^o sistema tem armazenado em "(.*)" o cupom "(.*)"$/, async (local,id) => {
+            if (local == 'Cupons cadastrados') {
+                expect(promocaoData.verificarExistente(id)).toBe(true);
+            }
+        });
+
+        and(/^o sistema tem armazenado em "(.*)" o cupom "(.*)"$/, async (local,id) => {
+            if (local == 'Cupons cadastrados') {
+                expect(promocaoData.verificarExistente(id)).toBe(true);
+            }
+        });
+     });
+
+    test('Cadastro de promoção com sucesso com campo valor em branco Serviço', ({ given, when, then, and }) => {
+        given(/^que o usuário "(.*)" está logado no sistema como "(.*)"$/, async (name,userType ) => {
+            if (!(userType == 'administrador')) {
+                response.status = 400;
+            }
+        });
+
+        and(/^está na página "(.*)"$/, async (page) => {
+            if (page == 'Cadastro de promoção') {
+                page = 'api/promocoes/cadastro';
+            }
+            const rota = `/${page}`
+            response = await request.get(rota);
+        });
+
+        when(/^preenche o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            promocaoData.preencherCampo(campo, valor);
+        });
+
+        and(/^preenche o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            promocaoData.preencherCampo(campo, valor);
+        });
+
+        and(/^preenche o campo "(.*)" com "(.*)"$/, async (campo, valor) => {
+            promocaoData.preencherCampo(campo, valor);
+        });
+
+        and (/^uma requisição POST for enviada para "(.*)" enviando os dados do novo cupom$/, async (rota) => {
+            const verifBranco = promocaoData.verificarBranco(promocaoData);
+            if(promocaoData.verificarExistente(promocaoData.id)) {
+                response.status = 400;
+                console.log('2 '+ JSON.stringify(response));
+
+            }else if(verifBranco == 1){
+                response.status = 400;
+                console.log('3 '+ JSON.stringify(response));
+
+            }else if(verifBranco == 2){
+                promocaoData.valor = '10';
+                response = await request.post(rota).send(JSON.stringify(promocaoData));
+                console.log('4 '+ JSON.stringify(response));
+
+            }else if(!promocaoData.verificarValor()){
+                response.status = 400;
+                console.log('1 '+ JSON.stringify(response));
+
+            }else{  
+                response = await request.post(rota).send(JSON.stringify(promocaoData));
+                console.log('5 '+ JSON.stringify(response));
+            }
+        });
+
+        then(/^uma mensagem de confirmação é enviada "(.*)"$/, async(expectedMessage) => {
+            expect(response.status).toBe(200);
+            expect(response.body.msg).toBe(expectedMessage);
+            promocaoData.salvarPromocao(promocaoData);
         });
 
         and(/^o sistema tem armazenado em "(.*)" o cupom "(.*)"$/, async (local,nome) => {
             if (local == 'Cupons cadastrados') {
-                expect(promocaoData.verificarExistente("nome",nome)).toBe(true);
+                expect(promocaoData.verificarExistente(nome)).toBe(true);
             }
         });
-        and(/^o sistema tem armazenado em "(.*)" o cupom "(.*)"$/, async (local,nome) => {
-            if (local == 'Cupons cadastrados') {
-                expect(promocaoData.verificarExistente("nome",nome)).toBe(true);
-            }
+
+        and(/^o cupom "(.*)" tem campo "(.*)" com "(.*)"$/, async (id,campo,data) => {
+            expect(promocaoData.verificarPromocao(id,campo,data)).toBe(true);
+
         });
-     });
+
+        and(/^o cupom "(.*)" tem campo "(.*)" com "(.*)"$/, async (id,campo,data) => {
+            expect(promocaoData.verificarPromocao(id,campo,data)).toBe(true);
+
+        });
+
+        and(/^o cupom "(.*)" tem campo "(.*)" com "(.*)"$/, async (id,campo,data) => {
+            expect(promocaoData.verificarPromocao(id,campo,data)).toBe(true);
+
+        });
+
+        and(/^o cupom "(.*)" tem campo "(.*)" com "(.*)"$/, async (id,campo,data) => {
+            expect(promocaoData.verificarPromocao(id,campo,data)).toBe(true);
+
+        });
+    });
     
     // test ('Falha no Cadastro de promoção por Login já Cadastrado', ({ given, when, then, and }) => {
     //     given(/^estou na página "(.*)"$/, async (page) => {

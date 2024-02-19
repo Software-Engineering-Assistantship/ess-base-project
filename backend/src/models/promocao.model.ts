@@ -1,4 +1,6 @@
+import e from 'cors';
 import fs from 'fs';
+const filePathPromocoes = './src/models/promocoes.json';
 
 class PromocaoModel {
     id: string;
@@ -24,6 +26,7 @@ class PromocaoModel {
         switch (campo) {
             case 'nome':
                 this.nome = data;
+                this.id = data;
                 break;
             case 'valor':
                 this.valor = data;
@@ -38,17 +41,35 @@ class PromocaoModel {
     }
 
     // salvarPromocao(promocaoData: PromocaoModel){
-    //     fs.writeFileSync('./src/models/promocoes.json', JSON.stringify(promocaoData));
+    //     fs.writeFileSync(filePathPromocoes, JSON.stringify(promocaoData));
     // }
     deletarPromocoes(){
-            fs.unlinkSync('./src/models/promocoes.json');//delete promcoes.json
-            console.log("Oi");
+        // // Escreve uma string vazia no arquivo
+        // fs.writeFile(filePathPromocoes, '', (err) => {
+        //     if (err) {
+        //     console.error('Erro ao limpar o conteúdo do arquivo:', err);
+        //     return;
+        //     }
+        //     console.log('Conteúdo do arquivo foi limpo com sucesso!');
+        // });
+
+        if (fs.existsSync(filePathPromocoes)) {
+            fs.unlinkSync(filePathPromocoes);//delete promocoes.json
+            const promocoesInit = new PromocaoModel({
+                nome: '',
+                valor: '',
+                tipo: '',
+                validade: ''
+            });
+            this.salvarPromocao(promocoesInit);
+        }
     }
+
     salvarPromocao(promocaoData: PromocaoModel) {
         // Carrega os dados existentes do arquivo JSON, se existirem
         let promocoesJson: PromocaoModel[] = [];
-        if (fs.existsSync('./src/models/promocoes.json')) {
-            const data = fs.readFileSync('./src/models/promocoes.json', 'utf-8');
+        if (fs.existsSync(filePathPromocoes)) {
+            const data = fs.readFileSync(filePathPromocoes, 'utf-8');
             promocoesJson = JSON.parse(data);
         }
 
@@ -56,50 +77,68 @@ class PromocaoModel {
         promocoesJson.push(promocaoData);
 
         // Escreve os dados atualizados no arquivo JSON
-        fs.writeFileSync('./src/models/promocoes.json', JSON.stringify(promocoesJson));
+        fs.writeFileSync(filePathPromocoes, JSON.stringify(promocoesJson));
     }
 
-    verificarExistente(campo: string, data: string): boolean {
-        let promocoesJson = JSON.parse(fs.readFileSync('./src/models/promocoes.json', 'utf-8'));
-    
-        switch (campo) {
-            case 'nome':
-                if (promocoesJson && Array.isArray(promocoesJson)) {
-                    for (const promocao of promocoesJson) {
-                        if (promocao.nome === data) {
-                            return true;
-                        }
+    verificarExistente(data: string): boolean {
+
+        try {
+            fs.readFileSync(filePathPromocoes, 'utf-8');
+            // console.log('Conteúdo do arquivo foi lido com sucesso!');
+            let promocoesJson = JSON.parse(fs.readFileSync(filePathPromocoes, 'utf-8'));
+
+            if (promocoesJson && Array.isArray(promocoesJson)) {
+                for (const promocao of promocoesJson) {
+                    if (promocao.id === data) {
+                        return true;
                     }
                 }
-                break;
-            case 'valor':
-                if (promocoesJson && Array.isArray(promocoesJson)) {
-                    for (const promocao of promocoesJson) {
-                        if (promocao.valor == data) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case 'tipo':
-                if (promocoesJson && Array.isArray(promocoesJson)) {
-                    for (const usuario of promocoesJson) {
-                        if (usuario.tipo === data) {
-                            return true;
-                        }
-                    }
-                }
-                break;
-            case 'validade':
-                if (promocoesJson && Array.isArray(promocoesJson)) {
-                    for (const usuario of promocoesJson) {
-                        if (usuario.validade === data) {
-                            return true;
-                        }
-                    }
-                }
-                break;
+                // console.log('Conteúdo do arquivo foi lido com sucesso2!');
+            }
+        } catch (err) {
+            console.error('Erro ao ler o conteúdo do arquivo:', err);
+
+            return false;
         }
+        return false;
+    }
+
+    
+    verificarPromocao(idPromocao: string, campo: string, data: string): boolean {
+        let promocoesJson = JSON.parse(fs.readFileSync(filePathPromocoes, 'utf-8'));
+        
+        if (promocoesJson && Array.isArray(promocoesJson)) {
+            for (const promocao of promocoesJson) {
+                if (promocao.id === idPromocao) {
+
+                    switch (campo) {
+                        case 'nome':
+                            if (promocao.nome === data) {
+                                return true;
+                            }
+                            break;
+
+                        case 'valor':
+                            if (promocao.valor === data) {
+                                return true;
+                            }
+                            break;
+
+                        case 'tipo':
+                            if (promocao.tipo === data) {
+                                return true;
+                            }
+                            break;
+
+                        case 'validade':
+                            if (promocao.validade === data) {
+                                return true;
+                            }
+                            break;
+                    }
+                }
+            }
+        } 
 
         return false;
     }
@@ -116,14 +155,16 @@ class PromocaoModel {
         return 3; // Se nenhum campo estiver vazio, retornar 3
     }
 
-    verificarValor(promocaoData: PromocaoModel): boolean {
+    verificarValor(): boolean {
 
-            // Verificar se algum dos campos está vazio
-            if (Number(promocaoData.valor) < 10 || Number(promocaoData.valor) > 70) {
-                return true; // Se valor não for um número de 10 a 70, retornar true
+            // Verificar se valor é um número de 10 a 70
+            const valor = this.valor;
+            console.log("Valor: " +valor);
+            if (Number(this.valor) < 10 || (Number(this.valor) > 70)) {
+                return false; // Se valor não for um número de 10 a 70, retornar false
             }
     
-        return false; // Se valor for um número de 10 a 70, retornar false
+        return true; // Se valor for um número de 10 a 70, retornar true
     }
 
 }
