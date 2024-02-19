@@ -5,11 +5,9 @@ require("dotenv").config()
 
 // import models
 const Restaurant = require('./models/Restaurant')
-const ListModel = require('./models/listCollection')
 
 // import controllers
 const RestaurantController = require('./controllers/restaurantController')
-const ListController  = require('./controllers/listController')
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
