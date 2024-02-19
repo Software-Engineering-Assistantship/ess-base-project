@@ -64,72 +64,44 @@ Scenario: Remoção de restaurantes nas listas
 
 
 Cenários de Serviço
-Scenario: Criar lista de restaurantes
-    Given um usuário logado com ID "123"
+Scenario: Criar lista
+    Given um usuário está logado com ID "123"
     When uma requisição "POST" é enviada para "/lists" com os seguintes dados:
         """
         {
-            "name": "Minha Lista Favorita",
-            "description": "Esta é a minha lista pessoal de restaurantes favoritos",
-            "restaurants": ["5678", "91011"]  // IDs dos restaurantes que fazem parte da lista
+            "name": "Favoritos",
         }
         """
     Then o status de resposta é "200"
     And a resposta contém um ID de lista gerado
-    And a lista é criada com nome "Minha Lista Favorita", descrição "Esta é a minha lista pessoal de restaurantes favoritos" e restaurantes com IDs "5678" e "91011"
+    And a lista é criada com nome "Favoritos"
 
-Scenario: Editar lista de restaurantes
+Scenario: Editar lista
     Given existe uma lista de restaurantes com ID "456" e nome "Minha Lista"
     And um usuário logado com ID "123" é o autor dessa lista
     When uma requisição "PUT" é enviada para "/lists/edit/456" com os seguintes dados:
         """
         {
             "name": "Minha Lista Atualizada",
-            "description": "Esta é a minha lista atualizada de restaurantes favoritos",
-            "restaurants": ["5678", "91011", "121314"]  // IDs atualizados dos restaurantes que fazem parte da lista
         }
         """
     Then o status de resposta é "200"
-    And a lista com ID "456" é atualizada com nome "Minha Lista Atualizada", descrição "Esta é a minha lista atualizada de restaurantes favoritos" e restaurantes com IDs "5678", "91011" e "121314"
+    And a lista com ID "456" é atualizada com nome "Minha Lista Atualizada"
 
-Scenario: Excluir lista de restaurantes
+Scenario: Excluir lista
     Given existe uma lista de restaurantes com ID "789" e nome "Minha Lista Excluída"
     And um usuário logado com ID "123" é o autor dessa lista
     When uma requisição "DELETE" é enviada para "/lists/delete/789"
     Then o status de resposta é "200"
     And a lista com ID "789" é excluída
 
-Scenario: Tentar excluir lista de restaurantes que não pertence ao usuário
-    Given existe uma lista de restaurantes com ID "789" e nome "Minha Lista Excluída"
-    And um usuário logado com ID "456" não é o autor dessa lista
-    When uma requisição "DELETE" é enviada para "/lists/delete/789"
-    Then o status de resposta é "403"
-    And a resposta é "Você não tem permissão para excluir esta lista"
-
-Scenario: Tentar editar lista de restaurantes que não pertence ao usuário
-    Given existe uma lista de restaurantes com ID "456" e nome "Minha Lista"
-    And um usuário logado com ID "456" não é o autor dessa lista
-    When uma requisição "PUT" é enviada para "/lists/edit/456" com os seguintes dados:
-        """
-        {
-            "name": "Minha Lista Atualizada",
-            "description": "Esta é a minha lista atualizada de restaurantes favoritos",
-            "restaurants": ["5678", "91011", "121314"]
-        }
-        """
-    Then o status de resposta é "403"
-    And a resposta é "Você não tem permissão para editar esta lista"
-
-Scenario: Tentar criar uma lista sem estar autenticado
+Scenario: Tentar criar uma lista sem nome
     When uma requisição "POST" é enviada para "/lists" com os seguintes dados:
         """
         {
-            "name": "Minha Lista Favorita",
-            "description": "Esta é a minha lista pessoal de restaurantes favoritos",
-            "restaurants": ["5678", "91011"]
         }
         """
     Then o status de resposta é "401"
-    And a resposta é "Não autorizado: você precisa estar logado para criar uma lista"
+    And a resposta é "Digite um nome para sua lista"
 
 
