@@ -22,7 +22,7 @@ restaurant_profile_get  = async (req, res) => {
 
 const restaurant_create = async (req, res) => {
 
-    const expectedProperties = ['name', 'address', 'typeOfFood', 'site'];
+    const expectedProperties = ['name', 'address', 'typeOfFood'];
 
     // checa se todas as propriedades obrigatórias estão presentes
     const areAllPropertiesPresent = expectedProperties.every(prop => req.body.hasOwnProperty(prop));
@@ -52,7 +52,6 @@ const restaurant_create = async (req, res) => {
     res.json(restaurant)
 }
 
-
 const restaurant_edit = async (req, res) => {
     let restaurant = await Restaurant.findById(req.params.id, req.body)
 
@@ -66,7 +65,7 @@ const restaurant_edit = async (req, res) => {
     const restaurantExist = await Restaurant.findOne({'name' : name, 'address': address})
 
     if(restaurantExist && restaurantExist._id.toString() !== req.params.id){
-        return res.json({ error: 'Os dados de endereço e nome do restaurante não podem ser iguais a outro já cadastrado' })
+        return res.status(400).json({ error: 'Os dados de endereço e nome do restaurante não podem ser iguais a outro já cadastrado' })
     }
 
     // Atualizar os dados do restaurante

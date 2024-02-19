@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --detectOpenHandles",
     "start": "node server",
     "dev": "nodemon server"
   },
@@ -17,6 +17,12 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.19",
+    "axios": "^1.6.7",
+    "jest-cucumber": "^3.0.1",
+    "nodemon": "^3.0.3",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
   }
 }
