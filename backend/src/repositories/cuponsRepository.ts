@@ -17,10 +17,15 @@ class CuponsRepository {
         return cupom;
     }
 
+    async findByName(name: string): Promise<Cupom | null> {
+        const cupom = await prisma.cupom.findFirst({ where: { name } });
+        return cupom;
+    }
+
     async findAll(): Promise<Cupom[]> {
         const cupons = await prisma.cupom.findMany();
         return cupons;
-    }
+      }
 }
 
 export default new CuponsRepository();

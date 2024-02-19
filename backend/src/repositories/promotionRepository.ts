@@ -21,6 +21,11 @@ class PromotionRepository {
         const promotions = await prisma.promotion.findMany();
         return promotions;
     }
+
+    async findByCategory(category: string): Promise<Promotion | null> {
+        const promotion = await prisma.promotion.findFirst({ where: { category } });
+        return promotion;
+    }
 }
 
 export default new PromotionRepository();

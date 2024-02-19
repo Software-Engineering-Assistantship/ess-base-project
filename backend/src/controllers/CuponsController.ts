@@ -7,6 +7,22 @@ class CuponsController {
     async create(req: Request, res: Response, next: NextFunction) {
         try {
             const cupomData = req.body as Cupom;
+            const checkCupom = await CuponsRepository.findByName(cupomData.name);
+
+        
+            if (checkCupom) {
+                return next({
+                    status: 400,
+                    message: 'Cupom already exists',
+                });
+            }
+
+            if (!cupomData.name || !cupomData.start_date || !cupomData.end_date || !cupomData.discount) {
+                return next({
+                    status: 400,
+                    message: 'Missing required fields',
+                });
+            }
 
             const cupom = await CuponsRepository.create(cupomData);
 
@@ -77,6 +93,30 @@ class CuponsController {
             res.locals = {
                 status: 200,
                 data: cupons,
+            };
+
+            return next();
+        } catch (error) {
+            return next(error);
+        }
+    }
+
+    async findByName(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { cupomName } = req.params;
+
+            const cupom = await CuponsRepository.findByName(cupomName);
+
+            if (!cupom) {
+                return next({
+                    status: 404,
+                    message: 'Cupom not found',
+                });
+            }
+
+            res.locals = {
+                status: 200,
+                data: cupom,
             };
 
             return next();

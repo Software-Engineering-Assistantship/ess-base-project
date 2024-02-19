@@ -8,7 +8,14 @@ class PromotionController {
         try {
             const promotionData = req.body as Promotion;
 
-            const promotion = await PromotionRepository.create(promotionData);
+            const checkPromotion = await PromotionRepository.findByCategory(promotionData.category);
+
+            if (checkPromotion) {
+                return next({
+                    status: 400,
+                    message: 'Promotion already exists',
+                });
+            }
 
             if (!promotionData.category || !promotionData.start_date || !promotionData.end_date || !promotionData.discount) {
                 return next({
@@ -16,6 +23,8 @@ class PromotionController {
                     message: 'Missing required fields',
                 });
             }
+
+            const promotion = await PromotionRepository.create(promotionData);
 
             res.locals = {
                 status: 201,

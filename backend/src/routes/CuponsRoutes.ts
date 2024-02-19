@@ -23,4 +23,9 @@ cuponsRouter.route('/')
     CuponsController.findAll,
   );
 
+cuponsRouter.route('/:cuponsName')
+  .get(
+    CuponsController.findByName,
+  );
+
 export default cuponsRouter;
