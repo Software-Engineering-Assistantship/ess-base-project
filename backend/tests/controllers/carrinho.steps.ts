@@ -26,7 +26,7 @@ defineFeature(feature, (test) => {
 
 
     const carrinhoData = new CarrinhoModel({
-        id: "123",
+        id: "123.456.789-01",
         id_produtos: [],
         quantidade: 0,
         data_criacao: new Date(),
@@ -125,6 +125,7 @@ defineFeature(feature, (test) => {
             console.log(response.body.data);
             expect(response.body.data).toBeDefined();
             expect(response.body.data.id_produtos).toContain(productData.id);
+            expect(response.body.data.id).toBe(userData.cpf);
         });
     });
     });
