@@ -46,3 +46,7 @@ Scenario: Cadastro de cartão de crédito com dados incompletos
 	When uma nova requisição POST é feita para o endpoint "/payment_methods" com o body: card_number: "a", name: "José", expire_date: "12/2028", password: "111111", type "debit" e CVV "123"
 	Then o cadastro do cartão não é realizado com sucesso 
  	And o código de resposta é "400" Bad Request e a mensagem "Fields invalid" é exibida
+Feature: Cadastro e manuntenção de usuários
+    As a usuário
+    I want to conseguir cadastrar, atualizar e remover meus métodos de pagamento no sistema
+    So that eu possa confirmar o pagamento dos produtos

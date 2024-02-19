@@ -205,17 +205,14 @@ defineFeature(feature, test => {
           },
           User_id: User.id,
       });
-      console.log(apiResponse.body)
     });
 
     then(/^o cadastro do cartão com o card_number "(.*)" e type "(.*)" no banco de dados é realizado com sucesso$/, async(card_number, type) =>{
       const cardExists1 = await cardPaymentRepository.findByCardId('1');
-      console.log(cardExists1)
       expect(cardExists1?.card_number).toBe(card_number)
       expect(cardExists1?.type).toBe('credit')
 
       const cardExists2 = await cardPaymentRepository.findByCardId('2');      
-      console.log(cardExists2)
       expect(cardExists2?.card_number).toBe(card_number)
       expect(cardExists2?.type).toBe(type)
     });
