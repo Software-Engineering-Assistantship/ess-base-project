@@ -5,6 +5,7 @@ require("dotenv").config()
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
+const listRouter = require("./routes/listRouter")
 const searchesRouter = require("./routes/searchesRouter")
 const tendenciesRouter = require("./routes/tendenciesRouter")
 const forumRouter = require("./routes/forumRouter")
@@ -44,3 +45,5 @@ app.use("/users", userRouter)
 app.use("/users", followersRouter)
 app.use("/reviews", reviewRouter)
 app.use("/ratings", ratingRouter)
+app.use("/lists", listRouter)
+
