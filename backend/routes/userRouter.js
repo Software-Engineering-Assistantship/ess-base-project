@@ -7,10 +7,19 @@ const bcrypt = require('bcrypt');
 
 
 const UserController = require("../controllers/userController")
+
 router.post('/signup',UserController.user_signup)
 
 router.post('/signin',UserController.user_signin)
 
+router.get('/', userController.getAll)
 
+router.get('/:id', userController.getUser)
 
-module.exports = router;
+router.put('/edit/:id', userController.updateUser)
+
+router.put('/editPass/:id', userController.updatePassword)
+
+router.delete('/delete/:id', userController.deleteUser)
+
+module.exports = router
