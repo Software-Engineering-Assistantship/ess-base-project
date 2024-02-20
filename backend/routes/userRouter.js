@@ -8,18 +8,18 @@ const bcrypt = require('bcrypt');
 
 const UserController = require("../controllers/userController")
 
-router.post('/signup',UserController.user_signup)
+router.post('/signup', UserController.user_signup)
 
-router.post('/signin',UserController.user_signin)
+router.post('/signin', UserController.user_signin)
 
-router.get('/', userController.getAll)
+router.get('/', UserController.getAll)
 
-router.get('/:id', userController.getUser)
+router.get('/:id', UserController.getUser)
 
-router.put('/edit/:id', userController.updateUser)
+router.put('/edit/:id', UserController.updateUser)
 
-router.put('/editPass/:id', userController.updatePassword)
+router.put('/editPass/:id', UserController.updatePassword)
 
-router.delete('/delete/:id', userController.deleteUser)
+router.delete('/delete/:id', UserController.deleteUser)
 
 module.exports = router
