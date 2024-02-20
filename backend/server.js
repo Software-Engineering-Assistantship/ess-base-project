@@ -19,6 +19,7 @@ const ReviewController = require('./controllers/reviewController')
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
+const listRouter = require("./routes/listRouter")
 const forumRouter = require("./routes/forumRouter")
 const userRouter = require("./routes/userRouter")
 const followersRouter = require("./routes/followersRouter")
@@ -55,3 +56,5 @@ app.use("/users", userRouter)
 app.use("/users", followersRouter)
 app.use("/reviews", reviewRouter)
 app.use("/ratings", ratingRouter)
+app.use("/lists", listRouter)
+
