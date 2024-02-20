@@ -7,7 +7,7 @@ import { MenuItem } from '../../menu/entities/menu-item';
 
 
 @Injectable()
-export class CartService {
+export class PrismaCartService {
     private carts: CartDto[] = [
         {
           id: '1',
