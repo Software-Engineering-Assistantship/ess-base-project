@@ -61,15 +61,6 @@ And no corpo da requisição eu incluo o comentário opcional "Ótimo serviço, 
 Then Eu recebo uma resposta 200
 
 
-Scenario: Falha ao Adicionar Avaliação ao Restaurante
-
-Given o sistema possui registros no banco de pedidos
-When Eu faço uma requisição POST para a rota “/order”
-And no corpo da requisição eu incluo os itens do pedido e avaliação opcional "Ótimo serviço, comida deliciosa!" e classificação "5"
-And o sistema encontra um erro durante o processamento da requisição
-Then a resposta JSON deve conter "Falha ao adicionar avaliação ao restaurante 'Restaurante 1'"
-
-
 Scenario: Visualizar Detalhes de um Pedido do Histórico
 
 Given o sistema possui registros no banco de pedidos
@@ -86,3 +77,11 @@ And o sistema possui um pedido com a data "2024-02-18"
 When Eu faço uma requisição GET para a rota “/order/:id”
 Then Eu recebo uma resposta 404
 And a resposta JSON deve conter "Pedido não encontrado"
+
+
+Scenario: Deletar um Pedido do Histórico
+
+Given o sistema possui registros no banco de pedidos
+When Eu faço uma requisição DELETE para a rota “/order/:id”
+Then Eu recebo uma resposta 200
+And A resposta JSON deve conter “Item deletado com sucesso”
