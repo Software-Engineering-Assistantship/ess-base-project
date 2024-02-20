@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 // nao tenho certeza se esta certo
 
 
-const UserController = require("../controllers/userController")
+const UserController = require("../controllers/UserController")
 
 router.post('/signup', UserController.user_signup)
 
