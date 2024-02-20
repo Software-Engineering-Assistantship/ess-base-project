@@ -9,8 +9,6 @@ router.get('/', ListController.list_get_all)
 
 router.post('/create', ListController.list_create)
 
-router.put('/edit/:id', ListController.list_edit)
-
 router.delete('/delete/:id', ListController.list_delete)
 
 module.exports = router
