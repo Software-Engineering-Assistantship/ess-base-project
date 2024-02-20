@@ -1,3 +1,5 @@
+import { Promotion } from '../../promotion/entities/promotion.entity';
+
 export interface MenuItem {
   id?: string;
   title?: string;
@@ -5,4 +7,5 @@ export interface MenuItem {
   price?: number;
   quantity?: number;
   categoryId?: string;
+  promotions?: Promotion[];
 }

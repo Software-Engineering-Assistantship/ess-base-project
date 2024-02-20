@@ -23,6 +23,7 @@ model Menu {
   category    Category? @relation(fields: [categoryId], references: [id])
 
   orderMenu OrderMenu[]
+  promotions  Promotion[]
 
   @@map("menu")
 }
@@ -90,3 +91,17 @@ model OrderMenu {
 
   @@map("order_menu")
 }
+
+model Promotion {
+  id             String @id @default(uuid())
+  name           String
+  description    String
+  discount       Int
+  startDate      String
+  endDate        String
+  menuItems      Menu[]
+
+  
+  @@map("promotion")
+}
+
