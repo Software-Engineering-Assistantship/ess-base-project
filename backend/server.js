@@ -13,7 +13,6 @@ const followersRouter = require("./routes/followersRouter")
 const reviewRouter = require("./routes/reviewRouter")
 const ratingRouter = require("./routes/ratingRouter")
 
-
 // use the PORT in .env or 3000 if it does not exist
 const port = process.env.PORT || 3000
 
