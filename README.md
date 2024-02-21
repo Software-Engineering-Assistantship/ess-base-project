@@ -24,7 +24,7 @@ Baixe NodeJS, React e MongoDB.
 ### No *backend*:
 
 ```sh
-npm i bcrypt cors dotenv express mongoose multer nodemailer nodenom
+npm i bcrypt cors dotenv express mongoose multer nodemailer nodemon
 
 ```
 
