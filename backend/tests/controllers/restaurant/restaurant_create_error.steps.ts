@@ -41,13 +41,9 @@ defineFeature(feature, test => {
         when(/^uma requisição POST foi enviada para "(.*)" com nome "(.*)", endereço "(.*)" e tipo de comida "(.*)"$/, async (path, name, addr, typeOfFood) => {
 
             const addressInfo = addressSeparation(addr)
-            console.log(`${SERVER_URL}${path}`)
 
             if (addressInfo !== null) {
                 const { street, number, neighborhood, city } = addressInfo
-                    console.log(restaurant.name, name)
-                    console.log(restaurant.name === name)
-                    console.log(addressInfo)
                 
                     response = await axios.post(`${SERVER_URL}${path}`, {
                         name: name,
@@ -62,7 +58,6 @@ defineFeature(feature, test => {
                         validateStatus: (status) => true
                     })
 
-                    console.log(response)
             }
 
         })
