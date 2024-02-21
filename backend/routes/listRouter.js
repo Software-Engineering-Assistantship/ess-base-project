@@ -13,6 +13,6 @@ router.put('/edit/:id', ListsController.list_edit)
 
 router.post('/create/:id', ListsController.list_create)
 
-router.delete('/delete/:id', ListController.list_delete)
+router.delete('/delete/:id', ListsController.list_delete)
 
 module.exports = router

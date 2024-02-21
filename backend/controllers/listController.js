@@ -1,4 +1,4 @@
-const ListModel = require('./models/List')
+const ListModel = require('../models/List')
 const bcrypt = require('bcrypt');
 const User = require('../models/User')
 const Restaurant = require('../models/Restaurant')

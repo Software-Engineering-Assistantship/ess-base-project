@@ -159,4 +159,20 @@
   "timestamp": "1708313886936",
   "profileImage": "None",
   "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d58ca2c3082d4949f7cd06"
+  },
+  "name": "Restaurante topper",
+  "address": {
+    "city": "Recife 2",
+    "neighborhood": "Casa Amarela 2",
+    "street": "Estrada do Arraial 2",
+    "number": "3692"
+  },
+  "typeOfFood": "Doceria",
+  "timestamp": "1708313886936",
+  "profileImage": "None",
+  "__v": 0
 }]

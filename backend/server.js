@@ -3,19 +3,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 require("dotenv").config()
 
-// import models
-const Restaurant = require('./models/Restaurant')
-const User = require('./models/User')
-const Forum = require('./models/Forum')
-const Rating = require('./models/Rating')
-const Review = require('./models/Review')
-
-// import controllers
-const RestaurantController = require('./controllers/restaurantController')
-const ForumController = require('./controllers/forumController')
-const UserController = require('./controllers/userController')
-const followersController = require('./controllers/followersController')
-const ReviewController = require('./controllers/reviewController')
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
@@ -38,7 +25,7 @@ app.use(express.json())
 
 // connect to data base
 const run = async () => {
-    await mongoose.connect("mongodb://localhost:27017/${process.env.DBNAME}");
+    await mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`);
     console.log("Connected to data base")
 }
 
