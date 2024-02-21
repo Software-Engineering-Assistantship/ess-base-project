@@ -12,24 +12,15 @@ const ListSchema = new Schema({
     },
 
     author:{
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        require: true
+        type: String,
     },
 
-    numberOfRestaurants:{
-        type: Number,
-        default: 0
-    },
-
-    restaurants: [RestaurantSchema]
+    restaurants:{
+        type: [{type: Schema.Types.ObjectId, ref:"Restaurant"}],
+        required: true
+    }
 
 })
-
-ListSchema.pre('save', function(next)){
-    this.numberOfRestaurants = this.restaurants.length;
-    next();
-}
 
 
 const List = mongoose.model("List", ListSchema)

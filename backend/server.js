@@ -19,12 +19,12 @@ const ReviewController = require('./controllers/reviewController')
 
 // import routers
 const restaurantRouter = require("./routes/restaurantRouter")
-const listRouter = require("./routes/listRouter")
 const forumRouter = require("./routes/forumRouter")
 const userRouter = require("./routes/userRouter")
 const followersRouter = require("./routes/followersRouter")
 const reviewRouter = require("./routes/reviewRouter")
 const ratingRouter = require("./routes/ratingRouter")
+const listRouter = require("./routes/listRouter")
 
 
 // use the PORT in .env or 3000 if it does not exist
@@ -38,10 +38,10 @@ app.use(express.json())
 
 // connect to data base
 const run = async () => {
-    await mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`);
+    await mongoose.connect("mongodb://localhost:27017/${process.env.DBNAME}");
     console.log("Connected to data base")
 }
-    
+
 run()
 .catch((err) => console.error(err))
 
@@ -57,4 +57,3 @@ app.use("/users", followersRouter)
 app.use("/reviews", reviewRouter)
 app.use("/ratings", ratingRouter)
 app.use("/lists", listRouter)
-
