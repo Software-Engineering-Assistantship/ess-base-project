@@ -1,3 +1,5 @@
+Cenarios de Gui:
+
 Scenario:
 Given eu estou na página inicial do sistema
 When eu seleciono “Cadastre-se já”
@@ -61,3 +63,19 @@ And preencho o usuário como “joão”
 And preencho a senha como “#Senha123”
 And eu confirmo
 Then consigo logar na minha conta
+
+Cenarios de Serviço:
+
+Scenario:criar usuário
+Given não existe um usuário cadastrado com o nome "Joao", email "joao@gmail.com" e senha "Joao1245&"
+When uma requisição "POST" foi enviada para "/user"
+And o body da requisição tem o nome "Joao, email "joao@gmail.com" e senha "Joao1245&"
+Then o status de resposta é "200"
+And um usuário é cadastrado com nome "Joao", email "joao@gmail.com" e senha "Joao1245&"
+
+Scenario:Logar o usuário
+Given existe um usuário com nome "Joao", email "joao@gmail.com" e senha "Joao1245&"
+When uma requisição "POST" foi enviada para "/user"
+And o body da requisição tem o nome email "joao@gmail.com" e senha "Joao1245&"
+Then o status de resposta é "200"
+And o usuário é logado no sistema

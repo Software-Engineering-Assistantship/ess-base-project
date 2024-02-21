@@ -8,6 +8,7 @@
     "dotenv": "^16.4.5",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.9",
-    "ts-jest": "^29.1.2"
+    "ts-jest": "^29.1.2",
+    "bcrypt": "^5.1.1"
   }
 }
