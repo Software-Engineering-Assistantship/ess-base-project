@@ -1,13 +1,17 @@
 const express = require("express")
 const router = express.Router()
 
-const ListController = require("../controllers/listController")
+const upload = require("../config/multer")
 
-router.get('/get/:id', ListController.list_get)
+const ListsController = require("../controllers/listController")
 
-router.get('/', ListController.list_get_all)
+router.get('/', ListsController.list_get_all)
 
-router.post('/create', ListController.list_create)
+router.get('/:id', ListsController.list_get)
+
+router.put('/edit/:id', ListsController.list_edit)
+
+router.post('/create/:id', ListsController.list_create)
 
 router.delete('/delete/:id', ListController.list_delete)
 
