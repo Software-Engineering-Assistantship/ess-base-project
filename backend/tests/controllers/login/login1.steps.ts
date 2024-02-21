@@ -1,33 +1,14 @@
 import { loadFeature, defineFeature } from "jest-cucumber"
 import axios, { AxiosResponse } from 'axios'
-const bcrypt = require('bcrypt');
 const mongoose = require('mongoose')
+require("dotenv").config()
+import {connectDBForTesting, disconnectDBForTesting} from '../common'
+const bcrypt = require('bcrypt');
 const User = require("../../../models/User")
 
 const feature = loadFeature('tests/features/login/login1.feature');
 
 const SERVER_URL = 'http://localhost:3001'
-
-export async function connectDBForTesting() {
-    try {
-      const dbUri = "mongodb://localhost:27017";
-      const dbName = "test";
-      await mongoose.connect(dbUri, {
-        dbName,
-        autoCreate: true,
-      });
-    } catch (error) {
-      console.log("DB connect error");
-    }
-  }
-  
-  export async function disconnectDBForTesting() {
-    try {
-      await mongoose.connection.close();
-    } catch (error) {
-      console.log("DB disconnect error");
-    }
-  }
 
 defineFeature(feature, test => {
 
@@ -63,9 +44,6 @@ defineFeature(feature, test => {
         })
         and(/^um usuário é cadastrado com nome "(.*)", email "(.*)" e senha "(.*)"$/, async (name,email,password) => { 
             const user = await User.findOne({name: name, email: email})
-            if(user){
-                console.log(user.name)
-            }
             const verify = await bcrypt.compare(password,user.password)
             let compare = true
             if(!verify){

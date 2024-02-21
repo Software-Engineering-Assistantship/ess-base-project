@@ -1,0 +1,117 @@
+[{
+  "_id": {
+    "$oid": "65d2cd21620894960053d342"
+  },
+  "user": {
+    "$oid": "15d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 5,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cd9c620894960053d348"
+  },
+  "user": {
+    "$oid": "02d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 4,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cdc2620894960053d34d"
+  },
+  "user": {
+    "$oid": "03d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 3,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2ce51620894960053d353"
+  },
+  "user": {
+    "$oid": "25d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cec3620894960053d358"
+  },
+  "user": {
+    "$oid": "05d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 2,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cf41620894960053d360"
+  },
+  "user": {
+    "$oid": "15d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cee7620894960053d35c"
+  },
+  "rating": 5,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2d039620894960053d36d"
+  },
+  "user": {
+    "$oid": "25d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cfb1620894960053d364"
+  },
+  "rating": 1,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2d132620894960053d372"
+  },
+  "user": {
+    "$oid": "99d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cfb1620894960053d364"
+  },
+  "rating": 5,
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2d5dee914878d310a4915"
+  },
+  "user": {
+    "$oid": "00d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 1,
+  "__v": 0
+}]

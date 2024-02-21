@@ -36,9 +36,6 @@ const restaurant_create = async (req, res) => {
     // checa se já existe um restaurante com mesmo nome e mesmo endereço
     const restaurantExist = await Restaurant.findOne({name : req.body.name, 'address.street': street, 'address.number': number, 'address.city': city, 'address.neighborhood': neighborhood})
 
-    console.log(req.body)
-    console.log(restaurantExist)
-
     if (restaurantExist) {
         return res.status(400).json({ error: 'Restaurante já cadastrado' });
     } 

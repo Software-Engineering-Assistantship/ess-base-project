@@ -45,4 +45,61 @@
     "followers": [],
     "reviews": [],
     "__v": 0
+<<<<<<< HEAD
   }]
+=======
+  },
+  {
+    "_id": {
+      "$oid": "65d1ebd4077a9668192c4feb"
+    },
+    "name": "Joana Bezerra",
+    "followers": [],
+    "following": []
+  },
+  {
+    "_id": {
+      "$oid": "65d1ebf4077a9668192c4fee"
+    },
+    "name": "Carla Marinho",
+    "followers": [],
+    "following": []
+  },
+  {
+    "_id": {
+      "$oid": "65d1ebe2077a9668192c4fec"
+    },
+    "name": "João Bezerra",
+    "followers": [],
+    "following": []
+  },
+  {
+    "_id": {
+      "$oid": "65d1ebec077a9668192c4fed"
+    },
+    "name": "Caio Lins",
+    "followers": [],
+    "following": []
+  },
+  {
+    "_id": {
+      "$oid": "65d1eb21077a9668192c4fe8"
+    },
+    "name": "Guilherme Maranhão",
+    "followers": [],
+    "following": []
+  },
+  {
+    "_id": {
+      "$oid": "65d52ef89eb929aa5b3532a4"
+    },
+    "name": "Roberto",
+    "email": "Roberto@gmail.com",
+    "password": "$2b$10$BPxM.anuj1aj3PZzxjpnYeAba.C63r08cFvgfqN7U8U0pOVfG2dZi",
+    "following": [],
+    "followers": [],
+    "reviews": [],
+    "__v": 0
+  }
+]
+>>>>>>> origin/dev-restaurants

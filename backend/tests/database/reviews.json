@@ -1,0 +1,147 @@
+[{
+  "_id": {
+    "$oid": "65d2cd21620894960053d341"
+  },
+  "title": "Coxinha Boa",
+  "user": {
+    "$oid": "15d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 5,
+  "text": "Boa Coxinha",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T03:38:09.966Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cd9c620894960053d347"
+  },
+  "title": "Coxinha ok",
+  "user": {
+    "$oid": "02d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 4,
+  "text": "Ok Coxinha",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T03:40:12.844Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cdc2620894960053d34c"
+  },
+  "title": "Coxinha meh",
+  "user": {
+    "$oid": "03d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "rating": 3,
+  "text": "meh Coxinha",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T03:40:50.574Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cf41620894960053d35f"
+  },
+  "title": "Ótimo Sushi",
+  "user": {
+    "$oid": "15d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cee7620894960053d35c"
+  },
+  "rating": 5,
+  "text": "Sushi ótimo",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T03:47:13.544Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2d039620894960053d36c"
+  },
+  "title": "Coxinha Ruim",
+  "user": {
+    "$oid": "25d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cfb1620894960053d364"
+  },
+  "rating": 1,
+  "text": "Ruim Coxinha",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T03:51:21.101Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2d132620894960053d371"
+  },
+  "title": "Coxinha Bem Boa",
+  "user": {
+    "$oid": "99d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cfb1620894960053d364"
+  },
+  "rating": 5,
+  "text": "Bem Boa Coxinha",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T03:55:30.488Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2fd87a99b48e9c55d479c"
+  },
+  "title": "Coxinha eh",
+  "user": {
+    "$oid": "05d29514713ed7cc6fcf3635"
+  },
+  "restaurant": {
+    "$oid": "65d2cfb1620894960053d364"
+  },
+  "rating": 2,
+  "text": "Eh Coxinha",
+  "likes": 0,
+  "dislikes": 0,
+  "views": 0,
+  "created": {
+    "$date": "2024-02-19T07:04:39.826Z"
+  },
+  "__v": 0
+}]
