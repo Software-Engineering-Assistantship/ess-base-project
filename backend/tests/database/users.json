@@ -1,0 +1,48 @@
+[{
+    "_id": {
+      "$oid": "65d51e36c3b06ec45cdd2ac8"
+    },
+    "name": "Guilhme",
+    "email": "guilherme@gmail.com",
+    "password": "$2b$10$cMVZLjltQcVAn1cr7JkAFuZvK5UCuzzw/3/GHEzijvYb9TflwJgS2",
+    "following": [],
+    "followers": [],
+    "reviews": [],
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65d51f9ac3b06ec45cdd2acb"
+    },
+    "name": "Leticia",
+    "email": "mleticiamn@gmail.com",
+    "password": "$2b$10$fJGC9hUzNGmgwQJSzlnLdu69vie2NN6g1J4GX.rL72dP16Ok5GENG",
+    "following": [],
+    "followers": [],
+    "reviews": [],
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65d51fdec3b06ec45cdd2ace"
+    },
+    "name": "Joao",
+    "email": "joaozinho123@gmail.com",
+    "password": "$2b$10$Bq89YC2Q4wSxruJGcFiKSO7lfJ2Qd0k7vTHLkWpn.Mope7k/tJVZO",
+    "following": [],
+    "followers": [],
+    "reviews": [],
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "65d5218ac3b06ec45cdd2ad1"
+    },
+    "name": "Pedro",
+    "email": "pedrinhofeliz123@gmail.com",
+    "password": "$2b$10$7PYyfSKRlx5wjQ1m3IwIg.zunThOTJYcpK6tD0A8VL/9MIeqLFDf2",
+    "following": [],
+    "followers": [],
+    "reviews": [],
+    "__v": 0
+  }]
