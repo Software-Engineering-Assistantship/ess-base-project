@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "axios": "^1.6.7",
+    "jest-cucumber": "^3.0.1"
+  },
+  "dependencies": {
+    "ts-jest": "^29.1.2",
+    "bcrypt": "^5.1.1"
+  }
+}
