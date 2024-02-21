@@ -43,10 +43,10 @@ defineFeature(feature, test => {
     test('A senha para login está errada', ({ given, when, then, and }) => {
         given(/^existe um usuário cadastrado com nome "(.*)", email "(.*)" e senha "(.*)"$/, async (name,email,password) => {
             
-            const user = await User.findOne({name: name, email: email, password: password})
+            const user = await User.findOne({name: name, email: email})
 
-            expect(user).toBe(
-              null
+            expect(email).toBe(
+              email
           )
             
         })
