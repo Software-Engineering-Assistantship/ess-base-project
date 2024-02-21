@@ -1,7 +1,7 @@
 import { loadFeature, defineFeature } from "jest-cucumber"
 import axios, { AxiosResponse } from 'axios'
 const mongoose = require('mongoose')
-const Restaurant = require("../models/Restaurant")
+const Restaurant = require("../../../models/Restaurant")
 
 const feature = loadFeature('tests/features/searches/searches1.feature');
 
@@ -43,15 +43,15 @@ defineFeature(feature, test => {
         given(/^existe um restaurante cadastrado com nome "(.*)" e outro com nome "(.*)"$/, async (substring) => {
             await Restaurant.create({ name: `Restaurante ${substring} Teste` });
         })
-        when(/^é feita uma requisição GET para "(.*)" com nome "(.*)"$/, async (path) => {
+        when(/^é feita uma requisição GET para "(.*)" com nome "(.*)"$/, async (path, name) => {
             try {
-                response = await axios.get(`${SERVER_URL}${path}`)
+              response = await axios.get(`${SERVER_URL}${path}`, { params: { name } });
             } catch (error) {
                 console.error('Error during HTTP request:', error)
                 return
             }
         })
-        then(/^o status de resposta deve ser "(.*)"$/, (status) => {
+        then(/^o status da resposta deve ser "(.*)"$/, (status) => {
             expect(String(response.status)).toBe(status)
         })
         and(/^a resposta é "(.*)"$/, (ans) => { 
