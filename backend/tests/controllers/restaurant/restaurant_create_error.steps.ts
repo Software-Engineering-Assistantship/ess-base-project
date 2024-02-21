@@ -1,27 +1,8 @@
 import { loadFeature, defineFeature } from "jest-cucumber"
 import axios, { AxiosResponse } from 'axios'
 const mongoose = require('mongoose')
-
-export async function connectDBForTesting() {
-    try {
-      const dbUri = "mongodb://localhost:27017";
-      const dbName = "test";
-      await mongoose.connect(dbUri, {
-        dbName,
-        autoCreate: true,
-      });
-    } catch (error) {
-      console.log("DB connect error");
-    }
-}
-  
-export async function disconnectDBForTesting() {
-    try {
-      await mongoose.connection.close();
-    } catch (error) {
-      console.log("DB disconnect error");
-    }
-}
+require("dotenv").config()
+import {connectDBForTesting, disconnectDBForTesting} from '../common'
 
 const Restaurant = require("../../../models/Restaurant")
 
@@ -42,17 +23,31 @@ defineFeature(feature, test => {
     let response: AxiosResponse
 
     test('erro ao cadastrar restaurante existente', ({ given, when, then, and }) => {
+        let restaurant: any;
         given(/^existe um restaurante cadastrado com nome "(.*)" e endereço "(.*)"$/, async (name, addr) => {
-            const restaurant = await Restaurant.findOne({name : name, address: addressSeparation(addr)})
+            const addressInfo = addressSeparation(addr)
+
+            if (addressInfo !== null) {
+                const { street, number, neighborhood, city } = addressInfo
+            
+
+                restaurant = await Restaurant.findOne({name : name, 'address.street': street, 'address.number': number, 'address.city': city, 'address.neighborhood': neighborhood})
+
+                expect(restaurant).not.toBeNull()
+            }
 
             expect(restaurant).not.toBeNull()
         })
         when(/^uma requisição POST foi enviada para "(.*)" com nome "(.*)", endereço "(.*)" e tipo de comida "(.*)"$/, async (path, name, addr, typeOfFood) => {
 
             const addressInfo = addressSeparation(addr)
+            console.log(`${SERVER_URL}${path}`)
 
             if (addressInfo !== null) {
                 const { street, number, neighborhood, city } = addressInfo
+                    console.log(restaurant.name, name)
+                    console.log(restaurant.name === name)
+                    console.log(addressInfo)
                 
                     response = await axios.post(`${SERVER_URL}${path}`, {
                         name: name,
@@ -63,7 +58,11 @@ defineFeature(feature, test => {
                             neighborhood, 
                             city
                         }
+                    }, {
+                        validateStatus: (status) => true
                     })
+
+                    console.log(response)
             }
 
         })
@@ -71,7 +70,7 @@ defineFeature(feature, test => {
             expect(String(response.status)).toBe(status)
         })
         and(/^a resposta é "(.*)"$/, (ans) => { 
-            expect(response.data).toEqual(ans)})
+            expect(response.data.error).toEqual(ans)})
     })
 })
 

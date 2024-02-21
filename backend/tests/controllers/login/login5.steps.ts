@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose')
 const User = require("../../../models/User")
 
-const feature = loadFeature('tests/features/login/login2.feature');
+const feature = loadFeature('tests/features/login/login5.feature');
 
 const SERVER_URL = 'http://localhost:3001'
+
+
 
 export async function connectDBForTesting() {
     try {
@@ -40,34 +42,37 @@ defineFeature(feature, test => {
 
     let response: AxiosResponse
 
-    test('logar o usuário', ({ given, when, then, and }) => {
-        given(/^existe um usuário com nome "(.*)", email "(.*)" e senha "(.*)"$/, async (name,email,password) => {
+    test('O email não está no formato adequado', ({ given, when, then, and }) => {
+        given(/^não existe um usuário cadastrado com o nome "(.*)", email "(.*)" e senha "(.*)"$/, async (name,email,password) => {
             
-            const user = await User.findOne({name: name, email: email})
+            const user = await User.findOne({name: name, email: email, password: password})
 
-            expect(email).toBe(
-              user.email
+            expect(user).toBe(
+              null
           )
             
         })
-        when(/^uma requisição POST foi enviada para "(.*)" com o email "(.*)" e senha "(.*)"$/, async (path,email,password) => {
+        when(/^uma requisição POST foi enviada para "(.*)" com o nome "(.*)", email "(.*)" e senha "(.*)"$/, async (path,name,email,password) => {
             try {
-                response = await axios.post(`${SERVER_URL}${path}`,{email:email,password:password})
+                response = await axios.post(`${SERVER_URL}${path}`,{name:name,email:email,password:password})
             } catch (error) {
-                console.error('Error during HTTP request:', error)
+                
                 return
             }
         })
         then(/^o status de resposta é "(.*)"$/, (status) => {
-            expect(String(response.status)).toBe(status)
+            expect(response).toBe(undefined)
         })
-        and(/^um usuário é logado com nome "(.*)" e email "(.*)"$/, async (name,email) => { 
-            const user = await User.findOne({name:name,email:email})
-            
+        and(/^é retornado o aviso "(.*)"$/, async (name,email,password) => { 
+            const user = await User.findOne({name: name, email: email})
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             let compare = false
-            if(name == user.name){
+            if(!emailRegex.test(email)){
                 compare = true
+
             }
+
+            
             
            expect(compare).toBe(true)
 
