@@ -1,33 +1,15 @@
 import { loadFeature, defineFeature } from "jest-cucumber"
 import axios, { AxiosResponse } from 'axios'
-const bcrypt = require('bcrypt');
 const mongoose = require('mongoose')
+require("dotenv").config()
+import {connectDBForTesting, disconnectDBForTesting} from '../common'
+
 const User = require("../../../models/User")
 
 const feature = loadFeature('tests/features/login/login2.feature');
 
 const SERVER_URL = 'http://localhost:3001'
 
-export async function connectDBForTesting() {
-    try {
-      const dbUri = "mongodb://localhost:27017";
-      const dbName = "test";
-      await mongoose.connect(dbUri, {
-        dbName,
-        autoCreate: true,
-      });
-    } catch (error) {
-      console.log("DB connect error");
-    }
-  }
-  
-  export async function disconnectDBForTesting() {
-    try {
-      await mongoose.connection.close();
-    } catch (error) {
-      console.log("DB disconnect error");
-    }
-  }
 
 defineFeature(feature, test => {
 
