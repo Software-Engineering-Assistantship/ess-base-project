@@ -5,3 +5,4 @@ coverage/
 logs/
 dist/
 yarn-error.log
+prisma/dev-test.db

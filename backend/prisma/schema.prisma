@@ -11,11 +11,124 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  name String
-  phone String
-  cpf String
-  email String @unique
+  id       Int    @id @default(autoincrement())
+  name     String
+  phone    String
+  cpf      String
+  email    String @unique
   password String
+  cards CardPayment[]
 }
 
+model CardPayment{
+  card_number String
+  card_id String @id @default(uuid())
+  number Int 
+  cvv Int
+  expire_date DateTime
+  name String
+  password String
+  type String
+
+  @@unique([card_number, type])
+  User User @relation(fields: [number], references: [id], onDelete: Cascade)
+}
+
+model DeliveryPerson {
+  id        String     @id @default(uuid())
+  name      String
+  cpf       String     @unique
+  phone     String
+  email     String     @unique
+  status    String
+  address   Address[]
+  createdAt DateTime   @default(now())
+  Delivery  Delivery[]
+}
+
+model Address {
+  id         String   @id @default(uuid())
+  postalCode String
+  street     String
+  number     String
+  district   String
+  city       String
+  state      String
+  complement String?
+  reference  String?
+  userId     String   @unique
+  createdAt  DateTime @default(now())
+
+  DeliveryPerson DeliveryPerson @relation(fields: [userId], references: [cpf], onDelete: Cascade)
+}
+
+model Promotion {
+  id         Int    @id @default(autoincrement())
+  category   String
+  discount   String
+  start_date String
+  end_date   String
+}
+
+model Cupom {
+  id         Int    @id @default(autoincrement())
+  name       String
+  discount   String
+  start_date String
+  end_date   String
+}
+
+model Categorie {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String?
+}
+model Item {
+  id          Int        @id @default(autoincrement())
+  name        String
+  price       Float
+  category    String
+  description String
+  image       String
+  colors      String
+  sizes       String
+  amount      Int
+  Delivery    Delivery[]
+  Rating      Rating[]
+}
+
+model Delivery {
+  id               Int             @id @default(autoincrement())
+  status           String          @default("pendente")
+  deliveryPersonId String?
+  item             Item[]
+  Rating           Rating[]
+  Notification     Notification[]
+  deliveryPerson   DeliveryPerson? @relation(fields: [deliveryPersonId], references: [id], onDelete: SetNull)
+}
+
+model Rating {
+  id         Int      @id @default(autoincrement())
+  rating     Int
+  comment    String?
+  item       Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId     Int
+  delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  deliveryId Int
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  category   String
+  title      String
+  deliveryId Int
+  delivery   Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+}
+
+model Receipt{
+  id Int @id @default(autoincrement())
+  name String
+  product String
+  amount Int
+  price Float
+}
