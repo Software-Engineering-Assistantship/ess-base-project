@@ -9,5 +9,6 @@ import RatingRepository from './ratingRepository';
 import CategoriesRepository from './CategoriesRepository';
 import ReceiptRepository from './ReceiptRepository';
 import deliveryNotificationRepository from './deliveryNotificationRepository';
+import CardPaymentRepository from './cardPaymentRepository';
 
-export { PromotionRepository, ReceiptRepository, CuponsRepository, CategoriesRepository, ItensRepository, DeliveryRepository, RatingRepository, deliveryNotificationRepository};
+export { PromotionRepository, ReceiptRepository, CuponsRepository, CategoriesRepository, ItensRepository, DeliveryRepository, RatingRepository, deliveryNotificationRepository, CardPaymentRepository};

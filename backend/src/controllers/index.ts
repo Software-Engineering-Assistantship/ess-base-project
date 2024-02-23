@@ -8,5 +8,6 @@ import UserController from './UserController';
 import CategoriesController from './CategoriesController';
 import ReceiptController from './ReceiptController';
 import DeliveryNotificationController from './DeliveryNotificationController';
+import CardPaymentController from './CardPaymentController';
 
-export { UserController, DeliveryPersonController, PromotionController, CuponsController, CategoriesController, ItensController, DeliveryController, RatingController, ReceiptController, DeliveryNotificationController };
+export { UserController, DeliveryPersonController, PromotionController, CuponsController, CategoriesController, ItensController, DeliveryController, RatingController, ReceiptController, DeliveryNotificationController, CardPaymentController };
