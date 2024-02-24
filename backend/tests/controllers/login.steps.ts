@@ -3,7 +3,7 @@ import app from '../../src/app';
 import request from 'supertest';
 import fs from 'fs';
 
-const feature = loadFeature('./features/login.feature');
+const feature = loadFeature('./tests/features/login.feature');
 
 defineFeature(feature, (test) => {
   let response: any; // Variável para armazenar a resposta da solicitação HTTP

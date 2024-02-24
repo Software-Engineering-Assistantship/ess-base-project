@@ -9,6 +9,7 @@ export default class UserEntity {
     logado: boolean;
   
     constructor(data: {
+      id: string;
       nome: string;
       cpf: string;
       dataNascimento: string;
@@ -17,7 +18,7 @@ export default class UserEntity {
       senha: string;
       logado: boolean;
     }) {
-      this.id = data.login;
+      this.id = data.id;
       this.nome = data.nome;
       this.cpf = data.cpf;
       this.dataNascimento = data.dataNascimento;
