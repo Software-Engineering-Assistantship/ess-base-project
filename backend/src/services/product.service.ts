@@ -21,27 +21,18 @@ class ProductService {
         return productModel;
     }
 
+    public async getProductById(id: string): Promise<ProductModel | null> {
+        const productEntity = await this.productRepository.getProductById(id);
+        const productModel = productEntity ? new ProductModel(productEntity) : null;
+        return productModel;
+    }
+
     public async getAllProducts(): Promise<ProductModel[]> {
         const productsEntity = await this.productRepository.getAllProducts();
         
         const productsModel = productsEntity.map((product: ProductEntity) => new ProductModel(product));
 
         return productsModel;
-    }
-
-    public async getProductById(id: string): Promise<ProductModel> {
-        const productEntity = await this.productRepository.getProductById(id);
-
-        if (!productEntity) {
-            throw new HttpNotFoundError({
-                msg: 'Product not found',
-                msgCode: ProductServiceMessageCode.product_not_found,
-            });
-        }
-
-        const productModel = new ProductModel(productEntity);
-
-        return productModel;
     }
 
     public static verificaURL(page: string, id: string): string {

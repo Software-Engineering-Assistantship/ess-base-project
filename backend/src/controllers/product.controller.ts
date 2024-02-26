@@ -16,8 +16,12 @@ class ProductController {
     
     private initRoutes() {
         // Rota para criar um novo produto
-        this.router.post(`${this.prefix}/cadastro`, (req: Request, res: Response) =>
+        this.router.post(`${this.prefix}/create`, (req: Request, res: Response) =>
             this.createProduct(req, res)
+        );
+
+        this.router.get(`${this.prefix}/:id`, (req: Request, res: Response) =>
+        this.getProductById(req, res)
         );
     }
     
@@ -30,6 +34,27 @@ class ProductController {
         msg: 'O cadastro foi realizado com sucesso',
         data: product,
         }).handle(res);
+    }
+
+    private async getProductById(req: Request, res: Response) {
+        const id = req.params.id;
+        const product = await this.productService.getProductById(id);
+
+        if (!product) {
+            return new SuccessResult({
+            msg: 'produto não encontrado',
+            data: null,
+            msgCode: 'product_not_found',
+            code: 404
+            }).handle(res);
+        }
+
+        else {
+            return new SuccessResult({
+                msg: 'produto encontrado',
+                data: product
+            }).handle(res);
+        }
     }
 }
 

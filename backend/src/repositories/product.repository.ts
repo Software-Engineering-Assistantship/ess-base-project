@@ -1,5 +1,7 @@
 import ProductEntity from "../entities/product.entity";
 import BaseRepository from "./base.repository";
+import fs from 'fs';
+const productJsonPath = './src/models/products.json';
 
 export default class ProductRepository extends BaseRepository<ProductEntity> {
   constructor() {
@@ -11,11 +13,28 @@ export default class ProductRepository extends BaseRepository<ProductEntity> {
   }
 
   public async getProductById(id: string): Promise<ProductEntity | null> {
-    return await this.findOne((product) => product.id === id);
+    const productJson = JSON.parse(fs.readFileSync(productJsonPath, 'utf-8'));
+
+      for (let index = 0; index < productJson.length; index++) {
+        if (productJson[index].id === id) {
+          return productJson[index];
+        }
+      }
+    
+    return null;
   }
 
   public async createProduct(data: ProductEntity): Promise<ProductEntity> {
-    return await this.add(data); 
+    if(!fs.existsSync(productJsonPath)){
+      fs.writeFileSync(productJsonPath, '[]');
+    }
+    const usersJson = JSON.parse(fs.readFileSync(productJsonPath, 'utf-8'));
+
+    const addData = [...usersJson, data];
+
+    fs.writeFileSync(productJsonPath, JSON.stringify(addData));
+
+    return data;
   }
 
   public async updateProductById(id: string, data: ProductEntity): Promise<ProductEntity | null> {
