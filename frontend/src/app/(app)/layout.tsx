@@ -1,5 +1,6 @@
 import { HeaderUser } from '@/components/header/header-user'
 import '../globals.css'
+import { Footer } from '@/components/footer'
 
 export default function AppLayout({
   children,
@@ -11,6 +12,7 @@ export default function AppLayout({
       <body>
         <HeaderUser />
         {children}
+        <Footer />
       </body>
     </html>
   )

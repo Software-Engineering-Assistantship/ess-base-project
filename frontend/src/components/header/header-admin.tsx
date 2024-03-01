@@ -1,5 +1,3 @@
-'use client';
-
 import { appAdminRoutes } from "../app-layout";
 import { Header } from "../header";
 

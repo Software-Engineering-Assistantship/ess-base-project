@@ -1,5 +1,3 @@
-'use client';
-
 import Link from "next/link";
 import { AppRoute } from "./app-layout";
 
@@ -13,10 +11,8 @@ export function Header({ routes }: { routes: AppRoute[] }) {
         <div className="flex gap-4">
           {
             routes.map((route) => (
-              <Link key={route.path} href={route.path} passHref>
-                <p className='text-xl font-medium text-rose-700 hover:text-rose-950 hover:underline hover:decoration-rose-950 hover:transition hover:ease-in-out hover:duration-300 cursor-pointer'>
-                  {route.name}
-                </p>
+              <Link key={route.path} href={route.path} passHref className="text-xl font-medium text-rose-700 hover:text-rose-950 hover:underline hover:decoration-rose-950 hover:transition hover:ease-in-out hover:duration-300 cursor-pointer">
+                {route.name}
               </Link>
             ))
           }

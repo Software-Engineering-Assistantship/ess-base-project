@@ -1,5 +1,3 @@
-'use client';
-
 import { appUserRoutes } from "../app-layout";
 import { Header } from "../header";
 

@@ -1,7 +1,6 @@
-'use client'
-
 import { HeaderAdmin } from '@/components/header/header-admin'
 import '../globals.css'
+import { Footer } from '@/components/footer'
 
 export default function AppLayout({
   children,
@@ -13,6 +12,7 @@ export default function AppLayout({
       <body>
         <HeaderAdmin />
         {children}
+        <Footer />
       </body>
     </html>
   )

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Red_Hat_Display } from 'next/font/google'
 import './globals.css'
+import { cn } from '@/lib/utils'
 
 const redHatDisplay = Red_Hat_Display({ subsets: ['latin'] })
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={redHatDisplay.className}>
+      <body className={cn('min-h-screen', redHatDisplay.className)}>
         {children}
       </body>
     </html>
