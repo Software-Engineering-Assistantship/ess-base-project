@@ -1,4 +1,6 @@
-import { HeaderUser } from '@/components/header/header-user'
+'use client'
+
+import { HeaderAdmin } from '@/components/header/header-admin'
 import '../globals.css'
 
 export default function AppLayout({
@@ -9,7 +11,7 @@ export default function AppLayout({
   return (
     <html lang="pt-br">
       <body>
-        <HeaderUser />
+        <HeaderAdmin />
         {children}
       </body>
     </html>

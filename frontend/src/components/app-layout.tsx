@@ -1,15 +1,34 @@
-interface AppRoute {
+export interface AppRoute {
   name: string;
   path: string;
 }
 
-export const appRoutes: AppRoute[] = [
+export const appUserRoutes: AppRoute[] = [
   {
-    name: 'Home',
+    name: 'Início',
     path: '/'
   },
   {
-    name: 'About',
-    path: '/about'
+    name: 'Blusas',
+    path: '/blusas'
+  }
+];
+
+export const appAdminRoutes: AppRoute[] = [
+  {
+    name: 'Itens',
+    path: '/itens'
+  },
+  {
+    name: 'Categorias',
+    path: '/categorias'
+  },
+  {
+    name: 'Cupons',
+    path: '/cupons'
+  },
+  {
+    name: 'Entregas',
+    path: '/entregas'
   }
 ];
