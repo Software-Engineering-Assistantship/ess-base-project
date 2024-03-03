@@ -1,0 +1,178 @@
+[{
+  "_id": {
+    "$oid": "65c41aa2453ca1b7700a197c"
+  },
+  "name": "Marco Zero Pizza",
+  "address": {
+    "city": "Recife",
+    "neighborhood": "Boa Viagem",
+    "street": "João Lisboa",
+    "number": "300"
+  },
+  "typeOfFood": "Pizza",
+  "timestamp": "1707350579567",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c568993aacefa6417aa0ed"
+  },
+  "name": "Tailandia's Food",
+  "address": {
+    "city": "São Paulo",
+    "neighborhood": "Bela Vista",
+    "street": "Avenida Paulista",
+    "number": "1223"
+  },
+  "typeOfFood": "Tailandesa",
+  "site": "rangodonamaria.com",
+  "timestamp": "1707436100347",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cfc1777717da2f3845a961"
+  },
+  "name": "Italia's Food",
+  "address": {
+    "city": "São Paulo",
+    "neighborhood": "Ibirapuera",
+    "street": "Rua legal",
+    "number": "1200"
+  },
+  "typeOfFood": "Italiana",
+  "site": "rangoitaliano.com",
+  "timestamp": "1708114294204",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65cfeacc31d3a13d8be463c5"
+  },
+  "name": "Best Pizza",
+  "address": {
+    "city": "São Paulo",
+    "neighborhood": "Ibirapuera",
+    "street": "Rua legal",
+    "number": "1200"
+  },
+  "typeOfFood": "Italiana",
+  "site": "rangoitaliano.com",
+  "timestamp": "1708124090210",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d11e187f6b62a1b71494ef"
+  },
+  "name": "Comida Boa",
+  "address": {
+    "city": "Recife",
+    "neighborhood": "Boa Viagem",
+    "street": "João Lisboa",
+    "number": "300"
+  },
+  "typeOfFood": "Pizza",
+  "timestamp": "1708203503526",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2dcb28e72f63fd167a3ca"
+  },
+  "name": "Rango da Dona Maria",
+  "address": {
+    "city": "São Paulo",
+    "neighborhood": "Bela Vista",
+    "street": "Avenida Paulista",
+    "number": "1223"
+  },
+  "typeOfFood": "Regional",
+  "timestamp": "1708317489914",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c413e6c75a35528c1fff83"
+  },
+  "name": "Sei lá Sushi",
+  "address": {
+    "city": "São Paulo",
+    "neighborhood": "Ibirapuera",
+    "street": "Rua legal",
+    "number": "1200"
+  },
+  "typeOfFood": "Italiana",
+  "site": "rangoitaliano.com",
+  "timestamp": "1708124090210",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d29514713ed7cc6fcf3635"
+  },
+  "name": "Casa dos Doces",
+  "address": {
+    "city": "Recife",
+    "neighborhood": "Casa Amarela",
+    "street": "Estrada do Arraial",
+    "number": "3692"
+  },
+  "typeOfFood": "Doceria",
+  "timestamp": "1708299338409",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cee7620894960053d35c"
+  },
+  "name": "PV Sushi",
+  "address": {
+    "city": "Recife",
+    "neighborhood": "Várzea",
+    "street": "Polidoro",
+    "number": "121"
+  },
+  "typeOfFood": "Sushi",
+  "timestamp": "1708313886936",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d2cfb1620894960053d364"
+  },
+  "name": "Casa dos Doces 2",
+  "address": {
+    "city": "Recife 2",
+    "neighborhood": "Casa Amarela 2",
+    "street": "Estrada do Arraial 2",
+    "number": "3692"
+  },
+  "typeOfFood": "Doceria",
+  "timestamp": "1708313886936",
+  "profileImage": "None",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d58ca2c3082d4949f7cd06"
+  },
+  "name": "Restaurante topper",
+  "address": {
+    "city": "Recife 2",
+    "neighborhood": "Casa Amarela 2",
+    "street": "Estrada do Arraial 2",
+    "number": "3692"
+  },
+  "typeOfFood": "Doceria",
+  "timestamp": "1708313886936",
+  "profileImage": "None",
+  "__v": 0
+}]

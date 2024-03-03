@@ -1,16 +1,25 @@
-const express = require("express")
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const userController = require("../controllers/userController")
+//criptografia da senha
+const bcrypt = require('bcrypt');
+// nao tenho certeza se esta certo
 
-router.get('/', userController.getAll)
 
-router.get('/:id', userController.getUser)
+const UserController = require("../controllers/userController")
 
-router.put('/edit/:id', userController.updateUser)
+router.post('/signup', UserController.user_signup)
 
-router.put('/editPass/:id', userController.updatePassword)
+router.post('/signin', UserController.user_signin)
 
-router.delete('/delete/:id', userController.deleteUser)
+router.get('/', UserController.getAll)
+
+router.get('/:id', UserController.getUser)
+
+router.put('/edit/:id', UserController.updateUser)
+
+router.put('/editPass/:id', UserController.updatePassword)
+
+router.delete('/delete/:id', UserController.deleteUser)
 
 module.exports = router
