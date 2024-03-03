@@ -2,14 +2,23 @@ import CarrinhoEntity from "../entities/carrinho.entity";
 import BaseRepository from "./base.repository";
 import fs from 'fs';
 
+const carrinhoJsonPath = './src/models/carrinho.json'
+
 export default class CarrinhoRepository extends BaseRepository<CarrinhoEntity> {
     constructor() {
         super('carrinho');
     }
 
     public async createCarrinho(data: CarrinhoEntity): Promise<CarrinhoEntity> {
-        fs.writeFileSync('./src/models/carrinho.json', JSON.stringify(data));
+        if (!fs.existsSync(carrinhoJsonPath)) {
+            fs.writeFileSync(carrinhoJsonPath, '[]');
+        } 
 
+        const carrinhoJson = JSON.parse(fs.readFileSync(carrinhoJsonPath, 'utf-8'));
+
+        const addData = [...carrinhoJson, data];
+
+        fs.writeFileSync(carrinhoJsonPath, JSON.stringify(addData));
         return data;
     }
 
@@ -24,10 +33,10 @@ export default class CarrinhoRepository extends BaseRepository<CarrinhoEntity> {
     }
 
     public async updateCarrinho(data: CarrinhoEntity): Promise<CarrinhoEntity | null> {
-        const carrinhoJson = JSON.parse(fs.readFileSync('./src/models/carrinho.json', 'utf-8'));
+        const carrinhoJson = JSON.parse(fs.readFileSync(carrinhoJsonPath, 'utf-8'));
 
-        if (carrinhoJson.id_user === data.id) {
-            fs.writeFileSync('./src/models/carrinho.json', JSON.stringify(data));
+        if (carrinhoJson.id === data.id) {
+            fs.writeFileSync(carrinhoJsonPath, JSON.stringify(data));
 
             return data;
         }

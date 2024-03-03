@@ -5,7 +5,7 @@ import CarrinhoEntity from '../entities/carrinho.entity';
 import { HttpBadRequestError } from '../utils/errors/http.error';
 
 class CarrinhoController {
-    private prefix: string = '/carrinho';
+    private prefix: string = '/cart';
     public router: Router;
     private carrinhoService: CarrinhoService;
 
@@ -32,30 +32,12 @@ class CarrinhoController {
         );
     }
 
-    private async addProductToCarrinho(req: Request, res: Response) {
-
-        const id_carrinho: string = req.body.id_carrinho;
-        const id_product: string = req.body.id_product;
-        const valor: number = req.body.valor;
-
-        if (!id_carrinho || !id_product || !valor) {
-            return new HttpBadRequestError({msg: 'Dados inválidos',});
-        }
-
-        const carrinho = await this.carrinhoService.addProductToCarrinho(id_carrinho, id_product, valor);
-
-        return new SuccessResult({
-            msg: 'Produto adicionado ao carrinho',
-            data: carrinho,
-        }).handle(res);
-    }
-
     private async createCarrinho(req: Request, res: Response) {
-        const carrinho = await this.carrinhoService.createCarrinho(new CarrinhoEntity(req.body));
+        const cart = await this.carrinhoService.createCarrinho(new CarrinhoEntity(req.body));
 
         return new SuccessResult({
             msg: 'Carrinho criado com sucesso',
-            data: carrinho
+            data: cart
         }).handle(res);
     }
 
@@ -82,6 +64,24 @@ class CarrinhoController {
             console.error('Erro ao obter o carrinho: ', e);
             return new HttpBadRequestError({msg: 'Erro ao obter o carrinho',});
         }
+    }
+
+    private async addProductToCarrinho(req: Request, res: Response) {
+
+        const id_carrinho: string = req.body.id_carrinho;
+        const id_product: string = req.body.id_product;
+        const valor: number = req.body.valor;
+
+        if (!id_carrinho || !id_product || !valor) {
+            return new HttpBadRequestError({msg: 'Dados inválidos',});
+        }
+
+        const carrinho = await this.carrinhoService.addProductToCarrinho(id_carrinho, id_product, valor);
+
+        return new SuccessResult({
+            msg: 'Produto adicionado ao carrinho',
+            data: carrinho,
+        }).handle(res);
     }
 }
 

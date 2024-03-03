@@ -8,6 +8,19 @@ export default class ProductRepository extends BaseRepository<ProductEntity> {
     super('products');
   }
 
+  public async createProduct(data: ProductEntity): Promise<ProductEntity> {
+    if(!fs.existsSync(productJsonPath)){
+      fs.writeFileSync(productJsonPath, '[]');
+    }
+    const usersJson = JSON.parse(fs.readFileSync(productJsonPath, 'utf-8'));
+
+    const addData = [...usersJson, data];
+
+    fs.writeFileSync(productJsonPath, JSON.stringify(addData));
+
+    return data;
+  }
+
   public async getAllProducts(): Promise<ProductEntity[]> {
     return await this.findAll();
   }
@@ -22,22 +35,5 @@ export default class ProductRepository extends BaseRepository<ProductEntity> {
       }
     
     return null;
-  }
-
-  public async createProduct(data: ProductEntity): Promise<ProductEntity> {
-    if(!fs.existsSync(productJsonPath)){
-      fs.writeFileSync(productJsonPath, '[]');
-    }
-    const usersJson = JSON.parse(fs.readFileSync(productJsonPath, 'utf-8'));
-
-    const addData = [...usersJson, data];
-
-    fs.writeFileSync(productJsonPath, JSON.stringify(addData));
-
-    return data;
-  }
-
-  public async updateProductById(id: string, data: ProductEntity): Promise<ProductEntity | null> {
-    return await this.update((product) => product.id === id, data);
   }
 }

@@ -3,10 +3,6 @@ import ProductModel from "../models/product.model";
 import ProductRepository from "../repositories/product.repository";
 import { HttpNotFoundError } from "../utils/errors/http.error";
 
-class ProductServiceMessageCode {
-    public static readonly product_not_found = 'product_not_found';
-}
-
 class ProductService {
   private productRepository: ProductRepository;
 
