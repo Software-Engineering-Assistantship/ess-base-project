@@ -137,8 +137,8 @@ async function seed() {
     data: {
       name: 'CUPOM10',
       discount: '0,9',
-      start_date: new Date('2022-01-01').toISOString(),
-      end_date: new Date('2022-12-31').toISOString(),
+      start_date: new Date('2023-03-01').toISOString(),
+      end_date: new Date('2023-03-31').toISOString(),
     }
   });
 }
