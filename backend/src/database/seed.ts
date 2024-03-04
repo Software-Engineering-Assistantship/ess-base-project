@@ -1,4 +1,4 @@
-import prisma from "@database";
+import prisma from "../database";
 import { Prisma } from "@prisma/client";
 
 async function seed() {
