@@ -38,7 +38,8 @@
     "lint:fix": "eslint ./src --ext .ts --fix",
     "push": "prisma db push",
     "test": "cross-env DATABASE_URL='file:./dev-test.db' prisma db push && cross-env DATABASE_URL='file:./dev-test.db' jest --runInBand",
-    "typecheck": "tsc --noEmit --skipLibCheck"
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "seed": "ts-node-dev src/database/seed.ts"
   },
   "devDependencies": {
     "@swc/jest": "^0.2.29",
