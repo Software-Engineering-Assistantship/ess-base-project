@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333333;
+  background-color: #F0E7DE;
+}
+
+.restaurant-list{
+    max-width: 700px;
+    margin: 40px auto;
+
+    border: 6px solid #B92727;
+    border-radius: 20px;
+}
+
+.category{
+    padding: 10px;
+    background-color: #B92727;
+    color: #F0E7DE;
+}
+
+.restaurant-list h2{
+    font-size: 20px;
+}
+
+.restaurant-preview{
+    padding: 10px 16px;
+    margin: 20px 0px;
+    border-bottom: 2px solid #e1d4d4;
+}

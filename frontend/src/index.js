@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
@@ -20,7 +19,7 @@ const router = createBrowserRouter([
         element: <Restaurants />,
       },
       {
-        path: "/restaurant/:id",
+        path: "/restaurants/:id",
         element: <RestaurantProfile />
       }
     ]
