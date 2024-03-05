@@ -92,7 +92,7 @@ defineFeature(feature, (test) => {
             productData.id = id;
 
             // criando carrinho
-            const rotaCarrinho = '/api/carrinho/create';
+            const rotaCarrinho = '/api/cart/create';
             response = await request.post(rotaCarrinho).send(carrinhoData);
             carrinhoService.createCarrinho(carrinhoData);
         });

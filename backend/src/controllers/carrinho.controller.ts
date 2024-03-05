@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import CarrinhoService from '../services/carrinho.service';
-import { SuccessResult } from '../utils/result';
+import { FailureResult, SuccessResult } from '../utils/result';
 import CarrinhoEntity from '../entities/carrinho.entity';
 import { HttpBadRequestError } from '../utils/errors/http.error';
 
@@ -42,28 +42,25 @@ class CarrinhoController {
     }
 
     private async getCarrinhoById(req: Request, res: Response) {
-        try {
-            const id: string = req.params.id;
+        // extrair ID da request
+        const id = req.params.id;
 
-            if (!id) {
-                return new HttpBadRequestError({msg: 'id não informado',});
-            }
+        // buscar carrinho pelo ID
+        const cart = await this.carrinhoService.getCarrinhoById(id);
 
-            const carrinho = await this.carrinhoService.getCarrinhoById(id);
+        // retornar carrinho
 
-            if (!carrinho) {
-                return new HttpBadRequestError({msg: 'Carrinho não encontrado',});
-            }
-
+        if (cart) {
             return new SuccessResult({
                 msg: 'Carrinho encontrado',
-                data: carrinho,
+                data: cart
             }).handle(res);
         }
-        catch (e) {
-            console.error('Erro ao obter o carrinho: ', e);
-            return new HttpBadRequestError({msg: 'Erro ao obter o carrinho',});
-        }
+        return new FailureResult
+        ({msg: 'Carrinho não encontrado',
+        msgCode: 'not_found',
+        code: 404                
+        }).handle(res);
     }
 
     private async addProductToCarrinho(req: Request, res: Response) {

@@ -51,3 +51,19 @@ Content-Type: application/json
 
 ###
 GET http://localhost:5001/api/products/123456
+
+###
+POST http://localhost:5001/api/cart/create
+Content-Type: application/json
+
+{
+  "id":"123",
+  "id_produtos":[],
+  "quantidade":0,
+  "data_criacao":"2024-03-03T20:38:17.880Z",
+  "data_atualizacao":"2024-03-03T20:38:17.880Z"
+}
+
+###
+GET http://localhost:5001/api/cart/123
+###
