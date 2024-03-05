@@ -61,7 +61,6 @@ export default class CarrinhoRepository extends BaseRepository<CarrinhoEntity> {
 
         for (const carrinho of carrinhoJson) {
             if (carrinho.id === id_carrinho) {
-                console.log(carrinho);
                 carrinho.id_produtos.push(id_product);
                 returnCarrinho = carrinho;
                 newCarrinhoJson.push(carrinho);
