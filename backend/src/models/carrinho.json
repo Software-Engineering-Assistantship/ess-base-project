@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"id":"123","id_produtos":[],"quantidade":0,"data_criacao":"2024-03-03T20:38:17.880Z","data_atualizacao":"2024-03-03T20:38:17.880Z"}]
+=======
+{"id":"123.456.789-01","id_produtos":[],"quantidade":0,"data_criacao":"2024-03-03T20:53:55.415Z","data_atualizacao":"2024-03-03T20:53:55.415Z"}
+>>>>>>> dev
