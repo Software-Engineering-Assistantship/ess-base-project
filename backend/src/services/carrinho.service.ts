@@ -23,20 +23,22 @@ class CarrinhoService {
         return carrinhoModel as CarrinhoModel;
     }
 
-    public async addProductToCarrinho(id_carrinho: string, id_product: string, valor: number): Promise<CarrinhoModel> {
+    public async addProductToCarrinho(id_carrinho: string, id_product: string): Promise<CarrinhoModel | null> {
         // const carrinhoEntity = await this.carrinhoRepository.addProductToCarrinho(id_carrinho, id_product, valor);
         // const carrinhoModel = carrinhoEntity ? new CarrinhoModel(carrinhoEntity) : null;
         // return carrinhoModel as CarrinhoModel;
 
+        // verifica se o carrinho existe
         const carrinhoEntity = await this.carrinhoRepository.getCarrinhoById(id_carrinho);
-
         if(!carrinhoEntity) {
-            throw new Error('Carrinho não encontrado');
+            return null;
         }
 
-        carrinhoEntity.id_produtos.push(id_product);
-        await this.carrinhoRepository.updateCarrinho(carrinhoEntity);
-        return new CarrinhoModel(carrinhoEntity);
+        await this.carrinhoRepository.addProductToCarrinho(id_carrinho, id_product);
+        // retorna o novo valor de carrinho
+        return new CarrinhoModel(await this.carrinhoRepository.getCarrinhoById(id_carrinho) as CarrinhoEntity);
+
+        // REFACTOR: são realizadas duas requisições idênticas na atual função. Pode comprometer eficiênca.
     }
 }
 

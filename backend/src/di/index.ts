@@ -48,6 +48,8 @@ di.registerService(
   CarrinhoService,
   new CarrinhoService(
     di.getRepository(CarrinhoRepository)
+  )
+);
 
 // Promocao
 di.registerRepository(PromocaoRepository, new PromocaoRepository());

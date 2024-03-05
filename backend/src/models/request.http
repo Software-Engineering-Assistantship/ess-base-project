@@ -67,3 +67,13 @@ Content-Type: application/json
 ###
 GET http://localhost:5001/api/cart/123
 ###
+
+POST http://localhost:5001/api/cart/addProduct
+Content-Type: application/json
+
+{
+  "id_carrinho":"123",
+  "id_product":"999"
+}
+
+###
