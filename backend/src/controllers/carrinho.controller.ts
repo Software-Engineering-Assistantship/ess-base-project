@@ -67,13 +67,16 @@ class CarrinhoController {
 
         const id_carrinho: string = req.body.id_carrinho;
         const id_product: string = req.body.id_product;
-        const valor: number = req.body.valor;
 
-        if (!id_carrinho || !id_product || !valor) {
-            return new HttpBadRequestError({msg: 'Dados inválidos',});
+        if (!id_carrinho || !id_product) {
+            return new FailureResult({
+                msg: 'Dados inválidos',
+                msgCode: 'invalid_data',
+                code: 400
+            }).handle(res);
         }
 
-        const carrinho = await this.carrinhoService.addProductToCarrinho(id_carrinho, id_product, valor);
+        const carrinho = await this.carrinhoService.addProductToCarrinho(id_carrinho, id_product);
 
         return new SuccessResult({
             msg: 'Produto adicionado ao carrinho',
