@@ -3,21 +3,23 @@ Feature: Cadastro e Manutenção de Promoções
     I want to adicionar, remover e atualizar promoções no sitema
     So that possa disponibilizar promoções para os demais usuários
 
+
  Scenario: Cadastro de promoção com sucesso Serviço
      Given que o usuário "Cora Coralina" está logado no sistema como "administrador"
      And o sistema possui o cupom de promoção "JULIOVERNE10"
      And o sistema possui o cupom de promoção "JULIOVERNE70"
-     And estou na página "Cadastro de Promoção"
+     And está na página "Cadastro de Promoção"
      When preenche o campo "nome" com "JULIOVERNEBLACK"
      And preenche o campo "valor" com "20"
      And preenche o campo "tipo" com "Geral"
      And preenche o campo "validade" com "Usuário com 3 meses ou menos no sistema"
+     And solicita o cadastro da promoção
      Then uma mensagem de confirmação é enviada "Cadastro de promoção concluído com sucesso!"
-     And o sistema tem armazendo em "Cupons cadastrados" o cupom "JULIOVERNE10"
-     And o sistema tem armazendo em "Cupons cadastrados" o cupom "JULIOVERNE70" 
-     And o sitema tem armazena em "Cupons cadastrados" o cupom "JULIOVERNEBLACK"
+     And o sistema tem armazenado em "Cupons cadastrados" o cupom "JULIOVERNE10"
+     And o sistema tem armazenado em "Cupons cadastrados" o cupom "JULIOVERNE70" 
+     And o sistema tem armazenado em "Cupons cadastrados" o cupom "JULIOVERNEBLACK"
 
-# Scenario: Cadastro de promoção com sucesso GUI
+#Scenario: Cadastro de promoção com sucesso GUI
 #     Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
 #     And está na página "Cadastro de Promoções"
 #     When preenche os campos:
@@ -26,16 +28,6 @@ Feature: Cadastro e Manutenção de Promoções
 #     And seleciona "Cadastrar promoção"
 #     Then uma mensagem de confirmação é exibida "Cadastro de promoção concluído com sucesso!"
 #     And a pagina "Cupons cadastrados" é exibida contendo os cupons de promoção cadatrados que inclui o cupom "JULIOVERNEBLACK"
-
-# Scenario: Cadastro de promoção com sucesso Serviço
-#     Given que o usuário "Cora Coralina" está logado no sistema como "administrador"
-#     And o sistema possui os cupons de promoção "JULIOVERNE10", "JULIOVERNE70"
-#     And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
-#     When solicita o cadastro de uma promoção com os seguintes valores:
-#     | Nome            | Valor   | Tipo  | Condições de validade                  |
-#     | JULIOVERNEBLACK | 20      | Geral | usuário com 3 meses ou menos no sistema|
-#     Then o sistema armazena em "Cupons cadastrados" os cupons de promoção cadatrados contendo os cupons "JULIOVERNE10" e "JULIOVERNE70" 
-#     And o sitema também armazena em "Cupons cadastrados" o cupom de promoção "JULIOVERNEBLACK"
 
 # Scenario: Cadastro de promoção com sucesso com campo valor em branco GUI
 #     Given que o usuário "Cora Coralina" está logado no sistema como "administrador"
@@ -47,16 +39,19 @@ Feature: Cadastro e Manutenção de Promoções
 #     Then uma mensagem de confirmação é exibida "Cadastro de promoção concluído com sucesso!"
 #     And a página "Cupons cadastrados" é exibida contendo os cupons de promoção cadastrados e dentre eles está o cupom "JULIOVERNE10"
 
-# Scenario: Cadastro de promoção com sucesso com campo valor em branco Serviço
-#     Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
-#     And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
-#     When solicita o cadastro de uma promoção com os seguintes valores:
-#     | Nome            | Tipo   | Condições de validade                                        |
-#     | JULIOVERNE10    | Livros | usuário com mais de 12 meses no sistema ou mais de 12 compras|
-#     Then o sistema armazena em "Cupons cadastrados" os cupons de promoção cadatrados e dentre eles está o cupom "JULIOVERNE10"
-#     And o campo "Tipo" do cupom "JULIOVERNER10" contém "Livros"
-#     And o campo "Condiçao de validade" do cupom "JULIOVERNER10" contém "usuário com mais de 12 meses no sistema ou mais de 12 compras"
-#     And o campo "Valor" do cupom "JULIOVERNER10" contém "10"
+Scenario: Cadastro de promoção com sucesso com campo valor em branco Serviço
+    Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
+    And está na página "Cadastro de Promoção"
+    When preenche o campo "nome" com "JULIOVERNE10"
+    And preenche o campo "tipo" com "Livros"
+    And preenche o campo "validade" com "Usuário com mais de 12 meses no sistema ou mais de 12 compras"
+    And uma requisição POST for enviada para "/api/promocoes/cadastro" enviando os dados do novo cupom
+    Then uma mensagem de confirmação é enviada "Cadastro de promoção concluído com sucesso!"
+    And o sistema tem armazenado em "Cupons cadastrados" o cupom "JULIOVERNE10"
+    And o cupom "JULIOVERNE10" tem campo "nome" com "JULIOVERNE10"
+    And o cupom "JULIOVERNE10" tem campo "valor" com "10"
+    And o cupom "JULIOVERNE10" tem campo "tipo" com "Livros"
+    And o cupom "JULIOVERNE10" tem campo "validade" com "Usuário com mais de 12 meses no sistema ou mais de 12 compras"
 
 # Scenario: Falha no cadastro de promoção por valor inválido GUI
 #     Given que o usuário "Viajante" está logado no sistema como "administrador"
@@ -70,10 +65,12 @@ Feature: Cadastro e Manutenção de Promoções
 
 # Scenario: Falha no cadastro de promoção por Valor inválido Serviço
 #     Given que o usuário "Júlio Vierne" está logado no sistema como "administrador"
-#     And faz uso da feature "Cadastro e Manutenção de Promoções" #Fiquei na dúvida quanto a necessidade desta linha
-#     When solicita o cadastro de uma promoção com os seguintes valores:
-#     | Nome            | Valor   | Tipo  | Condições de validade                  |
-#     | JULIOVERNE80    | 80      | Geral | usuário com 3 meses ou menos no sistema|
+#     And está na página "Cadastro de Promoção"
+#     When preenche o campo "nome" com "JULIOVERNE80"
+#     And preenche o campo "valor" com "80"
+#     And preenche o campo "tipo" com "Geral"
+#     And preenche o campo "validade" com "usuário com 3 meses ou menos no sistema"
+#     And uma requisição POST for enviada para "/api/promocoes/cadastro" enviando os dados do novo cupom
 #     Then o sistema armazena em  "Cupons cadastrados" os cupons cadastrados ntre eles não está o cupom "JULIOVERNE80"
 
 # Scenario: Falha no cadastro de promoção por Nome inválido GUI
@@ -137,11 +134,11 @@ Feature: Cadastro e Manutenção de Promoções
 #     And o cupom "JULIOVERNEBLACK" possui campo "Valor" igual a "40", "Tipo" igual a "Livro" e "Condições de validade" igual a "usuário com mais de 3 meses no sistema"
 
 # Scenario: Remoção do cupom de promoção GUI
-#     Given que o usuário "Viajante" está logado no sistema como "administrador"
-#     And está na página "Cupons cadastrados"
-#     And a página exibe os cupons "JULIOVERNE10", "JULIOVERNE60" e "JULIOVERNE70"
-#     When seleciono o cupom "JULIOVERNE60"
-#     And seleciono "Excluir cupom"
-#     Then uma mensagem de aviso é exibida "Tem certeza que quer excluir este cupom?"
-#     And Seleciono "Sim"
-#     And a página "Cupons cadastrados" é exibida contendo os cupons de promoção cadastrados nessa ordem "JULIOVERNE10" e "JULIOVERNE70" 
+    # Given que o usuário "Viajante" está logado no sistema como "administrador"
+    # And está na página "Cupons cadastrados"
+    # And a página exibe os cupons "JULIOVERNE10", "JULIOVERNE60" e "JULIOVERNE70"
+    # When seleciono o cupom "JULIOVERNE60"
+    # And seleciono "Excluir cupom"
+    # Then uma mensagem de aviso é exibida "Tem certeza que quer excluir este cupom?"
+    # And Seleciono "Sim"
+    # And a página "Cupons cadastrados" é exibida contendo os cupons de promoção cadastrados nessa ordem "JULIOVERNE10" e "JULIOVERNE70" 
