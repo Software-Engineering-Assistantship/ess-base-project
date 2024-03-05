@@ -27,7 +27,21 @@ const get_random_reviews = async (req, res) => {
     }
 }
 
+// finds the 5 most liked reviews
+const get_most_liked_reviews = async (req, res) => {
+    const reviews = await Review.find()
+
+    if (reviews.length === 0) {
+        return res.status(404).json({ error: 'Ainda não há reviews cadastradas' })
+    }
+    else {
+        const most_liked_reviews = await Review.find().sort({ likes: -1 }).limit(5);
+        res.json(most_liked_reviews)
+    }
+}
+
 module.exports = {
     get_random_restaurants,
-    get_random_reviews
+    get_random_reviews,
+    get_most_liked_reviews
 }
