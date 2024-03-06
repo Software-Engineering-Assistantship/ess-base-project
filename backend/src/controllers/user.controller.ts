@@ -2,19 +2,24 @@ import { Router, Request, Response } from 'express';
 import UserService from '../services/user.service'; // Importe o serviço de usuário
 import { SuccessResult } from '../utils/result'; // Importe o objeto de resultado de sucesso, se necessário
 import UserEntity from '../entities/user.entity';
+import CarrinhoService from '../services/carrinho.service';
 import fs from 'fs'; // Importe o módulo de manipulação de arquivos
+import CarrinhoEntity from '../entities/carrinho.entity';
 const userJsonPath = './src/models/users.json'; // Caminho para o arquivo JSON de usuários
 
 class UserController {
   private prefix: string = '/users';
   public router: Router;
   private userService: UserService;
+  private carrinhoService: CarrinhoService;
   private idCount: number = 1;
 
-  constructor(router: Router, userService: UserService) {
+  constructor(router: Router, userService: UserService, carrinhoService: CarrinhoService) {
     this.router = router;
     this.userService = userService;
+    this.carrinhoService = carrinhoService;
     this.initRoutes();
+    
   }
 
   private initRoutes() {
@@ -53,11 +58,18 @@ class UserController {
 
     // Extrai os dados do corpo da requisição
     const user = await this.userService.createUser(new UserEntity(req.body));
+    const carrinho = await this.carrinhoService.createCarrinho(new CarrinhoEntity({
+      id: req.body.id,
+      id_produtos: [],
+      quantidade: 0,
+      data_criacao: new Date(),
+      data_atualizacao: new Date()
+    }));
 
-    // Retorna o novo usuário criado
+    // Retorna o novo usuário e carrinho criados
     return new SuccessResult({
-        msg: 'O cadastro foi realizado com sucesso',
-        data: user
+      msg: 'O cadastro foi realizado com sucesso',
+      data: user
     }).handle(res);
   }
 

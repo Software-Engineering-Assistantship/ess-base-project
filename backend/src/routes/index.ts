@@ -41,7 +41,7 @@ export default (app: Express) => {
 
   app.use(
     prefix,
-    new UserController(router, di.getService(UserService)).router
+    new UserController(router, di.getService(UserService), di.getService(CarrinhoService)).router
   );
 
   app.use(

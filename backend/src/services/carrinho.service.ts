@@ -24,10 +24,6 @@ class CarrinhoService {
     }
 
     public async addProductToCarrinho(id_carrinho: string, id_product: string): Promise<CarrinhoModel | null> {
-        // const carrinhoEntity = await this.carrinhoRepository.addProductToCarrinho(id_carrinho, id_product, valor);
-        // const carrinhoModel = carrinhoEntity ? new CarrinhoModel(carrinhoEntity) : null;
-        // return carrinhoModel as CarrinhoModel;
-
         // verifica se o carrinho existe
         const carrinhoEntity = await this.carrinhoRepository.getCarrinhoById(id_carrinho);
         if(!carrinhoEntity) {
