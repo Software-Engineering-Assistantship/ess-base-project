@@ -3,8 +3,6 @@ import { Request, Response } from 'express';
 import { di } from '../di';
 import TestController from '../controllers/test.controller';
 import TestService from '../services/test.service';
-import UserController from '../controllers/user.controller'; // Importa o controlador de usuário
-import UserService from '../services/user.service'; // Import the UserService class
 import ProductService from '../services/product.service';
 import CarrinhoService from '../services/carrinho.service';
 import ProductController from '../controllers/product.controller';
@@ -52,13 +50,13 @@ export default (app: Express) => {
   app.use(
     prefix,
     new ProductController(router, di.getService(ProductService)).router
-  )
+  );
 
   app.use(
     prefix,
     new CarrinhoController(router, di.getService(CarrinhoService)).router
-  )
-
+  );
+  
   app.use(
     new EmailController(router, di.getService(EmailService)).router
   );

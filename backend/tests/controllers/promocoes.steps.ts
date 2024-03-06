@@ -106,7 +106,6 @@ defineFeature(feature, (test) => {
                 
             }else{  
                 response = await request.post('/api/promocoes/cadastro').send(JSON.stringify(promocaoData));
-                console.log('2 '+ JSON.stringify(response));
             }
         });
 
@@ -175,7 +174,6 @@ defineFeature(feature, (test) => {
             }else if(verifBranco == 2){
                 promocaoData.valor = '10';
                 response = await request.post(rota).send(JSON.stringify(promocaoData));
-                console.log('4 '+ JSON.stringify(response));
 
             }else if(!promocaoData.verificarValor()){
                 response.status = 400;

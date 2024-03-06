@@ -159,7 +159,6 @@ class PromocaoModel {
 
             // Verificar se valor é um número de 10 a 70
             const valor = this.valor;
-            console.log("Valor: " +valor);
             if (Number(this.valor) < 10 || (Number(this.valor) > 70)) {
                 return false; // Se valor não for um número de 10 a 70, retornar false
             }

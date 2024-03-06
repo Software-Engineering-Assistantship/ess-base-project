@@ -2,12 +2,14 @@ import { Router, Request, Response } from 'express';
 import UserService from '../services/user.service'; // Importe o serviço de usuário
 import { SuccessResult } from '../utils/result'; // Importe o objeto de resultado de sucesso, se necessário
 import UserEntity from '../entities/user.entity';
-import { get } from 'http';
+import fs from 'fs'; // Importe o módulo de manipulação de arquivos
+const userJsonPath = './src/models/users.json'; // Caminho para o arquivo JSON de usuários
 
 class UserController {
   private prefix: string = '/users';
   public router: Router;
   private userService: UserService;
+  private idCount: number = 1;
 
   constructor(router: Router, userService: UserService) {
     this.router = router;
@@ -46,6 +48,9 @@ class UserController {
  }
 
   private async createUser(req: Request, res: Response) {
+    //Gerar ID
+    req.body.id = this.generateId();
+
     // Extrai os dados do corpo da requisição
     const user = await this.userService.createUser(new UserEntity(req.body));
 
@@ -121,6 +126,20 @@ class UserController {
         msg: 'Lista de todos os usuários',
         data: users,
     }).handle(res);
+  }
+
+  private generateId(): string {
+    let id: string;
+    try{
+      const data = fs.readFileSync(userJsonPath, 'utf-8');
+      const lastId = JSON.parse(data).pop();
+      id = lastId.id.toString();
+    }catch(err){
+      id = '0';
+    }
+    
+    this.idCount = parseInt(id) + 1;
+    return this.idCount.toString();
   }
 }
 
