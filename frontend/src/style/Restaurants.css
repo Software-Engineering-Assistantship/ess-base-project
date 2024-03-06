@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333333;
+  background-color: #F0E7DE;
+  font-size: 16px;
+}
+
+.restaurant-list{
+    margin-top: 30px;
+
+    border: 6px solid #B92727;
+    border-radius: 20px;
+
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+}
+
+.category{
+    padding: 10px;
+    background-color: #B92727;
+    color: #F0E7DE;
+}
+
+.restaurant-list h2{
+    font-size: 20px;
+}
+
+.restaurants-page{
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+.restaurant-preview{
+    padding: 10px 16px;
+    border-bottom: 6px solid #B92727;
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-button {
+    padding: 0.7em 1.2em;
+    background-color: #5eb5fc;
+    width: 200px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.create-button p{
+    background-color: #5eb5fc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link{
+  text-decoration: none;
+}
+
+.view-button {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F09682;
+    width: 80px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+  .view-button p{
+    background-color: #F09682;
+    text-decoration: none !important; 
+    font-weight: bold;
+  }
+  
+  .view-button::before {
+    position: absolute;
+    content: '';
+    height: 0;
+    width: 0;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #F0E7DE 0%, #F0E7DE 50%, #F09682 50%);
+    border-radius: 0 0 0.5em 0;
+    box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+  }
+  
+  .view-button:hover::before {
+    width: 1.6em;
+    height: 1.6em;
+  }
+  
+  .view-button:active {
+    box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+    transform: translate(0.1em, 0.1em);
+  }
+
+.restaurant-actions{
+    margin: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.restaurant-details{
+    margin-top: 50px;
+    margin-left: 50px;
+}

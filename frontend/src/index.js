@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import App from './App';
 import Restaurants from './routes/Restaurants'
 import RestaurantProfile from './routes/RestaurantProfile'
+import RestaurantCreate from './routes/RestaurantCreate'
 import ErrorPage from './routes/ErrorPage'
 
 const router = createBrowserRouter([
@@ -20,7 +20,11 @@ const router = createBrowserRouter([
         element: <Restaurants />,
       },
       {
-        path: "/restaurant/:id",
+        path: "/restaurants/create",
+        element: <RestaurantCreate />
+      },
+      {
+        path: "/restaurants/:id",
         element: <RestaurantProfile />
       }
     ]
