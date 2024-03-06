@@ -28,7 +28,7 @@ const Restaurants = () => {
 
     return (
         <div className="restaurants-page"> 
-            <Link to={`/restaurants/create`}>
+            <Link className="link" to={`/restaurants/create`}>
                 <div className="create-button">
                     <p>Cadastrar restaurante</p>
                 </div>
@@ -42,7 +42,7 @@ const Restaurants = () => {
                             <h2>{restaurant.name}</h2>
                             <p>{restaurant.address.neighborhood} - {restaurant.address.city}</p>
                         </div>
-                        <Link to={`/restaurants/${restaurant._id}`}>
+                        <Link className="link" to={`/restaurants/${restaurant._id}`}>
                             <div className="view-button">
                                 <p>Visualizar</p>
                             </div>

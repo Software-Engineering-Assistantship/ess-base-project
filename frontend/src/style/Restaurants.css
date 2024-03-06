@@ -57,6 +57,10 @@
     font-weight: bold;
 }
 
+.link{
+  text-decoration: none;
+}
+
 .view-button {
     position: relative;
     padding: 0.7em 1.2em;
@@ -71,7 +75,7 @@
 
   .view-button p{
     background-color: #F09682;
-    text-decoration: none;
+    text-decoration: none !important; 
     font-weight: bold;
   }
   
