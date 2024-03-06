@@ -9,6 +9,10 @@ import Restaurants from './routes/Restaurants'
 import RestaurantProfile from './routes/RestaurantProfile'
 import ErrorPage from './routes/ErrorPage'
 
+import UserPage from './routes/UserPage'
+import Followers from './routes/Followers'
+import Following from './routes/Following' 
+
 const router = createBrowserRouter([
   {
     path:"/",
@@ -22,6 +26,23 @@ const router = createBrowserRouter([
       {
         path: "/restaurant/:id",
         element: <RestaurantProfile />
+      },
+
+
+
+
+
+      {
+        path: "/users/:id",
+        element: <UserPage />
+      },
+      {
+        path: "/users/followers/:id",
+        element: <Followers />
+      },
+      {
+        path: "/users/following/:id",
+        element: <Following />
       }
     ]
   }
