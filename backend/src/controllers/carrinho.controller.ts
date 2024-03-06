@@ -1,11 +1,11 @@
 import { Router, Request, Response } from 'express';
 import CarrinhoService from '../services/carrinho.service';
-import { SuccessResult } from '../utils/result';
+import { FailureResult, SuccessResult } from '../utils/result';
 import CarrinhoEntity from '../entities/carrinho.entity';
 import { HttpBadRequestError } from '../utils/errors/http.error';
 
 class CarrinhoController {
-    private prefix: string = '/carrinho';
+    private prefix: string = '/cart';
     public router: Router;
     private carrinhoService: CarrinhoService;
 
@@ -32,56 +32,56 @@ class CarrinhoController {
         );
     }
 
+    private async createCarrinho(req: Request, res: Response) {
+        const cart = await this.carrinhoService.createCarrinho(new CarrinhoEntity(req.body));
+
+        return new SuccessResult({
+            msg: 'Carrinho criado com sucesso',
+            data: cart
+        }).handle(res);
+    }
+
+    private async getCarrinhoById(req: Request, res: Response) {
+        // extrair ID da request
+        const id = req.params.id;
+
+        // buscar carrinho pelo ID
+        const cart = await this.carrinhoService.getCarrinhoById(id);
+
+        // retornar carrinho
+
+        if (cart) {
+            return new SuccessResult({
+                msg: 'Carrinho encontrado',
+                data: cart
+            }).handle(res);
+        }
+        return new FailureResult
+        ({msg: 'Carrinho não encontrado',
+        msgCode: 'not_found',
+        code: 404                
+        }).handle(res);
+    }
+
     private async addProductToCarrinho(req: Request, res: Response) {
 
         const id_carrinho: string = req.body.id_carrinho;
         const id_product: string = req.body.id_product;
-        const valor: number = req.body.valor;
 
-        if (!id_carrinho || !id_product || !valor) {
-            return new HttpBadRequestError({msg: 'Dados inválidos',});
+        if (!id_carrinho || !id_product) {
+            return new FailureResult({
+                msg: 'Dados inválidos',
+                msgCode: 'invalid_data',
+                code: 400
+            }).handle(res);
         }
 
-        const carrinho = await this.carrinhoService.addProductToCarrinho(id_carrinho, id_product, valor);
+        const carrinho = await this.carrinhoService.addProductToCarrinho(id_carrinho, id_product);
 
         return new SuccessResult({
             msg: 'Produto adicionado ao carrinho',
             data: carrinho,
         }).handle(res);
-    }
-
-    private async createCarrinho(req: Request, res: Response) {
-        const carrinho = await this.carrinhoService.createCarrinho(new CarrinhoEntity(req.body));
-
-        return new SuccessResult({
-            msg: 'Carrinho criado com sucesso',
-            data: carrinho
-        }).handle(res);
-    }
-
-    private async getCarrinhoById(req: Request, res: Response) {
-        try {
-            const id: string = req.params.id;
-
-            if (!id) {
-                return new HttpBadRequestError({msg: 'id não informado',});
-            }
-
-            const carrinho = await this.carrinhoService.getCarrinhoById(id);
-
-            if (!carrinho) {
-                return new HttpBadRequestError({msg: 'Carrinho não encontrado',});
-            }
-
-            return new SuccessResult({
-                msg: 'Carrinho encontrado',
-                data: carrinho,
-            }).handle(res);
-        }
-        catch (e) {
-            console.error('Erro ao obter o carrinho: ', e);
-            return new HttpBadRequestError({msg: 'Erro ao obter o carrinho',});
-        }
     }
 }
 

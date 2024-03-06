@@ -1,4 +1,59 @@
-POST http://localhost:5001/api/users/cadastro
+
+// PLAYERS
+POST http://localhost:5001/api/players/create
+Content-Type: application/json
+
+{
+    "id": "123",
+    "name": "neymar",
+    "age": "31",
+    "contry": "brazil",
+    "team": "al hilal"
+}
+
+###
+POST http://localhost:5001/api/players/create
+Content-Type: application/json
+
+{
+    "id": "124",
+    "name": "messi",
+    "age": "36",
+    "contry": "argentina",
+    "team": "inter miami"
+}
+
+// PRODUCTS
+###
+POST http://localhost:5001/api/products/create
+Content-Type: application/json
+
+{
+  "nome": "Batman",
+  "id": "123456",
+  "quantidade": 10,
+  "preco": 29.99,
+  "local": "Recife"
+}
+
+
+###
+POST http://localhost:5001/api/products/create
+Content-Type: application/json
+
+{
+  "nome": "Afagadores de bolas",
+  "id": "123457",
+  "quantidade": 20,
+  "preco": 9.99,
+  "local": "São Paulo"
+}
+
+###
+GET http://localhost:5001/api/products/123456
+
+###
+POST http://localhost:5001/api/cart/create
 Content-Type: application/json
 
 {
@@ -97,4 +152,3 @@ Content-Type: application/json
     "senha": "senhaairton567",
     "logado": false
 }
-

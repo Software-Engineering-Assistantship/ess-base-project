@@ -9,8 +9,6 @@ import ProductController from '../controllers/product.controller';
 import CarrinhoController from '../controllers/carrinho.controller';
 import PromocaoController from '../controllers/promocao.controler'; // Importa o controlador de promocao
 import PromocaoService from '../services/promocao.service'; // Import the PromocaoService class
-import UserController from '../controllers/user.controller';
-import UserService from '../services/user.service';
 import EmailController from '../controllers/email.controller';
 import EmailService from '../services/email.service';
 
@@ -52,12 +50,12 @@ export default (app: Express) => {
   app.use(
     prefix,
     new ProductController(router, di.getService(ProductService)).router
-  )
+  );
 
   app.use(
     prefix,
     new CarrinhoController(router, di.getService(CarrinhoService)).router
-  )
+  );
   
   app.use(
     new EmailController(router, di.getService(EmailService)).router

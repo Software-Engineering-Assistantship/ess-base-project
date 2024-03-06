@@ -92,7 +92,7 @@ defineFeature(feature, (test) => {
             productData.id = id;
 
             // criando carrinho
-            const rotaCarrinho = '/api/carrinho/create';
+            const rotaCarrinho = '/api/cart/create';
             response = await request.post(rotaCarrinho).send(carrinhoData);
             carrinhoService.createCarrinho(carrinhoData);
         });
@@ -110,6 +110,8 @@ defineFeature(feature, (test) => {
         });
     
         then('apenas o item adicionado estará presente na lista do carrinho', async () => {
+            console.log(response.body.data);
+            console.log(response.body);
             expect(response.body.data).toBeDefined();
             expect(response.body.data.id_produtos).toContain(productData.id);
             expect(response.body.data.id).toBe(userData.cpf);
