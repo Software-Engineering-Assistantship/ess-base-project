@@ -3,6 +3,7 @@ import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
 import CreateUser from "./app/home/pages/CreateUser";
 import ListUsers from "./app/home/pages/ListUsers";
+import UpdateUser from "./app/home/pages/UpdateUser";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/users",
     Component: ListUsers,
-  }
+  },
+  {
+    path: "/update-user/:id",
+    Component: UpdateUser,
+  },
 ]);
 
 export default function App() {

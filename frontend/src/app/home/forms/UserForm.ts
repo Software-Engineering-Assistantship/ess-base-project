@@ -12,9 +12,10 @@ const isDateValid = (value: string): boolean => {
   // Calcula a data atual e a data limite (120 anos no passado)
   const currentDate = new Date();
   const minDate = new Date(currentDate.getFullYear() - 120, currentDate.getMonth(), currentDate.getDate());
+  const maxDate = new Date(currentDate.getFullYear() - 8, currentDate.getMonth(), currentDate.getDate());
 
-  // Verifica se a data está no passado e se a idade é menor ou igual a 120 anos
-  return birthDate <= currentDate && birthDate >= minDate;
+  // Verifica se a data está no passado e se a idade é menor ou igual a 120 anos e se a idade é maior ou igual a 8 anos
+  return birthDate <= currentDate && birthDate >= minDate && birthDate <= maxDate;
 };
 
 export const UserFormSchema = z.object({
@@ -26,7 +27,7 @@ export const UserFormSchema = z.object({
     .length(11, { message: "O campo CPF deve ter 11 caracteres" }),
   dataNascimento: z
     .string()
-    .refine((value) => isDateValid(value), { message: "A data de nascimento deve estar no formato DD/MM/YYYY e não pode estar no futuro ou ter mais de 120 anos" }),
+    .refine((value) => isDateValid(value), { message: "A data de nascimento não é válida" }),
   email: z
     .string()
     .email({ message: "O email inserido não é válido" }),

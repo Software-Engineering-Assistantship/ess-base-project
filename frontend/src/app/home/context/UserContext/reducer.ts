@@ -12,7 +12,11 @@ const userStateReducer = (state: UserState, action: UserStateAction) => {
         ...state,
         getUserRequestStatus: action.payload,
       };
-
+    case "CHANGE_UPDATE_USER_REQUEST_STATUS":
+      return {
+        ...state,
+        updateUserRequestStatus: action.payload,
+      };
     default:
       return state;
   }

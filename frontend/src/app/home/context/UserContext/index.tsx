@@ -24,6 +24,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const [state, dispatch] = useReducer(userStateReducer, {
     createUserRequestStatus: RequestStatus.idle(),
     getUserRequestStatus: RequestStatus.idle(),
+    updateUserRequestStatus: RequestStatus.idle(),
   });
 
   const prevState = usePrevious(state);

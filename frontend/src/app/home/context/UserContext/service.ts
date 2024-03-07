@@ -3,6 +3,7 @@ import { UserStateAction } from "./types";
 import { ApiService } from "../../../../shared/services/ApiService";
 import RequestStatus from "../../../../shared/types/request-status";
 import { UserFormType } from "../../forms/UserForm";
+import { UserUpdateFormType } from "../../forms/UserUpdateForm";
 import UserModel from "../../models/UserModel";
 import { AppUnknownError } from "../../../../shared/errors/app-error";
 
@@ -76,5 +77,29 @@ export default class UserService {
         payload: RequestStatus.failure(new AppUnknownError()),
       });
     }
+  }
+
+  async updateUser(userForm: UserUpdateFormType, userId: string): Promise<void> {
+    this.dispatch({
+      type: "CHANGE_UPDATE_USER_REQUEST_STATUS",
+      payload: RequestStatus.loading(),
+    });
+
+    const result = await this.apiService.update(`/users/${userId}`, userForm);
+
+    result.handle({
+      onSuccess: (response) => {
+        this.dispatch({
+          type: "CHANGE_UPDATE_USER_REQUEST_STATUS",
+          payload: RequestStatus.success(response),
+        });
+      },
+      onFailure: (error) => {
+        this.dispatch({
+          type: "CHANGE_UPDATE_USER_REQUEST_STATUS",
+          payload: RequestStatus.failure(error),
+        });
+      },
+    });
   }
 }
