@@ -4,9 +4,9 @@ Content-Type: application/json
 
 {
     "nome": "Airton Garcia",
-    "cpf": "789.012.345-07",
+    "cpf": "13222020342",
     "dataNascimento": "30/11/1978",
     "email": "airton@example.com",
-    "login": "airtongarcia",
+    "login": "airtongarcia2",
     "senha": "senhaairton567"
 }

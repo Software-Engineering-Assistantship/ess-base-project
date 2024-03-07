@@ -47,31 +47,38 @@ class UserController {
     );
 
     // Rota para pegar todos os usuários
-    this.router.get(`${this.prefix}`, (req: Request, res: Response) =>
+    this.router.get(this.prefix, (req: Request, res: Response) =>
         this.getAllUsers(req, res)
     );
  }
 
   private async createUser(req: Request, res: Response) {
-    //Gerar ID
-    req.body.id = this.generateId();
+    try{
+      //Gerar ID
+      req.body.id = this.generateId();
 
-    // Extrai os dados do corpo da requisição
-    const user = await this.userService.createUser(new UserEntity(req.body));
-    const carrinho = await this.carrinhoService.createCarrinho(new CarrinhoEntity({
-      id: req.body.id,
-      id_produtos: [],
-      quantidade: 0,
-      data_criacao: new Date(),
-      data_atualizacao: new Date()
-    }));
+      // Extrai os dados do corpo da requisição
+      const user = await this.userService.createUser(new UserEntity(req.body));
+      const carrinho = await this.carrinhoService.createCarrinho(new CarrinhoEntity({
+        id: req.body.id,
+        id_produtos: [],
+        quantidade: 0,
+        data_criacao: new Date(),
+        data_atualizacao: new Date()
+      }));
 
-    // Retorna o novo usuário e carrinho criados
-    return new SuccessResult({
-      msg: 'O cadastro foi realizado com sucesso',
-      data: user
-    }).handle(res);
+      // Retorna o novo usuário e carrinho criados
+      return new SuccessResult({
+        msg: 'O cadastro foi realizado com sucesso',
+        data: user
+      }).handle(res);
+    }catch(error){
+      return res.status(422).json({
+        error: 'Erro ao criar usuário: ' + error
+      });
+    }
   }
+  
 
   private async updateUser(req: Request, res: Response) {
     // Extrai o ID do usuário da URL

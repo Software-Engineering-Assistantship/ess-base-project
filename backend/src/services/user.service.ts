@@ -12,11 +12,13 @@ class UserService {
     }
 
     public async createUser(data: UserEntity): Promise<UserModel> {
-        const userEntity = await this.userRepository.createUser(data);
-
-        const userModel = new UserModel(userEntity);
-
-        return userModel;
+        try {
+            const userEntity = await this.userRepository.createUser(data);
+            const userModel = new UserModel(userEntity);
+            return userModel;
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async getUserById(id: string): Promise<UserModel | null> {

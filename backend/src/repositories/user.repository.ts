@@ -14,6 +14,18 @@ class UserRepository extends BaseRepository<UserEntity> {
     }
     const usersJson = JSON.parse(fs.readFileSync(userJsonPath, 'utf-8'));
 
+    if (usersJson.find((user: UserEntity) => user.login === data.login)) {
+      throw new Error('Login já cadastrado');
+    }
+
+    if (usersJson.find((user: UserEntity) => user.cpf === data.cpf)) {
+      throw new Error('CPF já cadastrado');
+    }
+
+    if (usersJson.find((user: UserEntity) => user.email === data.email)) {
+      throw new Error('Email já cadastrado');
+    }
+
     const addData = [...usersJson, data];
 
     fs.writeFileSync(userJsonPath, JSON.stringify(addData));
