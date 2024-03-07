@@ -44,10 +44,14 @@ class UserService {
     }
 
     public async updateUser(id: string, data: UserEntity): Promise<UserModel | null> {
-        const userEntity = await this.userRepository.updateUser(id, data);
-        const userModel = userEntity ? new UserModel(userEntity) : null;
-    
-        return userModel;
+        try{
+            const userEntity = await this.userRepository.updateUser(id, data);
+            const userModel = userEntity ? new UserModel(userEntity) : null;
+        
+            return userModel;
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async getUserByLogin(login: string): Promise<UserEntity | null> {

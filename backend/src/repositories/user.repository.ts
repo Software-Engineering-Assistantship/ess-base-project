@@ -61,8 +61,41 @@ class UserRepository extends BaseRepository<UserEntity> {
   public async updateUser(id: string, data: UserEntity): Promise<UserEntity | null> {
     const usersJson = JSON.parse(fs.readFileSync(userJsonPath, 'utf-8'));
 
+    if (usersJson.find((user: UserEntity) => user.login === data.login && user.id != id)) {
+      throw new Error('Login já cadastrado');
+    }
+
+    let nomeForm = '';
+    let senhaMin = '';
+
+    if(data.nome != ''){
+      nomeForm = data.nome.replace(/\s/g, '').toLowerCase();
+      senhaMin = data.senha.toLowerCase();
+
+      if(senhaMin.includes(nomeForm)){
+        throw new Error('Senha com nome');
+      }
+    }
+    
     // Encontra o usuário no array pelo ID
     const userToUpdate = usersJson.find((user: UserEntity) => user.id === id);
+
+    nomeForm = userToUpdate.nome.replace(/\s/g, '').toLowerCase();
+    if(data.nome != '' && senhaMin.includes(nomeForm)){
+      throw new Error('Senha com nome');
+    }
+
+    const dataNasc = userToUpdate.dataNascimento.replace(/\//g, '');
+    if(senhaMin.includes(dataNasc)){
+      throw new Error('Senha com data');
+    }
+
+    if(data.nome == ''){
+      data.nome = userToUpdate.nome;
+    }
+    if(data.login == ''){
+      data.login = userToUpdate.login;
+    }
 
     if (userToUpdate) {
         // Atualiza apenas os campos relevantes do usuário

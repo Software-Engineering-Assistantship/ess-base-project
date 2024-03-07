@@ -104,26 +104,45 @@ class UserController {
   
 
   private async updateUser(req: Request, res: Response) {
-    // Extrai o ID do usuário da URL
-    const userId = req.params.id;
-    
-    // Extrai os dados do corpo da requisição
-    const user = await this.userService.updateUser(userId, new UserEntity(req.body));
-    
-    if (!user) {
-      // Retorna um erro caso o usuário não seja encontrado
+    try{
+      // Extrai o ID do usuário da URL
+      const userId = req.params.id;
+      
+      // Extrai os dados do corpo da requisição
+      const user = await this.userService.updateUser(userId, new UserEntity(req.body));
+      
+      if (!user) {
+        // Retorna um erro caso o usuário não seja encontrado
+        return new SuccessResult({
+          msg: 'Usuário não encontrado',
+          data: null,
+          msgCode: 'user_not_found',
+          code: 404
+        }).handle(res);
+      }
+      // Retorna o usuário atualizado
       return new SuccessResult({
-        msg: 'Usuário não encontrado',
-        data: null,
-        msgCode: 'user_not_found',
-        code: 404
+          msg: 'As Informações foram atualizadas com sucesso',
+          data: user,
       }).handle(res);
+    }catch(error){
+      if ((error as Error).message == 'Login já cadastrado'){
+        return res.status(422).json({
+          msgCode: 'login_already_exists',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }else if ((error as Error).message == 'Senha com data'){
+        return res.status(422).json({
+          msgCode: 'password_with_date',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }else if ((error as Error).message == 'Senha com nome'){
+        return res.status(422).json({
+          msgCode: 'password_with_name',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }
     }
-    // Retorna o usuário atualizado
-    return new SuccessResult({
-        msg: 'As Informações foram atualizadas com sucesso',
-        data: user,
-    }).handle(res);
   }
 
   private async getUserById(req: Request, res: Response) {
