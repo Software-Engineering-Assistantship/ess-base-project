@@ -57,6 +57,11 @@ abstract class HttpError extends AppError {
           slug: slug,
           message: msg,
         });
+      case 422:
+        return new HttpUnprocessableEntityError({
+          slug: slug,
+          message: msg,
+        });
       case 500:
         return new HttpInternalServerError({
           slug: slug,
@@ -74,6 +79,18 @@ abstract class HttpError extends AppError {
     switch (msgCode) {
       case "test_not_found":
         return "Teste não encontrado.";
+      case "user_already_exists":
+        return "Usuário já cadastrado.";
+      case "login_already_exists":
+        return "Login já cadastrado.";
+      case "cpf_already_exists":
+        return "CPF já cadastrado.";
+      case "email_already_exists":
+        return "Email já cadastrado.";
+      case "password_with_date":
+        return "Senha inválida.";
+      case "password_with_name":
+        return "Senha inválida.";
       default:
         return "Ocorreu um erro inesperado. Tente novamente mais tarde.";
     }
@@ -138,6 +155,16 @@ class HttpInternalServerError extends HttpError {
   }
 }
 
+class HttpUnprocessableEntityError extends HttpError {
+  constructor({
+    slug = "unprocessable_entity",
+    message = "Unprocessable entity",
+    stackTrace = "",
+  }) {
+    super(slug, message, stackTrace, 422);
+  }
+}
+
 export {
   HttpError,
   HttpUnknownError,
@@ -147,4 +174,5 @@ export {
   HttpNotFoundError,
   HttpGoneError,
   HttpInternalServerError,
+  HttpUnprocessableEntityError,
 };

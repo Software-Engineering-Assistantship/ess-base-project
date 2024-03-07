@@ -1,11 +1,14 @@
+
 import { RequestStatusEnum } from "../enums/request-status.enum";
 import { AppError } from "../errors/app-error";
 
 export default class RequestStatus<T, E = AppError> {
   status: RequestStatusEnum;
+  error: E;
 
-  constructor(status: RequestStatusEnum = RequestStatusEnum.Idle) {
+  constructor(status: RequestStatusEnum = RequestStatusEnum.Idle, error: E = {} as E) {
     this.status = status;
+    this.error = error;
   }
 
   isIdle(): boolean {

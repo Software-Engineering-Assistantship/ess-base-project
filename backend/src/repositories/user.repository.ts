@@ -1,3 +1,4 @@
+import { error } from 'console';
 import UserEntity from '../entities/user.entity'; // Importa a entidade de usuário
 import BaseRepository from './base.repository'; // Importa o repositório base
 import fs from 'fs'; // Importa o módulo de manipulação de arquivos
@@ -24,6 +25,18 @@ class UserRepository extends BaseRepository<UserEntity> {
 
     if (usersJson.find((user: UserEntity) => user.email === data.email)) {
       throw new Error('Email já cadastrado');
+    }
+
+    const dataNasc = data.dataNascimento.replace(/\//g, '');
+    const nomeForm = data.nome.replace(/\s/g, '').toLowerCase();
+    const senhaMin = data.senha.toLowerCase();
+
+    if(senhaMin.includes(dataNasc)){
+      throw new Error('Senha com data');
+    }
+
+    if(senhaMin.includes(nomeForm)){
+      throw new Error('Senha com nome');
     }
 
     const addData = [...usersJson, data];

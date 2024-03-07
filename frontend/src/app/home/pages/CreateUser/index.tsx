@@ -136,7 +136,7 @@ const CreateUser = () => {
       )}
   
       {state.createUserRequestStatus.isFailure() && (
-        <p className={styles.errorMessage}>Falha ao criar usuário. Por favor, tente novamente.</p>
+        <p className={styles.errorMessage}>{state.createUserRequestStatus.error.message}</p>
       )}
   
       <Link data-cy="view-users" to="/users">

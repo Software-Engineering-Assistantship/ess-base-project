@@ -73,9 +73,32 @@ class UserController {
         data: user
       }).handle(res);
     }catch(error){
-      return res.status(422).json({
-        error: 'Erro ao criar usuário: ' + error
-      });
+      if ((error as Error).message == 'Login já cadastrado'){
+        return res.status(422).json({
+          msgCode: 'login_already_exists',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }else if ((error as Error).message == 'CPF já cadastrado'){
+        return res.status(422).json({
+          msgCode: 'cpf_already_exists',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }else if ((error as Error).message == 'Email já cadastrado'){
+        return res.status(422).json({
+          msgCode: 'email_already_exists',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }else if ((error as Error).message == 'Senha com data'){
+        return res.status(422).json({
+          msgCode: 'password_with_date',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }else if ((error as Error).message == 'Senha com nome'){
+        return res.status(422).json({
+          msgCode: 'password_with_name',
+          msg: 'Erro ao cadastrar usuário' + error
+        });
+      }
     }
   }
   
