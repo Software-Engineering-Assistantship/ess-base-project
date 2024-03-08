@@ -4,11 +4,16 @@ import ListTests from "./app/home/pages/ListTests";
 import CreateUser from "./app/home/pages/CreateUser";
 import ListUsers from "./app/home/pages/ListUsers";
 import UpdateUser from "./app/home/pages/UpdateUser";
+import HomePage from "./app/home/pages/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "*",
-    Component: CreateTest,
+    Component: HomePage,
+  },
+  {
+    path: "/home",
+    Component: HomePage,
   },
   {
     path: "/create-test",
