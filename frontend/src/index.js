@@ -8,6 +8,7 @@ import Restaurants from './routes/Restaurants'
 import RestaurantProfile from './routes/RestaurantProfile'
 import RestaurantCreate from './routes/RestaurantCreate'
 import ErrorPage from './routes/ErrorPage'
+import UserProfile from './routes/UserProfile';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,15 @@ const router = createBrowserRouter([
       {
         path: "/restaurants/:id",
         element: <RestaurantProfile />
+      }
+    ]
+  },
+  {
+    path:"/",
+    children: [
+      {
+        path: "/users/:id",
+        element: <UserProfile />,
       }
     ]
   }
