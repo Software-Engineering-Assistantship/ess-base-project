@@ -55,6 +55,7 @@ class EmailService {
 }
 
   public async withoutReceipt(id: string): Promise<string> {
+    // Lidar com casos em que o e-mail está sem o comprovante
     const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
 
     const email = emailJson.find((email: any) => email.id === id);

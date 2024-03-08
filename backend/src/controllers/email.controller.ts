@@ -37,7 +37,7 @@ class EmailController {
   private async sendEmailWithReceipt(req: Request, res: Response) {
     req.body.id = this.generateId();
   
-    // Envie o e-mail com os dados fornecidos
+    // Enviar e-mail com os dados fornecidos
     const email = await this.emailService.sendEmailWithReceipt(new EmailEntity(req.body));
 
     return new SuccessResult({
@@ -52,7 +52,6 @@ class EmailController {
     const checkEmail = await this. emailService.checkEmailDeliverySuccess(id);
 
     if (!checkEmail) {
-      // Lidar com o caso em que id não é uma string
       return new SuccessResult({
         msg: 'Email não encontrado',
         data: null,
@@ -73,7 +72,6 @@ class EmailController {
     const checkEmail = await this. emailService.checkEmailInSpamFolder(id);
 
     if (!checkEmail) {
-      // Lidar com o caso em que id não é uma string
       return new SuccessResult({
         msg: 'Email não esta na caixa de Spam',
         data: null,
@@ -92,8 +90,6 @@ class EmailController {
     const id = req.query.id;
 
     if (typeof id !== 'string') { 
-      // Lidar com o caso em que id não é uma string
-
       return new SuccessResult({
         msg: 'ID não fornecido ou inválido'
       }).handle(res);
@@ -108,13 +104,11 @@ class EmailController {
   }
 
   private async withoutReceipt(req: Request, res: Response) {
-    // E-mail sem comprovante
     const id = req.params.id;
 
     const checkEmail = await this. emailService.withoutReceipt(id);
-
+ 
     if (!checkEmail) {
-      // Lidar com o caso em que id não é uma string
       return new SuccessResult({
         msg: 'E-mail está com comprovante',
         data: null,
