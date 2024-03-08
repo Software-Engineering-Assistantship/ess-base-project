@@ -1,19 +1,15 @@
 import { Router, Request, Response } from 'express';
-import {SuccessResult} from '../utils/result';
 import EmailService from '../services/email.service';
-import { EmailEntity } from '../entities/email.entity';
-import UserEntity from '../entities/user.entity';
-import EmailRepository from '../repositories/email.repository';
-
-interface AuthenticatedRequest extends Request {
-  user: any; // Aqui você define o tipo correto do objeto usuário
-}
+import EmailEntity from '../entities/email.entity';
+import { SuccessResult } from '../utils/result';
+import fs from 'fs';
+const emailJson = './src/models/emails.json'
 
 class EmailController {
   private prefix: string = '/emails';
   public router: Router;
   private emailService: EmailService;
-  private emailRepository: EmailRepository;
+  private idCount: number = 1;
 
   constructor(router: Router, emailService: EmailService) {
     this.router = router;
@@ -22,81 +18,124 @@ class EmailController {
   }
 
   private initRoutes() {
-    // Rota para enviar o e-mail com o comprovante do pedido
     this.router.post(`${this.prefix}/enviarEmail`, (req: Request, res: Response) =>
-      this.sendEmailWithReceipt(req, res)
-    );
+      this.sendEmailWithReceipt(req, res));
 
-    // Rota para verificar se o e-mail foi entregue com sucesso
     this.router.get(`${this.prefix}/emailEnviado`, (req: Request, res: Response) =>
-      this.checkEmailDeliverySuccess(req, res)
-    );
+      this.checkEmailDeliverySuccess(req, res));
 
-    // Rota para verificar se o e-mail foi enviado para a caixa de spam
     this.router.get(`${this.prefix}/spam`, (req: Request, res: Response) =>
-      this.checkEmailInSpamFolder(req, res)
-    );
+      this.checkEmailInSpamFolder(req, res));
 
-    // Rota para lidar com casos em que o e-mail não foi enviado
     this.router.get(`${this.prefix}/naoEnviado`, (req: Request, res: Response) =>
-      this.EmailNotDelivered(req, res)
-    );
+      this.emailNotDelivered(req, res));
 
-    // Rota para lidar com casos em que o comprovante não está no e-mail enviado
     this.router.get(`${this.prefix}/semComprovante`, (req: Request, res: Response) =>
-      this.withoutReceipt(req, res)
-    );
+      this.withoutReceipt(req, res));
   }
 
   private async sendEmailWithReceipt(req: Request, res: Response) {
-    // Enviar o e-mail com o comprovante do pedido
-    const { empresa, assunto, conteudo } = req.body;
+    req.body.id = this.generateId();
+  
+    // Enviar e-mail com os dados fornecidos
+    const email = await this.emailService.sendEmailWithReceipt(new EmailEntity(req.body));
 
-    // Retornar uma resposta de sucesso com a propriedade comprovante
-    return res.status(200).json({
-        comprovante: {
-            informacoes: 'Informações do comprovante do pedido',
-        }
-    });
-}
-private async checkEmailDeliverySuccess(req: Request, res: Response) {
-  const { id } = req.query; // Desestruturação do req.body
-  // Verificar se o e-mail foi entregue com sucesso usando o id
-  return res.status(200).json({
-    spamFolder: {
-      msg: 'O e-mail foi entregue com sucesso.',
+    return new SuccessResult({
+      msg: 'E-mail enviado com sucesso',
+      data: email
+    }).handle(res);
+  }
+
+  private async checkEmailDeliverySuccess(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const checkEmail = await this. emailService.checkEmailDeliverySuccess(id);
+
+    if (!checkEmail) {
+      return new SuccessResult({
+        msg: 'Email não encontrado',
+        data: null,
+        msgCode: 'email_not_found',
+        code: 404
+      }).handle(res);
+  }
+
+    return new SuccessResult({
+      msg: 'E-mail entregue com sucesso',
+      data: checkEmail
+    }).handle(res);
+  }
+
+  private async checkEmailInSpamFolder(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const checkEmail = await this. emailService.checkEmailInSpamFolder(id);
+
+    if (!checkEmail) {
+      return new SuccessResult({
+        msg: 'Email não esta na caixa de Spam',
+        data: null,
+        msgCode: 'email_not_found',
+        code: 404
+      }).handle(res);
+  }
+
+    return new SuccessResult({
+      msg: 'E-mail está na caixa de Spam',
+      data: checkEmail
+    }).handle(res);
+  }
+
+  private async emailNotDelivered(req: Request, res: Response) {
+    const id = req.query.id;
+
+    if (typeof id !== 'string') { 
+      return new SuccessResult({
+        msg: 'ID não fornecido ou inválido'
+      }).handle(res);
     }
-  });
-}
+    
+    // Tratamento de e-mail não enviado
+    await this.emailService.emailNotDelivered(id);
+  
+    return new SuccessResult({
+      msg: 'E-mail não enviado com sucesso'
+    }).handle(res);
+  }
 
-private async checkEmailInSpamFolder(req: Request, res: Response) {
-  const { id } = req.query;
-  // Verificar se o e-mail foi enviado para a caixa de spam usando o id
-  return res.status(200).json({
-    spamFolder: {
-      informacoes: 'O e-mail foi enviado para a caixa de spam.'
+  private async withoutReceipt(req: Request, res: Response) {
+    const id = req.params.id;
+
+    const checkEmail = await this. emailService.withoutReceipt(id);
+ 
+    if (!checkEmail) {
+      return new SuccessResult({
+        msg: 'E-mail está com comprovante',
+        data: null,
+        msgCode: 'email_with_receipt',
+        code: 404
+      }).handle(res);
+  }
+
+    return new SuccessResult({
+      msg: 'E-mail está sem o comprovante',
+      data: checkEmail
+    }).handle(res);
+  }
+
+  private generateId(): string {
+    let id: string;
+    try{
+      const data = fs.readFileSync(emailJson, 'utf-8');
+      const lastId = JSON.parse(data).pop();
+      id = lastId.id.toString();
+    }catch(err){
+      id = '0';
     }
-  });
-}
-
-private async EmailNotDelivered(req: Request, res: Response) {
-  const { id } = req.body; 
-  // Lógica para lidar com casos em que o e-mail não foi enviado usando o id
-  return res.status(200).json({
-    msg: 'O e-mail não foi enviado com sucesso.',
-    data: null,
-  });
-}
-
-private async withoutReceipt(req: Request, res: Response) {
-  const { id } = req.body; 
-  // Lidar com casos em que o comprovante não está no e-mail enviado usando o id
-  return res.status(200).json({
-    comprovante: {
-      msg: 'Email sem comprovante do pedido',
-    }
-  });
-}
+    
+    this.idCount = parseInt(id) + 1;
+    return this.idCount.toString();
+  }
 }
 
 export default EmailController;

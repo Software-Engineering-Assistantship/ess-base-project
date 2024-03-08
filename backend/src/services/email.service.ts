@@ -1,11 +1,8 @@
-import { EmailEntity } from '../entities/email.entity';
+import EmailEntity from '../entities/email.entity';
 import EmailModel from '../models/email.model';
 import EmailRepository from '../repositories/email.repository';
-import { HttpNotFoundError } from '../utils/errors/http.error';
-
-class EmailServiceMessageCode {
-  public static readonly email_not_found = 'email_not_found';
-}
+import fs from 'fs';
+const emailJsonPath = './src/models/emails.json';
 
 class EmailService {
   private emailRepository: EmailRepository;
@@ -14,31 +11,64 @@ class EmailService {
     this.emailRepository = emailRepository;
   }
 
-  public async sendEmailWithReceipt(data: EmailEntity): Promise<void> {
-    // Enviar o e-mail com o comprovante do pedido
-    const emailModel = new EmailModel(data);
-    await this.emailRepository.sendEmailWithReceipt(emailModel);
+  public async sendEmailWithReceipt(data: EmailEntity): Promise<EmailModel> {
+
+    const emailEntity = await this.emailRepository.sendEmailWithReceipt(data);
+    const emailModel = new EmailModel(emailEntity);
+
+    return emailModel;
   }
 
-  public async checkEmailDeliverySuccess(id: string): Promise<boolean> {
-    // Verificar se o e-mail foi entregue com sucesso
-    return await this.emailRepository.checkEmailDeliverySuccess(id);
+  public async checkEmailDeliverySuccess(id: string): Promise<EmailModel | null> {
+    // Verificar se o e-mail foi entregue
+
+    const emailEntity = await this.emailRepository.checkEmailDeliverySuccess(id);
+    const emailModel = emailEntity ? new EmailModel(emailEntity) : null;
+
+    return emailModel;
   }
 
   public async checkEmailInSpamFolder(id: string): Promise<boolean> {
     // Verificar se o e-mail foi enviado para a caixa de spam
-    return await this.emailRepository.checkEmailInSpamFolder(id);
-  }
+    const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
 
-  public async emailNotDelivered(): Promise<void> {
+    const email = emailJson.find((email: any) => email.id === id);
+
+    if (!email) {
+        throw new Error(`Email com o ID: ${id} não encontrado`);
+    }
+
+    return !email.isDelivered;
+}
+
+  public async emailNotDelivered(id: string = ''): Promise<boolean> {
     // Lidar com casos em que o e-mail não foi entregue
-    await this.emailRepository.emailNotDelivered();
-  }
+    const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
 
-  public async withoutReceipt(): Promise<void> {
-    // Lidar com casos em que o comprovante não está no e-mail enviado
-    await this.emailRepository.withoutReceipt();
-  }
+    const email = emailJson.find((email: any) => email.id === id);
+
+    if (!email) {
+        throw new Error(`Email com o ID: ${id} não encontrado`);
+    }
+
+    return !email.isDelivered;
+}
+
+  public async withoutReceipt(id: string): Promise<string> {
+    // Lidar com casos em que o e-mail está sem o comprovante
+    const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
+
+    const email = emailJson.find((email: any) => email.id === id);
+
+    if (!email) {
+      throw new Error(`Email com o ID: ${id} não encontrado`);
+    }
+
+    if (email.comprovante) {
+      return `O Email com o ID: ${id} possui comprovante`;
+    } else {
+      return `O Email com o ID: ${id} não possui comprovante`;
+    }}
 }
 
 export default EmailService;
