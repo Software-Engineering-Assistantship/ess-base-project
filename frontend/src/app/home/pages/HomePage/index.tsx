@@ -10,7 +10,7 @@ const HomePage = () => {
         <img src={images.logo} alt="Logo" className={styles.logoImage} />
       </div>
       <div className={styles.header}>
-        <h1 className={styles.title}>Livraria Julio Verne</h1>
+        <h1 className={styles.title}>Livraria Júlio Verne</h1>
         <p className={styles.subtitle}>Seu universo de leitura!</p>
       </div>
       <div className={styles.buttonContainer}>

@@ -10,3 +10,18 @@ Content-Type: application/json
     "login": "airtongarcia2",
     "senha": "senhaairton567"
 }
+
+###
+
+POST http://localhost:5001/api/emails/enviarEmail
+Content-Type: application/json
+
+{
+    "remetente": "Júnior",
+    "destinatario": "Rafael",
+    "assunto": "É os guri!",
+    "corpoEmail": "Bah tchê, é os guri!",
+    "comprovante": "aloha",
+    "isSpam": "false",
+    "isDelivered": "false"
+}

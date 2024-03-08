@@ -41,19 +41,6 @@ class EmailService {
     return !email.isDelivered;
 }
 
-  public async emailNotDelivered(id: string = ''): Promise<boolean> {
-    // Lidar com casos em que o e-mail não foi entregue
-    const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
-
-    const email = emailJson.find((email: any) => email.id === id);
-
-    if (!email) {
-        throw new Error(`Email com o ID: ${id} não encontrado`);
-    }
-
-    return !email.isDelivered;
-}
-
   public async withoutReceipt(id: string): Promise<string> {
     // Lidar com casos em que o e-mail está sem o comprovante
     const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));

@@ -22,30 +22,16 @@ class EmailRepository extends BaseRepository<EmailEntity> {
   }
 
   public async checkEmailDeliverySuccess(id: string): Promise<EmailEntity | null> {
-    const usersJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
+    const emailJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
 
-      for (let index = 0; index < usersJson.length; index++) {
-        if (usersJson[index].id === id) {
-          return usersJson[index];
-        }
-      }
+    if(emailJson.find((email: EmailEntity) => email.id === id)){
+      return emailJson.find((email: EmailEntity) => email.id === id);
+    }
     
     return null;
   }
 
   public async checkEmailInSpamFolder(id: string): Promise<EmailEntity | null> {
-    const usersJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
-
-      for (let index = 0; index < usersJson.length; index++) {
-        if (usersJson[index].id === id) {
-          return usersJson[index];
-        }
-      }
-    
-    return null;
-  }
-  
-  public async emailNotDelivered(id: string): Promise<EmailEntity | null> {
     const usersJson = JSON.parse(fs.readFileSync(emailJsonPath, 'utf-8'));
 
       for (let index = 0; index < usersJson.length; index++) {

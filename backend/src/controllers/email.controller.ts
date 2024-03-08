@@ -21,16 +21,13 @@ class EmailController {
     this.router.post(`${this.prefix}/enviarEmail`, (req: Request, res: Response) =>
       this.sendEmailWithReceipt(req, res));
 
-    this.router.get(`${this.prefix}/emailEnviado`, (req: Request, res: Response) =>
+    this.router.get(`${this.prefix}/emailEnviado/:id`, (req: Request, res: Response) =>
       this.checkEmailDeliverySuccess(req, res));
 
-    this.router.get(`${this.prefix}/spam`, (req: Request, res: Response) =>
+    this.router.get(`${this.prefix}/spam/:id`, (req: Request, res: Response) =>
       this.checkEmailInSpamFolder(req, res));
 
-    this.router.get(`${this.prefix}/naoEnviado`, (req: Request, res: Response) =>
-      this.emailNotDelivered(req, res));
-
-    this.router.get(`${this.prefix}/semComprovante`, (req: Request, res: Response) =>
+    this.router.get(`${this.prefix}/semComprovante/:id`, (req: Request, res: Response) =>
       this.withoutReceipt(req, res));
   }
 
@@ -49,7 +46,7 @@ class EmailController {
   private async checkEmailDeliverySuccess(req: Request, res: Response) {
     const id = req.params.id;
 
-    const checkEmail = await this. emailService.checkEmailDeliverySuccess(id);
+    const checkEmail = await this.emailService.checkEmailDeliverySuccess(id);
 
     if (!checkEmail) {
       return new SuccessResult({
@@ -58,18 +55,25 @@ class EmailController {
         msgCode: 'email_not_found',
         code: 404
       }).handle(res);
-  }
+    }
 
-    return new SuccessResult({
-      msg: 'E-mail entregue com sucesso',
-      data: checkEmail
-    }).handle(res);
+    if(checkEmail.isDelivered === false){
+      return new SuccessResult({
+        msg: 'Email não foi entregue',
+        data: checkEmail
+      }).handle(res);
+    }else{
+      return new SuccessResult({
+        msg: 'E-mail entregue com sucesso',
+        data: checkEmail
+      }).handle(res);
+    }
   }
 
   private async checkEmailInSpamFolder(req: Request, res: Response) {
     const id = req.params.id;
 
-    const checkEmail = await this. emailService.checkEmailInSpamFolder(id);
+    const checkEmail = await this.emailService.checkEmailInSpamFolder(id);
 
     if (!checkEmail) {
       return new SuccessResult({
@@ -86,27 +90,10 @@ class EmailController {
     }).handle(res);
   }
 
-  private async emailNotDelivered(req: Request, res: Response) {
-    const id = req.query.id;
-
-    if (typeof id !== 'string') { 
-      return new SuccessResult({
-        msg: 'ID não fornecido ou inválido'
-      }).handle(res);
-    }
-    
-    // Tratamento de e-mail não enviado
-    await this.emailService.emailNotDelivered(id);
-  
-    return new SuccessResult({
-      msg: 'E-mail não enviado com sucesso'
-    }).handle(res);
-  }
-
   private async withoutReceipt(req: Request, res: Response) {
     const id = req.params.id;
 
-    const checkEmail = await this. emailService.withoutReceipt(id);
+    const checkEmail = await this.emailService.withoutReceipt(id);
  
     if (!checkEmail) {
       return new SuccessResult({
