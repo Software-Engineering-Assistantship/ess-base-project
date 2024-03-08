@@ -69,6 +69,18 @@ html, body {
     z-index: 2;
 }
 
+.fotoperfil{
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+}
+
+.fotocapa{
+    width: 1082px;
+    height: 265px;
+    border-radius: 60px;
+}
+
 .profileInfo {
     z-index: 1;
     transform: translateY(-17%);
