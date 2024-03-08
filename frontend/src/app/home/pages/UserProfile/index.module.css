@@ -12,46 +12,29 @@
   margin-bottom: 1rem;
 }
 
-.formContainer {
+.listContainer {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 2rem;
+
   gap: 16px;
-}
-
-.formInputContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.formInput {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
 }
 
 .linkButton {
   text-decoration: none; 
   color: inherit;
+  margin-bottom: 1rem;
 }
 
-.formError {
-  color: red;
-  font-size: 0.8rem;
-}
-
-.formButton {
+.listItem {
+  height: 100%;
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
+}
+
+.listItemText {
+  font-size: 1.5rem;
 }

@@ -1,15 +1,17 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./index.module.css";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { UserUpdateFormSchema, UserUpdateFormType } from "../../forms/UserUpdateForm";
-import { Link } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
 
 const UpdateUser = () => {
   const { state, prevState, service } = useContext(UserContext);
   const id = window.location.pathname.split("/").pop();
+  const [isUpdateSuccess, setIsUpdateSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -22,15 +24,21 @@ const UpdateUser = () => {
 
   const onSubmit: SubmitHandler<UserUpdateFormType> = async (body) => {
     service.updateUser(body, id ?? '');
+    service.updateUser(body, id ?? '').then(() => {
+      setIsUpdateSuccess(true);
+      setIsLoading(false);
+    }).catch(() => {
+      setIsLoading(false);
+    });
     reset();
   };
 
   useEffect(() => {
-    if (
-      state.updateUserRequestStatus !== prevState?.updateUserRequestStatus &&
-      state.updateUserRequestStatus.isSuccess()
-    ) {
-      alert("Usuário atualizado com sucesso!");
+    if (state.updateUserRequestStatus !== prevState?.updateUserRequestStatus) {
+      if (state.updateUserRequestStatus.isSuccess() && !isUpdateSuccess) {
+        alert("Usuário atualizado com sucesso!");
+        setIsUpdateSuccess(true);
+      }
     }
   }, [state, prevState]);
 
@@ -82,21 +90,21 @@ const UpdateUser = () => {
         </div>
   
         <Button data-cy="create" type="submit" disabled={state.updateUserRequestStatus.isLoading()}>
-          {state.updateUserRequestStatus.isLoading() ? "Atualizando..." : "Atualizar"}
+          {isLoading ? "Atualizando..." : "Atualizar"}
+        </Button>
+
+        <Button data-cy="cancel" type="button">
+          <Link to={`/profile/${id}`} className={styles.linkButton}>Cancelar</Link>
         </Button>
       </form>
   
-      {state.updateUserRequestStatus.isSuccess() && (
-        <p className={styles.successMessage}>Usuário atualizado com sucesso!</p>
+      {isUpdateSuccess && (
+        <Navigate to={`/profile/${id}`} />
       )}
   
       {state.updateUserRequestStatus.isFailure() && (
         <p className={styles.errorMessage}>{state.updateUserRequestStatus.error.message}</p>
       )}
-  
-      <Link data-cy="view-users" to="/users">
-        VER USUÁRIOS
-      </Link>
     </section>
   );  
 };

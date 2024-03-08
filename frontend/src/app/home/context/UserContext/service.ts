@@ -79,6 +79,39 @@ export default class UserService {
     }
   }
 
+  async getUser(userId: string): Promise<void> {
+    try {
+      this.dispatch({
+        type: "CHANGE_GET_USER_REQUEST_STATUS",
+        payload: RequestStatus.loading(),
+      });
+
+      const result = await this.apiService.get(`/users/${userId}`);
+
+      result.handle({
+        onSuccess: (response) => {
+          const user = new UserModel(response.data);
+
+          this.dispatch({
+            type: "CHANGE_GET_USER_REQUEST_STATUS",
+            payload: RequestStatus.success([user]),
+          });
+        },
+        onFailure: (error) => {
+          this.dispatch({
+            type: "CHANGE_GET_USER_REQUEST_STATUS",
+            payload: RequestStatus.failure(error),
+          });
+        },
+      });
+    } catch (_) {
+      this.dispatch({
+        type: "CHANGE_GET_USER_REQUEST_STATUS",
+        payload: RequestStatus.failure(new AppUnknownError()),
+      });
+    }
+  }
+
   async updateUser(userForm: UserUpdateFormType, userId: string): Promise<void> {
     this.dispatch({
       type: "CHANGE_UPDATE_USER_REQUEST_STATUS",

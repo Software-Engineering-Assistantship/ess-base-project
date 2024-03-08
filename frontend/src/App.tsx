@@ -5,6 +5,7 @@ import CreateUser from "./app/home/pages/CreateUser";
 import ListUsers from "./app/home/pages/ListUsers";
 import UpdateUser from "./app/home/pages/UpdateUser";
 import HomePage from "./app/home/pages/HomePage";
+import UserProfile from "./app/home/pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/update-user/:id",
     Component: UpdateUser,
+  },
+  {
+    path: "/profile/:id",
+    Component: UserProfile
   },
 ]);
 

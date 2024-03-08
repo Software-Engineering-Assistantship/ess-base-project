@@ -140,7 +140,7 @@ const CreateUser = () => {
       )}
   
       <Link data-cy="view-users" to="/home">
-        Voltar para ínicio
+        Voltar para início
       </Link>
     </section>
   );  
