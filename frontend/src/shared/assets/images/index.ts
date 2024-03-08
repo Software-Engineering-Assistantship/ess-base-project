@@ -8,6 +8,7 @@ import livro7 from './livro7.jpg';
 import livro8 from './livro8.jpg';
 import livro9 from './livro9.jpg';
 import livro10 from './livro10.jpg';
+import logo from './logo.png';
 
 export default {
     livro1,
@@ -20,4 +21,5 @@ export default {
     livro8,
     livro9,
     livro10,
+    logo,
 };

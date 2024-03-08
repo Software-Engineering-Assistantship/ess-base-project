@@ -1,4 +1,4 @@
-import React from "react";
+//import React from "react";
 import images from "../../../../shared/assets/images/";
 import { Link } from "react-router-dom";
 import styles from "./index.module.css";
@@ -6,6 +6,9 @@ import styles from "./index.module.css";
 const HomePage = () => {
   return (
     <section className={styles.container}>
+      <div className={styles.logo}>
+        <img src={images.logo} alt="Logo" className={styles.logoImage} />
+      </div>
       <div className={styles.header}>
         <h1 className={styles.title}>Livraria Julio Verne</h1>
         <p className={styles.subtitle}>Seu universo de leitura!</p>
@@ -14,8 +17,8 @@ const HomePage = () => {
         <Link to="/login" className={styles.linkButton}>
           Login
         </Link>
-        <Link to="/register" className={styles.linkButton}>
-          Registrar
+        <Link to="/create-user" className={styles.linkButton}>
+          Cadastro
         </Link>
       </div>
       <div className={styles.productSection}>

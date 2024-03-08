@@ -6,6 +6,13 @@
   background-color: #6E8898;
 }
 
+.logo {
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 30px;
+}
+
 .header {
   margin-bottom: 40px;
 }
@@ -99,18 +106,19 @@
   background-color: #C73E1D;
   transition: 0.3s;
   margin-top: 10px;
-  color: #000;
+  color: #fff;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .productButton:hover, .productButton:focus, .productButton:active {
   background-color: #9C2C0E;
-  color: #000;
+  color: #fff;
 }
 
 .productButton:active {
   background-color: #6E8898;
-  color: #fff;
+  color: #000;
   border: #C73E1D
 }
 

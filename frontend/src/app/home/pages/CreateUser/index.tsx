@@ -139,8 +139,8 @@ const CreateUser = () => {
         <p className={styles.errorMessage}>{state.createUserRequestStatus.error.message}</p>
       )}
   
-      <Link data-cy="view-users" to="/users">
-        VER USUÁRIOS
+      <Link data-cy="view-users" to="/home">
+        Voltar para ínicio
       </Link>
     </section>
   );  
