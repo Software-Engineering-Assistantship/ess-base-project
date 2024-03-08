@@ -10,6 +10,8 @@ import TestService from '../services/test.service';
 import UserService from '../services/user.service';
 import PromocaoService from '../services/promocao.service';
 import Injector from './injector';
+import EmailRepository from '../repositories/email.repository';
+import EmailService from '../services/email.service';
 
 export const di = new Injector();
 
@@ -57,5 +59,14 @@ di.registerService(
   PromocaoService,
   new PromocaoService(
     di.getRepository(PromocaoRepository)
+  )
+);
+
+// Email
+di.registerRepository(EmailRepository, new EmailRepository());
+di.registerService(
+  EmailService,
+  new EmailService(
+    di.getRepository(EmailRepository)
   )
 );

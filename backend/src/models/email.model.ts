@@ -1,31 +1,22 @@
-import UserEntity from "../entities/user.entity";
-import BaseEntity from "../entities/base.entity";
-// import { OrderEntity } from './OrderEntity';
-// import { OrderReceiptEntity } from './OrderReceiptEntity';
-
-export class EmailModel {
+class EmailModel {
     id: string;
     remetente: string;
     destinatario: string;
     assunto: string;
     corpoEmail: string;
-    comprovante: string | null;
-    // pedido: donoPedido;
-    // reciboPedido: NumeroDoPedido;
-    //user: UserEntity;
-    isSpam?: boolean;
+    comprovante: string;
+    isSpam: boolean;
+    isDelivered: boolean;
 
     constructor(data: { 
       id: string; 
       remetente: string; 
       destinatario: string; 
-      assunto: string; 
+      assunto: string;
       corpoEmail: string;
-      comprovante: string | null;
-      // pedido: donoPedido;
-      // reciboPedido: NumeroDoPedido;
-      // user: UserEntity;
-      isSpam?: boolean;
+      comprovante: string
+      isSpam: boolean;
+      isDelivered: boolean;
     }) {
         this.id = data.id;
         this.remetente = data.remetente;
@@ -33,13 +24,11 @@ export class EmailModel {
         this.assunto = data.assunto;
         this.corpoEmail = data.corpoEmail;
         this.comprovante = data.comprovante;
-        // this.pedido = data.pedido;
-        // this.reciboPedido = data.reciboPedido;
-        // this.user = data.user;
-        this.isSpam = data.isSpam ?? false;
+        this.isSpam = data.isSpam;
+        this.isDelivered = data.isDelivered;
     }
 
-    updateField(field: string, value: string) {
+    preencherEmail(field: string, value: string) {
       switch (field) {
           case 'remetente':
               this.remetente = value;
@@ -53,8 +42,15 @@ export class EmailModel {
           case 'corpoEmail':
               this.corpoEmail = value;
               break;
-          default:
-              throw new Error('Campo inválido');
+          case 'comprovante':
+              this.comprovante = value;
+              break;
+          case 'isSpam':
+              this.isSpam = value === 'false' ? true : false;
+              break;
+          case 'isDelivered':
+              this.isDelivered = value === 'true' ? true : false;
+              break;
       }
   }
 }
