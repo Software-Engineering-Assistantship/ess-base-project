@@ -12,19 +12,23 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.18.2",
-    "mongoose": "^8.1.3",
+    "express": "^4.18.3",
+    "i": "^0.3.7",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.1",
     "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.9"
+    "nodemailer": "^6.9.11",
+    "npm": "^10.5.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.19",
     "axios": "^1.6.7",
     "jest-cucumber": "^3.0.1",
-    "nodemon": "^3.0.3",
+    "nodemon": "^3.1.0",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   }
