@@ -52,9 +52,13 @@
 }
 
 .create-button p{
-    background-color: #5eb5fc;
+    background-color: inherit;
     text-decoration: none;
     font-weight: bold;
+}
+
+.create-button:hover{
+  background-color: #3793df;
 }
 
 .link{
@@ -97,7 +101,8 @@
     height: 1.6em;
   }
   
-  .view-button:active {
+  .view-button:active,
+  .create-button:active {
     box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
     transform: translate(0.1em, 0.1em);
   }
@@ -112,3 +117,69 @@
     margin-top: 50px;
     margin-left: 50px;
 }
+
+#formpage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+ }
+
+ #address-title{
+  background-color: #f9f9f9;
+ }
+ 
+ #formpage form {
+  padding-top: 20px;
+  box-shadow: 0.2em 0.2em 0.4em rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px; /* Set a max width to prevent the form from becoming too wide on large screens */
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+ }
+ 
+ #formpage div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+ }
+ 
+ #formpage label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+  background-color: #f9f9f9;
+ }
+ 
+ #formpage input[type="text"],
+ #formpage input[type="number"]{
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 20rem;
+  max-width: 20rem; /* Limit the width of input fields */
+  background-color: #f9f9f9;
+ }
+
+ #formpage input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  padding: 1rem;
+  max-width: 23rem; /* Limit the width of input fields */
+  background-color: #f9f9f9;
+  cursor: pointer;
+  /* font-size: 13px; */
+ }
+ 
+ #formpage button.create-button {
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 20px;
+ }

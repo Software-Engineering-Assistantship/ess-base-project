@@ -11,7 +11,7 @@ const RestaurantCreate = () => {
 
     const [name, setName] = useState('')
     const [site, setSite] = useState('')
-    const [typeFood, setTypeFood] = useState('')
+    const [typeOfFood, settypeOfFood] = useState('')
     const [number, setNumber] = useState('')
     const [street, setStreet] = useState('')
     const [city, setCity] = useState('')
@@ -19,15 +19,18 @@ const RestaurantCreate = () => {
     const [files, setFiles] = useState('')
 
     async function createNewRestaurant(ev){
-        const data = new FormData()
-        data.set('name', name)
-        data.set('typeFood', typeFood)
-        data.set('site', site)
-        data.set('number', number)
-        data.set('street', street)
-        data.set('city', city)
-        data.set('neighborhood', neighborhood)
-        data.set('file', files[0])
+
+        const data = new FormData();
+        data.append('name', name);
+        data.append('site', site);
+        data.append('typeOfFood', typeOfFood);
+        data.append('file', files[0]); // Assuming files[0] is the file you want to upload
+
+        // Append the nested address object
+        data.append('address[number]', number);
+        data.append('address[street]', street);
+        data.append('address[city]', city);
+        data.append('address[neighborhood]', neighborhood);
 
         const response = await fetch(API_BASE + '/restaurants/create', {
             method: 'POST',
@@ -36,6 +39,8 @@ const RestaurantCreate = () => {
 
         if(response.ok) {
             setRedirect(true)
+        } else {
+            console.error('Failed to create restaurant:', response.statusText);
         }
     }
 
@@ -45,47 +50,64 @@ const RestaurantCreate = () => {
 
     return (
         <div>
-            <form onSubmit={createNewRestaurant}>
-                <p>Nome do restaurante</p>
-                <input type="text" placeholder="Melhor Pizza" 
-                    value={name} 
-                    onChange={ev => setName(ev.target.value)}/>
+            <div id = "formpage">
+                <form onSubmit={createNewRestaurant}>
+                    <div>
+                        <label htmlFor="restaurantName">Nome do restaurante</label>
+                        <input type="text" id="restaurantName" placeholder="Melhor Pizza" value={name} 
+                            onChange={ev => setName(ev.target.value)}/>
+                    </div>
 
-                <p>Tipo de comida</p>
-                <input type="text" placeholder="Pizza" value={typeFood} 
-                    onChange={ev => setTypeFood(ev.target.value)}/>
+                    <div>
+                        <label htmlFor="typeofFood" >Tipo de comida</label>
+                        <input type="text" id="typeofFood" placeholder="Pizza" value={typeOfFood} 
+                            onChange={ev => settypeOfFood(ev.target.value)}/>
+                    </div>
 
-                <p>Site oficial</p>
-                <input type="text" placeholder="Avenida Paulista" 
-                    value={site} onChange={ev => setSite(ev.target.value)}/>
+                    <div>
+                        <label htmlFor="restaurantSite">Site oficial</label>
+                        <input type="text" id="restaurantSite" placeholder="melhorpizza.com" 
+                        value={site} onChange={ev => setSite(ev.target.value)}/>
+                    </div>
 
-                <p>Endereço</p>
+                    <p id="address-title" >Endereço</p>
 
-                <p>Rua</p>
-                <input type="text" placeholder="Avenida Paulista" 
-                    value={street} onChange={ev => setStreet(ev.target.value)}/>
+                    <div>
+                        <label htmlFor="street">Rua</label>
+                        <input type="text" id="street" placeholder="Avenida Paulista" 
+                        value={street} onChange={ev => setStreet(ev.target.value)}/>
+                    </div>
 
-                <p>Número</p>
-                <input type="number" placeholder="123" value={number} 
-                    onChange={ev => setNumber(ev.target.value)}/>
+                    <div>
+                        <label htmlFor="number">Número</label>
+                        <input type="text" id="number" placeholder="123" value={number} 
+                        onChange={ev => setNumber(ev.target.value)}/>
+                    </div>
 
-                <p>Bairro</p>
-                <input type="text" placeholder="Madalena"
-                    value={neighborhood} onChange={ev => setNeighborhood(ev.target.value)}/>
+                    <div>
+                        <label htmlFor="neighborhood">Bairro</label>
+                        <input type="text" id="neighborhood" placeholder="Madalena"
+                        value={neighborhood} onChange={ev => setNeighborhood(ev.target.value)}/>
+                    </div>
 
-                <p>Cidade</p>
-                <input type="text" placeholder="São Paulo"
-                    value={city} onChange={ev => setCity(ev.target.value)}/>
+                    <div>
+                        <label htmlFor="city">Cidade</label>
+                        <input type="text" id="city" placeholder="São Paulo"
+                        value={city} onChange={ev => setCity(ev.target.value)}/>
+                    </div>
 
-                <p>Foto da página do restaurante</p>  
-                <input type="file"
-                    onChange={ev => setFiles(ev.target.files)}/>
+                    <div>
+                        <label htmlFor="profilePhoto">Foto da página do restaurante</label>
+                        <input type="file" id="profilePhoto"
+                        onChange={ev => setFiles(ev.target.files)}/>
+                    </div>
 
-            <button className="create-button">
-                <p>Enviar</p>
-            </button>
+                <button className="create-button">
+                    <p>Enviar</p>
+                </button>
 
-            </form>
+                </form>
+            </div>
 
         </div>
     );

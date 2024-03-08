@@ -24,8 +24,12 @@ const restaurant_create = async (req, res) => {
 
     const expectedProperties = ['name', 'address', 'typeOfFood'];
 
+    req.body = JSON.parse(JSON.stringify(req.body))
+
+    console.log(req.body)
+
     // checa se todas as propriedades obrigatórias estão presentes
-    const areAllPropertiesPresent = expectedProperties.every(prop => req.body.hasOwnProperty(prop));
+    const areAllPropertiesPresent = expectedProperties.every(prop => Object.prototype.hasOwnProperty.call(req.body, prop));
 
     if (!areAllPropertiesPresent) {
         return res.status(400).json({ error: 'Dados obrigatórios estão incompletos na solicitação' });
@@ -40,7 +44,7 @@ const restaurant_create = async (req, res) => {
         return res.status(400).json({ error: 'Restaurante já cadastrado' });
     } 
     
-    const {destination} = req.file || { destination: 'None' }
+    const {destination, filename} = req.file || { destination: 'None' }
     const {name, address, typeOfFood, site} = req.body
 
     const restaurant = await Restaurant.create({
@@ -48,7 +52,7 @@ const restaurant_create = async (req, res) => {
         address, 
         typeOfFood, 
         site,
-        profileImage: destination
+        profileImage: destination + filename
     })
 
     res.json(restaurant)
