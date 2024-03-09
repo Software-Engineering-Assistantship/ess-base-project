@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
-import { useParams, redirect } from "react-router-dom"
+import { useParams, redirect, useNavigate } from "react-router-dom"
 import { Link, Navigate } from "react-router-dom"
+import Modal from "../commons/Modal"
 
-import '../style/Restaurants.css'
+import '../../style/Restaurants.css'
 
 const API_BASE = "http://localhost:3001"
 
 const RestaurantUpdate = () => {
+
+    const navigate = useNavigate()
 
     const { id } = useParams()
 
@@ -20,6 +23,8 @@ const RestaurantUpdate = () => {
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
     const [files, setFiles] = useState('')
+
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
         fetch( API_BASE + '/restaurants/' + id)
@@ -66,14 +71,16 @@ const RestaurantUpdate = () => {
         }
     }
 
-    async function deleteRestaurant(){
+    async function deleteRestaurant(ev){
+
+        ev.preventDefault()
 
         const response = await fetch(API_BASE + '/restaurants/delete/'+id, {
             method: 'DELETE'
         })
 
         if(response.ok) {
-            setRedirect(true)
+            setOpenModal(true)
         } else {
             console.error('Failed to delete restaurant:', response.statusText);
         }
@@ -86,6 +93,8 @@ const RestaurantUpdate = () => {
     return (
         <div>
             <div id = "formpage">
+            {openModal && <Modal transparent={true} closeModal={setOpenModal} title="Restaurante deletado com sucesso"/>}
+
                 <form>
                     <div>
                         <label htmlFor="restaurantName">Nome do restaurante</label>

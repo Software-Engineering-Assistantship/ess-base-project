@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
 
-import '../style/Restaurants.css'
+import '../../style/Restaurants.css'
 
 const API_BASE = "http://localhost:3001"
 
@@ -28,6 +28,7 @@ const Restaurants = () => {
 
     return (
         <div className="restaurants-page"> 
+
             <Link className="link" to={`/restaurants/create`}>
                 <div className="simple-button" id="create-button">
                     <p>Cadastrar restaurante</p>
@@ -43,6 +44,7 @@ const Restaurants = () => {
                             <div id = "preview-description">
                                 <h2>{restaurant.name}</h2>
                                 <p>{restaurant.address.neighborhood} - {restaurant.address.city}</p>
+                                <p>{restaurant.typeOfFood}</p>
                             </div>
                         </div>
                         <Link className="link" to={`/restaurants/${restaurant._id}`}>

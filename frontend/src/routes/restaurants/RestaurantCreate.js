@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import { Link, Navigate } from "react-router-dom"
+import Modal from "../commons/Modal"
 
-import '../style/Restaurants.css'
+import '../../style/Restaurants.css'
 
 const API_BASE = "http://localhost:3001"
 
@@ -17,8 +18,11 @@ const RestaurantCreate = () => {
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
     const [files, setFiles] = useState('')
+    const [openModal, setOpenModal] = useState(false)
 
     async function createNewRestaurant(ev){
+
+        ev.preventDefault()
 
         const data = new FormData();
         data.append('name', name);
@@ -38,7 +42,7 @@ const RestaurantCreate = () => {
         })
 
         if(response.ok) {
-            setRedirect(true)
+            setOpenModal(true)
         } else {
             console.error('Failed to create restaurant:', response.statusText);
         }
@@ -51,6 +55,8 @@ const RestaurantCreate = () => {
     return (
         <div>
             <div id = "formpage">
+                {openModal && <Modal closeModal={setOpenModal} title="Restaurante cadastrado com sucesso"/>}
+
                 <form>
                     <div>
                         <label htmlFor="restaurantName">Nome do restaurante</label>
@@ -102,7 +108,7 @@ const RestaurantCreate = () => {
                         onChange={ev => setFiles(ev.target.files)}/>
                     </div>
 
-                    <button className="simple-button" id="create-button" onClick={createNewRestaurant}>
+                    <button className="simple-button" id="create-button" onClick={(createNewRestaurant)}>
                         <p>Enviar</p>
                     </button>
 

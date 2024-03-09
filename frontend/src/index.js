@@ -4,10 +4,10 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import App from './App';
-import Restaurants from './routes/Restaurants'
-import RestaurantProfile from './routes/RestaurantProfile'
-import RestaurantCreate from './routes/RestaurantCreate'
-import RestaurantUpdate from './routes/RestaurantUpdate'
+import Restaurants from './routes/restaurants/Restaurants'
+import RestaurantProfile from './routes/restaurants/RestaurantProfile'
+import RestaurantCreate from './routes/restaurants/RestaurantCreate'
+import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
 
 const router = createBrowserRouter([

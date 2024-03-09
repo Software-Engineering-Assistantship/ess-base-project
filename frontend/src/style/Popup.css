@@ -1,0 +1,15 @@
+.popup {
+    padding: 80px;
+    width: 100%;
+    max-width: 640px;
+}
+
+.popup-inner {
+    display: flex;
+    justify-content: center;
+}
+
+.popup-inner h1{
+    background-color: #FFF;
+}
+
