@@ -29,7 +29,7 @@ const Restaurants = () => {
     return (
         <div className="restaurants-page"> 
             <Link className="link" to={`/restaurants/create`}>
-                <div className="create-button">
+                <div className="simple-button" id="create-button">
                     <p>Cadastrar restaurante</p>
                 </div>
             </Link>

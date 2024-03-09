@@ -51,7 +51,7 @@ const RestaurantCreate = () => {
     return (
         <div>
             <div id = "formpage">
-                <form onSubmit={createNewRestaurant}>
+                <form>
                     <div>
                         <label htmlFor="restaurantName">Nome do restaurante</label>
                         <input type="text" id="restaurantName" placeholder="Melhor Pizza" value={name} 
@@ -102,11 +102,12 @@ const RestaurantCreate = () => {
                         onChange={ev => setFiles(ev.target.files)}/>
                     </div>
 
-                <button className="create-button">
-                    <p>Enviar</p>
-                </button>
+                    <button className="simple-button" id="create-button" onClick={createNewRestaurant}>
+                        <p>Enviar</p>
+                    </button>
 
                 </form>
+                
             </div>
 
         </div>
