@@ -34,6 +34,14 @@ export default class LoginService {
           type: "CHANGE_LOGIN_REQUEST_STATUS",
           payload: RequestStatus.success(response),
         });
+        this.dispatch({
+          type: "CHANGE_IS_LOGGED",
+          payload: true,
+        });
+        this.dispatch({
+          type: "CHANGE_USER_ID",
+          payload: response.data.id,
+        });
       },
       onFailure: (error) => {
         this.dispatch({
@@ -59,6 +67,15 @@ export default class LoginService {
             type: "CHANGE_LOGOUT_REQUEST_STATUS",
             payload: RequestStatus.success(response),
           });
+          this.dispatch({
+            type: "CHANGE_IS_LOGGED",
+            payload: false,
+          });
+          this.dispatch({
+            type: "CHANGE_USER_ID",
+            payload: "",
+          });
+          console.log(response);
         },
         onFailure: (error) => {
           this.dispatch({

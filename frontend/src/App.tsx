@@ -7,6 +7,7 @@ import UpdateUser from "./app/home/pages/UpdateUser";
 import HomePage from "./app/home/pages/HomePage";
 import UserProfile from "./app/home/pages/UserProfile";
 import Login from "./app/home/pages/Login";
+import Logout from "./app/home/pages/Logout";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     Component: Login
+  },
+  {
+    path: "/logout/:id",
+    Component: Logout
   }
 ]);
 

@@ -12,6 +12,16 @@ const loginStateReducer = (state: LoginState, action: LoginStateAction) => {
         ...state,
         logoutRequestStatus: action.payload,
       };
+    case "CHANGE_IS_LOGGED":
+      return {
+        ...state,
+        isLogged: action.payload,
+      };
+    case "CHANGE_USER_ID":
+      return {
+        ...state,
+        userId: action.payload,
+      };
     default:
       return state;
   }

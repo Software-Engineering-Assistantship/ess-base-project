@@ -2,8 +2,17 @@
 import images from "../../../../shared/assets/images/";
 import { Link } from "react-router-dom";
 import styles from "./index.module.css";
+import { LoginContext } from "../../context/LoginContext";
+import { useContext, useEffect, useState } from "react";
 
 const HomePage = () => {
+  const { state } = useContext(LoginContext);
+ 
+  const handleLogout = () => {
+    alert ("Usuário deslogado com sucesso!");
+    window.location.reload(); // Marcar que a página deve ser recarregada
+  }
+  
   return (
     <section className={styles.container}>
       <div className={styles.logo}>
@@ -14,12 +23,25 @@ const HomePage = () => {
         <p className={styles.subtitle}>Seu universo de leitura!</p>
       </div>
       <div className={styles.buttonContainer}>
-        <Link to="/login" className={styles.linkButton}>
-          Login
-        </Link>
-        <Link to="/create-user" className={styles.linkButton}>
-          Cadastro
-        </Link>
+        {state.isLogged ? (
+          <>
+            <Link to={`/profile/${state.userId}`} className={styles.linkButton}>
+              Perfil
+            </Link>
+            <Link to={`/logout/${state.userId}`} className={styles.linkButton} onClick={handleLogout}>
+              Logout
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className={styles.linkButton}>
+              Login
+            </Link>
+            <Link to="/create-user" className={styles.linkButton}>
+              Cadastro
+            </Link>
+          </>
+        )}
       </div>
       <div className={styles.productSection}>
         <h2 className={styles.productTitle}>Produtos em destaque</h2>

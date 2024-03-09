@@ -24,6 +24,8 @@ export const LoginProvider = ({ children }: LoginProviderProps) => {
   const [state, dispatch] = useReducer(loginStateReducer, {
     loginRequestStatus: RequestStatus.idle(),
     logoutRequestStatus: RequestStatus.idle(),
+    isLogged: false,
+    userId: "",
   });
 
   const prevState = usePrevious(state);
