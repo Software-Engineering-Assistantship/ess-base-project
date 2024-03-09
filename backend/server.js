@@ -27,6 +27,8 @@ app.use(express.json())
 // include Access-Control-Allow-Origin headers
 app.use(cors());
 
+app.use('/uploads', express.static(__dirname + '/uploads'))
+
 // connect to data base
 const run = async () => {
     await mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`);

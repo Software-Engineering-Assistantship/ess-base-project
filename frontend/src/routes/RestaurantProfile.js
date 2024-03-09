@@ -21,6 +21,7 @@ const RestaurantProfile = () => {
             { restaurant && (
                 <div>
                     <div className="restaurant-details">
+                        {restaurant.profileImage !== "Noneundefined" && (<img id="restaurant-img" src={`${API_BASE}/${restaurant.profileImage}`} />)}
                         <h2>{ restaurant.name }</h2>
                         <p>{restaurant.site}</p>
                         <p> Tipo de comida: {restaurant.typeOfFood}</p>
