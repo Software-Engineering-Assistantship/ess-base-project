@@ -12,6 +12,8 @@ import PromocaoService from '../services/promocao.service';
 import Injector from './injector';
 import EmailRepository from '../repositories/email.repository';
 import EmailService from '../services/email.service';
+import LoginRepository from '../repositories/login.repository';
+import LoginService from '../services/login.service';
 
 export const di = new Injector();
 
@@ -70,3 +72,12 @@ di.registerService(
     di.getRepository(EmailRepository)
   )
 );
+
+// Login
+ di.registerRepository(LoginRepository, new LoginRepository());
+ di.registerService(
+   LoginService,
+   new LoginService(
+     di.getRepository(LoginRepository)
+   )
+ );

@@ -25,3 +25,19 @@ Content-Type: application/json
     "isSpam": "false",
     "isDelivered": "false"
 }
+
+###
+POST http://localhost:5001/api/login
+Content-Type: application/json
+
+{
+    "login": "olak",
+    "senha": "senha123"
+}
+
+### 
+POST http://localhost:5001/api/login/logout/2
+Content-Type: application/json
+
+{
+}

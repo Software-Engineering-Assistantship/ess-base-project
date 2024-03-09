@@ -1,4 +1,3 @@
-import { error } from 'console';
 import UserEntity from '../entities/user.entity'; // Importa a entidade de usuário
 import BaseRepository from './base.repository'; // Importa o repositório base
 import fs from 'fs'; // Importa o módulo de manipulação de arquivos

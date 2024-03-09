@@ -12,6 +12,8 @@ import UserController from '../controllers/user.controller';
 import UserService from '../services/user.service';
 import EmailController from '../controllers/email.controller';
 import EmailService from '../services/email.service';
+import LoginController from '../controllers/login.controller';
+import LoginService from '../services/login.service';
 
 const router = Router();
 const prefix = '/api';
@@ -48,5 +50,10 @@ export default (app: Express) => {
   app.use(
     prefix,
     new EmailController(router, di.getService(EmailService)).router
+  );
+
+  app.use(
+    prefix,
+    new LoginController(router, di.getService(LoginService)).router
   );
 }
