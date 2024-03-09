@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import ProfileImage from "../images/noprofileimage.png"
 import CoverImage from "../images/nocoverimage.png"
@@ -8,6 +8,8 @@ import '../style/UserProfile.css'
 const API_BASE = "http://localhost:3001"
 
 const UserProfile = () => {
+
+    let navigate = useNavigate()
 
     const [user, setUser] = useState(null);
     const { id } = useParams()
@@ -46,8 +48,8 @@ const UserProfile = () => {
                             <p class="nameuser">{user.name}</p>
                             <p class="biouser">{user.bio}</p>
                             <div class="followuser">
-                                <p class="followersuser">{user.followers.size ?? 0} SEGUIDORES</p>
-                                <p class="followinguser">{user.following.size ?? 0} SEGUINDO</p>
+                                <button class="followersuser" onClick={() => navigate("/users/followers/" + id)}>{user.followers.size ?? 0} SEGUIDORES</button>
+                                <button class="followinguser" onClick={() => navigate("/users/following/" + id)}>{user.following.size ?? 0} SEGUINDO</button>
                             </div>
                         </div>
                     </div>
