@@ -16,6 +16,8 @@ const followersRouter = require("./routes/followersRouter")
 const reviewRouter = require("./routes/reviewRouter")
 const ratingRouter = require("./routes/ratingRouter")
 const listRouter = require("./routes/listRouter")
+const feedRouter = require("./routes/feedRouter")
+const searchesRouter = require("./routes/searchesRouter")
 
 
 // use the PORT in .env or 3000 if it does not exist
@@ -54,4 +56,6 @@ app.use("/users", followersRouter)
 app.use("/reviews", reviewRouter)
 app.use("/ratings", ratingRouter)
 app.use("/lists", listRouter)
+app.use("/feed", feedRouter)
+app.use("/searches", searchesRouter)
 

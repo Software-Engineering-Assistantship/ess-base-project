@@ -3,6 +3,8 @@ const router = express.Router()
 
 const ReviewController = require("../controllers/reviewController")
 
+router.get('/', ReviewController.registered_reviews)
+
 router.get('/:idrest', ReviewController.review_show)
 
 router.get('/:idrest/:iduser', ReviewController.review_get)
