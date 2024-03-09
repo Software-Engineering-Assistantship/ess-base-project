@@ -8,6 +8,7 @@ import Restaurants from './routes/Restaurants'
 import RestaurantProfile from './routes/RestaurantProfile'
 import RestaurantCreate from './routes/RestaurantCreate'
 import ErrorPage from './routes/ErrorPage'
+import UserProfile from './routes/UserProfile';
 
 import UserPage from './routes/UserPage'
 import Followers from './routes/Followers'
@@ -47,6 +48,15 @@ const router = createBrowserRouter([
       {
         path: "/users/following/:id",
         element: <Following />
+      }
+    ]
+  },
+  {
+    path:"/",
+    children: [
+      {
+        path: "/users/:id",
+        element: <UserProfile />,
       }
     ]
   }
