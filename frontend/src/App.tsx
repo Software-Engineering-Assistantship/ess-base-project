@@ -6,6 +6,7 @@ import ListUsers from "./app/home/pages/ListUsers";
 import UpdateUser from "./app/home/pages/UpdateUser";
 import HomePage from "./app/home/pages/HomePage";
 import UserProfile from "./app/home/pages/UserProfile";
+import Login from "./app/home/pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
     path: "/profile/:id",
     Component: UserProfile
   },
+  {
+    path: "/login",
+    Component: Login
+  }
 ]);
 
 export default function App() {

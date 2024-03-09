@@ -104,11 +104,6 @@ const CreateUser = () => {
             placeholder="Digite seu login"
             className={styles.formInput}
           />
-          {errors.login && (
-            <span data-cy="input-login-error" className={styles.formError}>
-              {errors.login.message}
-            </span>
-          )}
         </div>
   
         <div className={styles.formInputContainer}>
