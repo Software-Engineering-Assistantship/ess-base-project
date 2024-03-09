@@ -8,7 +8,7 @@ import Restaurants from './routes/Restaurants'
 import RestaurantProfile from './routes/RestaurantProfile'
 import RestaurantCreate from './routes/RestaurantCreate'
 import ErrorPage from './routes/ErrorPage'
-
+import LandingPage from './routes/landingpage/LandingPage'
 const router = createBrowserRouter([
   {
     path:"/",
@@ -26,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/restaurants/:id",
         element: <RestaurantProfile />
+      },
+      {
+        path: "/landingpage",
+        element: <LandingPage />
       }
     ]
   }
