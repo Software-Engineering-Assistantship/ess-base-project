@@ -1,5 +1,11 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/User'); 
+const bcrypt = require('bcrypt')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+
+const User = require('../models/User')
+
+const secret = "gjnhawrgohuqwjkrfnb1o3i4y1230984u35nkrwfvdfgbrty"
+
 
 const user_signup = async (req, res) => {
     let { name, email, password } = req.body;
@@ -93,11 +99,22 @@ const user_signin = async (req, res) => {
         const match = await bcrypt.compare(password, hashedPassword);
 
         if (match) {
-            return res.json({
-                status: "SUCCESS",
-                message: "Signin successful",
-                data: user
-            });
+
+            jwt.sign(
+                {name: user.name, 
+                id: user._id},
+                secret, {}, (err, token) => {
+                    if (err) throw err;
+                    res.cookie('token', token).json(
+                        {
+                        status: "SUCCESS",
+                        message: "Signin successful",
+                        data: user,
+                        token: token
+                        }
+                    )
+                }
+            )
         } else {
             return res.json({
                 status: "FAILURE",

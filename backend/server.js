@@ -2,6 +2,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require("dotenv").config()
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+
 
 
 // import routers
@@ -24,6 +28,12 @@ const app = express()
 
 // use middleware to parse json
 app.use(express.json())
+
+// include Access-Control-Allow-Origin headers
+app.use(cors())
+
+// use cookies
+app.use(cookieParser())
 
 // connect to data base
 const run = async () => {
