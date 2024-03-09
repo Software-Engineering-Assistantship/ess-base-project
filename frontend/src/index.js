@@ -9,6 +9,7 @@ import RestaurantProfile from './routes/RestaurantProfile'
 import RestaurantCreate from './routes/RestaurantCreate'
 import ErrorPage from './routes/ErrorPage'
 import LandingPage from './routes/landingpage/LandingPage'
+import Login from './routes/login/login'
 const router = createBrowserRouter([
   {
     path:"/",
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/landingpage",
         element: <LandingPage />
+      },
+      {
+        path: "/login",
+        element: <Login />
       }
     ]
   }
