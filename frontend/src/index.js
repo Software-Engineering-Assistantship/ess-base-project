@@ -7,6 +7,7 @@ import App from './App';
 import Restaurants from './routes/Restaurants'
 import RestaurantProfile from './routes/RestaurantProfile'
 import RestaurantCreate from './routes/RestaurantCreate'
+import RestaurantUpdate from './routes/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/restaurants/create",
         element: <RestaurantCreate />
+      },
+      {
+        path: "/restaurants/update/:id",
+        element: <RestaurantUpdate />
       },
       {
         path: "/restaurants/:id",

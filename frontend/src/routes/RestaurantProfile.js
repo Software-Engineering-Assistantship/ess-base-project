@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { useState, useEffect } from "react"
 
 const API_BASE = "http://localhost:3001"
@@ -30,7 +31,9 @@ const RestaurantProfile = () => {
                     <div className="restaurant-actions">
                         <p>Reviews de usuários</p>
                         <p>Fazer Review</p>
-                        <p>Editar Página</p>
+                        <Link to={'/restaurants/update/'+id}>
+                            <p>Editar Página</p>
+                        </Link>
                     </div>
                 </div>
             )}

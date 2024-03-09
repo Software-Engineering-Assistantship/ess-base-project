@@ -76,6 +76,9 @@ const restaurant_edit = async (req, res) => {
         }
 
          // Atualizar os dados do restaurante
+        if(req.body.profileImage == "Noneundefined"){
+            req.body.profileImage = restaurantExist.profileImage
+        }
         restaurant.set(req.body);
 
         // salva os dados 
