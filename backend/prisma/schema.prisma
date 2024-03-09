@@ -18,12 +18,10 @@ model Menu {
   price       Int
   quantity    Int
   categoryId  String?
-  cartId      String?
-  cart        Cart? @relation(fields: [cartId], references: [id])
   category    Category? @relation(fields: [categoryId], references: [id])
 
-  orderMenu OrderMenu[]
-  promotions  Promotion[]
+  orderMenu  OrderMenu[]
+  promotions Promotion[]
 
   @@map("menu")
 }
@@ -51,13 +49,13 @@ model Payment {
   @@map("payment")
 }
 
-model Cart {
-  id           String @id @default(uuid())
-  items        Menu[]
-  totalSum     Int
+// model Cart {
+//   id       String @id @default(uuid())
+//   items    Menu[]
+//   totalSum Int
 
-  @@map("cart")
-}
+//   @@map("cart")
+// }
 
 model Restaurant {
   id          String     @id @default(uuid())
@@ -93,15 +91,13 @@ model OrderMenu {
 }
 
 model Promotion {
-  id             String @id @default(uuid())
-  name           String
-  description    String
-  discount       Int
-  startDate      String
-  endDate        String
-  menuItems      Menu[]
+  id          String @id @default(uuid())
+  name        String
+  description String
+  discount    Int
+  startDate   String
+  endDate     String
+  menuItems   Menu[]
 
-  
   @@map("promotion")
 }
-
