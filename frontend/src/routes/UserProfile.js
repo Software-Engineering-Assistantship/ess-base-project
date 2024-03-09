@@ -31,17 +31,17 @@ const UserProfile = () => {
                 <div class="containerProfile">
                     <div class="coverImageContainer">
                         {check2 ? (
-                            <img src={user.coverImage} alt="Cover Image" />
+                            <img src={user.coverImage} alt="Cover Image" class="fotocapa"/>
                         ) : (
-                            <img src={CoverImage} alt="null Cover Image" />    
+                            <img src={CoverImage} alt="null Cover Image" class="fotocapa"/>    
                             )}
                     </div>
                     <div class="combineinfos">
                         <div class="profileImageContainer">
                             {check1 ? (
-                                <img src={user.profileImage} alt="Profile Image" />
+                                <img src={user.profileImage} alt="Profile Image" class="fotoperfil"/>
                             ) : (    
-                                <img src={ProfileImage} alt="null Profile Image" />
+                                <img src={ProfileImage} alt="null Profile Image" class="fotoperfil"/>
                             )}
                         </div>
                         <div class="profileInfo">
