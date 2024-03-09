@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { UserFormSchema, UserFormType } from "../../forms/UserForm";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Button from "../../../../shared/components/Button";
 import InputMask from "react-input-mask";
 
@@ -32,7 +32,7 @@ const CreateUser = () => {
       state.createUserRequestStatus !== prevState?.createUserRequestStatus &&
       state.createUserRequestStatus.isSuccess()
     ) {
-      alert("Usuário criado com sucesso!");
+      alert("Usuário criado com sucesso! Você será rediriceionado para a página de login.");
     }
   }, [state, prevState]);
 
@@ -127,7 +127,7 @@ const CreateUser = () => {
       </form>
   
       {state.createUserRequestStatus.isSuccess() && (
-        <p className={styles.successMessage}>Usuário criado com sucesso!</p>
+        <><p className={styles.successMessage}>Usuário criado com sucesso!</p><Navigate to="/login" replace /></>
       )}
   
       {state.createUserRequestStatus.isFailure() && (

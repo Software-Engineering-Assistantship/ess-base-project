@@ -91,6 +91,10 @@ abstract class HttpError extends AppError {
         return "Senha inválida.";
       case "password_with_name":
         return "Senha inválida.";
+      case "user_not_found":
+        return "Usuário não encontrado.";
+      case "wrong_password":
+        return "Senha incorreta.";
       default:
         return "Ocorreu um erro inesperado. Tente novamente mais tarde.";
     }

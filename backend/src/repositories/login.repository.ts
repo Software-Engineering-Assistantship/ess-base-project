@@ -15,7 +15,7 @@ class LoginRepository extends BaseRepository<UserEntity> {
         const user = usersJson.find((user: UserEntity) => user.login === data.login);
 
         if(usersJson.find((user: UserEntity) => user.login === data.login)){
-            if(usersJson.find((user: UserEntity) => user.senha === data.senha)){
+            if(usersJson.find((user: UserEntity) => user.login === data.login && user.senha === data.senha)){
                 user.logado = true;
                 return user;
             }else{

@@ -3,7 +3,7 @@ import images from "../../../../shared/assets/images/";
 import { Link } from "react-router-dom";
 import styles from "./index.module.css";
 import { LoginContext } from "../../context/LoginContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext} from "react";
 
 const HomePage = () => {
   const { state } = useContext(LoginContext);

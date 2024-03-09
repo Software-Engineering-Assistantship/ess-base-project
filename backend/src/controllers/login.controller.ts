@@ -39,13 +39,13 @@ class LoginController {
                 res.status(400).send({
                     text: 'Usuário não encontrado',
                     msg: 'Usuário não encontrado',
-                    msgCode: 'user-not-found',
+                    msgCode: 'user_not_found',
                 });
             }else if ((error as Error).message === 'Senha incorreta') {
                 res.status(400).send({
                     text: 'Senha incorreta',
                     msg: 'Senha incorreta',
-                    msgCode: 'wrong-password',
+                    msgCode: 'wrong_password',
                 });
             }
         }

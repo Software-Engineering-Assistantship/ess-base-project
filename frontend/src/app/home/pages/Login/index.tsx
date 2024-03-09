@@ -74,6 +74,10 @@ const Login = () => {
       {state.loginRequestStatus.isSuccess() && (
         <Navigate to={`/home`} />
       )}
+
+      {state.loginRequestStatus.isFailure() && (
+        <p className={styles.errorMessage}>{state.loginRequestStatus.error.message}</p>
+      )}
   
       <Link data-cy="back-to-home" to="/home">
         Voltar para início
