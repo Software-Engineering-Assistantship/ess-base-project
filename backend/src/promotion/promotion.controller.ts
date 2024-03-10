@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus, NotFoundException, } from '@nestjs/common';
 import { PromotionService } from './promotion.service';
 import { CreatePromotionDto } from './dto/create-promotion.dto';
 import { UpdatePromotionDto } from './dto/update-promotion.dto';
@@ -9,16 +9,21 @@ export class PromotionController {
 
   @Post()
   async create(@Body() createPromotionDto: CreatePromotionDto) {
-
     const promotionExists = await this.promotionService.findByName(
       createPromotionDto.name,
     );
-
     if (promotionExists) {
       throw new HttpException('Promotion already exists', HttpStatus.BAD_REQUEST);
     }
-
-    return await this.promotionService.create(createPromotionDto);
+    try{
+      return await this.promotionService.create(createPromotionDto);
+    } catch (erro) {
+      if (erro instanceof NotFoundException) {
+        throw new HttpException(erro.message, HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
   }
 
   @Get()
@@ -33,7 +38,15 @@ export class PromotionController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePromotionDto: UpdatePromotionDto) {
-    return this.promotionService.update(id, updatePromotionDto);
+    try {
+      return this.promotionService.update(id, updatePromotionDto);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+      } else {
+        throw new HttpException('Internal server error', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
   }
 
   @Delete(':id')
