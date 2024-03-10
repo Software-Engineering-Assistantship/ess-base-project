@@ -3,6 +3,7 @@ import { Restaurant, getRestaurants } from '../../api/restaurants'
 import { Box, Button, Card, Stack, Typography } from '@mui/material'
 import { RestaurantsDrawer } from '../../components/RestaurantsDrawer'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export const Restaurants = () => {
   const isAdmin = location.pathname.includes('admin')
@@ -14,9 +15,11 @@ export const Restaurants = () => {
 
   const renderItem = (item: Restaurant) => {
     return (
-      <Card>
-        <Typography>{item.name}</Typography>
-      </Card>
+      <Link to={`/cardapio/${item.id}`}>
+        <Card style={{ cursor: 'pointer' }}>
+          <Typography>{item.name}</Typography>
+        </Card>
+      </Link>
     )
   }
 
