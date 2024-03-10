@@ -14,6 +14,7 @@ import Followers from './routes/Followers'
 import Following from './routes/Following' 
 
 import Feed from './routes/feed/Feed'
+import SearchResult from './routes/search/SearchResult'
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "/feed",
         element: <Feed />
+      },
+      {
+        path: "/search/result",
+        element: <SearchResult />
       }
     ]
   }
