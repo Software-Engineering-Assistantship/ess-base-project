@@ -19,4 +19,4 @@ const Feed = () => {
     );
 }
 
-export default Feed
+export default Header
