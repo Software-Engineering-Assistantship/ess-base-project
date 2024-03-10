@@ -39,6 +39,10 @@ const RestaurantSchema = new Schema({
     profileImage:  {
         type: String,
         required: false
+    },
+    coverImage:  {
+        type: String,
+        required: false
     }
 })
 

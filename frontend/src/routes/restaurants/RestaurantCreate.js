@@ -15,7 +15,8 @@ const RestaurantCreate = () => {
     const [street, setStreet] = useState('')
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
-    const [files, setFiles] = useState('')
+    const [files1, setFiles1] = useState('')
+    const [files2, setFiles2] = useState('')
     const [openModal, setOpenModal] = useState(false)
     const [nextPage, setNextPage] = useState('/resturants')
 
@@ -27,7 +28,8 @@ const RestaurantCreate = () => {
         data.append('name', name);
         data.append('site', site);
         data.append('typeOfFood', typeOfFood);
-        data.append('file', files[0]); // Assuming files[0] is the file you want to upload
+        data.append('file1', files1[0]); // Assuming files[0] is the file you want to upload
+        data.append('file2', files2[0]);
 
         // Append the nested address object
         data.append('address[number]', number);
@@ -45,7 +47,10 @@ const RestaurantCreate = () => {
             const restaurant = await response.json();
 
             setNextPage('/restaurants/' + restaurant._id)
-            console.log(restaurant)
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+               });
             setOpenModal(true)
         } else {
             console.error('Failed to create restaurant:', response.statusText);
@@ -103,9 +108,15 @@ const RestaurantCreate = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="profilePhoto">Foto da página do restaurante</label>
-                        <input type="file" id="profilePhoto"
-                        onChange={ev => setFiles(ev.target.files)}/>
+                        <label htmlFor="profilePhoto">Foto do perfil do restaurante</label>
+                        <input type="file" id="profilePhoto" name="file1"
+                        onChange={ev => setFiles1(ev.target.files)}/>
+                    </div>
+
+                    <div>
+                        <label htmlFor="coverPhoto">Capa da página do restaurante</label>
+                        <input type="file" id="coverPhoto" name="file2"
+                        onChange={ev => setFiles2(ev.target.files)}/>
                     </div>
 
                     <button className="simple-button" id="create-button" onClick={(createNewRestaurant)}>

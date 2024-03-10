@@ -43,8 +43,20 @@ const restaurant_create = async (req, res) => {
     if (restaurantExist) {
         return res.status(400).json({ error: 'Restaurante já cadastrado' });
     } 
-    
-    const {destination, filename} = req.file || { destination: 'None' }
+
+    let profileImage = 'Noneundefined'
+    let coverImage = 'Noneundefined'
+
+    if(req.files.file1 !== undefined){
+        const file1 = req.files.file1[0];
+        profileImage = file1.destination + file1.filename
+    }
+
+    if(req.files.file2 !== undefined){
+        const file2 = req.files.file2[0]; 
+        coverImage = file2.destination + file2.filename
+    } 
+
     const {name, address, typeOfFood, site} = req.body
 
     const restaurant = await Restaurant.create({
@@ -52,7 +64,8 @@ const restaurant_create = async (req, res) => {
         address, 
         typeOfFood, 
         site,
-        profileImage: destination + filename
+        profileImage: profileImage,
+        coverImage: coverImage
     })
 
     res.json(restaurant)
@@ -70,7 +83,6 @@ const restaurant_edit = async (req, res) => {
             return res.status(404).json({ error: 'Restaurante não encontrado' });
         }
 
-        const {destination, filename} = req.file || { destination: 'None' }
         const {name, address, typeOfFood, site} = req.body
 
         // Verificar se os novos dados já existem em outro restaurante
@@ -82,11 +94,18 @@ const restaurant_edit = async (req, res) => {
 
         const restaurantOld = await Restaurant.findById(req.params.id)
 
-         // Atualizar os dados do restaurante
-        if(destination === "None"){
-            req.body.profileImage = restaurantOld.profileImage
+        if(req.files.file1 !== undefined){
+            const file1 = req.files.file1[0];
+            req.body.profileImage = file1.destination + file1.filename
         } else {
-            req.body.profileImage = destination + filename
+            req.body.profileImage = restaurantOld.profileImage
+        }
+
+        if(req.files.file2 !== undefined){
+            const file2 = req.files.file2[0]; 
+            req.body.coverImage = file2.destination + file2.filename
+        } else {
+            req.body.coverImage = restaurantOld.coverImage
         }
 
         restaurant.set(req.body);

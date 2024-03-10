@@ -140,7 +140,9 @@
   }
 
 .restaurant-actions{
-    margin: 50px;
+    margin: auto;
+    margin-bottom: 50px;
+    max-width: 900px;
     display: flex;
     justify-content: space-between;
     text-decoration: none;
@@ -169,6 +171,13 @@
     margin-top: 50px;
     margin-left: 50px;
     text-decoration: none;
+    
+}
+
+#restaurant-cover{
+  height: 250px;
+  width: 100vw;
+  background-color: #3793df;
 }
 
 #formpage {
@@ -247,12 +256,14 @@
  }
 
  .map{
-  width: 400px;
+  width: 600px;
   height: 300px;
+  border-radius: 15px;
+  border: solid 3px ;
  }
 
 #add-and-map{
-  width: 400px;
+  width: 600px;
   height: 400px;
   margin-top: 50px;
   display: flex;
@@ -261,12 +272,11 @@
 }
 
 #address{
-  font-weight: 700;
   margin-bottom: 20px;
 }
 
 #restaurant-name{
-  font-size: 20px;
+  font-size: 26px;
 }
 
 #img-and-data{
@@ -283,5 +293,9 @@
 
 #restaurant-site{
   color: #d63d1b;
-  font-weight: 600;
+}
+
+.restaurant-atribute{
+  font-weight: 900;
+  font-size: 18px;
 }
