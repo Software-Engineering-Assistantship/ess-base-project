@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Paper, List, ListItem, ListItemText, ListItemIcon, Button, Box, AppBar, Toolbar, TextField, IconButton, Select, MenuItem, Divider} from '@mui/material';
-import { getCards, createCard } from '../../api/payment';
+import { getCards, createCard, deleteCard, updateCard } from '../../api/payment';
 import { CreditCard, ArrowBackIos, Close as CloseIcon, Edit, Delete } from '@mui/icons-material';
 import Dialog from '@mui/material/Dialog'
 import { SelectChangeEvent } from '@mui/material';
@@ -17,8 +17,11 @@ export const Payment: React.FC = () => {
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
   const [cardHolderName, setCardHolderName] = useState('');
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false)
+  const [deleteCardId, setDeleteCardId] = useState('')
+  const [updateCardId, setUpdateCardId] = useState('')
+  const [confirmUpdateOpen, setConfirmUpdateOpen] = useState(false)
 
-  
   useEffect(() => {
     ;(async () => {
         const restaurant = await getCards()
@@ -28,7 +31,7 @@ export const Payment: React.FC = () => {
   }, [cardList, reloadPage])
 
   const handleGoBack = () => {
-    window.history.back();
+    window.location.href = '/user'
   };
 
   const handleOpenModal = () => {
@@ -63,6 +66,34 @@ export const Payment: React.FC = () => {
     setReloadPage(!reloadPage)
   }
 
+  const handleDelete = (cardId: string) => {
+    setDeleteCardId(cardId)
+    setConfirmDeleteOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    await deleteCard(deleteCardId)
+    setReloadPage(!reloadPage)
+    setConfirmDeleteOpen(false)
+    setDeleteCardId('')
+  }
+
+  const handleUpdate = (cardId: string) => {
+    setUpdateCardId(cardId)
+    setConfirmUpdateOpen(true)
+  }
+
+  const handleConfirmUpdate = async () => {
+    const cardUpdates = {
+        cardNumber: cardNumber
+    }
+    await updateCard(updateCardId, cardUpdates)
+    setReloadPage(!reloadPage)
+    setConfirmUpdateOpen(false)
+    setCardNumber('')
+    setUpdateCardId('')
+  }
+
   return (
     <Container maxWidth="lg">
      <AppBar position="sticky" sx={{ boxShadow: 'none', backgroundColor: 'transparent', marginBottom: 5 }}>
@@ -86,11 +117,13 @@ export const Payment: React.FC = () => {
                 <ListItemText primary={`**** **** **** ${card.cardNumber.slice(-4)}`} secondary={card.type} />
                 <IconButton
                   aria-label="Editar"
+                  onClick={() => handleUpdate(card.id)}
                 >
                   <Edit />
                 </IconButton>
                 <IconButton
                   aria-label="Excluir"
+                  onClick={() => handleDelete(card.id)}
                 >
                   <Delete />
                 </IconButton>
@@ -140,6 +173,58 @@ export const Payment: React.FC = () => {
         </Box>
       </Box>
       </Dialog>
+
+      <Dialog
+            open={confirmDeleteOpen}
+            onClose={() => setConfirmDeleteOpen(false)}
+          >
+            <div style={{ padding: '20px' }}>
+              <p>Você deseja deletar este cartão?</p>
+
+              <div style={{ marginTop: '20px', textAlign: 'right' }}>
+                <Button
+                  onClick={() => setConfirmDeleteOpen(false)}
+                  color="primary"
+                >
+                  Cancelar
+                </Button>
+
+                <Button
+                  onClick={handleConfirmDelete}
+                  color="primary"
+                  variant="contained"
+                >
+                  Confirmar
+                </Button>
+              </div>
+            </div>
+          </Dialog>
+
+          <Dialog
+            open={confirmUpdateOpen}
+            onClose={() => setConfirmUpdateOpen(false)}
+          >
+            <div style={{ padding: '20px' }}>
+            <IconButton onClick={() => setConfirmUpdateOpen(false)} style={{ position: 'absolute', right: '10px', top: '10px' }}>
+            <CloseIcon />
+            </IconButton>
+            <p>Alterar número do cartão:</p>
+            <TextField
+            label="Novo número do cartão"
+            fullWidth
+            value={cardNumber}
+            onChange={(e) => setCardNumber(e.target.value)}
+            style={{ marginBottom: '20px' }}
+            />
+            <div style={{ textAlign: 'right' }}>
+            <Button onClick={handleConfirmUpdate} color="primary" variant="contained" style={{ marginLeft: '10px' }}>
+                Salvar
+            </Button>
+            </div>
+        </div>
+          </Dialog>
+
+          
     </Container>
   );
 };

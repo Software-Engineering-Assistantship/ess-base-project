@@ -26,3 +26,9 @@ export async function deleteCard(cardId: string) {
 
   return response.data
 }
+
+export async function updateCard (cardId: string, cardUpdates: any) {
+    const response = await api.patch(`/payment/${cardId}`, cardUpdates)
+
+    return response.data
+}
