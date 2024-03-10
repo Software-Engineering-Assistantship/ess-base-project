@@ -55,7 +55,9 @@ model Cart {
   id           String @id @default(uuid())
   items        Menu[]
   totalSum     Int
-
+  promotionId  String?   
+  promotion    Promotion? @relation(fields: [promotionId], references: [id])
+  
   @@map("cart")
 }
 
@@ -100,7 +102,7 @@ model Promotion {
   startDate      String
   endDate        String
   menuItems      Menu[]
-
+  carts          Cart[]
   
   @@map("promotion")
 }

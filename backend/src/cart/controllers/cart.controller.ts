@@ -4,11 +4,10 @@ import { CartDto } from '../dto/cart.dto';
 import { MenuItem } from '../../menu/entities/menu-item';
 import { CreateMenuItemSchema } from '../../menu/dto/create-menu-item';
 import { UpdateMenuItemSchema } from '../../menu/dto/update-menu-item';
-import { CartService } from '../services/cart-service';
 
 @Controller('carts')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(private readonly cartService:PrismaCartService) {}
 
   @Get(':id')
   async getCartById(@Param('id') id: string): Promise<CartDto> { 

@@ -13,7 +13,7 @@ Content-Type: application/json
 ###
 
 # @name get-menu-items-by-category
-GET http://localhost:3333/menu/BURGERS/items
+# GET http://localhost:3333/menu/BURGERS/items
 Content-Type: application/json
 
 ###

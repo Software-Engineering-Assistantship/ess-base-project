@@ -1,5 +1,3 @@
-import { MenuItem } from '../../menu/entities/menu-item';
-
 export class Promotion {
     id: string
     name: string
@@ -7,5 +5,5 @@ export class Promotion {
     discount: number
     startDate: string
     endDate: string   
-    menuItens?: MenuItem[]
+    menuItens: string[]
 }

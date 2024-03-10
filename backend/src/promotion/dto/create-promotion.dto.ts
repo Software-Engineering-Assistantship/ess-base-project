@@ -4,4 +4,5 @@ export class CreatePromotionDto {
     discount: number
     startDate: string
     endDate: string
+    menuItems: string[]
 }
