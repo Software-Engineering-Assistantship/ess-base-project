@@ -13,6 +13,8 @@ import UserPage from './routes/UserPage'
 import Followers from './routes/Followers'
 import Following from './routes/Following' 
 
+import Feed from './routes/Feed'
+
 const router = createBrowserRouter([
   {
     path:"/",
@@ -33,9 +35,6 @@ const router = createBrowserRouter([
       },
 
 
-
-
-
       {
         path: "/users/:id",
         element: <UserPage />
@@ -47,6 +46,16 @@ const router = createBrowserRouter([
       {
         path: "/users/following/:id",
         element: <Following />
+      },
+    ]
+  },
+
+  {
+    path:"/",
+    children: [
+      {
+        path: "/feed",
+        element: <Feed />
       }
     ]
   }
