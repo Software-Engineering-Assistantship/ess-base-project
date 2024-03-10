@@ -2,11 +2,11 @@
 
 /* base styles */
 * {
-  margin: 0;
-  font-family: "Quicksand";
-  color: #333333;
-  background-color: #F0E7DE;
-  font-size: 16px;
+    margin: 0;
+    font-family: "Quicksand";
+    color: #333333;
+    background-color: #F0E7DE;
+    font-size: 16px;
 }
 
 .header{
@@ -24,12 +24,20 @@
     margin-right: 70px;
 }
 
+.link{
+    background-color: #B92727;
+}
+
 .restaurants{
     height: 10px;
     margin-top: 35px;
     margin-right: 45px;
     background-color: #B92727;
     color: #F0E7DD;
+}
+
+.restaurants:hover{
+    color: #333333;
 }
 
 .users{
@@ -57,7 +65,7 @@
 }
 
 .input-field {
-    width: 350px; 
+    width: 340px; 
     height: 50px;
     padding: 10px; 
     margin-top: 18px;
