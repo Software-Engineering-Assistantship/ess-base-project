@@ -12,7 +12,16 @@ import { Category, MenuItem } from '../api/getAllCategories'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NumericFormat } from 'react-number-format'
+import { useState } from 'react'
+
+const menuItemSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  price: z.string().transform((price) => Number(price)),
+  quantity: z.string().transform((quantity) => Number(quantity)),
+})
+
+type MenuItemSchema = z.infer<typeof menuItemSchema>
 
 interface MenuItemDialogProps {
   open: boolean
@@ -21,16 +30,6 @@ interface MenuItemDialogProps {
   initialValues?: MenuItem
   editMode?: boolean
 }
-
-const menuItemSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  price: z.string().transform((price) => Number(price)),
-  quantity: z.string().transform((quantity) => Number(quantity)),
-  categoryId: z.string(),
-})
-
-type MenuItemSchema = z.infer<typeof menuItemSchema>
 
 export function MenuItemDrawer({
   open,
@@ -44,9 +43,18 @@ export function MenuItemDrawer({
     value: category.id,
   }))
 
+  const [category, setCategory] = useState(
+    parsedCategories.find((item) => initialValues?.categoryId === item.value),
+  )
+
   const { register, handleSubmit } = useForm<MenuItemSchema>({
     resolver: zodResolver(menuItemSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      title: initialValues?.title,
+      description: initialValues?.description,
+      price: initialValues?.price && initialValues?.price / 100,
+      quantity: initialValues?.quantity,
+    },
   })
 
   async function handleSubmitMenuItem(data: MenuItemSchema) {
@@ -70,19 +78,12 @@ export function MenuItemDrawer({
             sx={{ width: '100%', mt: 1, mb: 1 }}
             {...register('description')}
           />
+
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
             <InputLabel htmlFor="price">Price</InputLabel>
-            <NumericFormat
-              id="price"
-              customInput={OutlinedInput}
-              label="Price"
-              type="tel"
-              thousandSeparator="."
-              decimalSeparator=","
-              prefix="R$ "
-              {...register('price')}
-            />
+            <OutlinedInput id="price" label="Price" {...register('price')} />
           </FormControl>
+
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
             <InputLabel htmlFor="quantity">Quantity</InputLabel>
             <OutlinedInput
@@ -92,13 +93,18 @@ export function MenuItemDrawer({
               {...register('quantity')}
             />
           </FormControl>
+
           <Autocomplete
             disablePortal
+            defaultValue={category}
+            onChange={(_, value) => {
+              setCategory(value!)
+            }}
             options={parsedCategories}
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField {...params} label="Category" />}
-            {...register('categoryId')}
           />
+
           {editMode ? (
             <Button
               variant="contained"

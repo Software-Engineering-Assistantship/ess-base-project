@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { Box, Button } from '@mui/material'
 import { MenuItemDrawer } from './menu-item-drawer'
 import { useState } from 'react'
+import { DeleteMenuItemDialog } from './delete-menu-item-dialog'
 
 const Card = styled.div`
   border-top: 1px solid #bfbfbf;
@@ -41,24 +42,37 @@ interface MenuItemProps {
 }
 
 export function MenuItem({ menuItem, adminMode, categories }: MenuItemProps) {
-  const [openMenuDialog, setOpenMenuDialog] = useState(false)
+  const [openMenuDrawer, setOpenMenuDrawer] = useState(false)
+  const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false)
 
   function handleCloseMenuDialog() {
-    setOpenMenuDialog(false)
+    setOpenMenuDrawer(false)
   }
 
   function handleOpenMenuDialog() {
-    setOpenMenuDialog(true)
+    setOpenMenuDrawer(true)
+  }
+
+  function handleCloseDeleteMenuDialog() {
+    setOpenDeleteMenuDialog(false)
+  }
+
+  function handleOpenDeleteMenuDialog() {
+    setOpenDeleteMenuDialog(true)
   }
 
   return (
     <>
       <MenuItemDrawer
-        open={openMenuDialog}
+        open={openMenuDrawer}
         handleClose={handleCloseMenuDialog}
         categoriesOptions={categories}
         initialValues={menuItem}
         editMode
+      />
+      <DeleteMenuItemDialog
+        open={openDeleteMenuDialog}
+        handleClose={handleCloseDeleteMenuDialog}
       />
       <Card>
         <div>
@@ -85,6 +99,7 @@ export function MenuItem({ menuItem, adminMode, categories }: MenuItemProps) {
               sx={{
                 color: 'red',
               }}
+              onClick={handleOpenDeleteMenuDialog}
             />
           </Box>
         ) : (

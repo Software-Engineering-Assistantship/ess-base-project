@@ -10,36 +10,27 @@ export function Restaurant() {
   const location = useLocation()
 
   const isAdmin = location.pathname.includes('admin')
-  console.log('oi')
   const [value, setValue] = useState(0)
-  const [openMenuDialog, setOpenMenuDialog] = useState(false)
+  const [openMenuDrawer, setOpeMenuDrawer] = useState(false)
 
   const { data: result } = useQuery({
     queryKey: ['categories'],
     queryFn: () =>
       getAllCategories({
-        restaurantId: '0425f82b-921c-4597-842e-02c8a8bcaeba',
+        restaurantId: '10bda948-685d-45aa-b312-e1e972794813',
       }),
   })
-
-  // const { data: result } = useQuery({
-  //   queryKey: ['menu-item'],
-  //   queryFn: () =>
-  //     getMenuItemsByCategory({
-  //       categoryId: 'c6e34d2c-0349-4668-9565-6d2852e934cc',
-  //     }),
-  // })
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
   }
 
-  function handleCloseMenuDialog() {
-    setOpenMenuDialog(false)
+  function handleCloseMenuDrawer() {
+    setOpeMenuDrawer(false)
   }
 
-  function handleOpenMenuDialog() {
-    setOpenMenuDialog(true)
+  function handleOpenMenuDrawer() {
+    setOpeMenuDrawer(true)
   }
 
   return (
@@ -47,8 +38,8 @@ export function Restaurant() {
       {result && (
         <>
           <MenuItemDrawer
-            open={openMenuDialog}
-            handleClose={handleCloseMenuDialog}
+            open={openMenuDrawer}
+            handleClose={handleCloseMenuDrawer}
             categoriesOptions={result}
           />
           <Box
@@ -61,7 +52,7 @@ export function Restaurant() {
               <Button
                 variant="contained"
                 sx={{ width: '100%' }}
-                onClick={handleOpenMenuDialog}
+                onClick={handleOpenMenuDrawer}
               >
                 Create new item
               </Button>
