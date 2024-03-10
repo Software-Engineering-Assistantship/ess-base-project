@@ -15,7 +15,11 @@ export const Restaurants = () => {
 
   const renderItem = (item: Restaurant) => {
     return (
-      <Link to={`/cardapio/${item.id}`}>
+      <Link
+        to={
+          isAdmin ? `/restaurants/admin/${item.id}` : `/restaurants/${item.id}`
+        }
+      >
         <Card style={{ cursor: 'pointer' }}>
           <Typography>{item.name}</Typography>
         </Card>
