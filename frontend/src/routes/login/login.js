@@ -5,11 +5,27 @@ import '../../style/Login.css'
 import React from "react"
 import logo from "../../assets/logo.svg";
 import logo3 from "../../assets/logo3.svg";
+import axios from "axios";
 const API_BASE = "http://localhost:3001"
 
 const Login = () => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post(`${API_BASE}/users/signin`, {
+                email,
+                password
+            });
+            
+            // Handle successful login response
+            console.log(response.data);
+        } catch (error) {
+            // Handle login error
+            console.error(error);
+        }
+    };
     
     return (
         <div>
@@ -23,8 +39,8 @@ const Login = () => {
         <input 
                     type="text" 
                     placeholder="Email" 
-                    value={username} 
-                    onChange={(e) => setUsername(e.target.value)} 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
                     className="input-field"
                 />
         <p className="password">Senha</p>
@@ -35,6 +51,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)} 
                     className="input-field"
                 />
+        <button onClick={handleLogin}>Login</button>
         <p className="login-link"><Link to="/Signup" className="blue-text">Não possui conta?</Link></p>
         </div>
         
