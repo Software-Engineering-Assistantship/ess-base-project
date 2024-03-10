@@ -15,10 +15,8 @@ export const router = createBrowserRouter([
       { path: '/restaurant/admin/:id', element: <Restaurant /> },
       { path: '/restaurante/:id', element: <Restaurante /> },
       { path: '/restaurante/admin/:id', element: <Restaurante /> },
-      { path: '/restaurants/:id', element: <Restaurant /> },
-      { path: '/restaurants/admin', element: <Restaurants /> },
       { path: '/restaurants', element: <Restaurants /> },
-      { path: '/restaurants/admin/:id', element: <Restaurant /> },
+      { path: '/restaurants/admin', element: <Restaurants /> },
     ],
   },
 ])

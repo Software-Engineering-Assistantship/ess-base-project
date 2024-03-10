@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
-import { MenuItem } from '../../components/menu-item'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { Box, Tabs, Tab, Button } from '@mui/material'
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { MenuItemDrawer } from '../../components/menu-item-drawer'
-import { getAllCategories } from '../../api/getAllCategories'
+import { MenuItemBody, createMenuItem, getAllCategories } from '../../api/menu'
+import { MenuItem } from '../../components/menu-item'
 
 export function Restaurant() {
   const location = useLocation()
@@ -13,12 +13,16 @@ export function Restaurant() {
   const [value, setValue] = useState(0)
   const [openMenuDrawer, setOpeMenuDrawer] = useState(false)
 
-  const { data: result } = useQuery({
+  const { data: result, refetch } = useQuery({
     queryKey: ['categories'],
     queryFn: () =>
       getAllCategories({
         restaurantId: '10bda948-685d-45aa-b312-e1e972794813',
       }),
+  })
+
+  const { mutateAsync: createMenuItemFn, isPending: isCreating } = useMutation({
+    mutationFn: createMenuItem,
   })
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
@@ -33,6 +37,10 @@ export function Restaurant() {
     setOpeMenuDrawer(true)
   }
 
+  async function handleCreateMenuItem(menuItem: MenuItemBody) {
+    await createMenuItemFn(menuItem)
+  }
+
   return (
     <>
       {result && (
@@ -41,6 +49,9 @@ export function Restaurant() {
             open={openMenuDrawer}
             handleClose={handleCloseMenuDrawer}
             categoriesOptions={result}
+            refetch={refetch}
+            handleMenuItemAction={handleCreateMenuItem}
+            isLoading={isCreating}
           />
           <Box
             sx={{
@@ -80,6 +91,7 @@ export function Restaurant() {
                 menuItem={menuItem}
                 adminMode={isAdmin}
                 categories={result}
+                refetch={refetch}
               />
             )
           })}

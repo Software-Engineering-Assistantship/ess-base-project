@@ -8,7 +8,7 @@ import {
   OutlinedInput,
   TextField,
 } from '@mui/material'
-import { Category, MenuItem } from '../api/getAllCategories'
+import { Category, MenuItem, MenuItemBody } from '../api/menu'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -26,7 +26,10 @@ type MenuItemSchema = z.infer<typeof menuItemSchema>
 interface MenuItemDialogProps {
   open: boolean
   handleClose: () => void
+  handleMenuItemAction: (menuItem: MenuItemBody) => void
+  refetch: () => void
   categoriesOptions: Category[]
+  isLoading: boolean
   initialValues?: MenuItem
   editMode?: boolean
 }
@@ -35,6 +38,9 @@ export function MenuItemDrawer({
   open,
   handleClose,
   categoriesOptions,
+  handleMenuItemAction,
+  refetch,
+  isLoading,
   initialValues,
   editMode,
 }: MenuItemDialogProps) {
@@ -58,7 +64,28 @@ export function MenuItemDrawer({
   })
 
   async function handleSubmitMenuItem(data: MenuItemSchema) {
-    console.log(data)
+    try {
+      if (!category?.value) {
+        return
+      }
+
+      const menuItemBody: MenuItemBody = {
+        ...data,
+        price: data.price * 100,
+        categoryId: category?.value,
+      }
+
+      if (initialValues?.id) {
+        menuItemBody.id = initialValues.id
+      }
+
+      await handleMenuItemAction(menuItemBody)
+
+      refetch()
+      handleClose()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -110,6 +137,7 @@ export function MenuItemDrawer({
               variant="contained"
               sx={{ width: '100%', mt: 5 }}
               type="submit"
+              disabled={isLoading}
             >
               Update item
             </Button>
@@ -118,6 +146,7 @@ export function MenuItemDrawer({
               variant="contained"
               sx={{ width: '100%', mt: 5 }}
               type="submit"
+              disabled={isLoading}
             >
               Create item
             </Button>
