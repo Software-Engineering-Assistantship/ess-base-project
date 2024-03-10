@@ -95,6 +95,10 @@ const RestaurantUpdate = () => {
 
         if(response.ok) {
             setModalTitle('O restaurante foi deletado com sucesso')
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+               });
             setOpenModal(true)
         } else {
             console.error('Failed to delete restaurant:', response.statusText);
