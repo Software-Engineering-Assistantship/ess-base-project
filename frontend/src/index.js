@@ -13,7 +13,7 @@ import UserPage from './routes/UserPage'
 import Followers from './routes/Followers'
 import Following from './routes/Following' 
 
-import Feed from './routes/Feed'
+import Feed from './routes/feed/Feed'
 
 const router = createBrowserRouter([
   {
