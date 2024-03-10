@@ -1,45 +1,39 @@
-import { useQuery } from '@tanstack/react-query'
-import { MenuItem } from '../../components/menu-item'
-import { Box, Tabs, Tab, Button } from '@mui/material'
+import { useQuery, useMutation } from '@tanstack/react-query'
+import { Box, Button } from '@mui/material'
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { MenuItemDrawer } from '../../components/menu-item-drawer'
-import { getAllCategories } from '../../api/getAllCategories'
+import { MenuItemBody, createMenuItem, getAllCategories } from '../../api/menu'
+import { MenuItem } from '../../components/menu-item'
 
 export function Restaurant() {
   const location = useLocation()
 
   const isAdmin = location.pathname.includes('admin')
-  console.log('oi')
-  const [value, setValue] = useState(0)
-  const [openMenuDialog, setOpenMenuDialog] = useState(false)
+  const [openMenuDrawer, setOpeMenuDrawer] = useState(false)
 
-  const { data: result } = useQuery({
+  const { data: result, refetch } = useQuery({
     queryKey: ['categories'],
     queryFn: () =>
       getAllCategories({
-        restaurantId: '0425f82b-921c-4597-842e-02c8a8bcaeba',
+        restaurantId: '10bda948-685d-45aa-b312-e1e972794813',
       }),
   })
 
-  // const { data: result } = useQuery({
-  //   queryKey: ['menu-item'],
-  //   queryFn: () =>
-  //     getMenuItemsByCategory({
-  //       categoryId: 'c6e34d2c-0349-4668-9565-6d2852e934cc',
-  //     }),
-  // })
+  const { mutateAsync: createMenuItemFn, isPending: isCreating } = useMutation({
+    mutationFn: createMenuItem,
+  })
 
-  const handleChange = (_: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
+  function handleCloseMenuDrawer() {
+    setOpeMenuDrawer(false)
   }
 
-  function handleCloseMenuDialog() {
-    setOpenMenuDialog(false)
+  function handleOpenMenuDrawer() {
+    setOpeMenuDrawer(true)
   }
 
-  function handleOpenMenuDialog() {
-    setOpenMenuDialog(true)
+  async function handleCreateMenuItem(menuItem: MenuItemBody) {
+    await createMenuItemFn(menuItem)
   }
 
   return (
@@ -47,9 +41,12 @@ export function Restaurant() {
       {result && (
         <>
           <MenuItemDrawer
-            open={openMenuDialog}
-            handleClose={handleCloseMenuDialog}
+            open={openMenuDrawer}
+            handleClose={handleCloseMenuDrawer}
             categoriesOptions={result}
+            refetch={refetch}
+            handleMenuItemAction={handleCreateMenuItem}
+            isLoading={isCreating}
           />
           <Box
             sx={{
@@ -61,26 +58,11 @@ export function Restaurant() {
               <Button
                 variant="contained"
                 sx={{ width: '100%' }}
-                onClick={handleOpenMenuDialog}
+                onClick={handleOpenMenuDrawer}
               >
                 Create new item
               </Button>
             )}
-          </Box>
-          <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="basic tabs example"
-                variant="scrollable"
-              >
-                <Tab label="Item One" />
-                <Tab label="Item Two" />
-                <Tab label="Item Three" />
-                <Tab label="Item Four" />
-              </Tabs>
-            </Box>
           </Box>
           {result[0].menuItems.map((menuItem) => {
             return (
@@ -89,6 +71,7 @@ export function Restaurant() {
                 menuItem={menuItem}
                 adminMode={isAdmin}
                 categories={result}
+                refetch={refetch}
               />
             )
           })}
