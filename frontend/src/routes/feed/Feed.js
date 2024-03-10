@@ -1,6 +1,6 @@
 import React from "react"
-import '../style/Feed.css'
-import Header from "../header/Header.js";
+import '../../style/Feed.css'
+import Header from "../../header/Header.js";
 const API_BASE = "http://localhost:3001"
 
 const Feed = () => {
