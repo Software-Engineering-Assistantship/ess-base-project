@@ -4,9 +4,10 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import App from './App';
-import Restaurants from './routes/Restaurants'
-import RestaurantProfile from './routes/RestaurantProfile'
-import RestaurantCreate from './routes/RestaurantCreate'
+import Restaurants from './routes/restaurants/Restaurants'
+import RestaurantProfile from './routes/restaurants/RestaurantProfile'
+import RestaurantCreate from './routes/restaurants/RestaurantCreate'
+import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
 import UserProfile from './routes/UserProfile';
 
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/restaurants/create",
         element: <RestaurantCreate />
+      },
+      {
+        path: "/restaurants/update/:id",
+        element: <RestaurantUpdate />
       },
       {
         path: "/restaurants/:id",
