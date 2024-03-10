@@ -78,3 +78,16 @@
 .left-align {
   text-align: left;
 }
+.loginbutton {
+  padding: 5px 5px; /* Padding for button */
+  font-size: 20px; /* Font size */
+  cursor: pointer; /* Cursor style */
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s ease; 
+  margin-top: 10px; 
+  width: 5%;
+  text-decoration: none; /* Remove underline */
+  background-color: #007bff;
+  color: #F0E7DE;
+
+}
