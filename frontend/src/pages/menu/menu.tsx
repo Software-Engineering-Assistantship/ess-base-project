@@ -14,7 +14,7 @@ import Dialog from '@mui/material/Dialog'
 import TextField from '@mui/material/TextField'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-export function Restaurante() {
+export function Menu() {
   const location = useLocation()
   const isAdmin = location.pathname.includes('admin')
 
@@ -62,6 +62,7 @@ export function Restaurante() {
     ;(async () => {
       if (id) {
         const restaurant = await getRestaurant(id)
+        console.log(restaurant)
         setRestaurant(restaurant)
       }
     })()
