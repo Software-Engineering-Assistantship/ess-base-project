@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import '../../style/Login.css'
 import React from "react"
 import logo from "../../assets/logo.svg";
+import logo3 from "../../assets/logo3.svg";
 const API_BASE = "http://localhost:3001"
 
 const Login = () => {
@@ -18,10 +19,10 @@ const Login = () => {
         <div className="main-content">
         <p  className="title">Login</p>
         <div className="line"></div>
-        <p className="name">Usuário</p>
+        <p className="name">Email</p>
         <input 
                     type="text" 
-                    placeholder="Nome de usuário" 
+                    placeholder="Email" 
                     value={username} 
                     onChange={(e) => setUsername(e.target.value)} 
                     className="input-field"
@@ -34,7 +35,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)} 
                     className="input-field"
                 />
-        <p className="login-link"><Link to="/login" className="blue-text">Não possui conta?</Link></p>
+        <p className="login-link"><Link to="/Signup" className="blue-text">Não possui conta?</Link></p>
         </div>
         
         

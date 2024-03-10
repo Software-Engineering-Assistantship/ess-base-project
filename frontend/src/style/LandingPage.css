@@ -17,17 +17,19 @@
     justify-content: center;
 }
 
-.sign-in-button {
+.sign-up-button {
   background-color: #B92727; /* Blue color for button */
   color: white; /* White text color */
   border: none; /* No border */
-  padding: 15px 30px; /* Padding for button */
+  padding: 10px 10px; /* Padding for button */
   font-size: 40px; /* Font size */
   cursor: pointer; /* Cursor style */
   border-radius: 8px; /* Rounded corners */
   transition: background-color 0.3s ease; 
-  margin-top: 110px; 
-   
+  margin-top: 90px; 
+  width: 25%;
+  text-decoration: none; /* Remove underline */
+  
 }
 
 /* Hover effect for button */
