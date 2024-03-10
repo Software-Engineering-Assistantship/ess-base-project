@@ -22,23 +22,35 @@ const RestaurantProfile = () => {
             { restaurant && (
                 <div>
                     <div className="restaurant-details">
-                        {restaurant.profileImage !== "Noneundefined" && (<img id="restaurant-img" src={`${API_BASE}/${restaurant.profileImage}`} />)}
-                        <h2>{ restaurant.name }</h2>
-                        <p>{restaurant.site}</p>
-                        <p> Tipo de comida: {restaurant.typeOfFood}</p>
-                        <p>{restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
-                        <iframe className="map"
-                        allowfullscreen
-                        referrerpolicy="no-referrer-when-downgrade"
-                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDiNcS5K4Fr7kcD_acuX17sgIwsNS3sqnA
-                        &q=${restaurant.address.street},+${restaurant.address.number}-+${restaurant.address.neighborhood}`}>
-                        </iframe>
+                            <div id="img-and-data">
+                                {restaurant.profileImage == "Noneundefined" && <img id="restaurant-img" src="%PUBLIC_URL%/no_restaurant_img.jpg" />}
+                                {restaurant.profileImage !== "Noneundefined" && (<img id="restaurant-img" src={`${API_BASE}/${restaurant.profileImage}`} />)}
+                                <div id="restaurant-main-data">
+                                    <h2 id="restaurant-name">{ restaurant.name }</h2>
+                                    { restaurant.site && <a id="restaurant-site" href={restaurant.site}> Site oficial </a>}
+                                    <p> Tipo de comida: {restaurant.typeOfFood}</p>
+                                </div>
+                            </div>
+
+                        <div id="add-and-map"> 
+                            <p id="address">{restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
+                            <iframe className="map"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDiNcS5K4Fr7kcD_acuX17sgIwsNS3sqnA
+                            &q=${restaurant.address.street},+${restaurant.address.number}-+${restaurant.address.neighborhood}`}>
+                            </iframe>
+                        </div>
                     </div>
                     <div className="restaurant-actions">
-                        <p>Reviews de usuários</p>
-                        <p>Fazer Review</p>
-                        <Link to={'/restaurants/update/'+id}>
-                            <p>Editar Página</p>
+                        <Link id="reviews-page" to={'/restaurants/update/'+id}>
+                            Reviews de usuários
+                        </Link>
+                        <Link id="create-review" to={'/restaurants/update/'+id}>
+                            Fazer review
+                        </Link>
+                        <Link id="edit-page" to={'/restaurants/update/'+id}>
+                            Editar Página
                         </Link>
                     </div>
                 </div>

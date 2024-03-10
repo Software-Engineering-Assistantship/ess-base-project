@@ -143,11 +143,32 @@
     margin: 50px;
     display: flex;
     justify-content: space-between;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+#edit-page{
+  color: #506d85;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+#create-review{
+  color: #1376c6;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+#reviews-page{
+  color: #b43d2b;
+  font-size: 20px;
+  text-decoration: none;
 }
 
 .restaurant-details{
     margin-top: 50px;
     margin-left: 50px;
+    text-decoration: none;
 }
 
 #formpage {
@@ -229,3 +250,38 @@
   width: 400px;
   height: 300px;
  }
+
+#add-and-map{
+  width: 400px;
+  height: 400px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#address{
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+#restaurant-name{
+  font-size: 20px;
+}
+
+#img-and-data{
+  display: flex;
+}
+
+#restaurant-main-data{
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  justify-content: space-between;
+  height: 100px;
+}
+
+#restaurant-site{
+  color: #d63d1b;
+  font-weight: 600;
+}
