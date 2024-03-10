@@ -27,6 +27,12 @@ const RestaurantProfile = () => {
                         <p>{restaurant.site}</p>
                         <p> Tipo de comida: {restaurant.typeOfFood}</p>
                         <p>{restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
+                        <iframe className="map"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDiNcS5K4Fr7kcD_acuX17sgIwsNS3sqnA
+                        &q=${restaurant.address.street},+${restaurant.address.number}-+${restaurant.address.neighborhood}`}>
+                        </iframe>
                     </div>
                     <div className="restaurant-actions">
                         <p>Reviews de usuários</p>

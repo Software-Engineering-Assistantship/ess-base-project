@@ -1,6 +1,6 @@
 .modalBackground {
   width: 100vw;
-  height: 100vh;
+  height: 150vh;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   display: flex;
@@ -52,8 +52,9 @@
 
 .modalContainer .footer {
   flex: 20%;
-  height: 80px;
+  height: 60px;
   display: flex;
+  background-color: transparent;
   justify-content: center;
   align-items: center;
 }
@@ -61,7 +62,7 @@
 
 #cancelBtn {
   background-color: rgb(79, 214, 111);
-  width: 100px;
+  width: 80px;
   height: 40px;
   margin: 10px;
   border: none;

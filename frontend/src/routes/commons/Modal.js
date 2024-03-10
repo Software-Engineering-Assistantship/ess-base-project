@@ -3,7 +3,7 @@ import '../../style/Modal.css'
 
 import { useNavigate } from 'react-router-dom';
 
-function Modal({ closeModal, title }) {
+function Modal({ closeModal, nextPage, title }) {
 
     const navigate = useNavigate()
 
@@ -13,7 +13,7 @@ function Modal({ closeModal, title }) {
             <div className="titleCloseBtn">
                 <button
                 onClick={() => {
-                    navigate('/restaurants');
+                    navigate(nextPage);
                 }}
                 >
                 X
@@ -28,7 +28,7 @@ function Modal({ closeModal, title }) {
             <div className="footer">
                 <button
                 onClick={() => {
-                    navigate('/restaurants');
+                    navigate(nextPage);
                 }}
                 id="cancelBtn"
                 >

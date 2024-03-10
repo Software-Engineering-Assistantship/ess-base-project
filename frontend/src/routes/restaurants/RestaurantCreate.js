@@ -8,8 +8,6 @@ const API_BASE = "http://localhost:3001"
 
 const RestaurantCreate = () => {
 
-    const [redirect, setRedirect] = useState(false)
-
     const [name, setName] = useState('')
     const [site, setSite] = useState('')
     const [typeOfFood, settypeOfFood] = useState('')
@@ -19,6 +17,7 @@ const RestaurantCreate = () => {
     const [neighborhood, setNeighborhood] = useState('')
     const [files, setFiles] = useState('')
     const [openModal, setOpenModal] = useState(false)
+    const [nextPage, setNextPage] = useState('/resturants')
 
     async function createNewRestaurant(ev){
 
@@ -42,20 +41,21 @@ const RestaurantCreate = () => {
         })
 
         if(response.ok) {
+
+            const restaurant = await response.json();
+
+            setNextPage('/restaurants/' + restaurant._id)
+            console.log(restaurant)
             setOpenModal(true)
         } else {
             console.error('Failed to create restaurant:', response.statusText);
         }
     }
 
-    if (redirect){
-        return <Navigate to={'/restaurants'}/>
-    }
-
     return (
         <div>
             <div id = "formpage">
-                {openModal && <Modal closeModal={setOpenModal} title="Restaurante cadastrado com sucesso"/>}
+                {openModal && <Modal closeModal={setOpenModal} title="Restaurante cadastrado com sucesso" nextPage={nextPage}/>}
 
                 <form>
                     <div>

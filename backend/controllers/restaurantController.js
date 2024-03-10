@@ -62,11 +62,16 @@ const restaurant_edit = async (req, res) => {
     try {
         let restaurant = await Restaurant.findById(req.params.id);
 
+        req.body = JSON.parse(JSON.stringify(req.body))
+
+        console.log(req.body)
+
         if (!restaurant) {
             return res.status(404).json({ error: 'Restaurante não encontrado' });
         }
 
-        const { name, address } = req.body;
+        const {destination, filename} = req.file || { destination: 'None' }
+        const {name, address, typeOfFood, site} = req.body
 
         // Verificar se os novos dados já existem em outro restaurante
         const restaurantExist = await Restaurant.findOne({ 'name': name, 'address': address });
@@ -75,10 +80,15 @@ const restaurant_edit = async (req, res) => {
             return res.status(400).json({ error: 'Os dados de endereço e nome do restaurante não podem ser iguais a outro já cadastrado' });
         }
 
+        const restaurantOld = await Restaurant.findById(req.params.id)
+
          // Atualizar os dados do restaurante
-        if(req.body.profileImage == "Noneundefined"){
-            req.body.profileImage = restaurantExist.profileImage
+        if(destination === "None"){
+            req.body.profileImage = restaurantOld.profileImage
+        } else {
+            req.body.profileImage = destination + filename
         }
+
         restaurant.set(req.body);
 
         // salva os dados 

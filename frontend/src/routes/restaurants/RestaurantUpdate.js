@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams, redirect, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { Link, Navigate } from "react-router-dom"
 import Modal from "../commons/Modal"
 
@@ -13,8 +13,6 @@ const RestaurantUpdate = () => {
 
     const { id } = useParams()
 
-    const [redirect, setRedirect] = useState(false)
-
     const [name, setName] = useState('')
     const [site, setSite] = useState('')
     const [typeOfFood, setTypeOfFood] = useState('')
@@ -23,6 +21,8 @@ const RestaurantUpdate = () => {
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
     const [files, setFiles] = useState('')
+    const [nextPage, setNextPage] = useState('/restaurants')
+    const [modalTitle, setModalTitle] = useState('')
 
     const [openModal, setOpenModal] = useState(false)
 
@@ -45,7 +45,9 @@ const RestaurantUpdate = () => {
             })
     }, []); 
 
-    async function editRestaurant(){
+    async function editRestaurant(ev){
+
+        ev.preventDefault()
 
         const data = new FormData();
         data.append('name', name);
@@ -64,8 +66,13 @@ const RestaurantUpdate = () => {
             body: data
         })
 
+        console.log(API_BASE + '/restaurants/edit/' + id)
+        console.log(data)
+
         if(response.ok) {
-            setRedirect(true)
+            setNextPage('/restaurants/' + id)
+            setModalTitle('O restaurante foi editado com sucesso')
+            setOpenModal(true)
         } else {
             console.error('Failed to create restaurant:', response.statusText);
         }
@@ -79,21 +86,20 @@ const RestaurantUpdate = () => {
             method: 'DELETE'
         })
 
+        console.log(JSON.stringify(response.body))
+
         if(response.ok) {
+            setModalTitle('O restaurante foi deletado com sucesso')
             setOpenModal(true)
         } else {
             console.error('Failed to delete restaurant:', response.statusText);
         }
     }
 
-    if (redirect){
-        return <Navigate to={'/restaurants'}/>
-    }
-
     return (
         <div>
             <div id = "formpage">
-            {openModal && <Modal transparent={true} closeModal={setOpenModal} title="Restaurante deletado com sucesso"/>}
+            {openModal && <Modal transparent={true} closeModal={setOpenModal} title={modalTitle} nextPage={nextPage}/>}
 
                 <form>
                     <div>
