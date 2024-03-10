@@ -18,7 +18,7 @@ export function Restaurant() {
     queryKey: ['categories'],
     queryFn: () =>
       getAllCategories({
-        restaurantId: '10bda948-685d-45aa-b312-e1e972794813',
+        restaurantId: 'e318dd08-543f-488f-9983-7689f5009d14',
       }),
   })
 
