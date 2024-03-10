@@ -10,7 +10,7 @@ export function Restaurant() {
   const location = useLocation()
 
   const isAdmin = location.pathname.includes('admin')
-
+  console.log('oi')
   const [value, setValue] = useState(0)
   const [openMenuDialog, setOpenMenuDialog] = useState(false)
 
@@ -18,7 +18,7 @@ export function Restaurant() {
     queryKey: ['categories'],
     queryFn: () =>
       getAllCategories({
-        restaurantId: '10bda948-685d-45aa-b312-e1e972794813',
+        restaurantId: '0425f82b-921c-4597-842e-02c8a8bcaeba',
       }),
   })
 
