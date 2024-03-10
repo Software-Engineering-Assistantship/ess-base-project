@@ -2,7 +2,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User'); 
 
 const user_signup = async (req, res) => {
+    //req.body = JSON.parse(JSON.stringify(req.body))
     let { name, email, password } = req.body;
+    
     name = name.trim();
     email = email.trim();
     password = password.trim();
