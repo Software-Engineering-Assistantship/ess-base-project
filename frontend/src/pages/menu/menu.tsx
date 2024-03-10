@@ -5,14 +5,12 @@ import {
   Restaurant,
   Category,
   saveCategory,
-  deleteCategory,
 } from '../../api/restaurant'
-
-import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import TextField from '@mui/material/TextField'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { Button, Dialog, TextField } from '@mui/material'
+import { CategoryComponent } from '../../components/category'
+import { MenuItemDrawer } from '../../components/menu-item-drawer'
+import { useMutation } from '@tanstack/react-query'
+import { MenuItemBody, createMenuItem } from '../../api/menu'
 
 export function Menu() {
   const location = useLocation()
@@ -23,154 +21,143 @@ export function Menu() {
   const [restaurant, setRestaurant] = useState({} as Restaurant)
   const [reloadPage, setReloadPage] = useState(false)
 
-  const [open, setOpen] = useState(false)
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false)
-  const [deleteCategoryId, setDeleteCategoryId] = useState('')
+  const [isOpen, setOpen] = useState(false)
+
   const [newCategoryName, setNewCategoryName] = useState('')
   const [newCategoryDescription, setNewCategoryDescription] = useState('')
+  const [openMenuDrawer, setOpeMenuDrawer] = useState(false)
 
   const handleSave = async () => {
     if (id) {
-      const newCategory = {
+      const categoryData = {
         name: newCategoryName,
         description: newCategoryDescription,
         restaurantId: id,
       }
 
-      await saveCategory(newCategory)
-
-      setOpen(false)
-      setNewCategoryName('')
-      setNewCategoryDescription('')
-      setReloadPage(!reloadPage)
+      await saveCategory(categoryData)
     }
-  }
 
-  const handleDelete = (categoryId: string) => {
-    setDeleteCategoryId(categoryId)
-    setConfirmDeleteOpen(true)
-  }
-
-  const handleConfirmDelete = async () => {
-    await deleteCategory(deleteCategoryId)
+    setOpen(false)
+    setNewCategoryName('')
+    setNewCategoryDescription('')
     setReloadPage(!reloadPage)
-    setConfirmDeleteOpen(false)
-    setDeleteCategoryId('')
   }
 
   useEffect(() => {
     ;(async () => {
       if (id) {
         const restaurant = await getRestaurant(id)
-        console.log(restaurant)
         setRestaurant(restaurant)
       }
     })()
   }, [id, reloadPage])
 
+  const { mutateAsync: createMenuItemFn, isPending: isCreating } = useMutation({
+    mutationFn: createMenuItem,
+  })
+
+  function handleCloseMenuDrawer() {
+    setOpeMenuDrawer(false)
+  }
+
+  function handleOpenMenuDrawer() {
+    setOpeMenuDrawer(true)
+  }
+
+  async function handleCreateMenuItem(menuItem: MenuItemBody) {
+    await createMenuItemFn(menuItem)
+  }
+
   return (
     <>
       {restaurant && (
         <>
-          <div>
-            <h1>{restaurant.name}</h1>
-            <h2>{restaurant.type}</h2>
+          <div style={{ marginBottom: 20 }}>
+            <div>
+              <h1>{restaurant.name}</h1>
+              <h2>{restaurant.type}</h2>
+            </div>
+
+            {isAdmin && (
+              <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpen(true)
+                  }}
+                >
+                  Criar categoria
+                </Button>
+
+                <Button variant="contained" onClick={handleOpenMenuDrawer}>
+                  Criar item
+                </Button>
+              </div>
+            )}
           </div>
 
-          {isAdmin && (
-            <Button variant="outlined" onClick={() => setOpen(true)}>
-              Criar categoria
-            </Button>
-          )}
-
-          {restaurant?.categories?.map((category: Category) => (
-            <Paper
+          {restaurant.categories?.map((category: Category) => (
+            <CategoryComponent
               key={category.id}
-              elevation={3}
-              style={{
-                padding: '10px',
-                marginBottom: '10px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <h3>{category.name}</h3>
-                <h4>Descrição: {category.description}</h4>
-              </div>
-
-              {isAdmin && (
-                <DeleteIcon onClick={() => handleDelete(category.id)} />
-              )}
-            </Paper>
+              category={category}
+              reloadPage={reloadPage}
+              setReloadPage={setReloadPage}
+              isAdmin={isAdmin}
+            />
           ))}
 
-          <Dialog open={open} onClose={() => setOpen(false)}>
-            <div style={{ padding: '20px' }}>
-              <TextField
-                margin="dense"
-                id="name"
-                label="Nome"
-                type="text"
-                fullWidth
-                value={newCategoryName}
-                onChange={(e) => setNewCategoryName(e.target.value)}
-              />
-
-              <TextField
-                margin="dense"
-                id="description"
-                label="Descrição"
-                type="text"
-                fullWidth
-                value={newCategoryDescription}
-                onChange={(e) => setNewCategoryDescription(e.target.value)}
-              />
-
-              <div style={{ marginTop: '20px', textAlign: 'right' }}>
-                <Button onClick={() => setOpen(false)} color="primary">
-                  Cancelar
-                </Button>
-
-                <Button
-                  onClick={handleSave}
-                  color="primary"
-                  variant="contained"
-                >
-                  Salvar
-                </Button>
-              </div>
-            </div>
-          </Dialog>
-
-          <Dialog
-            open={confirmDeleteOpen}
-            onClose={() => setConfirmDeleteOpen(false)}
-          >
-            <div style={{ padding: '20px' }}>
-              <p>Você deseja deletar esta categoria?</p>
-
-              <div style={{ marginTop: '20px', textAlign: 'right' }}>
-                <Button
-                  onClick={() => setConfirmDeleteOpen(false)}
-                  color="primary"
-                >
-                  Cancelar
-                </Button>
-
-                <Button
-                  onClick={handleConfirmDelete}
-                  color="primary"
-                  variant="contained"
-                >
-                  Confirmar
-                </Button>
-              </div>
-            </div>
-          </Dialog>
+          {restaurant?.categories && (
+            <MenuItemDrawer
+              open={openMenuDrawer}
+              handleClose={handleCloseMenuDrawer}
+              categoriesOptions={restaurant?.categories}
+              refetch={() => setReloadPage(!reloadPage)}
+              handleMenuItemAction={handleCreateMenuItem}
+              isLoading={isCreating}
+            />
+          )}
         </>
       )}
+
+      <Dialog open={isOpen} onClose={() => setOpen(false)}>
+        <div style={{ padding: '20px' }}>
+          <TextField
+            margin="dense"
+            id="name"
+            label="Nome"
+            type="text"
+            fullWidth
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+          />
+
+          <TextField
+            margin="dense"
+            id="description"
+            label="Descrição"
+            type="text"
+            fullWidth
+            value={newCategoryDescription}
+            onChange={(e) => setNewCategoryDescription(e.target.value)}
+          />
+
+          <div style={{ marginTop: '20px', textAlign: 'right' }}>
+            <Button
+              onClick={() => {
+                setOpen(false)
+              }}
+              color="primary"
+            >
+              Cancelar
+            </Button>
+
+            <Button onClick={handleSave} color="primary" variant="contained">
+              Salvar
+            </Button>
+          </div>
+        </div>
+      </Dialog>
     </>
   )
 }
