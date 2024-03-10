@@ -8,6 +8,9 @@ import {
 } from '../../api/restaurant'
 import { Button, Dialog, TextField } from '@mui/material'
 import { CategoryComponent } from '../../components/category'
+import { MenuItemDrawer } from '../../components/menu-item-drawer'
+import { useMutation } from '@tanstack/react-query'
+import { MenuItemBody, createMenuItem } from '../../api/menu'
 
 export function Menu() {
   const location = useLocation()
@@ -22,6 +25,7 @@ export function Menu() {
 
   const [newCategoryName, setNewCategoryName] = useState('')
   const [newCategoryDescription, setNewCategoryDescription] = useState('')
+  const [openMenuDrawer, setOpeMenuDrawer] = useState(false)
 
   const handleSave = async () => {
     if (id) {
@@ -49,6 +53,22 @@ export function Menu() {
     })()
   }, [id, reloadPage])
 
+  const { mutateAsync: createMenuItemFn, isPending: isCreating } = useMutation({
+    mutationFn: createMenuItem,
+  })
+
+  function handleCloseMenuDrawer() {
+    setOpeMenuDrawer(false)
+  }
+
+  function handleOpenMenuDrawer() {
+    setOpeMenuDrawer(true)
+  }
+
+  async function handleCreateMenuItem(menuItem: MenuItemBody) {
+    await createMenuItemFn(menuItem)
+  }
+
   return (
     <>
       {restaurant && (
@@ -60,14 +80,20 @@ export function Menu() {
             </div>
 
             {isAdmin && (
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setOpen(true)
-                }}
-              >
-                Criar categoria
-              </Button>
+              <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setOpen(true)
+                  }}
+                >
+                  Criar categoria
+                </Button>
+
+                <Button variant="contained" onClick={handleOpenMenuDrawer}>
+                  Criar item
+                </Button>
+              </div>
             )}
           </div>
 
@@ -80,6 +106,17 @@ export function Menu() {
               isAdmin={isAdmin}
             />
           ))}
+
+          {restaurant?.categories && (
+            <MenuItemDrawer
+              open={openMenuDrawer}
+              handleClose={handleCloseMenuDrawer}
+              categoriesOptions={restaurant?.categories}
+              refetch={() => setReloadPage(!reloadPage)}
+              handleMenuItemAction={handleCreateMenuItem}
+              isLoading={isCreating}
+            />
+          )}
         </>
       )}
 

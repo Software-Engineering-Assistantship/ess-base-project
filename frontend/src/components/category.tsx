@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { TextField, Dialog, Button, Divider } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete'
+import { DeleteOutline, Edit } from '@mui/icons-material'
 import { Category, deleteCategory, editCategory } from '../api/restaurant'
+import { MenuItem } from './menu-item'
 
 interface Props {
   category: Category
@@ -46,7 +47,8 @@ export const CategoryComponent = ({
 
   return (
     <>
-      <Divider />
+      <Divider style={{ backgroundColor: 'black' }} />
+
       <div
         style={{
           padding: '10px',
@@ -56,27 +58,49 @@ export const CategoryComponent = ({
           alignItems: 'center',
         }}
       >
-        <div>
-          <h3>{category.name}</h3>
-          <h4>Descrição: {category.description}</h4>
-        </div>
+        <div
+          style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div>
+              <h3>{category.name}</h3>
+              <h4 style={{ fontWeight: 'normal' }}>{category.description}</h4>
+            </div>
 
-        {isAdmin && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setOpen(true)
-              }}
-            >
-              Editar
-            </Button>
+            {isAdmin && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Edit
+                  onClick={() => {
+                    setOpen(true)
+                  }}
+                />
 
-            <DeleteIcon onClick={() => setConfirmDeleteOpen(true)} />
+                <DeleteOutline
+                  sx={{
+                    color: 'red',
+                  }}
+                  onClick={() => setConfirmDeleteOpen(true)}
+                />
+              </div>
+            )}
           </div>
-        )}
+
+          {category.menuItems.map((menuItem) => {
+            return (
+              <div key={menuItem.id}>
+                <MenuItem
+                  key={menuItem.id}
+                  menuItem={menuItem}
+                  adminMode={isAdmin}
+                  categories={[category]}
+                  refetch={() => setReloadPage(!reloadPage)}
+                />
+              </div>
+            )
+          })}
+        </div>
       </div>
-      <Divider />
+      <Divider style={{ backgroundColor: 'black' }} />
 
       <Dialog open={isOpen} onClose={() => setOpen(false)}>
         <div style={{ padding: '20px' }}>
