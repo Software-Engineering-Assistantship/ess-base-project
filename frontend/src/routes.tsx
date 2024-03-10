@@ -15,12 +15,8 @@ export const router = createBrowserRouter([
       { path: '/restaurant/admin/:id', element: <Restaurant /> },
       { path: '/cardapio/:id', element: <Menu /> },
       { path: '/cardapio/admin/:id', element: <Menu /> },
-      { path: '/restaurants/:id', element: <Restaurant /> },
       { path: '/restaurants/admin', element: <Restaurants /> },
       { path: '/restaurants', element: <Restaurants /> },
-      { path: '/restaurants/admin/:id', element: <Restaurant /> },
-      { path: '/restaurant/:id', element: <Restaurant /> },
-      { path: '/restaurant/admin/:id', element: <Restaurant /> },
     ],
   },
 ])

@@ -1,5 +1,5 @@
 import { api } from '../lib/axios'
-import { Category } from './getAllCategories'
+import { Category } from './menu'
 
 export interface Restaurant {
   id: string
