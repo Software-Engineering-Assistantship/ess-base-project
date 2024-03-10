@@ -35,6 +35,8 @@ app.use(cors())
 // use cookies
 app.use(cookieParser())
 
+app.use('/uploads', express.static(__dirname + '/uploads'))
+
 // connect to data base
 const run = async () => {
     await mongoose.connect(`mongodb://localhost:27017/${process.env.DBNAME}`);

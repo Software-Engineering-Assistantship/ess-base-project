@@ -24,8 +24,12 @@ const restaurant_create = async (req, res) => {
 
     const expectedProperties = ['name', 'address', 'typeOfFood'];
 
+    req.body = JSON.parse(JSON.stringify(req.body))
+
+    console.log(req.body)
+
     // checa se todas as propriedades obrigatórias estão presentes
-    const areAllPropertiesPresent = expectedProperties.every(prop => req.body.hasOwnProperty(prop));
+    const areAllPropertiesPresent = expectedProperties.every(prop => Object.prototype.hasOwnProperty.call(req.body, prop));
 
     if (!areAllPropertiesPresent) {
         return res.status(400).json({ error: 'Dados obrigatórios estão incompletos na solicitação' });
@@ -39,8 +43,20 @@ const restaurant_create = async (req, res) => {
     if (restaurantExist) {
         return res.status(400).json({ error: 'Restaurante já cadastrado' });
     } 
-    
-    const {destination} = req.file || { destination: 'None' }
+
+    let profileImage = 'Noneundefined'
+    let coverImage = 'Noneundefined'
+
+    if(req.files.file1 !== undefined){
+        const file1 = req.files.file1[0];
+        profileImage = file1.destination + file1.filename
+    }
+
+    if(req.files.file2 !== undefined){
+        const file2 = req.files.file2[0]; 
+        coverImage = file2.destination + file2.filename
+    } 
+
     const {name, address, typeOfFood, site} = req.body
 
     const restaurant = await Restaurant.create({
@@ -48,7 +64,8 @@ const restaurant_create = async (req, res) => {
         address, 
         typeOfFood, 
         site,
-        profileImage: destination
+        profileImage: profileImage,
+        coverImage: coverImage
     })
 
     res.json(restaurant)
@@ -58,11 +75,15 @@ const restaurant_edit = async (req, res) => {
     try {
         let restaurant = await Restaurant.findById(req.params.id);
 
+        req.body = JSON.parse(JSON.stringify(req.body))
+
+        console.log(req.body)
+
         if (!restaurant) {
             return res.status(404).json({ error: 'Restaurante não encontrado' });
         }
 
-        const { name, address } = req.body;
+        const {name, address, typeOfFood, site} = req.body
 
         // Verificar se os novos dados já existem em outro restaurante
         const restaurantExist = await Restaurant.findOne({ 'name': name, 'address': address });
@@ -71,7 +92,22 @@ const restaurant_edit = async (req, res) => {
             return res.status(400).json({ error: 'Os dados de endereço e nome do restaurante não podem ser iguais a outro já cadastrado' });
         }
 
-         // Atualizar os dados do restaurante
+        const restaurantOld = await Restaurant.findById(req.params.id)
+
+        if(req.files.file1 !== undefined){
+            const file1 = req.files.file1[0];
+            req.body.profileImage = file1.destination + file1.filename
+        } else {
+            req.body.profileImage = restaurantOld.profileImage
+        }
+
+        if(req.files.file2 !== undefined){
+            const file2 = req.files.file2[0]; 
+            req.body.coverImage = file2.destination + file2.filename
+        } else {
+            req.body.coverImage = restaurantOld.coverImage
+        }
+
         restaurant.set(req.body);
 
         // salva os dados 
