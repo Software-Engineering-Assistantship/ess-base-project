@@ -8,10 +8,7 @@ import {
   deleteCategory,
 } from '../../api/restaurant'
 
-import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import TextField from '@mui/material/TextField'
+import { Divider, TextField, Dialog, Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 export function Menu() {
@@ -72,38 +69,43 @@ export function Menu() {
     <>
       {restaurant && (
         <>
-          <div>
-            <h1>{restaurant.name}</h1>
-            <h2>{restaurant.type}</h2>
+          <div style={{ marginBottom: 20 }}>
+            <div>
+              <h1>{restaurant.name}</h1>
+              <h2>{restaurant.type}</h2>
+            </div>
+
+            {isAdmin && (
+              <Button variant="contained" onClick={() => setOpen(true)}>
+                Criar categoria
+              </Button>
+            )}
           </div>
 
-          {isAdmin && (
-            <Button variant="outlined" onClick={() => setOpen(true)}>
-              Criar categoria
-            </Button>
-          )}
-
           {restaurant?.categories?.map((category: Category) => (
-            <Paper
-              key={category.id}
-              elevation={3}
-              style={{
-                padding: '10px',
-                marginBottom: '10px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <div>
-                <h3>{category.name}</h3>
-                <h4>Descrição: {category.description}</h4>
-              </div>
+            <>
+              <Divider />
+              <div
+                key={category.id}
+                style={{
+                  padding: '10px',
+                  marginBottom: '10px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <div>
+                  <h3>{category.name}</h3>
+                  <h4>Descrição: {category.description}</h4>
+                </div>
 
-              {isAdmin && (
-                <DeleteIcon onClick={() => handleDelete(category.id)} />
-              )}
-            </Paper>
+                {isAdmin && (
+                  <DeleteIcon onClick={() => handleDelete(category.id)} />
+                )}
+              </div>
+              <Divider />
+            </>
           ))}
 
           <Dialog open={open} onClose={() => setOpen(false)}>
