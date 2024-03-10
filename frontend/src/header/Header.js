@@ -1,5 +1,6 @@
 import React from "react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { Link } from "react-router-dom";
 import '../style/Header.css'
 import logo from "../assets/logo.svg";
 import noprofileimage from "../assets/noprofileimage.png";
@@ -10,9 +11,14 @@ const Header = () => {
     return (
     <div> 
         <div className ="header">
-            <img src={logo} alt="logo" className="logo"/>
+            <Link className="link" to={`/feed`}>
+                <img src={logo} alt="logo" className="logo"/>
+            </Link>
 
-            <h1 className="restaurants">Restaurantes</h1>
+            <Link className="link" to={`/restaurants`}>
+                <h1 className="restaurants">Restaurantes</h1>
+            </Link>
+
             <h1 className="users">Usuários</h1>
             <h1 className="lists">Listas</h1>
             <h1 className="forum">Fórum</h1>
