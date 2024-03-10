@@ -8,34 +8,39 @@ import {
   OutlinedInput,
   TextField,
 } from '@mui/material'
-import { Category, MenuItem } from '../api/getAllCategories'
+import { Category, MenuItem, MenuItemBody } from '../api/menu'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NumericFormat } from 'react-number-format'
-
-interface MenuItemDialogProps {
-  open: boolean
-  handleClose: () => void
-  categoriesOptions: Category[]
-  initialValues?: MenuItem
-  editMode?: boolean
-}
+import { useState } from 'react'
 
 const menuItemSchema = z.object({
   title: z.string(),
   description: z.string(),
   price: z.string().transform((price) => Number(price)),
   quantity: z.string().transform((quantity) => Number(quantity)),
-  categoryId: z.string(),
 })
 
 type MenuItemSchema = z.infer<typeof menuItemSchema>
+
+interface MenuItemDialogProps {
+  open: boolean
+  handleClose: () => void
+  handleMenuItemAction: (menuItem: MenuItemBody) => void
+  refetch: () => void
+  categoriesOptions: Category[]
+  isLoading: boolean
+  initialValues?: MenuItem
+  editMode?: boolean
+}
 
 export function MenuItemDrawer({
   open,
   handleClose,
   categoriesOptions,
+  handleMenuItemAction,
+  refetch,
+  isLoading,
   initialValues,
   editMode,
 }: MenuItemDialogProps) {
@@ -44,13 +49,43 @@ export function MenuItemDrawer({
     value: category.id,
   }))
 
+  const [category, setCategory] = useState(
+    parsedCategories.find((item) => initialValues?.categoryId === item.value),
+  )
+
   const { register, handleSubmit } = useForm<MenuItemSchema>({
     resolver: zodResolver(menuItemSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      title: initialValues?.title,
+      description: initialValues?.description,
+      price: initialValues?.price && initialValues?.price / 100,
+      quantity: initialValues?.quantity,
+    },
   })
 
   async function handleSubmitMenuItem(data: MenuItemSchema) {
-    console.log(data)
+    try {
+      if (!category?.value) {
+        return
+      }
+
+      const menuItemBody: MenuItemBody = {
+        ...data,
+        price: data.price * 100,
+        categoryId: category?.value,
+      }
+
+      if (initialValues?.id) {
+        menuItemBody.id = initialValues.id
+      }
+
+      await handleMenuItemAction(menuItemBody)
+
+      refetch()
+      handleClose()
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -70,19 +105,12 @@ export function MenuItemDrawer({
             sx={{ width: '100%', mt: 1, mb: 1 }}
             {...register('description')}
           />
+
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
             <InputLabel htmlFor="price">Price</InputLabel>
-            <NumericFormat
-              id="price"
-              customInput={OutlinedInput}
-              label="Price"
-              type="tel"
-              thousandSeparator="."
-              decimalSeparator=","
-              prefix="R$ "
-              {...register('price')}
-            />
+            <OutlinedInput id="price" label="Price" {...register('price')} />
           </FormControl>
+
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
             <InputLabel htmlFor="quantity">Quantity</InputLabel>
             <OutlinedInput
@@ -92,18 +120,24 @@ export function MenuItemDrawer({
               {...register('quantity')}
             />
           </FormControl>
+
           <Autocomplete
             disablePortal
+            defaultValue={category}
+            onChange={(_, value) => {
+              setCategory(value!)
+            }}
             options={parsedCategories}
             sx={{ width: '100%' }}
             renderInput={(params) => <TextField {...params} label="Category" />}
-            {...register('categoryId')}
           />
+
           {editMode ? (
             <Button
               variant="contained"
               sx={{ width: '100%', mt: 5 }}
               type="submit"
+              disabled={isLoading}
             >
               Update item
             </Button>
@@ -112,6 +146,7 @@ export function MenuItemDrawer({
               variant="contained"
               sx={{ width: '100%', mt: 5 }}
               type="submit"
+              disabled={isLoading}
             >
               Create item
             </Button>
