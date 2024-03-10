@@ -14,7 +14,7 @@ import { DeleteMenuItemDialog } from './delete-menu-item-dialog'
 
 const Card = styled.div`
   border-top: 1px solid #bfbfbf;
-  border-bottom: 1px solid #bfbfbf;
+  /* border-bottom: 1px solid #bfbfbf; */
   padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
@@ -101,7 +101,7 @@ export function MenuItem({
       />
       <Card>
         <div>
-          <h2>{menuItem.title}</h2>
+          <h4>{menuItem.title}</h4>
           <p>{menuItem.description}</p>
           <span>
             {(menuItem.price / 100).toLocaleString('pt-BR', {
