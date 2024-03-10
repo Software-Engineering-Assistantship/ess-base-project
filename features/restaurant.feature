@@ -52,7 +52,7 @@ Scenario: Criação de um restaurante com nome já existente
 Given O sistema tem a informação de um restaurante guardada com nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
 When uma requisição "POST" for enviada a partir da rota /restaurants/ com as informações nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, e horário de fechamento "1970-01-01T00:00:00.000Z"
 Then O status da resposta dever ser "400"
-And o JSON de resposta deve conter nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, e horário de fechamento "1970-01-01T00:00:00.000Z"
+And uma mensagem com "Restaurant name already taken" deve vir no JSON da resposta
 
 Scenario: Atualização de um restaurante bem sucedida
 Given O sistema tem a informação de um restaurante guardada com nome “Carlos Burguer”, endereço “Rua 123”, tipo “Hamburgueria”, ID “2” e horário de fechamento "1970-01-01T00:00:00.000Z"
