@@ -58,7 +58,7 @@ export function CartItem({ menuItem, adminMode, categories, refetch }: CartItemP
         <p>{menuItem.description}</p>
         <span>{(menuItem.price / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
       </div>
-      <QuantityWrapper>
+      <QuantityWrapper data-test='quantityWrapper'>
         <Button onClick={() => handleChangeQuantity(menuItem.id, 'minus')}>-</Button>
         <span>{menuItem.quantity}</span>
         {menuItem.quantity >= 10 && <LimitReachedText>Limite atingido</LimitReachedText>}
