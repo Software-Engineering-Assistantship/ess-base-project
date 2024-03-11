@@ -57,3 +57,15 @@ Para rodar:
 npm run test
 
 ```
+```
+### No *frontend*:
+
+```sh
+npm i react-scripts axios
+
+```
+
+Após a configuração inicial,
+
+```sh
+npm start

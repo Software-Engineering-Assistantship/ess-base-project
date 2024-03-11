@@ -121,6 +121,7 @@ html, body {
     font-weight: bold;
     font-size: 15px;
     background-color: transparent;
+    text-decoration: none;
 }
 
 .followinguser{
@@ -128,4 +129,5 @@ html, body {
     color: #F0E7DE;
     font-size: 15px;
     background-color: transparent;
+    text-decoration: none;
 }

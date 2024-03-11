@@ -17,7 +17,7 @@ const user_followers_get = async (req, res) => {
         
         //if there is no followers, return status:404 and an empty JSON
         if (!user_page.followers.length){
-            return res.status(404).json({})
+            return res.status(404).json(null)
         
         //if there is at least one follower, return status:200 and the list
         } else {
@@ -51,7 +51,7 @@ const user_following_get = async (req, res) => {
 
         //if the user follows no one: return status:404 and an empty JSON 
         if (!user_page.following.length){
-            return res.status(404).json({})
+            return res.status(404).json(null)
         
         //if there's at least one user followed, return a sucess status and the list
         } else {
