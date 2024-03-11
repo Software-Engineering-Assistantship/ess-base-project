@@ -3,15 +3,10 @@ import { toast } from 'sonner';
 import { createOrder } from '../../api/create-order';
 import { useCart } from '../../context/cart-context';
 import { CartItem } from './cart-item'; 
-
 import Button from '@mui/material/Button';
 
-{/* <Button onClick={() => handleChangeQuantity(menuItem.id, 'minus')}>-</Button>
-<span>{menuItem.quantity}</span>
-<Button onClick={() => handleChangeQuantity(menuItem.id, 'plus')}>+</Button>
-</div> */}
 export function Cart() {
-  const { cartItems, handleChangeQuantity, handleCartClear } = useCart(); // Add handleCartClear from useCart hook
+  const { cartItems, handleChangeQuantity, handleCartClear } = useCart();
 
   const { mutateAsync: createOrderFn, isPending: isCreating } = useMutation({
     mutationFn: createOrder,
@@ -27,7 +22,10 @@ export function Cart() {
 
     try {
       await createOrderFn({ orderDetails: orderBody });
-      toast.success('Pedido realizado!');
+
+      setTimeout(() => {
+        toast.success('Pedido confirmado.');
+      }, 1000);
     } catch {
       toast.error('Erro na criação do pedido.');
     }
@@ -37,7 +35,7 @@ export function Cart() {
     <div>
       <h2>Cart</h2>
       <ul>
-        {cartItems.length !== 0 ? ( // Render cart items if cart is not empty
+        {cartItems.length !== 0 ? (
           cartItems.map((item) => (
             <CartItem key={item.id} menuItem={item} adminMode={false} categories={[]} refetch={() => {}} />
           ))
@@ -49,7 +47,7 @@ export function Cart() {
       <Button onClick={handleMakeOrder} disabled={isCreating}>
         {isCreating ? 'Fazendo pedido...' : 'Fazer pedido'}
       </Button>
-      <Button onClick={handleCartClear}>Limpar carrinho</Button> {/* Clear cart button */}
+      <Button onClick={handleCartClear}>Limpar carrinho</Button>
     </div>
   );
 }
