@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from "react-router-dom"
+import { Form, useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import '../style/ProfileCard.css'
 import noProfileImage from "../images/noprofileimage.png"
@@ -16,6 +16,9 @@ const ProfileCard = () => {
 
     const [newUsername, setNewUsername] = useState('');
     const [newBio, setNewBio] = useState('');
+
+    const [files1, setFiles1] = useState('');
+    const [files2, setFiles2] = useState('');
 
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
@@ -41,40 +44,23 @@ const ProfileCard = () => {
 
     const handleUserChange = () => {
         
-        if(user.name !== newUsername && user.bio !== newBio){
-            axios.put(`${API_BASE}/users/edit/${id}`, {
-                name: newUsername,
-                bio: newBio
-            })
-            .then(response => {
-                console.log('PUT request successful:', response.data);
-            })
-            .catch(error => {
-                console.error('Error making PUT request:', error);
-            });
-        }
-        else if(user.bio === newBio && user.name !== newUsername){
-            axios.put(`${API_BASE}/users/edit/${id}`, {
-                name: newUsername
-            })
-            .then(response => {
-                console.log('PUT request successful:', response.data);
-            })
-            .catch(error => {
-                console.error('Error making PUT request:', error);
-            });
-        }
-        else if(user.bio !== newBio){
-            axios.put(`${API_BASE}/users/edit/${id}`, {
-                bio: newBio
-            })
-            .then(response => {
-                console.log('PUT request successful:', response.data);
-            })
-            .catch(error => {
-                console.error('Error making PUT request:', error);
-            });
-        }
+        const data = new FormData();
+        data.append('name', newUsername);
+        data.append('bio', newBio);
+        data.append('file1', files1[0]);
+        data.append('file2', files2[0]);
+
+        console.log(files1)
+       
+        axios.put(`${API_BASE}/users/edit/${id}`,
+            data
+        )
+        .then(response => {
+            console.log('PUT request successful:', response.data);
+        })
+        .catch(error => {
+            console.error('Error making PUT request:', error);
+        });
 
     };
 
@@ -85,14 +71,18 @@ const ProfileCard = () => {
                 <img class="coverimage" src={noCoverImage}></img>
                 <div class="coverContainer2">
                     <p class="coverfrase">Trocar Capa</p>
-                    <button class="botaocapa"></button>
+                    <div>
+                        <input class="botaocapa" type="file" id="coverPhoto" name="file2"
+                            onChange={ev => setFiles2(ev.target.files)}/>
+                    </div>
                 </div>
             </div>
             <div class="perfilcontainer">
                 <img class="profileimage" src={noProfileImage}></img>
                 <div class="perfilcontainer2">
                     <p class="perfilfrase">Trocar Ícone</p>
-                    <button class="botaoperfil" src={iconPencil}></button>
+                    <input class="botaoperfil" type="file" id="profilePhoto" name="file1"
+                        onChange={ev => setFiles1(ev.target.files)}/>
                 </div>
             </div>
             <div class="nomecontainer">
