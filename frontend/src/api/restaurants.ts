@@ -7,6 +7,7 @@ export interface Restaurant {
   address: string
   closingTime: Date
   type: string
+  picture?: string
   categories: Category[]
 }
 
@@ -19,6 +20,7 @@ interface CreateRestaurantsParams {
   address: string
   closingTime: Date
   type: string
+  picture?: string
   id?: string
 }
 

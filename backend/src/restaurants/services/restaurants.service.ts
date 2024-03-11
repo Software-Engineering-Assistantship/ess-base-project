@@ -14,6 +14,7 @@ export class RestaurantsService {
         address: restaurant.address,
         closingTime: restaurant.closingTime,
         type: restaurant.type,
+        picture: restaurant.picture,
       },
     });
   }
@@ -43,6 +44,7 @@ export class RestaurantsService {
         address: restaurant.address,
         closingTime: restaurant.closingTime,
         type: restaurant.type,
+        picture: restaurant.picture,
       },
       include: { categories: { include: { menuItems: true } } },
     });

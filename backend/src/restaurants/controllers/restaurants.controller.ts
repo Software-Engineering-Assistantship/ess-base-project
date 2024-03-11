@@ -35,6 +35,7 @@ export class RestaurantsController {
       address: restaurant.address,
       closingTime: restaurant.closingTime,
       type: restaurant.type,
+      picture: restaurant.picture,
     });
   }
 
@@ -63,6 +64,7 @@ export class RestaurantsController {
       address: restaurant.address,
       closingTime: restaurant.closingTime,
       type: restaurant.type,
+      picture: restaurant.picture,
     });
   }
 

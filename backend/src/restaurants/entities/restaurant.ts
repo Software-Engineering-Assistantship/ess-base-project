@@ -4,4 +4,5 @@ export interface Restaurant {
   address: string;
   closingTime: Date;
   type: string;
+  picture?: string;
 }
