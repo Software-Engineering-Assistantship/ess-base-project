@@ -53,7 +53,7 @@ const UserProfile = () => {
                         </div>
                     </div>
                 </div>
-                <div class="buttons" >
+                <div class="buttonsuserprofile" >
                     <button class="buttonreviews"> REVIEWS ({user.reviews.size ?? 0})</button>
                     <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                 </div>

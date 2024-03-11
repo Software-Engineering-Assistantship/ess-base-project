@@ -17,7 +17,7 @@
     background-color: #7C0101;
 }
 
-.profilepicture{
+.profilepictureusercard{
     width: 160px;
     height: 160px;
     border-radius: 80px;
@@ -31,27 +31,19 @@
     background-color: #7C0101;
 }
 
-.title {
+.titleusereditcard {
     background-color: transparent;
     font-size: 25px;
     color: #F0E7DE;
 }
 
-.username{
+.usernameuseredit{
     background-color: transparent;
     font-size: 22px;
     color: #F0E7DE;
 }
 
-.profile {
-    background-color: transparent;
-    font-size: 22px;
-    color: #F0E7DE;
-    text-decoration: underline;
-    border: none;
-}
-
-.password {
+.profileuseredit {
     background-color: transparent;
     font-size: 22px;
     color: #F0E7DE;
@@ -59,7 +51,7 @@
     border: none;
 }
 
-.advanced {
+.passworduseredit {
     background-color: transparent;
     font-size: 22px;
     color: #F0E7DE;
@@ -67,17 +59,25 @@
     border: none;
 }
 
-.advanced:hover{
+.advanceduseredit {
+    background-color: transparent;
+    font-size: 22px;
+    color: #F0E7DE;
+    text-decoration: underline;
+    border: none;
+}
+
+.advanceduseredit:hover{
     background-color: #f0e7dedb;
     border-radius: 10px;
 }
 
-.password:hover{
+.passworduseredit:hover{
     background-color: #f0e7dedb;
     border-radius: 10px;
 }
 
-.profile:hover{
+.profileuseredit:hover{
     background-color: #f0e7dedb;
     border-radius: 10px;
 }
