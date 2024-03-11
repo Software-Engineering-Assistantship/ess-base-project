@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import '../style/Header.css'
 import logo from "../assets/logo.svg";
 import noprofileimage from "../assets/noprofileimage.png";
+import searchicon from "../assets/searchicon.png";
 
 const Header = () => {
     const [restaurant, setRestaurant] = useState("");
@@ -30,6 +31,8 @@ const Header = () => {
                 onChange={(e) => setRestaurant(e.target.value)} 
                 className="input-field"
             />
+            
+            <img src={searchicon} alt="searchicon" className="searchicon"/>
 
             <img src={noprofileimage} alt="noprofileimage" className="noprofileimage"/>
         </div>
