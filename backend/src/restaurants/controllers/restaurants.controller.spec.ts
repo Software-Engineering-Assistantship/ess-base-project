@@ -125,6 +125,19 @@ describe('RestaurantController', () => {
       });
     });
 
+    it('[PATCH] should fail if restaurant name already exists', async () => {
+      const updateInput = {
+        name: 'Jose Burguer',
+      };
+
+      const response = await request(app.getHttpServer())
+        .patch(`/restaurants/${restaurantId}`)
+        .send({ ...updateInput });
+
+      expect(response.statusCode).toBe(400);
+      expect(response.body.message).toEqual('Restaurant name already taken');
+    });
+
     it('[PATCH] should fail if restaurant id does not exist', async () => {
       const updateInput = {
         name: 'Jonas Burguer',
