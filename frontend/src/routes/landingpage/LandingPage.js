@@ -18,7 +18,7 @@ const LandingPage = () => {
         </div>
 
         <div className="main-content">
-                <h1 className="title">O melhor site de reviews gastronômicas do Brasil!</h1>
+                <h1 className="titlelanddingpage">O melhor site de reviews gastronômicas do Brasil!</h1>
                 <img src={logo2} alt="logo2" className="logo2"/>
                 <Link to="/signup" className="sign-up-button">Cadastre-se Já!!</Link>
                 <p className="login-link"><Link to="/login" className="blue-text">Já possui conta?</Link></p>
