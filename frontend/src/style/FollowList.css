@@ -55,7 +55,7 @@
 
 .unit-preview-follow{
     padding: 10px 16px;
-    border-bottom: 6px solid #B92727;
+    border-top: 6px solid #B92727;
     display: grid;
     grid-template-columns: 1fr 1.25fr;
     gap: 10px;
@@ -64,10 +64,13 @@
 
 .all-users-follow{
     overflow-y: scroll;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
     /* width */
     ::-webkit-scrollbar {
         width: 15px;
+        border-bottom-left-radius: 20px;
     }
     
     /* Track */
@@ -78,6 +81,7 @@
     /* Handle */
     ::-webkit-scrollbar-thumb {
         background: #aaa8a6;
+        border-radius: 10px;
     }
     
     /* Handle on hover */
@@ -115,7 +119,7 @@
     justify-content: center;
 }
 
-.link{
+.link-follow{
   text-decoration: none;
 }
 

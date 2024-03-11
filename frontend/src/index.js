@@ -61,11 +61,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/followers/:id",
-        element: <Followers />
+        element: <FollowersList />
       },
       {
         path: "/users/following/:id",
-        element: <Following />
+        element: <FollowingList />
       },
     ]
   },

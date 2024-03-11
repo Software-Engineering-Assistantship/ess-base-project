@@ -115,12 +115,12 @@ const FollowingList = () => {
                                 
                                 (!currentUser.following.includes(followed._id) ? (
                                     <div className="unit-buttons-follow">
-                                        <Link className="link" to={`/users/${followed._id}`}>
+                                        <Link className="link-follow" to={`/users/${followed._id}`}>
                                             <div className="view-button-follow">
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link" onClick={(e) => {follow(followed._id, e)}}>
+                                        <Link className="link-follow" onClick={(e) => {follow(followed._id, e)}}>
                                             <div className="follow-button">
                                                 <p>Seguir</p>
                                             </div>
@@ -128,12 +128,12 @@ const FollowingList = () => {
                                     </div>
                                 ) : (
                                     <div className="unit-buttons-follow">
-                                        <Link className="link" to={`/users/${followed._id}`}>
+                                        <Link className="link-follow" to={`/users/${followed._id}`}>
                                             <div className="view-button-follow">
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link" onClick={(e) => {unfollow(followed._id, e)}}>
+                                        <Link className="link-follow" onClick={(e) => {unfollow(followed._id, e)}}>
                                             <div className="unfollow-button">
                                                 <p>Deixar de seguir</p>
                                             </div>
@@ -148,7 +148,7 @@ const FollowingList = () => {
                                 
                         : (
                             <div className="unit-button-view-follow">
-                                <Link className="link" to={`/users/${followed._id}`}>
+                                <Link className="link-follow" to={`/users/${followed._id}`}>
                                     <div className="view-button-alone-follow">
                                         <p>Ver perfil</p>
                                     </div>

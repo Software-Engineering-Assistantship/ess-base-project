@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import ProfileImage from "../images/noprofileimage.png"
 import CoverImage from "../images/nocoverimage.png"
@@ -8,6 +8,8 @@ import '../style/UserProfile.css'
 const API_BASE = "http://localhost:3001"
 
 const UserProfile = () => {
+
+    let navigate = useNavigate()
 
     const currentUserId = "65d51f9ac3b06ec45cdd2acb"
 
@@ -105,7 +107,7 @@ const UserProfile = () => {
                                     
                                         (!currentUser.following.includes(id) ? (
                                             
-                                            <Link className="link" onClick={(e) => {follow(id, e)}}>
+                                            <Link className="link-follow" onClick={(e) => {follow(id, e)}}>
                                                 <div className="follow-button-user-page">
                                                     <p>Seguir</p>
                                                 </div>
@@ -113,7 +115,7 @@ const UserProfile = () => {
                                             
                                             ) : (
                                             
-                                            <Link className="link" onClick={(e) => {unfollow(id, e)}}>
+                                            <Link className="link-follow" onClick={(e) => {unfollow(id, e)}}>
                                                 <div className="unfollow-button-user-page">
                                                     <p>Deixar de seguir</p>
                                                 </div>
