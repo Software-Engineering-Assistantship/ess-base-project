@@ -121,11 +121,24 @@ const review_user = async (req, res) => {
     }
 }
 
+// show all registered reviews
+const registered_reviews = async (req, res) => {
+    const reviews = await Review.find()
+
+    if (reviews.length === 0) {
+        return res.status(404).json({ error: 'Ainda não há reviews cadastradas' })
+    }
+    else {
+        res.json(reviews)
+    }
+}
+
 module.exports = {
     review_show,
     review_get,
     review_post,
     review_edit,
     review_delete,
-    review_user
+    review_user,
+    registered_reviews
 }

@@ -1,8 +1,15 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/User'); 
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
+const User = require('../models/User')
+
+const secret = "gjnhawrgohuqwjkrfnb1o3i4y1230984u35nkrwfvdfgbrty"
+
 
 const user_signup = async (req, res) => {
+    //req.body = JSON.parse(JSON.stringify(req.body))
     let { name, email, password } = req.body;
+    
     name = name.trim();
     email = email.trim();
     password = password.trim();
@@ -52,7 +59,7 @@ const user_signup = async (req, res) => {
             password: hashedPassword
         });
         await newUser.save();
-
+         
         return res.json({
             status: "SUCCESS",
             message: "Registration successful",
@@ -93,9 +100,12 @@ const user_signin = async (req, res) => {
         const match = await bcrypt.compare(password, hashedPassword);
 
         if (match) {
+            const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
+
             return res.json({
                 status: "SUCCESS",
                 message: "Signin successful",
+                token:token,
                 data: user
             });
         } else {

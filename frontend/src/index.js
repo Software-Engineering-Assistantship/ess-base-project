@@ -4,13 +4,22 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
 import App from './App';
-import Restaurants from './routes/Restaurants'
-import RestaurantProfile from './routes/RestaurantProfile'
-import RestaurantCreate from './routes/RestaurantCreate'
+import Restaurants from './routes/restaurants/Restaurants'
+import RestaurantProfile from './routes/restaurants/RestaurantProfile'
+import RestaurantCreate from './routes/restaurants/RestaurantCreate'
+import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
 import UserProfile from './routes/UserProfile'
 import FollowersList from './routes/FollowersList'
 import FollowingList from './routes/FollowingList' 
+
+import LandingPage from './routes/landingpage/LandingPage'
+import Login from './routes/login/login'
+import Signup from './routes/signup/Signup'
+import UserEdit from './routes/UserEdit';
+
+import Feed from './routes/feed/Feed'
+import SearchResult from './routes/search/SearchResult'
 
 const router = createBrowserRouter([
   {
@@ -27,8 +36,50 @@ const router = createBrowserRouter([
         element: <RestaurantCreate />
       },
       {
+        path: "/restaurants/update/:id",
+        element: <RestaurantUpdate />
+      },
+      {
         path: "/restaurants/:id",
         element: <RestaurantProfile />
+      },
+      {
+        path: "/landingpage",
+        element: <LandingPage />
+      },
+      {
+        path: "/login",
+        element: <Login />
+      },
+      {
+        path: "/signup",
+        element: <Signup />
+      },
+      {
+        path: "/users/:id",
+        element: <UserProfile />
+      },
+      {
+        path: "/users/followers/:id",
+        element: <Followers />
+      },
+      {
+        path: "/users/following/:id",
+        element: <Following />
+      },
+    ]
+  },
+
+  {
+    path:"/",
+    children: [
+      {
+        path: "/feed",
+        element: <Feed />
+      },
+      {
+        path: "/search/result",
+        element: <SearchResult />
       }
     ]
   },
@@ -46,6 +97,15 @@ const router = createBrowserRouter([
       {
         path: "/users/following/:id",
         element: <FollowingList />
+      }
+    ]
+  },
+  {
+    path:"/",
+    children: [
+      {
+        path: "/users/edit/:id",
+        element: <UserEdit />
       }
     ]
   }

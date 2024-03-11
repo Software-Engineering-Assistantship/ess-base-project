@@ -133,9 +133,9 @@ const UserProfile = () => {
                             </div>
                     </div>
                 </div>
-                <div class="buttons" >
-                    <button class="buttonreviews"> REVIEWS ({user.reviews.length ?? 0})</button>
-                    <button class="buttonedit"></button>
+                <div class="buttonsuserprofile" >
+                    <button class="buttonreviews"> REVIEWS ({user.reviews.size ?? 0})</button>
+                    <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                 </div>
             </div>
         ):(

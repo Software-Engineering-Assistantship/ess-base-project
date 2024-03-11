@@ -24,7 +24,7 @@ Baixe NodeJS, React e MongoDB.
 ### No *backend*:
 
 ```sh
-npm i bcrypt cors dotenv express mongoose multer nodemailer nodemon
+npm i bcrypt cors dotenv express mongoose multer nodemailer nodemon jsonwebtoken cookie-parser
 
 ```
 
@@ -57,11 +57,10 @@ Para rodar:
 npm run test
 
 ```
-```
 ### No *frontend*:
 
 ```sh
-npm i react-scripts axios
+npm i react-scripts
 
 ```
 
@@ -69,3 +68,5 @@ Após a configuração inicial,
 
 ```sh
 npm start
+
+```
