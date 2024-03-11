@@ -3,7 +3,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 require("dotenv").config()
 const cors = require('cors')
-const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 
 
@@ -32,8 +31,7 @@ app.use(express.json())
 // include Access-Control-Allow-Origin headers
 app.use(cors())
 
-// use cookies
-app.use(cookieParser())
+
 
 app.use('/uploads', express.static(__dirname + '/uploads'))
 
