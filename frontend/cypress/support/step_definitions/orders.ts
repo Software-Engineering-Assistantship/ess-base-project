@@ -2,7 +2,7 @@
 
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
-// Scenario: Entrar na tela de Histórico de Pedidos
+// Scenario: Visualizar Lista Cronológica de Pedidos
 Given('o usuário está na página inicial', () => {
   cy.visit('/restaurants')
 })
