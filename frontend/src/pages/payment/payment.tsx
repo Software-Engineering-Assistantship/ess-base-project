@@ -28,7 +28,7 @@ export const Payment: React.FC = () => {
         console.log(restaurant)
         setCardList(restaurant)
     })()
-  }, [cardList, reloadPage])
+  }, [reloadPage])
 
   const handleGoBack = () => {
     window.location.href = '/user'

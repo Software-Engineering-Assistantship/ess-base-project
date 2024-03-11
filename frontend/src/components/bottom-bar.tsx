@@ -8,6 +8,7 @@ import { Link, useLocation } from 'react-router-dom';
 export default function BottomBar() {
   const [value, setValue] = React.useState(0)
   const location = useLocation()
+  const isAdmin = location.pathname.includes('admin')
 
   return (
     <Box
@@ -30,7 +31,9 @@ export default function BottomBar() {
         <BottomNavigationAction label="Menu" icon={<Home />} />
         <BottomNavigationAction label="Order history" icon={<History />} />
         <BottomNavigationAction label="Cart" icon={<ShoppingCart />} />
-        <BottomNavigationAction label="User" icon={<Person />} component={Link} to="/user"/>
+        {!isAdmin && (
+          <BottomNavigationAction label="User" icon={<Person />} component={Link} to="/user"/>
+        )}
       </BottomNavigation>
     </Box>
   )
