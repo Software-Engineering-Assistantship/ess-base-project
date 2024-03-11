@@ -35,13 +35,17 @@ export function Menu() {
         restaurantId: id,
       }
 
-      await saveCategory(categoryData)
-    }
+      const category = await saveCategory(categoryData)
 
-    setOpen(false)
-    setNewCategoryName('')
-    setNewCategoryDescription('')
-    setReloadPage(!reloadPage)
+      if (!category) {
+        alert('Nome já utilizado')
+      } else {
+        setOpen(false)
+        setNewCategoryName('')
+        setNewCategoryDescription('')
+        setReloadPage(!reloadPage)
+      }
+    }
   }
 
   useEffect(() => {

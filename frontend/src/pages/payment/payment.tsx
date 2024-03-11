@@ -155,6 +155,7 @@ export const Payment: React.FC = () => {
             onChange={handleChange}
             fullWidth
             label="Tipo de Cartão"
+            id="teste"
           >
             <MenuItem value="Crédito">Crédito</MenuItem>
             <MenuItem value="Débito">Débito</MenuItem>
