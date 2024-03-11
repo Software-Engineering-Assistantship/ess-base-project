@@ -1,58 +1,62 @@
 import { useQuery } from '@tanstack/react-query'
-import { Restaurant, getRestaurants } from '../../api/restaurants'
-import { Box, Button, Card, Stack, Typography } from '@mui/material'
+import { getRestaurants } from '../../api/restaurants'
+import { Box, Button, Divider, Stack, Typography } from '@mui/material'
 import { RestaurantsDrawer } from '../../components/RestaurantsDrawer'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { RestaurantItem } from '../../components/Restaurant'
 
 export const Restaurants = () => {
   const isAdmin = location.pathname.includes('admin')
-  const [openMenuDialog, setOpenMenuDialog] = useState(false)
-  const { data: result } = useQuery({
+  const [openRestaurantDialog, setOpenRestaurantDialog] = useState(false)
+
+  const {
+    data: result,
+    refetch,
+    isFetching,
+  } = useQuery({
     queryKey: ['restaurants'],
     queryFn: () => getRestaurants(),
   })
-
-  const renderItem = (item: Restaurant) => {
-    return (
-      <Link
-        to={
-          isAdmin ? `/restaurants/admin/${item.id}` : `/restaurants/${item.id}`
-        }
-      >
-        <Card style={{ cursor: 'pointer' }}>
-          <Typography>{item.name}</Typography>
-        </Card>
-      </Link>
-    )
-  }
 
   return (
     <>
       {result && (
         <>
           <RestaurantsDrawer
-            open={openMenuDialog}
-            handleClose={() => setOpenMenuDialog(false)}
+            open={openRestaurantDialog}
+            handleClose={() => setOpenRestaurantDialog(false)}
+            refetch={refetch}
+            isLoading={isFetching}
           />
           <Box
             sx={{
               display: 'flex',
+              justifyContent: 'space-between',
               marginBottom: '1rem',
             }}
           >
+            <Typography variant="h5" marginRight={1}>
+              Restaurantes
+            </Typography>
             {isAdmin && (
               <Button
                 variant="contained"
-                sx={{ width: '100%' }}
-                onClick={() => setOpenMenuDialog(true)}
+                sx={{ width: '200px' }}
+                onClick={() => setOpenRestaurantDialog(true)}
               >
-                Create new restaurant
+                Criar restaurante
               </Button>
             )}
           </Box>
-          <Stack spacing={2}>
-            {result.map((restaurant) => renderItem(restaurant))}
+          <Divider />
+          <Stack spacing={2} marginTop={1}>
+            {result.map((restaurant) => (
+              <RestaurantItem
+                item={restaurant}
+                refetch={refetch}
+                key={restaurant.id}
+              />
+            ))}
           </Stack>
         </>
       )}
