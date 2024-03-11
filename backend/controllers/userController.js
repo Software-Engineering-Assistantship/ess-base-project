@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt')
-const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/User')
@@ -8,7 +7,9 @@ const secret = "gjnhawrgohuqwjkrfnb1o3i4y1230984u35nkrwfvdfgbrty"
 
 
 const user_signup = async (req, res) => {
+    //req.body = JSON.parse(JSON.stringify(req.body))
     let { name, email, password } = req.body;
+    
     name = name.trim();
     email = email.trim();
     password = password.trim();
@@ -58,7 +59,7 @@ const user_signup = async (req, res) => {
             password: hashedPassword
         });
         await newUser.save();
-
+         
         return res.json({
             status: "SUCCESS",
             message: "Registration successful",
@@ -99,22 +100,14 @@ const user_signin = async (req, res) => {
         const match = await bcrypt.compare(password, hashedPassword);
 
         if (match) {
+            const token = jwt.sign({ userId: user._id }, 'your-secret-key', { expiresIn: '1h' });
 
-            jwt.sign(
-                {name: user.name, 
-                id: user._id},
-                secret, {}, (err, token) => {
-                    if (err) throw err;
-                    res.cookie('token', token).json(
-                        {
-                        status: "SUCCESS",
-                        message: "Signin successful",
-                        data: user,
-                        token: token
-                        }
-                    )
-                }
-            )
+            return res.json({
+                status: "SUCCESS",
+                message: "Signin successful",
+                token:token,
+                data: user
+            });
         } else {
             return res.json({
                 status: "FAILURE",

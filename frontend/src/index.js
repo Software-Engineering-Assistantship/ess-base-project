@@ -9,6 +9,10 @@ import RestaurantProfile from './routes/restaurants/RestaurantProfile'
 import RestaurantCreate from './routes/restaurants/RestaurantCreate'
 import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
+
+import LandingPage from './routes/landingpage/LandingPage'
+import Login from './routes/login/login'
+import Signup from './routes/signup/Signup'
 import UserProfile from './routes/UserProfile';
 
 import UserPage from './routes/UserPage'
@@ -40,8 +44,18 @@ const router = createBrowserRouter([
         path: "/restaurants/:id",
         element: <RestaurantProfile />
       },
-
-
+      {
+        path: "/landingpage",
+        element: <LandingPage />
+      },
+      {
+        path: "/login",
+        element: <Login />
+      },
+      {
+        path: "/signup",
+        element: <Signup />
+      },
       {
         path: "/users/:id",
         element: <UserPage />
