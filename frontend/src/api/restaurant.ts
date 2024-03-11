@@ -42,9 +42,13 @@ export async function getRestaurant(restaurantId: string) {
 }
 
 export async function saveCategory(categoryData: NewCategory) {
-  const response = await api.post(`/categories`, categoryData)
+  try {
+    const response = await api.post(`/categories`, categoryData)
 
-  return response.data
+    return response.data
+  } catch (error) {
+    return null
+  }
 }
 
 export async function deleteCategory(categoryId: string) {
