@@ -80,7 +80,7 @@ const user_signin = async (req, res) => {
     password = password.trim();
 
     if (email == "" || password == "") {
-        return res.json({
+        return res.status(400)({
             status: "FAILURE",
             message: "Empty credentials supplied"
         });
@@ -90,7 +90,7 @@ const user_signin = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.json({
+            return res.status(401)({
                 status: "FAILURE",
                 message: "Invalid credentials"
             });
@@ -109,7 +109,7 @@ const user_signin = async (req, res) => {
                 data: user
             });
         } else {
-            return res.json({
+            return res.status(401)({
                 status: "FAILURE",
                 message: "Invalid password"
             });
