@@ -99,7 +99,7 @@ export function MenuItem({
         menuItemId={menuItem.id}
         refetch={refetch}
       />
-      <Card>
+      <Card className="Card">
         <div>
           <h4>{menuItem.title}</h4>
           <p>{menuItem.description}</p>
@@ -119,12 +119,17 @@ export function MenuItem({
               marginRight: 2,
             }}
           >
-            <Edit onClick={handleOpenMenuDialog} sx={{ cursor: 'pointer' }} />
+            <Edit
+              onClick={handleOpenMenuDialog}
+              sx={{ cursor: 'pointer' }}
+              data-testid="edit-icon"
+            />
             <DeleteOutline
               sx={{
                 color: 'red',
               }}
               onClick={handleOpenDeleteMenuDialog}
+              data-testid="delete-icon"
             />
           </Box>
         ) : (
