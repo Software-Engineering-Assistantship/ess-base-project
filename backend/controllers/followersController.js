@@ -1,5 +1,6 @@
 const User = require("../models/User")
 const sendEmail = require("../utils/sendEmail")
+const getUser = require("./userController")
 
 //list of followers
 const user_followers_get = async (req, res) => {
@@ -14,14 +15,22 @@ const user_followers_get = async (req, res) => {
     //if there is a user with the ID from the parameters
     } else{
         
-        const list_followers = user_page.followers
-        
         //if there is no followers, return status:404 and an empty JSON
-        if (!list_followers.length){
-            return res.status(404).json(list_followers)
+        if (!user_page.followers.length){
+            return res.status(404).json(null)
         
         //if there is at least one follower, return status:200 and the list
         } else {
+            
+            let list_followers = []
+
+            for (const follower_id of user_page.followers){
+                let user = await User.findById(follower_id)
+
+                list_followers.push(user)
+
+            }
+
             return res.status(200).json(list_followers)
         }
     }
@@ -38,16 +47,23 @@ const user_following_get = async (req, res) => {
     if(!user_page){
         return res.status(404).json({ error: 'Usuário não encontrado'})
 
-    } else{
-
-        const list_following = user_page.following
+    } else{ 
 
         //if the user follows no one: return status:404 and an empty JSON 
-        if (!list_following.length){
-            return res.status(404).json(list_following)
+        if (!user_page.following.length){
+            return res.status(404).json(null)
         
         //if there's at least one user followed, return a sucess status and the list
         } else {
+            let list_following = []
+
+            for (const followed_id of user_page.following){
+                let user = await User.findById(followed_id)
+
+                list_following.push(user)
+
+            }
+
             return res.status(200).json(list_following)
         }
     }
@@ -59,7 +75,7 @@ const user_follow = async (req, res) => {
     
     //user that will be followed 
     //ID in the parameters
-    const user_page = await User.findById(req.params.id)
+    const user_page = await User.findById(req.params.idp)
 
     if(!user_page){
         return res.status(404).json({ error: 'Usuário não encontrado'})
@@ -67,7 +83,7 @@ const user_follow = async (req, res) => {
     } else{
         //user following
         //ID in body
-        const user_log = await User.findById(req.body) 
+        const user_log = await User.findById(req.params.idl) 
 
         try{
             
@@ -130,12 +146,7 @@ const user_follow = async (req, res) => {
             //if user_log already follows user_page
             } else {
                 //return status:409 conflict and JSON with followed.id + followers and follower.id + following
-                return res.status(409).json({
-                    followed: {"id": user_page.id,
-                     "followers": user_page.followers},
-
-                    follower: {"id": user_log.id, 
-                     "following": user_log.following},
+                return res.status(409).json({ error: "usuário já segue",
 
                     status_email: "error"})
         
@@ -143,7 +154,7 @@ const user_follow = async (req, res) => {
 
         } catch (e) {
 
-            return res.status(500).send({ error: "Erro ao seguir"})
+            return res.status(500).error({ error: "Erro ao seguir"})
         }
     }
 
@@ -154,8 +165,8 @@ const user_unfollow = async (req, res) => {
     
     //user that will be unfollowed 
     //ID in the parameters
-    const user_page = await User.findById(req.params.id)
-
+    const user_page = await User.findById(req.params.idp)
+    console.log("user_page", user_page)
     if(!user_page){
         return res.status(404).json({ error: 'Usuário não encontrado'})
 
@@ -163,8 +174,8 @@ const user_unfollow = async (req, res) => {
 
         //user unfollowing
         //ID in body
-        const user_log = await User.findById(req.body) 
-
+        const user_log = await User.findById(req.params.idl) 
+        console.log("user_log", user_log)
         try{
             
             //if user_page is followed by user_log
