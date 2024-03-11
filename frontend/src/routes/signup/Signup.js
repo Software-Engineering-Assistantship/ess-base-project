@@ -40,7 +40,7 @@ const Signup = () => {
     return (
         <div>
             <div className="headerinicial">
-                <img src={logo} alt="logo" className="logo" />
+                <img src={logo} alt="logo" className="logo4" />
             </div>
             <div className="signup-container">
                 <form className="signup-form" onSubmit={handleSubmit}>
