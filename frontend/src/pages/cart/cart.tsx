@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { createOrder } from '../../api/create-order';
+import { createOrder } from '../../api/order';
 import { useCart } from '../../context/cart-context';
 import { CartItem } from './cart-item'; 
 import Button from '@mui/material/Button';
@@ -15,13 +15,17 @@ export function Cart() {
   const totalValue = cartItems.reduce((acc, item) => acc + item.price/100 * item.quantity, 0);
 
   async function handleMakeOrder() {
-    const orderBody = cartItems.map((order) => ({
-      snackId: order.id,
-      quantity: order.quantity,
+    const menuItems = cartItems.map((order) => ({
+      id: order.id,
+      title: order.title,
+			description: order.description,
+			price: order.price,
+			quantity: order.quantity,
+			categoryId: order.categoryId
     }));
 
     try {
-      await createOrderFn({ orderDetails: orderBody });
+      await createOrderFn({ menuItems });
 
       setTimeout(() => {
         toast.success('Pedido confirmado.');
@@ -34,6 +38,7 @@ export function Cart() {
   return (
     <div>
       <h2>Cart</h2>
+      { !isCreating ? (<p>Pedido feito</p>) : (<></>)}
       <ul data-test="cart-list">
         {cartItems.length !== 0 ? (
           cartItems.map((item) => (

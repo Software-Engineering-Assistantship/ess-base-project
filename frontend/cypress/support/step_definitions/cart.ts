@@ -66,8 +66,8 @@ Given('tenho os itens de nome {string} e {string} no carrinho', (itemName1: stri
 })
 
 When(
-  'o usuário clica no botão “Limpar Carrinho" na tela', () => {
-    cy.contains('button', 'Limpar carrinho').click()
+  'o usuário clica no botão {string} na tela', (buttonText: string) => {
+    cy.contains('button', buttonText).click()
   }
 )
 
@@ -91,3 +91,10 @@ Then(
 )
 
 // Scenario: Fazer pedido
+
+Then(
+  'o usuário recebe a confirmação {string}',
+  (notification: string) => {
+    cy.contains(notification).should('exist')
+  },
+)

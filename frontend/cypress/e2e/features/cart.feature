@@ -15,7 +15,7 @@ Scenario: Remover item do carrinho
 Scenario: Limpar carrinho
     Given O usuário está na página "cart"
     And tenho os itens de nome "Salad" e "Hamburguer" no carrinho
-    When o usuário clica no botão “Limpar Carrinho" na tela 
+    When o usuário clica no botão "Limpar carrinho" na tela
     Then o usuário não deve ver nenhum item no carrinho
 
 Scenario: Aumentar quantidade de item
@@ -25,7 +25,7 @@ Scenario: Aumentar quantidade de item
     Then a quantidade do item "Salad" incrementa em 1
 
 Scenario: Fazer pedido
-    Given Eu estou na tela "Carrinho" como cliente
-    And Tenho os itens "Whopper" ,"Batata" e "Coca" 
-    When Eu clico em "Fazer pedido" 
-    Then Vejo a confirmação "Pedido efetuado"
+    Given tenho o item de nome "Salad" cadastrado no carrinho
+    And O usuário está na página "cart"
+    When o usuário clica no botão "Fazer pedido" na tela
+    Then o usuário recebe a confirmação "Pedido efetuado"
