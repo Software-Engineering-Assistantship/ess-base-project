@@ -14,6 +14,7 @@ interface CartContextType {
   handleCartAddItem: (item: CartItem) => void
   handleCartRemoveItem: (itemId: string) => void
   handleChangeQuantity: (itemId: string, operation: string) => void
+  handleCartClear: () => void
 }
 
 export const CartContext = createContext({} as CartContextType)
@@ -35,6 +36,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   function handleCartRemoveItem(itemId: string) {
     setCartItems(cartItems.filter((item) => item.id !== itemId))
+  }
+
+  function handleCartClear() {
+    setCartItems([]); 
   }
 
   function handleChangeQuantity(itemId: string, operation: string) {
@@ -70,6 +75,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         handleCartAddItem,
         handleCartRemoveItem,
         handleChangeQuantity,
+        handleCartClear,
       }}
     >
       {children}

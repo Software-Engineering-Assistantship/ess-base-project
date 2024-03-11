@@ -1,17 +1,17 @@
-import { DeleteOutline, Edit } from '@mui/icons-material'
+import { DeleteOutline, Edit } from '@mui/icons-material';
 import {
   Category,
   MenuItem as MenuItemType,
   updateMenuItem,
   MenuItemBody,
-} from '../api/menu'
-import styled from '@emotion/styled'
-import { Box, Button } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
-import { MenuItemDrawer } from './menu-item-drawer'
-import { useState } from 'react'
-import { DeleteMenuItemDialog } from './delete-menu-item-dialog'
-import { useCart } from '../context/cart-context'
+} from '../api/menu';
+import styled from '@emotion/styled';
+import { Box, Button } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
+import { MenuItemDrawer } from './menu-item-drawer';
+import { useState } from 'react';
+import { DeleteMenuItemDialog } from './delete-menu-item-dialog';
+import { useCart } from '../context/cart-context';
 
 const Card = styled.div`
   border-top: 1px solid #bfbfbf;
@@ -40,13 +40,14 @@ const Card = styled.div`
   }
 
   transition: background-color 0.3s;
-`
+`;
 
 interface MenuItemProps {
-  menuItem: MenuItemType
-  adminMode: boolean
-  categories: Category[]
-  refetch: () => void
+  menuItem: MenuItemType;
+  adminMode: boolean;
+  categories: Category[];
+  refetch: () => void;
+  inCart?: boolean; // New prop to indicate if MenuItem is in the cart
 }
 
 export function MenuItem({
@@ -54,37 +55,38 @@ export function MenuItem({
   adminMode,
   categories,
   refetch,
+  inCart = false, // Default value is false
 }: MenuItemProps) {
-  const [openMenuDrawer, setOpenMenuDrawer] = useState(false)
-  const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false)
+  const [openMenuDrawer, setOpenMenuDrawer] = useState(false);
+  const [openDeleteMenuDialog, setOpenDeleteMenuDialog] = useState(false);
 
   const { mutateAsync: updateMenuItemFn, isPending: isUpdating } = useMutation({
     mutationFn: updateMenuItem,
-  })
+  });
 
   function handleCloseMenuDialog() {
-    setOpenMenuDrawer(false)
+    setOpenMenuDrawer(false);
   }
 
   function handleOpenMenuDialog() {
-    setOpenMenuDrawer(true)
+    setOpenMenuDrawer(true);
   }
 
   function handleCloseDeleteMenuDialog() {
-    setOpenDeleteMenuDialog(false)
+    setOpenDeleteMenuDialog(false);
   }
 
   function handleOpenDeleteMenuDialog() {
-    setOpenDeleteMenuDialog(true)
+    setOpenDeleteMenuDialog(true);
   }
 
   async function handleUpdateMenuItem(menuItem: MenuItemBody) {
-    await updateMenuItemFn(menuItem)
+    await updateMenuItemFn(menuItem);
   }
 
-  const { cartItems, handleCartAddItem, handleCartRemoveItem } = useCart()
+  const { cartItems, handleCartAddItem, handleCartRemoveItem, handleChangeQuantity } = useCart();
 
-  const isItemInCart = cartItems && cartItems.some((item) => item.id === menuItem.id)
+  const isItemInCart = cartItems && cartItems.some((item) => item.id === menuItem.id);
 
   return (
     <>
@@ -132,32 +134,29 @@ export function MenuItem({
               onClick={handleOpenDeleteMenuDialog}
             />
           </Box>
-        ) : (
-          isItemInCart ? (
-            <Button
-              onClick={() => handleCartRemoveItem(menuItem.id)}
-            >
-              Remove from cart
-            </Button>
-          ) : 
-          (
-            <Button
-              onClick={() =>
-                handleCartAddItem({
-                  id: menuItem.id,
-                  title: menuItem.title,
-                  quantity: 1,
-                  description: menuItem.description,
-                  price: menuItem.price,
-                  categoryId: menuItem.categoryId
-                })
-              }
-            >
-              Add to cart
-            </Button>
-          )
-        )}
+        ) : isItemInCart ?  (
+        <Button onClick={() => handleCartRemoveItem(menuItem.id)}>
+        Remove from cart
+      </Button>)
+      : (
+          <Button
+            className="w-full"
+            onClick={() =>
+              handleCartAddItem({
+                id: menuItem.id,
+                title: menuItem.title,
+                quantity: 1,
+                description: menuItem.description,
+                price: menuItem.price,
+                categoryId: menuItem.categoryId
+              })
+            }
+          >
+            Add to cart
+          </Button>
+        )
+          }
       </Card>
     </>
-  )
+  );
 }
