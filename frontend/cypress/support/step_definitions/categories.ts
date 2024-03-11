@@ -4,7 +4,10 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 // Scenario: Criar categoria de um restaurante
 Given('que o usuário admin está na página {string}', (url: string) => {
-  cy.visit(url)
+  const urlWithoutId = url.split(':restaurantId')[0]
+
+  cy.visit(urlWithoutId)
+  cy.get('p').first().click()
 })
 
 Given('não existe a categoria de nome {string}', (categoryName: string) => {
