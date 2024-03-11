@@ -2,7 +2,7 @@
 
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
-// Scenario: Criar categoria de um restaurante
+// Scenario: Entrar na tela de Histórico de Pedidos
 Given('o usuário está na página inicial', () => {
   cy.visit('/restaurants')
 })
