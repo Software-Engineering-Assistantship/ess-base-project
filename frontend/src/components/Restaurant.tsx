@@ -6,6 +6,7 @@ import { RestaurantsDrawer } from './RestaurantsDrawer'
 import { DeleteRestaurantDialog } from './DeleteRestaurantDialog'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
+import RestaurantIcon from '@mui/icons-material/Restaurant'
 
 // https://img.freepik.com/vetores-premium/logotipo-do-design-de-alimentos-de-qualidade-para-catering_187482-593.jpg
 
@@ -35,7 +36,7 @@ export const RestaurantItem = ({ item, refetch }: RestaurantProps) => {
           sx={{ width: 70, height: 70, marginRight: 2 }}
           src={item.picture || undefined}
         >
-          {item.name}
+          <RestaurantIcon />
         </Avatar>
         <RestaurantsDrawer
           open={openEditRestaurantDialog}
