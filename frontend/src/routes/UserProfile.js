@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import ProfileImage from "../images/noprofileimage.png"
 import CoverImage from "../images/nocoverimage.png"
@@ -9,6 +9,7 @@ const API_BASE = "http://localhost:3001"
 
 const UserProfile = () => {
 
+    let navigate = useNavigate()
     const [user, setUser] = useState(null);
     const { id } = useParams()
 
@@ -54,7 +55,7 @@ const UserProfile = () => {
                 </div>
                 <div class="buttons" >
                     <button class="buttonreviews"> REVIEWS ({user.reviews.size ?? 0})</button>
-                    <button class="buttonedit"></button>
+                    <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                 </div>
             </div>
 

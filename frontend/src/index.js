@@ -14,6 +14,7 @@ import LandingPage from './routes/landingpage/LandingPage'
 import Login from './routes/login/login'
 import Signup from './routes/signup/Signup'
 import UserProfile from './routes/UserProfile';
+import UserEdit from './routes/UserEdit';
 
 import UserPage from './routes/UserPage'
 import Followers from './routes/Followers'
@@ -90,6 +91,15 @@ const router = createBrowserRouter([
       {
         path: "/users/:id",
         element: <UserProfile />,
+      }
+    ]
+  },
+  {
+    path:"/",
+    children: [
+      {
+        path: "/users/edit/:id",
+        element: <UserEdit />
       }
     ]
   }
