@@ -9,16 +9,14 @@ import RestaurantProfile from './routes/restaurants/RestaurantProfile'
 import RestaurantCreate from './routes/restaurants/RestaurantCreate'
 import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
+import UserProfile from './routes/UserProfile'
+import FollowersList from './routes/FollowersList'
+import FollowingList from './routes/FollowingList' 
 
 import LandingPage from './routes/landingpage/LandingPage'
 import Login from './routes/login/login'
 import Signup from './routes/signup/Signup'
-import UserProfile from './routes/UserProfile';
 import UserEdit from './routes/UserEdit';
-
-import UserPage from './routes/UserPage'
-import Followers from './routes/Followers'
-import Following from './routes/Following' 
 
 import Feed from './routes/feed/Feed'
 import SearchResult from './routes/search/SearchResult'
@@ -59,15 +57,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/:id",
-        element: <UserPage />
+        element: <UserProfile />
       },
       {
         path: "/users/followers/:id",
-        element: <Followers />
+        element: <FollowersList />
       },
       {
         path: "/users/following/:id",
-        element: <Following />
+        element: <FollowingList />
       },
     ]
   },
@@ -91,6 +89,14 @@ const router = createBrowserRouter([
       {
         path: "/users/:id",
         element: <UserProfile />,
+      },
+      {
+        path: "/users/followers/:id",
+        element: <FollowersList />
+      },
+      {
+        path: "/users/following/:id",
+        element: <FollowingList />
       }
     ]
   },

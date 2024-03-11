@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333333;
+  background-color: #F0E7DE;
+  font-size: 16px;
+}
+
+.page-follow-list {
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+.body-follow-list {
+    margin-top: 30px;
+
+    border: 6px solid #B92727;
+    border-radius: 20px;
+
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    
+
+}
+
+
+.body-follow-list h2{
+    font-size: 20px;
+}
+
+.list-follow-top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #B92727;
+}
+
+.list-follow-title {
+    padding: 10px;
+    background-color: #B92727;
+    color: #F0E7DE;
+}
+
+.close-button-follow {
+    padding: 10px;
+    background-color: #B92727;
+    color: #F0E7DE;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.unit-preview-follow{
+    padding: 10px 16px;
+    border-top: 6px solid #B92727;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 10px;
+    align-items: center;    
+}
+
+.all-users-follow{
+    overflow-y: scroll;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+    /* width */
+    ::-webkit-scrollbar {
+        width: 15px;
+        border-bottom-left-radius: 20px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #B92727;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #aaa8a6;
+        border-radius: 10px;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #888;
+    }
+
+
+.unit-follow {
+    padding: 10px 16px;
+    display: grid;
+    grid-template-columns: 0.5fr 0.9fr;
+}
+
+.foto-perfil-follow {
+    height: 70px;
+    width: 70px;
+}
+
+.unit-info-follow h3{
+    font-weight: 500;
+}
+
+.unit-buttons-follow {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.unit-button-view-follow {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.link-follow{
+  text-decoration: none;
+}
+
+
+.follow-button {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F09682;
+    width: 130px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center; 
+}
+
+    .follow-button p{
+        background-color: #F09682;
+        font-weight: bold;
+    }
+
+    .follow-button:hover {
+        transform: scale(1.2);
+    }
+
+    .follow-button:active {
+        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+
+.unfollow-button {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F0BFB0;
+    width: 130px;
+    height: 20px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+    .unfollow-button p{
+        background-color: #F0BFB0;
+        font-weight: bold;
+        font-size: 100;
+    }
+
+    .unfollow-button:hover {
+        transform: scale(1.15);
+    }
+
+    .unfollow-button:active {
+        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+        transform: scale(0.95);
+    }
+
+.view-button-follow {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F09682;
+    width: 80px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center; 
+}
+
+    .view-button-follow p{
+        background-color: #F09682;
+        font-weight: bold;
+    }
+
+    .view-button-follow:hover {
+        transform: scale(1.15);
+    }
+
+    .view-button-follow:active {
+        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+        transform: scale(0.95);
+    }
+
+.view-button-alone-follow {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F09682;
+    width: 280px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center; 
+}
+
+    .view-button-alone-follow p{
+        background-color: #F09682;
+        font-weight: bold;
+    }
+
+    .view-button-alone-follow:hover {
+        transform: scale(1.15);
+    }
+
+    .view-button-alone-follow:active {
+        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+        transform: scale(0.95);
+    }
+
