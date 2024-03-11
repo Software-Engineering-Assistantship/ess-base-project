@@ -12,6 +12,12 @@ Scenario: Remover item do carrinho
     When o usuário clica no botão "Remove from cart" do item de nome "Pizza"
     Then o usuário não deve ver o item de nome "Pizza" no carrinho
 
+Scenario: Limpar carrinho
+    Given O usuário está na página "cart"
+    And Tenho os itens "Whopper", "Batata", "Coca" no carrinho
+    When Eu clico em “Limpar Carrinho" na tela 
+    Then os itens "Whopper", "Batata" e "Coca" são removidos do carrinho
+    
 Scenario: Aumentar quantidade de item
     Given O usuário está na página "cart"
     And Tenho o item "Hamburguer" cadastrado no carrinho em quantidade "2"
@@ -19,12 +25,6 @@ Scenario: Aumentar quantidade de item
     Then A quantidade do item "Whopper" incrementa para "3"
     And A label que mostra a quantidade do item reflete a incrementação 
     And O total a ser pago aumenta em "20,99"
-
-Scenario: Limpar carrinho
-    Given O usuário está na página "cart"
-    And Tenho os itens "Whopper", "Batata", "Coca" no carrinho
-    When Eu clico em “Limpar Carrinho" na tela 
-    Then os itens "Whopper", "Batata" e "Coca" são removidos do carrinho
 
 Scenario: Fazer pedido
     Given Eu estou na tela "Carrinho" como cliente

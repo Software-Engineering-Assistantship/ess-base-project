@@ -62,3 +62,7 @@ When(
 //     cy.count.should('not.exist')
 //   },
 // )
+
+// Scenario: Aumentar quantidade de item
+
+// Scenario: Fazer pedido
