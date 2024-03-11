@@ -1,80 +1,105 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { CategoryModalStyles } from "./styles";
 import {
   Pencil,
   Trash,
   Check,
 } from "./assets";
+
 import { ApiCategories } from "@/services/categories";
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Form } from 'react-hook-form';
 
-interface createCategory {
-  id: number,
-  name: string,
-  description: string,
-};
+const ModalCreateCategory = () => {
 
-const CategoryModal = ({ category }: { category: createCategory }) => {
-  const [isEditing, setIsEditing] = useState(false);
-  const { register, handleSubmit, setValue } = useForm<createCategory>({
-    defaultValues: {
-      id: category.id,
-      name: category.name,
-      description: category.description,
-    },
-  });
+  type FormData = {
+      name: string;
+      description: string;
+    }
 
-  const handleConfirm: SubmitHandler<createCategory> = async (data: createCategory) => {
-    setValue('id', category.id);
+  const { register, handleSubmit, formState:{errors} } = useForm<FormData>();
+
+  const handleConfirmYes: SubmitHandler<FormData> = async (data) => {
+    console.log(data);
+  
     try {
-      await ApiCategories.updateCategory(data.id, data);
-      alert("Categoria atualizada com sucesso!");
+      // Call the createExample function of ApiItens to send the data to the backend
+      await ApiCategories.createCategory(data);
+      console.log("Informações enviadas com sucesso!");
+      alert("Item cadastrado com sucesso!");
       window.location.reload();
+
     } catch (error) {
       console.error("Erro ao enviar informações para o backend:", error);
     }
   };
+  
 
   return (
-    <div style={CategoryModalStyles.inputContainer}>
-      <form onSubmit={handleSubmit(handleConfirm)}>
-        <div style={CategoryModalStyles.inputCategories}>
-          <p style={CategoryModalStyles.extra}>Nome da Categoria:</p>
-          <input {...register("name")}
-            placeholder={category.name}
-            style={CategoryModalStyles.inputBox}
-            disabled={!isEditing}
-          ></input>
+      <>
+      <div id="criar" style={{ display: "flex", justifyContent: "center" }}>
+      <div style={CategoryModalStyles.inputContainer}>
+      <form onSubmit={handleSubmit(handleConfirmYes)}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "2%",
+            marginRight: "3%",
+            marginTop: "3%",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <p style={CategoryModalStyles.extra}>Nome da Categoria:</p>
+            <input {...register("name", {required: true})}
+              placeholder="escreva aqui"
+              style={{
+                ...CategoryModalStyles.inputBox,
+              }}
+            ></input>
+            {errors.name && <p style={{color: 'red'}}>Campo obrigatório</p>}
+          </div>
         </div>
+    
         <div style={CategoryModalStyles.inputCategories}>
           <p style={CategoryModalStyles.extra}>Descrição:</p>
-          <textarea {...register("description")}
-            placeholder={category.description}
-            style={{
-              ...CategoryModalStyles.inputBox,
-              width: "70%",
-              height: '80px',
-              wordWrap: 'break-word',
-            }}
-            disabled={!isEditing}
-          ></textarea>
+          <textarea {...register("description", {required: true})}
+        placeholder="escreva aqui"
+        style={{
+          ...CategoryModalStyles.inputBox,
+          width: "70%",
+          height: '80px',
+          wordWrap: 'break-word', // or 'break-all'
+        }}
+      ></textarea>
+      {errors.description && <p style={{color: 'red'}}>Campo obrigatório</p>}
         </div>
-        <div style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: "2%",
-          padding: "3%",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "2%",
+            padding: "3%",
+          }}
+        >
           <button type="submit">
-            <img
-              src={Check.src}
-              style={{ width: "102px", height: "43px", cursor: "pointer" }}
-            />
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
+          <img
+            src={Check.src}
+            style={{ width: "102px", height: "43px", cursor: "pointer" }}
+          /></button>
 
-export { CategoryModal };
+        </div> </form>
+      </div>
+    </div>
+    </>
+  );
+  }
+
+  const ModalDeleteCategory = () => { };
+
+  export{ ModalCreateCategory, ModalDeleteCategory };

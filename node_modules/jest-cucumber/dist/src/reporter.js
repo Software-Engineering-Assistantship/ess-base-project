@@ -1,0 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var reporting_1 = require("./reporting");
+module.exports = reporting_1.Reporter;
+//# sourceMappingURL=reporter.js.map

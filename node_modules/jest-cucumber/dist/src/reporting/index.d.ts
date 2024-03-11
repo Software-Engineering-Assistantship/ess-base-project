@@ -1,0 +1,6 @@
+export declare class Reporter {
+    private reportEventGenerator;
+    constructor(globalConfig: any, options: any);
+    onTestResult(test: any, results: any): Promise<[unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown, unknown]>;
+    onRunComplete(contexts: any, results: any): void;
+}

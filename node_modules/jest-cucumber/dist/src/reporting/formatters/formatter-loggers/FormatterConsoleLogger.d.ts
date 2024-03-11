@@ -1,0 +1,3 @@
+export declare class FormatterConsoleLogger {
+    log(logText: string): void;
+}

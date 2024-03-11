@@ -3,99 +3,109 @@ import React, { useState, useEffect } from "react";
 import { CategoriesStyles } from "./styles";
 import {
   BlacLine,
-  Previous,
-  Next,
   Add,
+  Pencil,
+  Trash,
+  Check
 } from "./assets";
 import { ApiCategories } from "@/services/categories";
-  import { CategoryModal } from '@/components/categories/modals';// Import the Modal component
+import { ModalCreateCategory, ModalDeleteCategory } from "@/components/categories/modals";
 
-export default function Categories() {
+export default function Itens() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [categoriesData, setCategoriesData] = useState<{ id: number, name: string, description: string }[]>([]);
-  
+
   interface createCategory {
-    id: number,
     name: string,
-    description: string,
-  };
-
-  const [selectedCategory, setSelectedCategory] = useState<createCategory | null>(null);
-  const [newCategory, setNewCategory] = useState<createCategory | null>(null);
-
-  const handlePreviousClick = () => {
-    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-  };
-
-  const handleNextClick = () => {
-    setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, categoriesData.length - 4));
-  };
-
-  const getCategories = async () => {
-    try {
-      const fetchedCategories = await ApiCategories.getCategories();
-      setCategoriesData(fetchedCategories);
-    } catch (error) {
-      console.error("Erro ao obter categorias:", error);
-    }
-  };
-
+    description: string
+}
+  const [selectedCategory, setSelectedCategory] = useState<{ id: number } | null>(null);
+  const [createdCategory, setCreateCategory] = useState(null);
+  const [deletedCategory, setDeletedCategory] = useState(null);
+  
+  const [categories, setCategories] = useState<createCategory[]>([]); // Specify the type for items
   useEffect(() => {
     getCategories();
   }, []);
 
-  const handleItemClick = (categoryId: number) => {
-    const category = categoriesData.find(category => category.id === categoryId);
-    if (category) {
-      setSelectedCategory(category);
-    } else {
-      setSelectedCategory(null);
+  const getCategories = async () => {
+    try {
+      const fetchedCategories: createCategory[] = await ApiCategories.getCategories();
+      console.log("Fetched Items:", fetchedCategories);
+      // Set the categories state
+      setCategories(fetchedCategories);
+    } catch (error) {
+      console.error("Erro ao obter informações:", error);
     }
-    setNewCategory(null);
   };
-  
 
-  const handleAddClick = () => {
-    setNewCategory({ id: Date.now(), name: '', description: '' }); // Create a new category with empty name and description
+  const handleCategoryClick = (categoryId: number) => {
+    setSelectedCategory((prevSelectedCategory) =>
+      prevSelectedCategory && prevSelectedCategory.id === categoryId ? null : { id: categoryId }
+    );
+    setCreateCategory(null); 
+ };
+
+  const handleAddClick = (categoryIndex: any) => {
+    setCreateCategory((prevCreateCategory) =>
+      prevCreateCategory === categoryIndex ? null : categoryIndex
+    );
     setSelectedCategory(null);
+  };
+
+  const handleDeleteClick = async (categoryId: number) => {
+    try {
+      // Assuming you have an API endpoint for deleting a category
+      await ApiCategories.deleteCategory(categoryId);
+
+      setSelectedCategory(null);
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      // Handle error (e.g., show an error message to the user)
+    }
   };
 
   return (
     <div style={CategoriesStyles.container}>
-      <img
-        src={BlacLine.src}
-        alt="Linha preta"
-        style={{ width: "318px", height: "27px" }}
-      />
-      <div style={{display:'flex', justifyContent:'space-between', padding:'0 25px 0 20px'}}>
-        <text style={CategoriesStyles.title}>Adicionar Categorias</text>
+
+      <div style={CategoriesStyles.header}>
         <img
-          src={Add.src}
-          alt="Adicionar"
-          style={{ width: "50px", height: "68px", cursor: "pointer" }}
-          onClick={handleAddClick}
+          src={BlacLine.src}
+          alt="Linha preta"
+          style={{ width: "318px", height: "27px" }}
         />
-      </div>
-      <img
-        src={Previous.src}
-        alt="Anterior"
-        style={{ cursor: "pointer" }}
-        onClick={handlePreviousClick}
-      />
-      {categoriesData.slice(currentIndex, currentIndex + 4).map((category, index) => (
-        <div key={index} onClick={() => handleItemClick(category.id)}>
-          <h2>{category.name}</h2>
-          <p>{category.description}</p>
+        <div style={{display:'flex', justifyContent:'space-between', padding:'0 25px 0 20px'}}>
+        <text style={CategoriesStyles.title}>Categorias</text>
         </div>
-      ))}
-      <img
-        src={Next.src}
-        alt="Próximo"
-        style={{ cursor: "pointer" }}
-        onClick={handleNextClick}
-      />
-      {selectedCategory && <CategoryModal category={selectedCategory} />}
-      {newCategory && <CategoryModal category={newCategory} />}
+      </div>
+
+        <div style={CategoriesStyles.categoriesContainer}>
+          {categories.map((category) => (
+            <div style={CategoriesStyles.categoryBox}>
+              <span style={CategoriesStyles.categoryName}>{category.name}</span>
+              <img src={Pencil.src} alt="Editar" style={CategoriesStyles.editIcon} onClick={() => handleCategoryClick} />
+            </div>
+          ))}
+
+        </div>
+
+          <div style={CategoriesStyles.buttonsContainer}>
+          <img
+                  src={Add.src}
+                  alt="Adicionar"
+                  style={{ width: "50px", height: "68px", cursor: "pointer" }}
+                  onClick={() => handleAddClick(1)}
+                />     
+
+        <img
+                  src={Trash.src}
+                  alt="Adicionar"
+                  style={{ width: "50px", height: "50px", cursor: "pointer" }}
+                  onClick={() => handleDeleteClick(1)}
+                /> 
+
+        </div>     
+        {createdCategory !== null && (<ModalCreateCategory />)}
+        {deletedCategory !== null && (<ModalDeleteCategory />)}
     </div>
   );
 }
