@@ -9,6 +9,7 @@ import RestaurantProfile from './routes/RestaurantProfile'
 import RestaurantCreate from './routes/RestaurantCreate'
 import ErrorPage from './routes/ErrorPage'
 import UserProfile from './routes/UserProfile';
+import UserEdit from './routes/UserEdit';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,15 @@ const router = createBrowserRouter([
       {
         path: "/users/:id",
         element: <UserProfile />,
+      }
+    ]
+  },
+  {
+    path:"/",
+    children: [
+      {
+        path: "/users/edit/:id",
+        element: <UserEdit />
       }
     ]
   }
