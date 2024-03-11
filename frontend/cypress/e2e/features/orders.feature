@@ -20,7 +20,7 @@ Feature: Histórico de Pedidos
       When o usuário clica no botão para apagar o primeiro item da lista
       Then o pedido não está mais na lista cronológica de pedidos anteriores do usuário
 
-  Scenario: Avaliar Restaurante de Pedido Anterior
+  Scenario: Avaliar Pedido Anterior
       Given o usuário navegou para a rota "order-history"
       When o usuário seleciona a opção "Avaliar" no primeiro item da lista
       When o sistema exibe um modal para avaliar o pedido

@@ -60,7 +60,7 @@ Then(
   },
 )
 
-// Scenario: Avaliar Restaurante de Pedido Anterior
+// Scenario: Avaliar Pedido Anterior
 Given('o usuário navegou para a rota {string}', (routeName: string) => {
   cy.visit(`/${routeName}`)
 })
