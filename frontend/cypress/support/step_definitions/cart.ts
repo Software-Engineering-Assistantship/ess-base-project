@@ -46,22 +46,36 @@ Then(
 
 
 // Scenario: Limpar carrinho
+
+Given('tenho os itens de nome {string} e {string} no carrinho', (itemName1: string, itemName2: string) => {
+  cy.visit("restaurants/1")
+  cy.contains(itemName1)
+    .parent()
+    .parent()
+    .contains('button', 'Add to cart').click()
+  cy.contains(itemName2)
+    .parent()
+    .parent()
+    .contains('button', 'Add to cart').click()
+
+  cy.visit("cart")
+  cy.contains(itemName1).should('exist')
+  cy.contains(itemName2).should('exist')
+
+})
+
 When(
-  'Eu clico em limpar carrinho',
-  (itemId: string) => {
-    cy.contains('div', itemId)
-      .parent()
-      .find('[className="Limpar"]')
-      .click()
-  },
+  'o usuário clica no botão “Limpar Carrinho" na tela', () => {
+    cy.contains('button', 'Limpar carrinho').click()
+  }
 )
 
-// Then(
-//   'o usuário não deve ver nenhum irem no carrinho',
-//   (itemId: string) => {
-//     cy.count.should('not.exist')
-//   },
-// )
+Then(
+  'o usuário não deve ver nenhum item no carrinho',
+  () => {
+    cy.get('[data-test="cart-list"]').contains('p', 'Seu carrinho está vazio.').should('exist')
+  },
+)
 
 // Scenario: Aumentar quantidade de item
 
