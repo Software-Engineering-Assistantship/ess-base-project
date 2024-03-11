@@ -70,12 +70,14 @@ export const CategoryComponent = ({
             {isAdmin && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <Edit
+                  aria-label="edit"
                   onClick={() => {
                     setOpen(true)
                   }}
                 />
 
                 <DeleteOutline
+                  aria-label="delete"
                   sx={{
                     color: 'red',
                   }}
