@@ -36,7 +36,7 @@ export function DeleteMenuItemDialog({
   }
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose} className="delete-item-dialog">
       <DialogTitle id="alert-dialog-title">Deletar esse item?</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -46,6 +46,7 @@ export function DeleteMenuItemDialog({
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         <Button
+          className="delete-item-button"
           variant="contained"
           onClick={handleDeleteMenuItem}
           disabled={isDeleting}
