@@ -78,9 +78,9 @@ const Signup = () => {
                             onChange={handleChange}
                         />
                     </div>
-                    <button type="submit">Cadastrar</button>
-                    <p>
-                        Already have an account? <Link to="/login">Login</Link>
+                    <button className="signupbutton" type="submit">Cadastrar</button>
+                    <p className="notlogin">
+                        Already have an account? <Link className="linklogin" to="/login">Log in</Link>
                     </p>
                 </form>
             </div>
