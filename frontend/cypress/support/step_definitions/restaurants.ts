@@ -3,7 +3,7 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 // Scenario: Criação de um restaurante
-Given('que o usuário admin está na rota {string}', (url: string) => {
+Given('o usuário admin está na rota {string}', (url: string) => {
   cy.visit(url)
 })
 
