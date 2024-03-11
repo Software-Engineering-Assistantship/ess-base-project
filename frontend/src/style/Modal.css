@@ -4,53 +4,72 @@
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   display: flex;
-  align-items: center;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom:0;
+  justify-content: center;
+}
+
+#color{
+  margin-top: 10px;
+  height: 100px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgb(79, 214, 111); 
+}
+
+.color-error{
+  background-color: rgb(214, 83, 79) !important; 
 }
 
 .modalContainer {
-  width: 300px;
-  height: 250px;
-  margin: 50px;
+  width: 400px;
+  height: 280px;
+  margin: 100px;
+  background-color: #f9f9f9;
   border-radius: 12px;
-  background-color: white;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   display: flex;
   flex-direction: column;
-  padding: 25px;
 }
 
-.modalContainer .title {
+.modalContainer .modal-title {
   display: inline-block;
   text-align: center;
   margin-top: 10px;
+  background-color: inherit;
+}
+
+.modalContainer h1 {
+  margin-bottom: 20px;
+}
+
+#x-img{
+  background-color: inherit;
 }
 
 .titleCloseBtn {
   display: flex;
   justify-content: flex-end;
+  background-color: inherit;
+  border-radius: 12px;
 }
 
 .titleCloseBtn button {
-  background-color: transparent;
+  background-color: inherit;
   border: none;
   font-size: 25px;
   cursor: pointer;
 }
 
-.modalContainer .body {
+.modalContainer .modal-body {
   flex: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.7rem;
   text-align: center;
+  background-color: inherit;
 }
 
-.modalContainer .footer {
+.modalContainer .modal-footer {
   flex: 20%;
   height: 60px;
   display: flex;
@@ -61,7 +80,8 @@
 
 
 #cancelBtn {
-  background-color: rgb(79, 214, 111);
+  background-color: #5eb5fc;
+  font-weight: 500;
   width: 80px;
   height: 40px;
   margin: 10px;
@@ -73,7 +93,7 @@
 }
 
 #cancelBtn:hover{
-  background-color: rgb(53, 160, 78);
+  background-color: #3793df;
 }
 
 #cancelBtn:active{

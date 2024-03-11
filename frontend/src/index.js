@@ -16,7 +16,6 @@ import Signup from './routes/signup/Signup'
 import UserProfile from './routes/UserProfile';
 import UserEdit from './routes/UserEdit';
 
-import UserPage from './routes/UserPage'
 import Followers from './routes/Followers'
 import Following from './routes/Following' 
 
@@ -59,7 +58,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/:id",
-        element: <UserPage />
+        element: <UserProfile />
       },
       {
         path: "/users/followers/:id",

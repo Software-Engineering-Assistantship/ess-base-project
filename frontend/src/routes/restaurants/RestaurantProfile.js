@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 
 const API_BASE = "http://localhost:3001"
@@ -8,9 +8,15 @@ const RestaurantProfile = () => {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams()
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         fetch( API_BASE + '/restaurants/' + id)
             .then(response => {
+                if(response.status !== 200){
+                    console.log(response.status)
+                    navigate('/error')
+                }
                 response.json().then(data => {
                     setRestaurant(data)
                 })
