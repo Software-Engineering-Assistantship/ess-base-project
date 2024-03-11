@@ -1,15 +1,21 @@
 import { Box, Button, Drawer, FormControl, TextField } from '@mui/material'
-import { Restaurant, createRestaurant } from '../api/restaurants'
+import {
+  Restaurant,
+  createRestaurant,
+  updateRestaurant,
+} from '../api/restaurants'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { TimePicker } from '@mui/x-date-pickers'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
-// import { useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 interface RestaurantsDrawerProps {
   open: boolean
   handleClose: () => void
+  refetch: () => void
+  isLoading?: boolean
   initialValues?: Restaurant
   editMode?: boolean
 }
@@ -26,34 +32,69 @@ type RestaurantSchema = z.infer<typeof restaurantSchema>
 export function RestaurantsDrawer({
   open,
   handleClose,
+  refetch,
   initialValues,
   editMode,
 }: RestaurantsDrawerProps) {
-  const [selectedTime, setSelectedTime] = useState<Date | null>(null)
+  const initialTime = editMode
+    ? new Date(initialValues?.closingTime || new Date())
+    : null
+  const [selectedTime, setSelectedTime] = useState<Date | null>(initialTime)
 
-  const { register, handleSubmit, setValue } = useForm<RestaurantSchema>({
-    resolver: zodResolver(restaurantSchema),
-    defaultValues: initialValues,
+  const { mutateAsync: createRestaurantFn } = useMutation({
+    mutationKey: ['restaurants'],
+    mutationFn: createRestaurant,
   })
 
-  async function handleSubmitMenuItem(data: RestaurantSchema) {
-    await createRestaurant(data)
+  const { mutateAsync: updateRestaurantFn } = useMutation({
+    mutationKey: ['restaurants'],
+    mutationFn: updateRestaurant,
+  })
+
+  const { register, handleSubmit, setValue, reset } = useForm<RestaurantSchema>(
+    {
+      resolver: zodResolver(restaurantSchema),
+      defaultValues: {
+        ...initialValues,
+        closingTime: initialTime ?? undefined,
+      },
+    },
+  )
+
+  async function handleSubmitRestaurant(data: RestaurantSchema) {
+    await createRestaurantFn(data)
+    handleClose()
+    refetch()
+    reset()
+    setSelectedTime(null)
+  }
+
+  async function handleEditRestaurant(data: RestaurantSchema) {
+    const payload = { ...data, id: initialValues?.id }
+    await updateRestaurantFn(payload)
+    handleClose()
+    refetch()
+    reset(data)
   }
 
   return (
     <Drawer anchor="bottom" open={open} onClose={handleClose}>
       <Box sx={{ px: 1, mb: 2 }}>
-        <form onSubmit={handleSubmit(handleSubmitMenuItem)}>
-          <h3>{editMode ? 'Update Restaurant' : 'Create Restaurant'}</h3>
+        <form
+          onSubmit={handleSubmit(
+            editMode ? handleEditRestaurant : handleSubmitRestaurant,
+          )}
+        >
+          <h3>{editMode ? 'Atualizar Restaurante' : 'Criar Restaurante'}</h3>
           <TextField
             variant="outlined"
-            label="Name"
+            label="Nome"
             sx={{ width: '100%', mt: 1, mb: 1 }}
             {...register('name')}
           />
           <TextField
             variant="outlined"
-            label="Address"
+            label="Endereço"
             sx={{ width: '100%', mt: 1, mb: 1 }}
             {...register('address')}
           />
@@ -61,7 +102,7 @@ export function RestaurantsDrawer({
             <TimePicker
               ampm={false}
               sx={{ width: '100%', mt: 1, mb: 1 }}
-              label="Closing Time"
+              label="Horário de fechamento"
               value={selectedTime}
               timezone="UTC"
               onChange={(value) => {
@@ -75,7 +116,7 @@ export function RestaurantsDrawer({
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
             <TextField
               variant="outlined"
-              label="Type"
+              label="Tipo"
               sx={{ width: '100%', mt: 1, mb: 1 }}
               {...register('type')}
             />
@@ -86,7 +127,7 @@ export function RestaurantsDrawer({
               sx={{ width: '100%', mt: 5 }}
               type="submit"
             >
-              Update restaurant
+              Atualizar restaurante
             </Button>
           ) : (
             <Button
@@ -94,7 +135,7 @@ export function RestaurantsDrawer({
               sx={{ width: '100%', mt: 5 }}
               type="submit"
             >
-              Create restaurant
+              Criar restaurante
             </Button>
           )}
         </form>

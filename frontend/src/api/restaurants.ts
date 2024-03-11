@@ -19,6 +19,7 @@ interface CreateRestaurantsParams {
   address: string
   closingTime: Date
   type: string
+  id?: string
 }
 
 export async function getRestaurants() {
@@ -34,7 +35,28 @@ export async function getRestaurant({ restaurantId }: GetRestaurantsParams) {
 }
 
 export async function createRestaurant(data: CreateRestaurantsParams) {
-  const response = await api.post('/restaurants', data)
+  try {
+    const response = await api.post('/restaurants', data)
+    return response.data
+  } catch (error) {
+    return error
+  }
+}
 
-  return response.data
+export async function updateRestaurant(data: CreateRestaurantsParams) {
+  try {
+    const response = await api.patch(`/restaurants/${data.id}`, data)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deleteRestaurant(restaurantId: string) {
+  try {
+    const response = await api.delete(`/restaurants/${restaurantId}`)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
 }
