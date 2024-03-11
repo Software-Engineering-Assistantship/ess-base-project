@@ -51,14 +51,14 @@ const UserEdit = () => {
             <div class="tudinhoo">
                 <div class="cardmenu">
                     <div class="topinfo">
-                        <p class="title">Menu de Edição</p>
-                        <img src={user.profileImage} class="profilepicture"></img>
-                        <p class="username">{user.name}</p>
+                        <p class="titleusereditcard">Menu de Edição</p>
+                        <img src={user.profileImage} class="profilepictureusercard"></img>
+                        <p class="usernameuseredit">{user.name}</p>
                     </div>
                     <div class="bottominfo">
-                        <button class="profile" onClick={showProfileInfo}>Perfil</button>
-                        <button class="password" onClick={showPasswordInfo}>Senha</button>
-                        <button class="advanced" onClick={showRemoveInfo}>Avançado</button>
+                        <button class="profileuseredit" onClick={showProfileInfo}>Perfil</button>
+                        <button class="passworduseredit" onClick={showPasswordInfo}>Senha</button>
+                        <button class="advanceduseredit" onClick={showRemoveInfo}>Avançado</button>
                     </div>
                 </div> 
                 <div class="cards"> 
