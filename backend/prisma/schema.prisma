@@ -49,13 +49,12 @@ model Payment {
   @@map("payment")
 }
 
-// model Cart {
-//   id       String @id @default(uuid())
-//   items    Menu[]
-//   totalSum Int
+model Cart {
+  id       String @id @default(uuid())
+  totalSum Int
 
-//   @@map("cart")
-// }
+  @@map("cart")
+}
 
 model Restaurant {
   id          String     @id @default(uuid())

@@ -18,7 +18,7 @@ export class CartController {
   constructor(private readonly cartService: PrismaCartService) {}
 
   @Get(':id')
-  async getCartById(@Param('id') id: string): Promise<CartDto> {
+  async getCaxrtById(@Param('id') id: string): Promise<CartDto> {
     return this.cartService.getCartById(id);
   }
 
