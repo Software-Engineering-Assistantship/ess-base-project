@@ -38,7 +38,7 @@ export function Cart() {
   return (
     <div>
       <h2>Cart</h2>
-      { !isCreating ? (<p>Pedido feito</p>) : (<></>)}
+      { !isCreating ? (<p>Pedido efetuado</p>) : (<></>)}
       <ul data-test="cart-list">
         {cartItems.length !== 0 ? (
           cartItems.map((item) => (
