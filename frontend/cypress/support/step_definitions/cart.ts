@@ -1,14 +1,9 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
-// Scenario: 5. Adicionar item ao carrinho
+// Scenario: Adicionar item ao carrinho
 Given('O usuário está na página {string}', (url: string) => {
   cy.visit(url)
 })
-
-// Given('não existe um item de id {string} no carrinho', (itemId: string) => {
-//   cy.visit("http://localhost:5173/cart")
-//   cy.get('[data-test="cart-list"]').should("not-contain", itemId)
-// })
 
 When(
   'o usuário clica no botão {string} do item de nome {string}',
@@ -33,27 +28,24 @@ Then(
 )
 
 
-// Scenario: 1. Remover item do carrinho
-When(
-  'o usuário clica em excluir o item de ID {string}',
-  (itemId: string) => {
-    cy.contains('div', itemId)
-      .parent()
-      .find('[className="RemoverItem"]')
-      .click()
-  },
-)
-
+// Scenario: Remover item do carrinho
+Given('tenho o item de nome {string} cadastrado no carrinho', (itemName: string) => {
+  cy.contains(itemName)
+    .parent()
+    .parent()
+    .contains('button', 'Add to cart').click()
+})
 
 Then(
-  'o usuário não deve ver o item de id {string} no carrinho',
-  (itemId: string) => {
-    cy.contains(itemId).should('not.exist')
+  'o usuário não deve ver o item de nome {string} no carrinho',
+  (itemName: string) => {
+    cy.visit("cart")
+    cy.contains(itemName).should('not.exist')
   },
 )
 
 
-// Scenario: 3. Limpar carrinho
+// Scenario: Limpar carrinho
 When(
   'Eu clico em limpar carrinho',
   (itemId: string) => {
