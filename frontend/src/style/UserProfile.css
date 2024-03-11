@@ -131,3 +131,58 @@ html, body {
     background-color: transparent;
     text-decoration: none;
 }
+
+.follow-button-user-page {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F09682;
+    width: 365px;
+    height: 15px;
+    border: none;
+    border-radius: 1em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center; 
+}
+
+    .follow-button-user-page p{
+        background-color: #F09682;
+        font-weight: bold;
+    }
+
+    .follow-button-user-page:hover {
+        transform: scale(1.05);
+    }
+
+    .follow-button-user-page:active {
+        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+        transform: scale(0.95);
+    }
+
+
+.unfollow-button-user-page {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F0BFB0;
+    width: 365px;
+    height: 15px;
+    border: none;
+    border-radius: 1em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center; 
+}
+
+    .unfollow-button-user-page p{
+        background-color: #F0BFB0;
+        font-weight: bold;
+    }
+
+    .unfollow-button-user-page:hover {
+        transform: scale(1.05);
+    }
+
+    .unfollow-button-user-page:active {
+        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
+        transform: scale(0.95);
+    }

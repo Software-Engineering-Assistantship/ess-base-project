@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Axios, AxiosResponse } from 'axios'
+import { Axios } from 'axios'
 import ProfileImage from "../images/noprofileimage.png"
 import '../style/FollowList.css'
 
@@ -48,62 +48,59 @@ const FollowersList = () => {
             }))
     }, []);
 
-    async function follow() {
+    async function follow(target) {
 
-        try{
-            const response = await Axios.put({
-                url: API_BASE + '/users/follow' + userTargetId, 
-                data: JSON.stringify(currentUser)
-            })
-
-            if (response.ok){
-                window.location.reload(false)
-            }
-        } catch (e) {
-            console.error(e)
-        }
-
+        fetch(API_BASE + '/users/follow/' + target + '/' + currentUser._id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            }})
+            .then(response => response.ok.then(window.location.reload(false)))
+            .catch(err => {
+                    console.error("Error: ", err);
+                    setError(err.message);
+                })
     }
 
-    async function unfollow() {
+    async function unfollow(target) {
 
-        try{
-            const response = await fetch(API_BASE + '/users/unfollow' + userTargetId, {
-                method: "PUT",
-                data: JSON.stringify(currentUser)
-            })
 
-            if (response.ok){
-                window.location.reload(false)
-            }
-        } catch (e) {
-            console.error(e)
-        }
+        fetch(API_BASE + '/users/unfollow/' + target + '/' + currentUser._id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            }})
+            .then(response => response.ok.then(window.location.reload(false)))
+            .catch(err => {
+                    console.error("Error: ", err);
+                    setError(err.message);
+                    })
+            
 
     }
 
     const allSet = ((userPage !== null) && (followersL !== null)) && (currentUser !== null)
 
     return ( allSet  ? (
-        <div className="page">
-            <div className="body-list">
-                <div className="list-top">   
-                    <h2 className="list-title">Seguidores de {userPage.name}</h2>
-                    <Link className="close-button" to={`/users/${id}`}> X </Link>
+        <div className="page-follow-list">
+            <div className="body-follow-list">
+                <div className="list-follow-top">   
+                    <h2 className="list-follow-title">Seguidores de {userPage.name}</h2>
+                    <Link className="close-button-follow" to={`/users/${id}`}> X </Link>
                 </div> 
 
-            <div className="all-users">
+            <div className="all-users-follow">
                 {followersL.map(follower => (
-                    <div className="unit-preview" key={follower._id} > 
-                        <div className="unit">
-                            <div class="unit-img">
+                    <div className="unit-preview-follow" key={follower._id} > 
+                        <div className="unit-follow">
+                            <div class="unit-img-follow">
                                 {follower.profileImage ? (
-                                    <img src={follower.profileImage} alt="Profile Image" class="foto-perfil"/>
+                                    <img src={follower.profileImage} alt="Profile Image" class="foto-perfil-follow"/>
                                 ) : (    
-                                    <img src={ProfileImage} alt="null Profile Image" class="foto-perfil"/>
+                                    <img src={ProfileImage} alt="null Profile Image" class="foto-perfil-follow"/>
                                 )}
                             </div>
-                            <div className="unit-info">
+                            <div className="unit-info-follow">
                                 <h2>{follower.name}</h2>
                                 <h3>{follower.followers.length} SEGUIDORES</h3> 
                                 <h3>{follower.reviews.length} REVIEWS</h3>
@@ -115,26 +112,26 @@ const FollowersList = () => {
                             ((currentUser.following) ? 
                                 
                                 (!currentUser.following.includes(follower._id) ? (
-                                    <div className="unit-buttons">
+                                    <div className="unit-buttons-follow">
                                         <Link className="link" to={`/users/${follower._id}`}>
-                                            <div className="view-button-f">
+                                            <div className="view-button-follow">
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link" onClick={() => {follow(setUserTargetId(f => follower._id))}}>
+                                        <Link className="link" onClick={(e) => {follow(follower._id, e)}}>
                                             <div className="follow-button">
                                                 <p>Seguir</p>
                                             </div>
                                         </Link>
                                     </div>
                                 ) : (
-                                    <div className="unit-buttons">
+                                    <div className="unit-buttons-follow">
                                         <Link className="link" to={`/users/${follower._id}`}>
-                                            <div className="view-button-f">
+                                            <div className="view-button-follow">
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link" onClick={() => {unfollow(setUserTargetId(f => follower._id))}}>
+                                        <Link className="link" onClick={(e) => {unfollow(follower._id, e)}}>
                                             <div className="unfollow-button">
                                                 <p>Deixar de seguir</p>
                                             </div>
@@ -148,9 +145,9 @@ const FollowersList = () => {
                             ))) 
                                 
                         : (
-                            <div className="unit-button-view">
+                            <div className="unit-button-view-follow">
                                 <Link className="link" to={`/users/${follower._id}`}>
-                                    <div className="view-button-alone">
+                                    <div className="view-button-alone-follow">
                                         <p>Ver perfil</p>
                                     </div>
                                 </Link>
@@ -169,11 +166,11 @@ const FollowersList = () => {
 
 
         ) : (
-            <div className="page">
-            <div className="body-list">
-                <div className="list-top">   
-                    <h2 className="list-title">ERROR</h2>
-                    <Link className="close-button" to={`/users/${id}`}> VOLTAR </Link>
+            <div className="page-follow-list">
+            <div className="body-follow-list">
+                <div className="list-follow-top">   
+                    <h2 className="list-follow-title">ERROR</h2>
+                    <Link className="close-button-follow" to={`/users/${id}`}> VOLTAR </Link>
                 </div> 
             </div>
             </div>

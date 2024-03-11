@@ -8,16 +8,14 @@
   color: #333333;
   background-color: #F0E7DE;
   font-size: 16px;
-  justify-self: center;
-  align-self: center;
 }
 
-.page{
+.page-follow-list {
     max-width: 700px;
     margin: 40px auto;
 }
 
-.body-list{
+.body-follow-list {
     margin-top: 30px;
 
     border: 6px solid #B92727;
@@ -29,24 +27,24 @@
 }
 
 
-.body-list h2{
+.body-follow-list h2{
     font-size: 20px;
 }
 
-.list-top {
+.list-follow-top {
     display: flex;
     justify-content: space-between;
     padding: 10px;
     background-color: #B92727;
 }
 
-.list-title {
+.list-follow-title {
     padding: 10px;
     background-color: #B92727;
     color: #F0E7DE;
 }
 
-.close-button {
+.close-button-follow {
     padding: 10px;
     background-color: #B92727;
     color: #F0E7DE;
@@ -55,7 +53,7 @@
     font-weight: bolder;
 }
 
-.unit-preview{
+.unit-preview-follow{
     padding: 10px 16px;
     border-bottom: 6px solid #B92727;
     display: grid;
@@ -64,7 +62,7 @@
     align-items: center;    
 }
 
-.all-users{
+.all-users-follow{
     overflow-y: scroll;
 }
     /* width */
@@ -88,29 +86,29 @@
     }
 
 
-.unit {
+.unit-follow {
     padding: 10px 16px;
     display: grid;
     grid-template-columns: 0.5fr 0.9fr;
 }
 
-.foto-perfil{
+.foto-perfil-follow {
     height: 70px;
     width: 70px;
 }
 
-.unit-info h3{
+.unit-info-follow h3{
     font-weight: 500;
 }
 
-.unit-buttons {
+.unit-buttons-follow {
     padding: 10px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between; 
 }
 
-.unit-button-view {
+.unit-button-view-follow {
     padding: 10px 16px;
     display: flex;
     align-items: center;
@@ -176,7 +174,7 @@
         transform: scale(0.95);
     }
 
-.view-button-f {
+.view-button-follow {
     position: relative;
     padding: 0.7em 1.2em;
     background-color: #F09682;
@@ -188,21 +186,21 @@
     text-align: center; 
 }
 
-    .view-button-f p{
+    .view-button-follow p{
         background-color: #F09682;
         font-weight: bold;
     }
 
-    .view-button-f:hover {
+    .view-button-follow:hover {
         transform: scale(1.15);
     }
 
-    .view-button-f:active {
+    .view-button-follow:active {
         box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
         transform: scale(0.95);
     }
 
-.view-button-alone {
+.view-button-alone-follow {
     position: relative;
     padding: 0.7em 1.2em;
     background-color: #F09682;
@@ -214,16 +212,16 @@
     text-align: center; 
 }
 
-    .view-button-alone p{
+    .view-button-alone-follow p{
         background-color: #F09682;
         font-weight: bold;
     }
 
-    .view-button-alone:hover {
+    .view-button-alone-follow:hover {
         transform: scale(1.15);
     }
 
-    .view-button-alone:active {
+    .view-button-alone-follow:active {
         box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
         transform: scale(0.95);
     }
