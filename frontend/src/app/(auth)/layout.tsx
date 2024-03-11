@@ -1,7 +1,4 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import '../globals.css'
 
 export default function AuthLayout({
   children,
@@ -10,7 +7,7 @@ export default function AuthLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>{children}</body>
+      <body>{children}</body>
     </html>
   )
 }

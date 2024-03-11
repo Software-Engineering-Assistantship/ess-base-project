@@ -1,7 +1,7 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
+import { HeaderUser } from '@/components/header/header-user'
+import '../globals.css'
+import { Footer } from '@/components/footer'
 
-const inter = Inter({ subsets: ['latin'] })
 
 export default function AppLayout({
   children,
@@ -10,7 +10,11 @@ export default function AppLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>{children}</body>
+      <body>
+        <HeaderUser />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }
