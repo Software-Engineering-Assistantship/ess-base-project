@@ -1,5 +1,11 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/User'); 
+const bcrypt = require('bcrypt')
+const cookieParser = require('cookie-parser')
+const jwt = require('jsonwebtoken')
+
+const User = require('../models/User')
+
+const secret = "gjnhawrgohuqwjkrfnb1o3i4y1230984u35nkrwfvdfgbrty"
+
 
 const user_signup = async (req, res) => {
     //req.body = JSON.parse(JSON.stringify(req.body))
