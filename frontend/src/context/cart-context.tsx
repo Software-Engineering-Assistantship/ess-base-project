@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode, useContext, useState, useEffect} from 'react'
 
 interface CartItem {
   id: string
@@ -19,9 +19,17 @@ interface CartContextType {
 export const CartContext = createContext({} as CartContextType)
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([])
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storedCartItems = localStorage.getItem('cartItems');
+    return storedCartItems ? JSON.parse(storedCartItems) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
 
   function handleCartAddItem(item: CartItem) {
+    console.log("Item added to cart:", item);
     setCartItems((prevState) => [...prevState, item])
   }
 
@@ -53,6 +61,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setCartItems(updatedIngredients)
   }
 
+  console.log("itens:" + cartItems)
+
   return (
     <CartContext.Provider
       value={{
@@ -64,7 +74,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     >
       {children}
     </CartContext.Provider>
-  )
+  );
 }
 
 export const useCart = () => useContext(CartContext)

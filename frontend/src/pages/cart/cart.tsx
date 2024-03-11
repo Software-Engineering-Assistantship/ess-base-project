@@ -13,6 +13,8 @@ export function Cart() {
     mutationFn: createOrder,
   });
 
+  const totalValue = cartItems.reduce((acc, item) => acc + item.price/100 * item.quantity, 0);
+
   async function handleMakeOrder() {
     const orderBody = cartItems.map((order) => ({
       snackId: order.id,
@@ -21,9 +23,9 @@ export function Cart() {
 
     try {
       await createOrderFn({ orderDetails: orderBody });
-      toast.success('Order created successfully!');
+      toast.success('Pedido realizado!');
     } catch {
-      toast.error('Error when ordering the items.');
+      toast.error('Erro na criação do pedido.');
     }
   }
 
@@ -31,12 +33,16 @@ export function Cart() {
     <div>
       <h2>Cart</h2>
       <ul>
-        {cartItems.map((item) => (
+        {cartItems.length != 0 ? 
+        cartItems.map((item) => (
           <MenuItem key={item.id} menuItem={item} adminMode={false} categories={[]} refetch={() => {}} />
-        ))}
+        )) : 
+          <p>Seu carrinho está vazio.</p>
+      }
       </ul>
+      <p>Total: R$ {totalValue.toFixed(2)}</p>
       <Button onClick={handleMakeOrder} disabled={isCreating}>
-        {isCreating ? 'Creating Order...' : 'Place Order'}
+        {isCreating ? 'Fazendo pedido...' : 'Fazer pedido'}
       </Button>
     </div>
   );

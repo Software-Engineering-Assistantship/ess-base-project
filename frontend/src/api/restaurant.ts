@@ -35,7 +35,10 @@ export type Restaurant = {
 export async function getRestaurant(restaurantId: string) {
   const response = await api.get(`/restaurants/${restaurantId}`)
 
-  return response.data as Restaurant
+  const restaurant = response.data as Restaurant
+  restaurant.categories.sort((a, b) => a.position - b.position)
+
+  return restaurant
 }
 
 export async function saveCategory(categoryData: NewCategory) {
@@ -46,6 +49,15 @@ export async function saveCategory(categoryData: NewCategory) {
 
 export async function deleteCategory(categoryId: string) {
   const response = await api.delete(`/categories/${categoryId}`)
+
+  return response.data
+}
+
+export async function editCategory(
+  categoryId: string,
+  data: Partial<Category>,
+) {
+  const response = await api.patch(`/categories/${categoryId}`, data)
 
   return response.data
 }

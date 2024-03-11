@@ -11,10 +11,11 @@ import { useMutation } from '@tanstack/react-query'
 import { MenuItemDrawer } from './menu-item-drawer'
 import { useState } from 'react'
 import { DeleteMenuItemDialog } from './delete-menu-item-dialog'
+import { useCart } from '../context/cart-context'
 
 const Card = styled.div`
   border-top: 1px solid #bfbfbf;
-  border-bottom: 1px solid #bfbfbf;
+  /* border-bottom: 1px solid #bfbfbf; */
   padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
@@ -81,6 +82,10 @@ export function MenuItem({
     await updateMenuItemFn(menuItem)
   }
 
+  const { cartItems, handleCartAddItem, handleCartRemoveItem } = useCart()
+
+  const isItemInCart = cartItems && cartItems.some((item) => item.id === menuItem.id)
+
   return (
     <>
       <MenuItemDrawer
@@ -101,7 +106,7 @@ export function MenuItem({
       />
       <Card>
         <div>
-          <h2>{menuItem.title}</h2>
+          <h4>{menuItem.title}</h4>
           <p>{menuItem.description}</p>
           <span>
             {(menuItem.price / 100).toLocaleString('pt-BR', {
@@ -128,9 +133,29 @@ export function MenuItem({
             />
           </Box>
         ) : (
-          <Button variant="contained" sx={{ zIndex: 0 }}>
-            Add to cart
-          </Button>
+          isItemInCart ? (
+            <Button
+              onClick={() => handleCartRemoveItem(menuItem.id)}
+            >
+              Remove from cart
+            </Button>
+          ) : 
+          (
+            <Button
+              onClick={() =>
+                handleCartAddItem({
+                  id: menuItem.id,
+                  title: menuItem.title,
+                  quantity: 1,
+                  description: menuItem.description,
+                  price: menuItem.price,
+                  categoryId: menuItem.categoryId
+                })
+              }
+            >
+              Add to cart
+            </Button>
+          )
         )}
       </Card>
     </>
