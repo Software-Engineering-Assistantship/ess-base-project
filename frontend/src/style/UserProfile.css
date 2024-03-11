@@ -1,0 +1,131 @@
+html, body {
+    height: 100%;
+}
+
+.tudinho {
+    position: fixed;
+    background-color: #F0E7DE;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.buttons {
+    position: absolute; 
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px; 
+}
+
+.buttonedit {
+    border: none;
+    background-image: url(../images/buttonimageedit.png);
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    background-position: center;
+    transform: translateX(-50%);
+}
+
+.buttonreviews {
+    border:none;
+    transform: translateX(50%);
+    background-color: #F09682;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    text-decoration: underline;
+}
+
+.containerProfile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.combineinfos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-35%);
+    background-color: transparent;
+}
+
+.profileImageContainer {
+    padding-bottom: 10px;
+    background-color: transparent;
+    z-index: 2;
+}
+
+.fotoperfil{
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+}
+
+.fotocapa{
+    width: 1082px;
+    height: 265px;
+    border-radius: 60px;
+}
+
+.profileInfo {
+    z-index: 1;
+    transform: translateY(-17%);
+    background-color: #A39C9C;
+    border-radius: 20px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+}
+
+.biouser{
+    display: flex;
+    align-items: justify;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    text-align: justify;
+    max-width: 350px;
+    color: #F0E7DE;
+    background-color: transparent;
+    font-size: 14px;
+}
+
+.followuser{
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding-top: 2px;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.nameuser{
+    color: #F0E7DE;
+    font-weight: bolder;
+    font-size: larger;
+    background-color: transparent;
+}
+
+.followersuser{
+    color: #F0E7DE;
+    font-weight: bold;
+    font-size: 15px;
+    background-color: transparent;
+}
+
+.followinguser{
+    font-weight: bold;
+    color: #F0E7DE;
+    font-size: 15px;
+    background-color: transparent;
+}

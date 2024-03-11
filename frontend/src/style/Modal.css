@@ -1,0 +1,86 @@
+.modalBackground {
+  width: 100vw;
+  height: 150vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+}
+
+.modalContainer {
+  width: 300px;
+  height: 250px;
+  margin: 50px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.modalContainer .title {
+  display: inline-block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.titleCloseBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.titleCloseBtn button {
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.modalContainer .body {
+  flex: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.modalContainer .footer {
+  flex: 20%;
+  height: 60px;
+  display: flex;
+  background-color: transparent;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#cancelBtn {
+  background-color: rgb(79, 214, 111);
+  width: 80px;
+  height: 40px;
+  margin: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+#cancelBtn:hover{
+  background-color: rgb(53, 160, 78);
+}
+
+#cancelBtn:active{
+  background-color: rgb(53, 160, 78);
+  box-shadow: none;
+}
+
+.modalContainer p,h1{
+    background-color: inherit;
+}
