@@ -2,7 +2,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require("dotenv").config()
-const cors = require('cors');
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
+
 
 
 // import routers
@@ -13,6 +15,8 @@ const followersRouter = require("./routes/followersRouter")
 const reviewRouter = require("./routes/reviewRouter")
 const ratingRouter = require("./routes/ratingRouter")
 const listRouter = require("./routes/listRouter")
+const feedRouter = require("./routes/feedRouter")
+const searchesRouter = require("./routes/searchesRouter")
 
 
 // use the PORT in .env or 3000 if it does not exist
@@ -25,7 +29,11 @@ const app = express()
 app.use(express.json())
 
 // include Access-Control-Allow-Origin headers
-app.use(cors());
+app.use(cors())
+
+
+
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 // connect to data base
 const run = async () => {
@@ -48,4 +56,6 @@ app.use("/users", followersRouter)
 app.use("/reviews", reviewRouter)
 app.use("/ratings", ratingRouter)
 app.use("/lists", listRouter)
+app.use("/feed", feedRouter)
+app.use("/searches", searchesRouter)
 

@@ -24,8 +24,24 @@
     color: #F0E7DE;
 }
 
+.noData{
+  width: 60%;
+  height: 20%;
+  margin-top: 15%;
+  margin-left: 18%;
+  margin-bottom: 20%;
+  padding: 2%;
+  color: #FFFFFF;
+  background-color: #EA1313;
+  border-radius: 10px;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+
 .restaurant-list h2{
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .restaurants-page{
