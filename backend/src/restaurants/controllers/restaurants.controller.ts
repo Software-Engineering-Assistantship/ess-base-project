@@ -59,6 +59,20 @@ export class RestaurantsController {
       throw new HttpException('Restaurant not found', HttpStatus.NOT_FOUND);
     }
 
+    if (restaurant.name) {
+      const nameExists = await this.restaurantsService.findByName(
+        restaurant.name,
+        id,
+      );
+
+      if (nameExists) {
+        throw new HttpException(
+          'Restaurant name already taken',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+
     return await this.restaurantsService.update(id, {
       name: restaurant.name,
       address: restaurant.address,
