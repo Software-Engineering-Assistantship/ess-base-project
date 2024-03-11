@@ -8,15 +8,19 @@ import "../../style/Signup.css";
 const API_BASE = "http://localhost:3001";
 
 const Signup = () => {
-    console.log("Signup component rendered!"); // Check if this log is printed
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         password: ""
     });
+    const [passwordError, setPasswordError] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        if (name === "password") {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>?]).{8,}$/;
+            setPasswordError(!passwordRegex.test(value));
+        }
         setFormData((prevState) => ({
             ...prevState,
             [name]: value
@@ -25,8 +29,6 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form submitted!"); // Check if this log is printed
-
         try {
             const response = await axios.post(`${API_BASE}/users/signup`, formData);
             console.log("Signup successful:", response.data);
@@ -76,7 +78,9 @@ const Signup = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
+                            className={passwordError ? "input-error" : ""}
                         />
+                        {passwordError && <p className="password-requirement">A senha deve conter no mínimo 1 caracter maiúsculo, 1 caracter minúsculo, 1 símbolo especial e tamanho de pelo menos 8.</p>}
                     </div>
                     <button className="signupbutton" type="submit">Cadastrar</button>
                     <p className="notlogin">
