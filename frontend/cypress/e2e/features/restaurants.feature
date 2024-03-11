@@ -1,35 +1,30 @@
 Feature: Restaurants
   Scenario: Criação de um restaurante
       Given que o usuário admin está na rota "restaurants/admin"
-      When Insiro as informações de nome "Carlos Burguer", endereço "Rua 123", hora de fechamento "1970-01-01T00:00:00.000Z"
-      e tipo "Hamburgueria"
-      And Clico para salvar as informações inseridas
-      Then Sou redirecionado para a tela de visualização de restaurante
-      And Vejo as informações já inseridas do restaurante
+      And não existe o restaurante de nome "Jobson Burguer"
+      When o usuário clica no botão de criar restaurante "Criar restaurante"
+      And O usuário preenche o campo "Nome" com "Jobson Burguer", "Endereço" com "Rua 123", "Horário de fechamento" com "1970-01-01T00:00:00.000Z" e "Tipo" com "Hamburgueria"
+      And clica no botão "Salvar"
+      Then o usuário deve ver o restaurante "Jobson Burguer" na lista de restaurantes
   
   Scenario: Atualização de um restaurante
-      Given Estou na tela de edição de um restaurante com nome “Carlos Burguer”
-      When Modifico a informação de nome para “Carlos Burguer Updated” 
-      And Seleciono para salvar as alterações
-      Then Sou redirecionado de volta para a tela de visualização de restaurante
-      And E vejo o restaurante com o nome "Carlos Burguer Updated" e uma mensagem de confirmação
+      Given que o usuário admin está na rota "restaurants/admin"
+      And existe o restaurante de nome "Jobson Burguer"
+      When o usuário clica no símbolo de editar restaurante do restaurante "Jobson Burguer"
+      And o usuário atualiza o campo "Nome" para "Jobson Burguer Updated" 
+      And clica no botão "Salvar"
+      Then o usuário deve ver o restaurante atualizado com nome "Jobson Burguer Updated" na lista de restaurantes
+
+  Scenario: Criação de um restaurante mal sucedida
+      Given que o usuário admin está na rota "restaurants/admin"
+      And existe o restaurante de nome "Jobson Burguer"
+      When o usuário clica no botão de criar restaurante "Criar restaurante"
+      And O usuário preenche o campo "Nome" com "Jobson Burguer", "Endereço" com "Rua 123", "Horário de fechamento" com "1970-01-01T00:00:00.000Z" e "Tipo" com "Hamburgueria"
+      Then o usuário deve receber uma mensagem de erro contendo "Nome de restaurante já utilizado"
 
   Scenario: Deleção de um restaurante
-      Given Estou na tela de edição de um restaurante
-      When Seleciono a opção de deletar um restaurante
-      And E recebo um modal de confirmação de deleção do restaurante
-      And E seleciono a opção de confirmar a deleção
-      Then Sou redirecionado para a tela de criação de um restaurante com uma mensagem de confirmação
-
-  Scenario: Listagem de todos os restaurantes
-      Given Estou na home do aplicativo
-      When Clico na opção "ver todos"
-      Then Visualizo a lista atual de restaurantes com informações de nome e tipo
-
-  Scenario: Atualização de um item do cardápio mal sucedida
-      Given O usuário "Marcos" está na tela de editar um item com nome “Hamburguer 02”
-      And O item com nome "Hamburguer 02" foi deletado
-      When O usuário modifica a informação de nome para “Hamburguer 03” 
-      And Seleciona para salvar as alterações
-      Then Ele é redirecionado de volta para a tela de listagem de itens
-      And E recebe uma mensagem de erro informando que o item "Hamburguer 02" não existe
+      Given que o usuário admin está na rota "restaurants/admin"
+      And existe o restaurante de nome "Jobson Burguer"
+      When o usuário clica no símbolo de deletar restaurante com nome "Jobson Burguer"
+      And o usuário clica no botão "Deletar" para deletar o restaurante
+      Then o usuário não deve ver o restaurante de nome "Jobson Burguer" na lista de restaurantes

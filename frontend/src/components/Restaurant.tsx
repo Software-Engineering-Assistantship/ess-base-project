@@ -5,6 +5,7 @@ import { Restaurant } from '../api/restaurants'
 import { RestaurantsDrawer } from './RestaurantsDrawer'
 import { DeleteRestaurantDialog } from './DeleteRestaurantDialog'
 import { useNavigate } from 'react-router-dom'
+import { format } from 'date-fns'
 
 interface RestaurantProps {
   item: Restaurant
@@ -52,19 +53,27 @@ export const RestaurantItem = ({ item, refetch }: RestaurantProps) => {
           }
           width="100%"
         >
-          <Typography>{item.name}</Typography>
+          <Typography fontWeight="bold">
+            {item.name} - {item.address}
+          </Typography>
+          <Typography variant="subtitle1">
+            {item.type} - Funcionando até{' '}
+            {format(new Date(item.closingTime), 'HH:mm')}
+          </Typography>
         </Box>
         {isAdmin && (
           <Box display="flex">
             <Edit
               onClick={() => setOpenEditRestaurantDialog(true)}
               sx={{ cursor: 'pointer', marginRight: 2 }}
+              aria-label="edit-restaurant"
             />
             <DeleteOutline
               sx={{
                 color: 'red',
               }}
               onClick={() => setOpenDeleteRestaurantDialog(true)}
+              aria-label="delete-restaurant"
             />
           </Box>
         )}

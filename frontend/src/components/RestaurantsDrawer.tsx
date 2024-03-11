@@ -62,19 +62,27 @@ export function RestaurantsDrawer({
   )
 
   async function handleSubmitRestaurant(data: RestaurantSchema) {
-    await createRestaurantFn(data)
-    handleClose()
-    refetch()
-    reset()
-    setSelectedTime(null)
+    const response = await createRestaurantFn(data)
+    if (response.code === 'ERR_BAD_REQUEST') {
+      alert('Nome de restaurante já utilizado')
+    } else {
+      handleClose()
+      reset()
+      setSelectedTime(null)
+      refetch()
+    }
   }
 
   async function handleEditRestaurant(data: RestaurantSchema) {
     const payload = { ...data, id: initialValues?.id }
-    await updateRestaurantFn(payload)
-    handleClose()
-    refetch()
-    reset(data)
+    const response = await updateRestaurantFn(payload)
+    if (response.code === 'ERR_BAD_REQUEST') {
+      alert('Nome de restaurante já utilizado')
+    } else {
+      handleClose()
+      reset(data)
+      refetch()
+    }
   }
 
   return (
@@ -121,23 +129,13 @@ export function RestaurantsDrawer({
               {...register('type')}
             />
           </FormControl>
-          {editMode ? (
-            <Button
-              variant="contained"
-              sx={{ width: '100%', mt: 5 }}
-              type="submit"
-            >
-              Atualizar restaurante
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              sx={{ width: '100%', mt: 5 }}
-              type="submit"
-            >
-              Criar restaurante
-            </Button>
-          )}
+          <Button
+            variant="contained"
+            sx={{ width: '100%', mt: 5 }}
+            type="submit"
+          >
+            Salvar
+          </Button>
         </form>
       </Box>
     </Drawer>

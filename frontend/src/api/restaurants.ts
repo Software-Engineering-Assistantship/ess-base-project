@@ -48,7 +48,7 @@ export async function updateRestaurant(data: CreateRestaurantsParams) {
     const response = await api.patch(`/restaurants/${data.id}`, data)
     return response.data
   } catch (error) {
-    console.log(error)
+    return error
   }
 }
 
