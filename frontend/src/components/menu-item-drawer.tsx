@@ -94,12 +94,14 @@ export function MenuItemDrawer({
         <form onSubmit={handleSubmit(handleSubmitMenuItem)}>
           <h3>{editMode ? 'Update product' : 'Add new product'}</h3>
           <TextField
+            id="menu-item-name"
             variant="outlined"
             label="Product name"
             sx={{ width: '100%', mt: 1, mb: 1 }}
             {...register('title')}
           />
           <TextField
+            id="menu-item-description"
             variant="outlined"
             label="Description"
             sx={{ width: '100%', mt: 1, mb: 1 }}
@@ -107,14 +109,18 @@ export function MenuItemDrawer({
           />
 
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
-            <InputLabel htmlFor="price">Price</InputLabel>
-            <OutlinedInput id="price" label="Price" {...register('price')} />
+            <InputLabel htmlFor="menu-item-price">Price</InputLabel>
+            <OutlinedInput
+              id="menu-item-price"
+              label="Price"
+              {...register('price')}
+            />
           </FormControl>
 
           <FormControl sx={{ width: '100%', mt: 1, mb: 1 }}>
-            <InputLabel htmlFor="quantity">Quantity</InputLabel>
+            <InputLabel htmlFor="menu-item-quantity">Quantity</InputLabel>
             <OutlinedInput
-              id="quantity"
+              id="menu-item-quantity"
               label="Quantity"
               type="number"
               {...register('quantity')}
@@ -122,6 +128,7 @@ export function MenuItemDrawer({
           </FormControl>
 
           <Autocomplete
+            id="category"
             disablePortal
             defaultValue={category}
             onChange={(_, value) => {

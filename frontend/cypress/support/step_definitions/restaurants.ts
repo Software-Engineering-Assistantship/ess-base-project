@@ -3,7 +3,7 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor'
 
 // Scenario: Criação de um restaurante
-Given('que o usuário admin está na rota {string}', (url: string) => {
+Given('o usuário admin está na rota {string}', (url: string) => {
   cy.visit(url)
 })
 
@@ -77,7 +77,7 @@ Then(
   },
 )
 
-// Scenario: Criação de um restaurante mal sucedida
+// Scenario: Criação de um restaurante com nome já existente
 
 Then(
   'o usuário deve receber uma mensagem de erro contendo {string}',
@@ -110,5 +110,30 @@ Then(
   'o usuário não deve ver o restaurante de nome {string} na lista de restaurantes',
   (deletedRestaurant: string) => {
     cy.contains(deletedRestaurant).should('not.exist')
+  },
+)
+
+// Scenario: Criação de um restaurante com nome não preenchido
+
+When(
+  'O usuário preenche o campo {string} com {string}, {string} com {string} e {string} com {string}',
+  (
+    label2: string,
+    value2: string,
+    label3: string,
+    value3: string,
+    label4: string,
+    value4: string,
+  ) => {
+    cy.contains('label', label2).next().type(value2)
+    cy.contains('label', label3).next().type(value3)
+    cy.contains('label', label4).next().type(value4)
+  },
+)
+
+Then(
+  'o usuário deve receber uma indicação de erro contendo {string}',
+  (message: string) => {
+    cy.contains(message).should('exist')
   },
 )

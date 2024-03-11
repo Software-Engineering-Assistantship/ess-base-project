@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, Typography } from '@mui/material'
+import { Avatar, Box, Card, CardActionArea, Typography } from '@mui/material'
 import { useState } from 'react'
 import { DeleteOutline, Edit } from '@mui/icons-material'
 import { Restaurant } from '../api/restaurants'
@@ -6,6 +6,9 @@ import { RestaurantsDrawer } from './RestaurantsDrawer'
 import { DeleteRestaurantDialog } from './DeleteRestaurantDialog'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
+import RestaurantIcon from '@mui/icons-material/Restaurant'
+
+// https://img.freepik.com/vetores-premium/logotipo-do-design-de-alimentos-de-qualidade-para-catering_187482-593.jpg
 
 interface RestaurantProps {
   item: Restaurant
@@ -29,6 +32,12 @@ export const RestaurantItem = ({ item, refetch }: RestaurantProps) => {
           justifyContent: 'space-between',
         }}
       >
+        <Avatar
+          sx={{ width: 70, height: 70, marginRight: 2 }}
+          src={item.picture || undefined}
+        >
+          <RestaurantIcon />
+        </Avatar>
         <RestaurantsDrawer
           open={openEditRestaurantDialog}
           handleClose={() => setOpenEditRestaurantDialog(false)}

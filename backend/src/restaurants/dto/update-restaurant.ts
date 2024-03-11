@@ -5,6 +5,7 @@ export const updateRestaurantSchema = z.object({
   address: z.string().optional(),
   closingTime: z.date().optional(),
   type: z.string().optional(),
+  picture: z.string().optional(),
 });
 
 export type UpdateRestaurantSchema = z.infer<typeof updateRestaurantSchema>;

@@ -1,54 +1,33 @@
 GUI:
 
-Scenario: Visualizar Lista Cronológica de Pedidos
+Feature: Histórico de Pedidos
 
-Given o usuário está na página inicial
-When o usuário seleciona a opção "Histórico de Pedidos" no menu
-Then o sistema exibe uma lista cronológica dos pedidos anteriores "P1", "P2" e "P3" do usuário.
+  Scenario: Visualizar Lista Cronológica de Pedidos
+      Given o usuário está na página inicial
+      When o usuário seleciona a opção "Order History" no menu
+      Then o sistema exibe uma lista cronológica dos pedidos anteriores
 
+  Scenario: Detalhes do Pedido Selecionado
+      Given o usuário está na rota "order-history"
+      When o usuário clica para ver os detalhes do primeiro pedido na lista
+      Then o sistema exibe detalhes completos desse pedido
 
+  Scenario: Repetir Pedido Anterior
+      Given o usuário está na rota de "order-history"
+      When o usuário seleciona a opção "Repetir" do primeiro item da lista
+      Then o novo pedido aparece no histórico
 
-Scenario: Sem Histórico de Pedidos
+  Scenario: Deletar um Pedido do Histórico
+      Given o usuário na rota de "order-history"
+      When o usuário clica no botão para apagar o primeiro item da lista
+      Then o pedido não está mais na lista cronológica de pedidos anteriores do usuário
 
-Given o usuário está na página inicial
-When o usuário seleciona a opção "Histórico de Pedidos" no menu
-Then o sistema exibe a mensagem "Você ainda não fez nenhum pedido" para o usuário.
-
-
-
-Scenario: Detalhes do Pedido Selecionado
-
-Given o usuário está na página de "Histórico de Pedidos"
-When o usuário seleciona o pedido específico "P1" na lista
-Then o sistema exibe detalhes completos desse pedido, incluindo “data”, “restaurante”, “valor” e uma lista dos itens pedidos "Hamburguer", "Batata" e "Coca".
-
-
-
-Scenario: Deletar um Pedido do Histórico
-
-Given o usuário está na página de "Histórico de Pedidos"
-When o usuário seleciona a opção "Deletar Pedido" do pedido específico "P1" na lista
-Then o usuário visualiza uma mensagem de confirmação na tela "Pedido deletado com sucesso!"
-And o pedido "P1" não está mais na lista cronológica de pedidos anteriores do usuário.
-
-
-
-Scenario: Repetir Pedido Anterior
-
-Given o usuário está na página de "Histórico de Pedidos".
-When o usuário seleciona a opção "Repetir Pedido" do pedido específico "P1" na lista
-Then o sistema confirma a ação e adiciona os itens do pedido anterior ao carrinho de compras
-And o sistema redireciona o usuário para a página do carrinho exibindo os itens "Hamburguer", "Batata" e "Coca" no carrinho.
-
-
-
-Scenario: Avaliar Restaurante de Pedido Anterior
-
-Given o usuário está na página de "Histórico de Pedidos"
-When o usuário seleciona a opção "Avaliar Restaurante" associado ao pedido específico "P1" da lista
-Then o sistema exibe uma opção para avaliação, permitindo ao usuário dar uma pontuação de "X estrelas (1 a 5)" e fornecer comentários opcionais "Muito gostoso!" sobre sua experiência com o restaurante
-And o sistema confirma a avaliação e a associa ao histórico de pedidos.
-
+  Scenario: Avaliar Pedido Anterior
+      Given o usuário navegou para a rota "order-history"
+      When o usuário seleciona a opção "Avaliar" no primeiro item da lista
+      When o sistema exibe um modal para avaliar o pedido
+      Then o usuário preenche com "5" entrelas e um comentário "Muito bom" e clica no botão de avaliar
+      Then o pedido possui avaliação e comentário
 
 SERVICE:
 
@@ -70,7 +49,7 @@ Then Eu recebo uma resposta 200
 And o JSON da resposta deve ser uma lista vazia []
 
 
-Scenario: Adicionar Avaliação ao Restaurante
+Scenario: Adicionar Avaliação ao Pedido
 
 Given o sistema possui registros no banco de pedidos
 When Eu faço uma requisição POST para a rota “/order”
