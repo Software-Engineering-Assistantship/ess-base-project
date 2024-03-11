@@ -32,8 +32,15 @@ export class RestaurantsService {
     });
   }
 
-  async findByName(name: string) {
-    return await this.prisma.restaurant.findFirst({ where: { name } });
+  async findByName(name: string, id?: string) {
+    return await this.prisma.restaurant.findFirst({
+      where: {
+        name,
+        id: {
+          not: id,
+        },
+      },
+    });
   }
 
   async update(id: string, restaurant: UpdateRestaurantSchema) {
