@@ -63,6 +63,7 @@ model Restaurant {
   address     String
   closingTime DateTime
   type        String
+  picture     String?
   categories  Category[]
 
   @@map("restaurant")

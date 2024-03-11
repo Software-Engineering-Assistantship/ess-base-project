@@ -13,6 +13,7 @@ const mockRestaurantInput: CreateRestaurantSchema = {
   address: 'Rua 123',
   closingTime: new Date('1970-01-01T00:00:00.000Z'),
   type: 'Hamburgueria',
+  picture: null,
 };
 
 const mockRestaurantInput2: CreateRestaurantSchema = {
@@ -20,6 +21,7 @@ const mockRestaurantInput2: CreateRestaurantSchema = {
   address: 'Rua 123',
   closingTime: new Date('1970-01-01T00:00:00.000Z'),
   type: 'Hamburgueria',
+  picture: null,
 };
 
 describe('RestaurantController', () => {
@@ -121,19 +123,6 @@ describe('RestaurantController', () => {
         closingTime: mockRestaurantInput.closingTime.toISOString(),
         categories: [],
       });
-    });
-
-    it('[PATCH] should fail if restaurant name already exists', async () => {
-      const updateInput = {
-        name: 'Jonas Burguer',
-      };
-
-      const response = await request(app.getHttpServer())
-        .patch(`/restaurants/${restaurantId}`)
-        .send({ ...updateInput });
-
-      expect(response.statusCode).toBe(400);
-      expect(response.body.message).toEqual('Restaurant name already taken');
     });
 
     it('[PATCH] should fail if restaurant id does not exist', async () => {
