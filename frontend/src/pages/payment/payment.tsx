@@ -209,6 +209,7 @@ export const Payment: React.FC = () => {
             value={cardType}
             onChange={handleChange}
             fullWidth
+            id="teste"
             label="Tipo de Cartão"
           >
             <MenuItem value="Crédito">Crédito</MenuItem>

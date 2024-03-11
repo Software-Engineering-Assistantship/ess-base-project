@@ -24,6 +24,8 @@ export default function BottomBar() {
       <BottomNavigation
         showLabels
         value={value}
+        to="/restaurants"
+        component={Link}
         onChange={(_, newValue) => {
           setValue(newValue)
         }}
@@ -36,7 +38,12 @@ export default function BottomBar() {
           component={Link}
           icon={<History />}
         />
-        <BottomNavigationAction label="Cart" icon={<ShoppingCart />} />
+        <BottomNavigationAction
+          label="Cart"
+          icon={<ShoppingCart />}
+          to="/cart"
+          component={Link}
+        />
         {!isAdmin && (
           <BottomNavigationAction
             label="User"

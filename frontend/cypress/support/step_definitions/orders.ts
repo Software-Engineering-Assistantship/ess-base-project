@@ -56,7 +56,7 @@ When('o usuário clica no botão para apagar o primeiro item da lista', () => {
 Then(
   'o pedido não está mais na lista cronológica de pedidos anteriores do usuário',
   () => {
-    cy.get('.order-card').should('have.length.gt', 1)
+    cy.get('.order-card').should('have.length', 1)
   },
 )
 
