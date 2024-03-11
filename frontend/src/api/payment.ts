@@ -9,14 +9,9 @@ export type Card = {
   }
 
 export async function createCard(card: Card) {
-  try {
     const response = await api.post(`/payment`, card)
-    
+
     return response.data    
-    
-  } catch (error) {
-    alert('Número já em uso')
-  }
 }
 
 export async function getCards() {

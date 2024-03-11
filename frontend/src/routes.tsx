@@ -5,6 +5,7 @@ import { Menu } from './pages/menu/menu'
 import { Restaurants } from './pages/restaurants/Restaurants'
 import { User } from './pages/user/user'
 import { Payment } from './pages/payment/payment'
+import { OrderHistory } from './pages/order-history/order-history'
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       { path: '/user', element: <User /> },
       { path: '/restaurants/:id', element: <Menu /> },
       { path: '/restaurants/admin/:id', element: <Menu /> },
+      { path: '/order-history', element: <OrderHistory /> },
       { path: '/', element: <Home /> },
     ],
   },

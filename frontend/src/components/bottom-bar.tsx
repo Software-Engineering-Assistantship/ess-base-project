@@ -29,7 +29,13 @@ export default function BottomBar() {
         }}
       >
         <BottomNavigationAction label="Menu" icon={<Home />} />
-        <BottomNavigationAction label="Order history" icon={<History />} />
+        <BottomNavigationAction
+          id="order-history"
+          label="Order History"
+          to="/order-history"
+          component={Link}
+          icon={<History />}
+        />
         <BottomNavigationAction label="Cart" icon={<ShoppingCart />} />
         {!isAdmin && (
           <BottomNavigationAction

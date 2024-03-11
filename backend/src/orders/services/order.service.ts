@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OrderService } from 'src/interfaces/order-service';
+import { OrderService, RatingProps } from 'src/interfaces/order-service';
 import { Order } from '../entities/order';
 import { PrismaService } from 'src/database/prisma.service';
 
@@ -36,6 +36,9 @@ export class PrismaOrderService implements OrderService {
 
   async findAll(): Promise<Order[]> {
     return await this.prisma.orders.findMany({
+      orderBy: {
+        createdAt: 'desc', // Sorting by createdAt in descending order
+      },
       include: {
         menuItems: {
           include: {
@@ -44,6 +47,23 @@ export class PrismaOrderService implements OrderService {
         },
       },
     });
+  }
+
+  async update(id: string, rate: RatingProps): Promise<Order | null> {
+    const updatedOrder = await this.prisma.orders.update({
+      where: {
+        id,
+      },
+      data: {
+        rate: rate.rate,
+        comment: rate.comment,
+      },
+      include: {
+        menuItems: true,
+      },
+    });
+
+    return updatedOrder;
   }
 
   async findOne(id: string): Promise<Order> {
