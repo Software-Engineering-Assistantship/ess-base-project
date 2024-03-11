@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333333;
+  background-color: #F0E7DE;
+  font-size: 16px;
+}
+
+.headerinicial{
+    width: 100%;
+    height: 85px;
+    background-color: #B92727;
+    display: flex;
+    justify-content: center;
+}
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 75vh;
+}
+
+.signup-form {
+    width: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.signup-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-group input {
+    width: calc(100% - 10px); /* Adjust width to subtract padding */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.headersignup {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Center items horizontally */
+    padding: 10px; /* Add padding for spacing */
+    background-color: #f9f9f9;
+}
+
+.logo3 {
+    width: 70px;
+    height: 50px;
+    margin-right: 10px; /* Adjust margin to move logo to the left */
+    background-color: #f9f9f9;
+}
+
+.headersignup h2 {
+    margin: 0; /* Remove default margin */
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    margin-top: 15px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+p a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: #f9f9f9;
+}
+
+p a:hover {
+    text-decoration: underline;
+    
+    
+}
+
