@@ -18,9 +18,6 @@ import Login from './routes/login/login'
 import Signup from './routes/signup/Signup'
 import UserEdit from './routes/UserEdit';
 
-import Followers from './routes/Followers'
-import Following from './routes/Following' 
-
 import Feed from './routes/feed/Feed'
 import SearchResult from './routes/search/SearchResult'
 
