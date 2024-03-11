@@ -78,7 +78,7 @@
     margin: 0; /* Remove default margin */
 }
 
-button {
+.signupbutton {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -89,25 +89,31 @@ button {
     
 }
 
-button:hover {
+.signupbutton :hover {
     background-color: #0056b3;
 }
 
-p {
+.notlogin{
     margin-top: 15px;
     text-align: center;
     background-color: #f9f9f9;
 }
 
-p a {
+.notlogin{
     color: #007bff;
     text-decoration: none;
     background-color: #f9f9f9;
 }
 
-p a:hover {
+.linklogin:hover {
     text-decoration: underline;
     
     
+}
+
+.linklogin{
+    color: #007bff;
+    text-decoration: none;
+    background-color: #f9f9f9;
 }
 

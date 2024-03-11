@@ -33,9 +33,9 @@ const Login = () => {
             <img src={logo} alt="logo" className="logo"/>
         </div>
         <div className="main-content">
-        <p  className="title">Login</p>
+        <p  className="titlelogin">Login</p>
         <div className="line"></div>
-        <p className="name">Email</p>
+        <p className="emaillogin">Email</p>
         <input 
                     type="text" 
                     placeholder="Email" 
