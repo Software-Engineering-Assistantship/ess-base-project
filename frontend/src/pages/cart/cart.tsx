@@ -34,10 +34,10 @@ export function Cart() {
   return (
     <div>
       <h2>Cart</h2>
-      <ul>
+      <ul data-test="cart-list">
         {cartItems.length !== 0 ? (
           cartItems.map((item) => (
-            <CartItem key={item.id} menuItem={item} adminMode={false} categories={[]} refetch={() => {}} />
+            <CartItem key={item.id} menuItem={item} adminMode={false} categories={[]} refetch={() => {}} data-test={item.id} />
           ))
         ) : (
           <p>Seu carrinho está vazio.</p>
@@ -47,7 +47,7 @@ export function Cart() {
       <Button onClick={handleMakeOrder} disabled={isCreating}>
         {isCreating ? 'Fazendo pedido...' : 'Fazer pedido'}
       </Button>
-      <Button onClick={handleCartClear}>Limpar carrinho</Button>
+      <Button className="Limpar" onClick={handleCartClear}>Limpar carrinho</Button>
     </div>
   );
 }

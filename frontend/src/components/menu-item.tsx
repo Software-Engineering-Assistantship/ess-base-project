@@ -135,12 +135,13 @@ export function MenuItem({
             />
           </Box>
         ) : isItemInCart ?  (
-        <Button onClick={() => handleCartRemoveItem(menuItem.id)}>
+        <Button className="RemoverItem" 
+        onClick={() => handleCartRemoveItem(menuItem.id)}>
         Remove from cart
       </Button>)
       : (
           <Button
-            className="w-full"
+            className="AddItem"
             onClick={() =>
               handleCartAddItem({
                 id: menuItem.id,
