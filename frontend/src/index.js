@@ -19,6 +19,9 @@ import UserPage from './routes/UserPage'
 import Followers from './routes/Followers'
 import Following from './routes/Following' 
 
+import Feed from './routes/feed/Feed'
+import SearchResult from './routes/search/SearchResult'
+
 const router = createBrowserRouter([
   {
     path:"/",
@@ -64,6 +67,20 @@ const router = createBrowserRouter([
       {
         path: "/users/following/:id",
         element: <Following />
+      },
+    ]
+  },
+
+  {
+    path:"/",
+    children: [
+      {
+        path: "/feed",
+        element: <Feed />
+      },
+      {
+        path: "/search/result",
+        element: <SearchResult />
       }
     ]
   },
