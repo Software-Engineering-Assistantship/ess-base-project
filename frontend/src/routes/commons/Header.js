@@ -22,6 +22,14 @@ function getUserIdFromToken() {
     }
 }
 
+function renderImage(user){
+    if(user.profileImage){
+        const image = `${API_BASE}/${user.profileImage}`
+        return image
+    }
+    return noprofileimage
+}
+
 const Header = () => {
     let navigate = useNavigate()
     const [restaurant, setRestaurant] = useState("");
@@ -42,8 +50,9 @@ const Header = () => {
         check = true;
     }
 
-    function usVerify(){
-        return user;
+    const handleRedirection = () => {
+        navigate("/users/" + loggedUserId)
+        window.location.reload()
     }
 
     return (
@@ -77,8 +86,8 @@ const Header = () => {
             </div>
                 {user === null ? (
                     <img src={noprofileimage} alt="noprofileimage" className="noprofileimage"/>
-                    ):(    
-                    <img src={`${API_BASE}/${user.profileImage}`} alt="noprofileimage" className="noprofileimage" onClick = {() => navigate("/users/" + loggedUserId)}/>
+                ) : (    
+                    <img src={renderImage(user)} alt="profileimage" className="noprofileimage" onClick = {handleRedirection}/>
                 )}
         </div>
     </div>
