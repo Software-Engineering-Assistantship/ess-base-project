@@ -51,7 +51,7 @@ const Signup = () => {
                         <h2>AlmoCIn-Cadastrar novo Usuário</h2>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">Nome</label>
                         <input
                             type="text"
                             id="name"
@@ -71,7 +71,7 @@ const Signup = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">Senha</label>
                         <input
                             type="password"
                             id="password"
@@ -84,7 +84,7 @@ const Signup = () => {
                     </div>
                     <button className="signupbutton" type="submit">Cadastrar</button>
                     <p className="notlogin">
-                        Already have an account? <Link className="linklogin" to="/login">Log in</Link>
+                        Já tem uma conta? <Link className="linklogin" to="/login">Log in</Link>
                     </p>
                 </form>
             </div>

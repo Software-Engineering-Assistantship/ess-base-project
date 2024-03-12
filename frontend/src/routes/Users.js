@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import '../style/Users.css';
 import logo from "../assets/logo.svg";
 
@@ -8,6 +8,7 @@ const API_BASE = "http://localhost:3001";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); // Search term state
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
 
@@ -36,32 +37,33 @@ const Users = () => {
         fetchUsers();
     }, []);
 
-    if (loading) {
-        return <div>Loading users...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
+    // Filter users based on the search term
+    const filteredUsers = users.filter(user => 
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div>  
-            <div className="headerinicial">
-                <img src={logo} alt="logo" className="logo4" />
-            </div>
             <div className="users-page">
-                <h1>Users List</h1>
-                {loading && <div className="loading">Loading users...</div>}
+                <h1 className='nameuserlist2'>Lista de Usuários</h1>
+                <input 
+                    type="text" 
+                    placeholder="Search users..." 
+                    className="search-bar"
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)} // Update search term based on user input
+                />
+                {loading && <div className="loading">Carregando Usuários...</div>}
                 {error && <div className="error-message">{error}</div>}
                 <ul className='alluserinfo'>
-                    {users.map(user => (
+                    {filteredUsers.map(user => ( // Use filteredUsers here
                         <li key={user._id} className='infouser'>
                             <div className="user-details">
                                 <h2>{user.name}</h2>
                                 <p>{user.email}</p>
-                                {/* Other user details can go here */}
                             </div>
-                            <Link to={`/users/${user._id}`} className='buttonuserpage'>View Profile</Link> {/* Updated line */}
+                            <Link to={`/users/${user._id}`} className='buttonuserpage'>Ver Perfil</Link>
                         </li>
                     ))}
                 </ul>
