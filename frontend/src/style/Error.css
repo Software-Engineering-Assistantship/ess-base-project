@@ -1,0 +1,23 @@
+#error-page {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Faz com que o contêiner ocupe toda a altura da viewport */
+}
+
+#error-msg {
+    text-align: center; /* Centraliza o conteúdo horizontalmente */
+}
+
+#error-404 {
+    font-weight: 600;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#error-404-detail {
+    font-size: 20px;
+    color: #666;
+    font-weight: 600;
+}
