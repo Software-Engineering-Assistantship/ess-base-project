@@ -1,8 +1,8 @@
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Axios } from 'axios'
-import ProfileImage from "../images/noprofileimage.png"
-import '../style/FollowList.css'
+import ProfileImage from "../../../images/noprofileimage.png"
+import '../../../style/FollowList.css'
 
 const API_BASE = "http://localhost:3001"
 
@@ -118,7 +118,7 @@ const FollowersList = () => {
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link-follow" onClick={(e) => {follow(follower._id, e)}}>
+                                        <Link className="link-follow" onClick={(e) => {follow(follower._id, e)}} alert="Você seguiu com sucesso">
                                             <div className="follow-button">
                                                 <p>Seguir</p>
                                             </div>
@@ -131,7 +131,7 @@ const FollowersList = () => {
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link-follow" onClick={(e) => {unfollow(follower._id, e)}}>
+                                        <Link className="link-follow" onClick={(e) => {unfollow(follower._id, e)}} alert="Você deixou de seguir com sucesso">
                                             <div className="unfollow-button">
                                                 <p>Deixar de seguir</p>
                                             </div>
@@ -169,8 +169,8 @@ const FollowersList = () => {
             <div className="page-follow-list">
             <div className="body-follow-list">
                 <div className="list-follow-top">   
-                    <h2 className="list-follow-title">ERROR</h2>
-                    <Link className="close-button-follow" to={`/users/${id}`}> VOLTAR </Link>
+                    <h2 className="list-follow-title"></h2>
+                    <Link className="close-button-follow" to={`/users/${id}`}> x </Link>
                 </div> 
             </div>
             </div>

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
-import noProfileImage from "../images/noprofileimage.png"
+import noProfileImage from "../../images/noprofileimage.png"
 import ProfileCard from "./ProfileCard"
-import '../style/UserEdit.css'
+import '../../style/UserEdit.css'
 import PasswordCard from "./PasswordCard"
 import RemoveCard from "./RemoveCard"
 
