@@ -52,18 +52,6 @@ const router = createBrowserRouter([
         element: <RestaurantProfile />
       },
       {
-        path: "/landingpage",
-        element: <LandingPage />
-      },
-      {
-        path: "/login",
-        element: <Login />
-      },
-      {
-        path: "/signup",
-        element: <Signup />
-      },
-      {
         path: "/users/:id",
         element: <UserProfile />
       },
@@ -125,6 +113,21 @@ const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path:"/login",
+    errorElement: <ErrorPage />,
+    element: <Login />
+  },
+  {
+    path:"/landingpage",
+    errorElement: <ErrorPage />,
+    element: <LandingPage />
+  },
+  {
+    path: "/signup",
+    errorElement: <ErrorPage />,
+    element: <Signup />
+  }
 ])
 
 
