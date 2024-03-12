@@ -73,6 +73,7 @@ const ProfileCard = () => {
         })
         .finally(() => {
             navigate('/users/' + id)
+            window.location.reload()
         });
     };
 
@@ -135,7 +136,7 @@ const ProfileCard = () => {
             <button class="botaoconfirmar" onClick={handleUserChange}>CONFIRMAR</button>
         </div>
     ) : (
-        <div>Carregando...</div>
+        <div></div>
     )
     );
 }

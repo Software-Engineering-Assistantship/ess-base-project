@@ -22,6 +22,14 @@ function getUserIdFromToken() {
     }
 }
 
+function renderImage(user){
+    if(user.profileImage){
+        const image = `${API_BASE}/${user.profileImage}`
+        return image
+    }
+    return noprofileimage
+}
+
 const Header = () => {
     let navigate = useNavigate()
     const [restaurant, setRestaurant] = useState("");
@@ -42,9 +50,6 @@ const Header = () => {
         check = true;
     }
 
-    function usVerify(){
-        return user;
-    }
 
     return (
     <div> 
@@ -77,8 +82,8 @@ const Header = () => {
             </div>
                 {user === null ? (
                     <img src={noprofileimage} alt="noprofileimage" className="noprofileimage"/>
-                    ):(    
-                    <img src={`${API_BASE}/${user.profileImage}`} alt="noprofileimage" className="noprofileimage" onClick = {() => navigate("/users/" + loggedUserId)}/>
+                ) : (    
+                    <img src={renderImage(user)} alt="profileimage" className="noprofileimage"/>
                 )}
         </div>
     </div>
