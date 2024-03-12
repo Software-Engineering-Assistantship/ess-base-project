@@ -21,6 +21,8 @@ import UserEdit from './routes/UserEdit';
 import Feed from './routes/feed/Feed'
 import SearchResult from './routes/search/SearchResult'
 
+import Users from './routes/Users'
+
 import ReviewCreate from './routes/reviews/ReviewCreate'
 import ReviewEdit from './routes/reviews/ReviewEdit'
 import ReviewPage from './routes/reviews/ReviewPage'
@@ -74,6 +76,9 @@ const router = createBrowserRouter([
         element: <FollowingList />
       },
       {
+        path: "/users",
+        element: <Users />
+      }
         path: "/reviews/:idrest/:iduser/create",
         element: <ReviewCreate />
       },
