@@ -1,10 +1,10 @@
 import React from "react"
 import { useState } from "react"
 import { Link } from "react-router-dom";
-import '../style/Header.css'
-import logo from "../assets/logo.svg";
-import noprofileimage from "../assets/noprofileimage.png";
-import searchicon from "../assets/searchicon.png";
+import '../../style/Header.css'
+import logo from "../../assets/logo.svg";
+import noprofileimage from "../../assets/noprofileimage.png";
+import searchicon from "../../assets/searchicon.png";
 
 const Header = () => {
     const [restaurant, setRestaurant] = useState("");
@@ -24,15 +24,17 @@ const Header = () => {
             <h1 className="lists">Listas</h1>
             <h1 className="forum">Fórum</h1>
 
-            <input 
-                type="text" 
-                placeholder="Ache seus pontos gastronômicos favoritos" 
-                value={restaurant} 
-                onChange={(e) => setRestaurant(e.target.value)} 
-                className="input-field"
-            />
-            
-            <img src={searchicon} alt="searchicon" className="searchicon"/>
+            <div id="input-and-icon">
+                <input 
+                    type="text" 
+                    placeholder="Ache seus pontos gastronômicos favoritos" 
+                    value={restaurant} 
+                    onChange={(e) => setRestaurant(e.target.value)} 
+                    className="search-field"
+                />
+                
+                <img src={searchicon} alt="searchicon" className="searchicon"/>
+            </div>
 
             <img src={noprofileimage} alt="noprofileimage" className="noprofileimage"/>
         </div>
