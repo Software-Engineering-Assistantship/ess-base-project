@@ -7,17 +7,30 @@ import '../style/UserProfile.css'
 
 const API_BASE = "http://localhost:3001"
 
+function getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+        const payload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payload));
+        return decodedPayload.userId; // Ensure this matches your JWT payload
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+}
 const UserProfile = () => {
 
     let navigate = useNavigate()
 
-    const currentUserId = "65d51f9ac3b06ec45cdd2acb"
+    const currentUserId = getUserIdFromToken()
 
     const [currentUser, setCurrentUser] = useState(null)
     const [user, setUser] = useState(null);
     const { id } = useParams()
     const [error, setError] = useState(null)
-
+    console.log(currentUser);
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
             .then(response => {
@@ -136,7 +149,7 @@ const UserProfile = () => {
                     </div>
                 </div>
                 <div class="buttonsuserprofile" >
-                    <button class="buttonreviews"> REVIEWS ({user.reviews.size ?? 0})</button>
+                    <button class="buttonreviews"> REVIEWS </button>
                     <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                 </div>
             </div>

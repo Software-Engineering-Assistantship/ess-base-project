@@ -100,6 +100,10 @@ const router = createBrowserRouter([
         element: <UserEdit />
       },
       {
+        path: "/users",
+        element: <Users />
+      },
+      {
         path: "/reviews/:idrest/:iduser/create",
         element: <ReviewCreate />
       },

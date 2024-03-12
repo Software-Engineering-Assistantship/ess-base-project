@@ -98,3 +98,15 @@
     text-align: center;
     padding: 50px 0;
 }
+
+.buttonuserpage {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    border: none;
+    text-decoration: none; /* Removes underline from links */
+    border-radius: 5px; /* Optional: adds rounded corners */
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate here
 import { useState, useEffect } from "react";
 import '../../style/Login.css';
 import React from "react";
@@ -7,10 +7,27 @@ import axios from "axios";
 
 const API_BASE = "http://localhost:3001";
 
+function getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+        const payload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payload));
+        return decodedPayload.userId; // Ensure this matches your JWT payload
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+}
+
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loginFailed, setLoginFailed] = useState(false); // Add state for login failure
+    const [loginFailed, setLoginFailed] = useState(false);
+
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleLogin = async () => {
         try {
@@ -19,23 +36,24 @@ const Login = () => {
                 password
             });
             
-            // Check if the status code indicates a failure
             if (response.status !== 200) {
-                // Assuming 200 is the only success code, adjust as needed
                 throw new Error('Login failed');
             }
             
+            
             localStorage.setItem('token', response.data.token);
-            setLoginFailed(false); // Reset login failure on success
-            // Handle successful login response
+            setLoginFailed(false);
+            const userId = getUserIdFromToken();
+            // Redirect to user profile page upon successful login
+            navigate(`/users/${userId}`); // Adjust '/profile' to your profile page's path
+            
             console.log(response.data);
         } catch (error) {
-            setLoginFailed(true); // Set login failure on error
+            setLoginFailed(true);
             console.error(error);
         }
     };
     
-
     return (
         <div>
             <div className="headerinicial">
