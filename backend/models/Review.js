@@ -24,10 +24,6 @@ const ReviewSchema = new Schema({
         type: String,
         required: true
     },
-    image:{
-        type: String,
-        required: false
-    },
     sabor: {
         type: Number,
         required: false
@@ -53,10 +49,6 @@ const ReviewSchema = new Schema({
         type: Number,
         default: 0
     },
-    views: {
-        type: Number,
-        default: 0
-    }
 })
 
 const Review = mongoose.model("Review", ReviewSchema)

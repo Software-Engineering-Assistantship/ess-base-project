@@ -21,6 +21,12 @@ import UserEdit from './routes/UserEdit';
 import Feed from './routes/feed/Feed'
 import SearchResult from './routes/search/SearchResult'
 
+import ReviewCreate from './routes/reviews/ReviewCreate'
+import ReviewEdit from './routes/reviews/ReviewEdit'
+import ReviewPage from './routes/reviews/ReviewPage'
+import ReviewsRestaurant from './routes/reviews/ReviewsRestaurant'
+import ReviewsUser from './routes/reviews/ReviewsUser'
+
 const router = createBrowserRouter([
   {
     path:"/",
@@ -66,6 +72,26 @@ const router = createBrowserRouter([
       {
         path: "/users/following/:id",
         element: <FollowingList />
+      },
+      {
+        path: "/reviews/:idrest/:iduser/create",
+        element: <ReviewCreate />
+      },
+      {
+        path: "/reviews/:idrest/:iduser/edit",
+        element: <ReviewEdit /> 
+      },
+      {
+        path: "/reviews/:idrest/:iduser",
+        element: <ReviewPage /> 
+      },
+      {
+        path: "/reviews/:idrest/",
+        element: <ReviewsRestaurant /> 
+      },
+      {
+        path: "/reviews/:iduser",
+        element: <ReviewsUser /> 
       },
     ]
   },
