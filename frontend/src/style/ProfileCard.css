@@ -2,6 +2,11 @@
     background-color: #7C0101;
     padding: 30px;
     border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 539.2px;
+    transform: translateY(-4%);
 }
 
 .coverContainer {
@@ -29,8 +34,8 @@
 
 .coverfrase {
     background: transparent;
-    font-weight: bold;
-    color: black;
+    
+    color: #F0E7DE;
 }
 
 .botaocapa {
@@ -44,10 +49,11 @@
 
 .perfilcontainer {
     background: transparent;
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: fit-content;
+    height: fit-content;
     transform: translateY(-50%);
 }
 
@@ -68,8 +74,8 @@
 
 .perfilfrase {
     background: transparent;
-    font-weight: bold;
-    color: black;
+    
+    color: #F0E7DE;
 }
 
 .botaoperfil {
@@ -93,14 +99,13 @@
 
 .nomefrase {
     background-color: transparent;
-    font-weight: bold;
-    color: black;
+    color: #F0E7DE;
 }
 
 .nomeusuario {
     padding-left: 5px;
     padding-right: 5px;
-    background-color: grey;
+    background-color: rgba(189, 188, 188, 0.807);
     border-radius: 5px;
     width: fit-content;
     height: fit-content;
@@ -128,13 +133,13 @@
 
 .bioo {
     background-color: transparent;
-    font-weight: bold;
-    color: black;
+    
+    color: #F0E7DE;
 }
 
 .bio {
     position: relative;
-    background-color: grey;
+    background-color: rgba(189, 188, 188, 0.807);
     border-radius: 5px;
     height: fit-content;
     width: 400px;
@@ -150,11 +155,15 @@
 }
 
 .botaoconfirmar {
-    transform: translateX(270%);
-    margin-top: 20px;
-    padding: 7.5px;
-    background-color: grey;
-    border-radius: 6px;
-    color: black;
+    height: 47px;
+    width: 182px;
+    border-radius: 35px;
+    padding: 7px;
+    font-weight: bold;
+    background-color: transparent;
+    box-shadow: 0 0 10px black;
+    color: #F0E7DE;
+    border-color: #F0E7DE;
+    transform:translateY(50%)
 }
 

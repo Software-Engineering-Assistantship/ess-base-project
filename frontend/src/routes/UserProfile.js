@@ -7,17 +7,30 @@ import '../style/UserProfile.css'
 
 const API_BASE = "http://localhost:3001"
 
+function getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+        const payload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payload));
+        return decodedPayload.userId; // Ensure this matches your JWT payload
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+}
 const UserProfile = () => {
 
     let navigate = useNavigate()
 
-    const currentUserId = "65d51f9ac3b06ec45cdd2acb"
+    const currentUserId = getUserIdFromToken()
 
     const [currentUser, setCurrentUser] = useState(null)
     const [user, setUser] = useState(null);
     const { id } = useParams()
     const [error, setError] = useState(null)
-
+    console.log(currentUser);
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
             .then(response => {
@@ -68,13 +81,14 @@ const UserProfile = () => {
 
     const check1 = user && user.profileImage;
     const check2 = user && user.coverImage;
+    const check3 = user && (currentUserId === id)
 
     return (user && currentUser ? (
             <div class="tudinho">
                 <div class="containerProfile">
                     <div class="coverImageContainer">
                         {check2 ? (
-                            <img src={user.coverImage} alt="Cover Image" class="fotocapa"/>
+                            <img src={`${API_BASE}/${user.coverImage}`} alt="Cover Image" class="fotocapa"/>
                         ) : (
                             <img src={CoverImage} alt="null Cover Image" class="fotocapa"/>    
                             )}
@@ -82,7 +96,7 @@ const UserProfile = () => {
                     <div class="combineinfos">
                         <div class="profileImageContainer">
                             {check1 ? (
-                                <img src={user.profileImage} alt="Profile Image" class="fotoperfil"/>
+                                <img src={`${API_BASE}/${user.profileImage}`} alt="Profile Image" class="fotoperfil"/>
                             ) : (    
                                 <img src={ProfileImage} alt="null Profile Image" class="fotoperfil"/>
                             )}
@@ -101,7 +115,7 @@ const UserProfile = () => {
                         </div>
                         <div className="followbutton">
                             
-                                {(currentUser.id !== id) ? (
+                                {!check3 ? (
                         
                                     ((currentUser.following) ? 
                                     
@@ -136,8 +150,11 @@ const UserProfile = () => {
                     </div>
                 </div>
                 <div class="buttonsuserprofile" >
-                    <button class="buttonreviews"> REVIEWS ({user.reviews.size ?? 0})</button>
-                    <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
+                    <button class="buttonreviews"> REVIEWS </button>
+                    {check3 ? (
+                        <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
+                    ) : null
+                    }
                 </div>
             </div>
         ):(

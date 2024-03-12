@@ -1,17 +1,22 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import '../style/RemoveCard.css'
 import axios from "axios";
+import Modal from "./commons/Modal.js"
 
 const API_BASE = "http://localhost:3001"
 
 const RemoveCard = () => {
+    const navigate = useNavigate()
 
     const [user, setUser] = useState(null);
     const { id } = useParams()
 
     const [curPass, setCurPass] = useState('');
     const [curPassAgain, setCurPassAgain] = useState('');
+
+    const [modalTitle, setModalTitle] = useState('')
+    const [openModal, setOpenModal] = useState(false)
 
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
@@ -24,7 +29,18 @@ const RemoveCard = () => {
 
     const deleteAccount = () => {
         if(curPass === curPassAgain){
-            axios.delete(`${API_BASE}/users/delete/${id}`);
+            axios.delete(`${API_BASE}/users/delete/${id}`)
+            .then(response => {
+                console.log('PUT request successful:', response.data);
+                setModalTitle('Conta removida com sucesso!')
+                setOpenModal(true)
+            })
+            .catch(error => {
+                console.error('Error making PUT request:', error);
+            })
+            .finally(() => {
+                navigate('/landingpage')
+            });
         }
     };
 

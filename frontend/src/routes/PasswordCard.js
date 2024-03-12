@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from "axios";
-
+import  Modal from "./commons/Modal"
 import '../style/PasswordCard.css'
 const API_BASE = "http://localhost:3001"
 
@@ -11,7 +11,8 @@ const PasswordCard = () => {
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [user, setUser] = useState(null);
     const { id } = useParams()
-
+    const [modalTitle, setModalTitle] = useState('')
+    const [openModal, setOpenModal] = useState(false)
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
             .then(response => {
@@ -38,6 +39,8 @@ const PasswordCard = () => {
                 newPassword: newPassword
             })
         .then(response => {
+            setModalTitle("Sua senha foi alterada com sucesso! Faça login novamente.")
+            setOpenModal(true)
             console.log('PUT request successful:', response.data);
         })
         .catch(error => {
