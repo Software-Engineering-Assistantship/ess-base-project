@@ -54,7 +54,6 @@ const RemoveCard = () => {
                     />
                 </div>
                 <div class="confirmarsenhacontainer">
-                    {openModal && <Modal transparent={true} closeModal={setOpenModal} title={modalTitle} nextPage={"/login"}/>}
                     <p class="fraseconfirmarsenha">Confirme sua senha</p>
                     <input class="inputconfirmarsenha"
                     type="password"

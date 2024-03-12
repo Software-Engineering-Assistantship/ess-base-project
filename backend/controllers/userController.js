@@ -154,8 +154,8 @@ const updateUser = async (req, res) => {
 
         req.body = JSON.parse(JSON.stringify(req.body))
 
-        let profileImage = 'Noneundefined'
-        let coverImage = 'Noneundefined'
+        let profileImage = user.profileImage
+        let coverImage = user.coverImage
 
         console.log(req.body)
 
@@ -173,7 +173,7 @@ const updateUser = async (req, res) => {
         //atualiza nome, bio, imagem e capa (se houver para troca)
         user = await User.findByIdAndUpdate(
             req.params.id,
-            { name: req.body.name, bio: req.body.bio, profileImage:req.body.profileImage, coverImage:req.body.coverImage }, 
+            { name: req.body.name, bio: req.body.bio, profileImage, coverImage }, 
             { new: true }
         );
     }        

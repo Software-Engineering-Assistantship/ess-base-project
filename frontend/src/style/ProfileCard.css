@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 539.2px;
 }
 
 .coverContainer {
@@ -153,10 +154,15 @@
 }
 
 .botaoconfirmar {
-    margin-top: 20px;
-    padding: 7.5px;
-    background-color: grey;
-    border-radius: 6px;
-    color: black;
+    height: 47px;
+    width: 182px;
+    border-radius: 35px;
+    padding: 7px;
+    font-weight: bold;
+    background-color: transparent;
+    box-shadow: 0 0 10px black;
+    color: #F0E7DE;
+    border-color: #F0E7DE;
+    transform:translateY(50%)
 }
 

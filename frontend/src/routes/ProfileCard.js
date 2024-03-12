@@ -26,7 +26,6 @@ const ProfileCard = () => {
         fetch( API_BASE + '/users/' + id)
             .then(response => {
                 response.json().then(data => {
-                    console.log(data)
 
                     setNewUsername(data.name)
                     if(data.bio){
@@ -56,7 +55,7 @@ const ProfileCard = () => {
         data.append('name', newUsername);
         data.append('bio', newBio);
         data.append('file1', files1[0]);
-        data.append('file2', files2[1]);
+        data.append('file2', files2[0]);
 
         console.log(data)
        
@@ -78,7 +77,7 @@ const ProfileCard = () => {
     return( user ? (
         <div class="profilecard">
             <div class="coverContainer">
-                <img class="coverimage" src={user.coverImage || noCoverImage}></img>
+                <img class="coverimage" src={`${API_BASE}/${user.coverImage}` || noCoverImage}></img>
                 <div class="coverContainer2">
                     <p class="coverfrase">Trocar Capa</p>
                     <input class="botaocapa" type="file" id="coverPhoto" name="file2"
@@ -86,7 +85,7 @@ const ProfileCard = () => {
                 </div>
             </div>
             <div class="perfilcontainer">
-                <img class="profileimage" src={user.profileImage || noProfileImage}></img>
+                <img class="profileimage" src={`${API_BASE}/${user.profileImage}` || noProfileImage}></img>
                 <div class="perfilcontainer2">
                     <p class="perfilfrase">Trocar Ícone</p>
                     <input class="botaoperfil" type="file" id="profilePhoto" name="file1"
