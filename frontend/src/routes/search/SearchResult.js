@@ -1,7 +1,6 @@
 import React from "react"
 import { useState } from "react"
 import { Link } from "react-router-dom";
-import Header from "../../header/Header.js";
 import '../../style/SearchResult.css'
 
 const API_BASE = "http://localhost:3001"
@@ -12,9 +11,6 @@ const SearchResult = () => {
 
     return (
         <div>
-            <div className="header">
-                <Header />
-            </div>
 
             <div className="restaurants-page"> 
                 <Link className="link" to={`/restaurants/create`}>

@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from 'axios';
 
@@ -9,6 +9,7 @@ const RestaurantProfile = () => {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams()
 
+    const navigate = useNavigate()
     let user = {
         name: "pedro",
         id: "65d558b610b3232a7a179dcb"
@@ -17,6 +18,10 @@ const RestaurantProfile = () => {
     useEffect(() => {
         fetch( API_BASE + '/restaurants/' + id)
             .then(response => {
+                if(response.status !== 200){
+                    console.log(response.status)
+                    navigate('/error')
+                }
                 response.json().then(data => {
                     setRestaurant(data)
                 })

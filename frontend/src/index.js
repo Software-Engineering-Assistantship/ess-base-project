@@ -76,47 +76,13 @@ const router = createBrowserRouter([
         element: <FollowingList />
       },
       {
-        path: "/users",
-        element: <Users />
-      }
-        path: "/reviews/:idrest/:iduser/create",
-        element: <ReviewCreate />
-      },
-      {
-        path: "/reviews/:idrest/:iduser/edit",
-        element: <ReviewEdit /> 
-      },
-      {
-        path: "/reviews/:idrest/:iduser",
-        element: <ReviewPage /> 
-      },
-      {
-        path: "/reviews/:idrest/",
-        element: <ReviewsRestaurant /> 
-      },
-      {
-        path: "/reviews/:iduser",
-        element: <ReviewsUser /> 
-      },
-    ]
-  },
-
-  {
-    path:"/",
-    children: [
-      {
         path: "/feed",
         element: <Feed />
       },
       {
         path: "/search/result",
         element: <SearchResult />
-      }
-    ]
-  },
-  {
-    path:"/",
-    children: [
+      },
       {
         path: "/users/:id",
         element: <UserProfile />,
@@ -128,19 +94,15 @@ const router = createBrowserRouter([
       {
         path: "/users/following/:id",
         element: <FollowingList />
-      }
-    ]
-  },
-  {
-    path:"/",
-    children: [
+      },
       {
         path: "/users/edit/:id",
         element: <UserEdit />
       }
     ]
-  }
+  },
 ])
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

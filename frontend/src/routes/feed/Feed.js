@@ -1,7 +1,6 @@
 import React from "react"
 import { useState } from "react"
 import '../../style/Feed.css'
-import Header from "../../header/Header.js";
 import triangle from "../../assets/triangle.png";
 const API_BASE = "http://localhost:3001"
 
@@ -11,9 +10,6 @@ const Feed = () => {
 
     return (
         <div>
-            <div className="header">
-                <Header />
-            </div>
 
             <h1 className="title">Reviews em Alta</h1>
             {reviews.length === 0 && (

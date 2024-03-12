@@ -10,7 +10,7 @@
 }
 
 .restaurant-list{
-    margin: 30px;
+    margin-top: 30px;
 
     border: 6px solid #B92727;
     border-radius: 20px;
@@ -30,6 +30,7 @@
 
 .restaurants-page{
     max-width: 800px;
+    padding: 20px;
     margin: 40px auto;
 }
 
@@ -93,7 +94,7 @@
   background-color: #d63d1b;
 }
 
-.link{
+.restaurant-link-button{
   text-decoration: none;
 }
 
@@ -141,7 +142,7 @@
 
 .restaurant-actions{
     margin: auto;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
     max-width: 900px;
     display: flex;
     justify-content: space-between;
@@ -204,7 +205,7 @@
   background-color: #f9f9f9;
  }
  
- #formpage div {
+ .form-field {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
