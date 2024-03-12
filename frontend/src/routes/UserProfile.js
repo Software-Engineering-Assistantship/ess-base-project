@@ -81,6 +81,7 @@ const UserProfile = () => {
 
     const check1 = user && user.profileImage;
     const check2 = user && user.coverImage;
+    const check3 = user && (currentUserId === id)
 
     return (user && currentUser ? (
             <div class="tudinho">
@@ -114,7 +115,7 @@ const UserProfile = () => {
                         </div>
                         <div className="followbutton">
                             
-                                {(currentUser.id !== id) ? (
+                                {!check3 ? (
                         
                                     ((currentUser.following) ? 
                                     
@@ -150,7 +151,10 @@ const UserProfile = () => {
                 </div>
                 <div class="buttonsuserprofile" >
                     <button class="buttonreviews"> REVIEWS </button>
-                    <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
+                    {check3 ? (
+                        <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
+                    ) : null
+                    }
                 </div>
             </div>
         ):(
