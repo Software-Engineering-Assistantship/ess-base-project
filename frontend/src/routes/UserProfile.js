@@ -74,7 +74,7 @@ const UserProfile = () => {
                 <div class="containerProfile">
                     <div class="coverImageContainer">
                         {check2 ? (
-                            <img src={user.coverImage} alt="Cover Image" class="fotocapa"/>
+                            <img src={`${API_BASE}/${user.coverImage}`} alt="Cover Image" class="fotocapa"/>
                         ) : (
                             <img src={CoverImage} alt="null Cover Image" class="fotocapa"/>    
                             )}
@@ -82,7 +82,7 @@ const UserProfile = () => {
                     <div class="combineinfos">
                         <div class="profileImageContainer">
                             {check1 ? (
-                                <img src={user.profileImage} alt="Profile Image" class="fotoperfil"/>
+                                <img src={`${API_BASE}/${user.profileImage}`} alt="Profile Image" class="fotoperfil"/>
                             ) : (    
                                 <img src={ProfileImage} alt="null Profile Image" class="fotoperfil"/>
                             )}
