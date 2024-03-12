@@ -3,7 +3,9 @@ const router = express.Router()
 
 const RatingController = require("../controllers/ratingController")
 
-router.post('/:idrest/:iduser', RatingController.rating_post)
+router.post('/:idrest/:iduser/create', RatingController.rating_post)
+
+router.put('/:idrest/:iduser/edit', RatingController.rating_edit)
 
 router.get('/:idrest/avg', RatingController.rating_avg)
 

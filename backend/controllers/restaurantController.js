@@ -10,7 +10,7 @@ const restaurants_get = async (req, res) => {
     }
 }
 
-restaurant_profile_get  = async (req, res) => {
+const restaurant_profile_get  = async (req, res) => {
     const restaurant = await Restaurant.findById(req.params.id)
     if (!restaurant) {
         return res.status(404).json({ error: 'Restaurante não encontrado' })

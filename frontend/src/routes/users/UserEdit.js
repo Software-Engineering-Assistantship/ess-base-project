@@ -25,8 +25,9 @@ const UserEdit = () => {
             })
     }, []); 
 
+    let check = false;
     if(user && !user.profileImage) {
-        user.profileImage = noProfileImage;
+        check = true;
     }
 
     const showProfileInfo = () => {
@@ -52,7 +53,13 @@ const UserEdit = () => {
                 <div class="cardmenu">
                     <div class="topinfo">
                         <p class="titleusereditcard">Menu de Edição</p>
-                        <img src={user.profileImage} class="profilepictureusercard"></img>
+                        {
+                            check ? (
+                                <img src={noProfileImage}  class="profilepictureusercard"></img>
+                            ):(
+                                <img src={`${API_BASE}/${user.profileImage}`}  class="profilepictureusercard"></img>
+                            )
+                        }
                         <p class="usernameuseredit">{user.name}</p>
                     </div>
                     <div class="bottominfo">
@@ -68,7 +75,7 @@ const UserEdit = () => {
                 </div>
             </div>
         ):(
-            <p>Carregando...</p>
+            <p></p>
         )
 
     );

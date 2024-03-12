@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
+import Header from "../commons/Header.js";
 
 import '../../style/Restaurants.css'
 
@@ -28,8 +29,7 @@ const Restaurants = () => {
 
     return (
         <div className="restaurants-page"> 
-
-            <Link className="link" to={`/restaurants/create`}>
+            <Link className="restaurant-link-button" to={`/restaurants/create`}>
                 <div className="simple-button" id="create-button">
                     <p>Cadastrar restaurante</p>
                 </div>
@@ -47,7 +47,7 @@ const Restaurants = () => {
                                 <p>{restaurant.typeOfFood}</p>
                             </div>
                         </div>
-                        <Link className="link" to={`/restaurants/${restaurant._id}`}>
+                        <Link className="restaurant-link-button" to={`/restaurants/${restaurant._id}`}>
                             <div className="view-button">
                                 <p>Visualizar</p>
                             </div>

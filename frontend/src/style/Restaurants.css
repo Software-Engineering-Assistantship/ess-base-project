@@ -10,7 +10,7 @@
 }
 
 .restaurant-list{
-    margin: 30px;
+    margin-top: 30px;
 
     border: 6px solid #B92727;
     border-radius: 20px;
@@ -24,12 +24,20 @@
     color: #F0E7DE;
 }
 
+/* .restaurant-profile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 100px;
+} */
+
 .restaurant-list h2{
     font-size: 20px;
 }
 
 .restaurants-page{
     max-width: 800px;
+    padding: 20px;
     margin: 40px auto;
 }
 
@@ -93,7 +101,7 @@
   background-color: #d63d1b;
 }
 
-.link{
+.restaurant-link-button{
   text-decoration: none;
 }
 
@@ -141,7 +149,7 @@
 
 .restaurant-actions{
     margin: auto;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
     max-width: 900px;
     display: flex;
     justify-content: space-between;
@@ -171,7 +179,7 @@
     margin-top: 50px;
     margin-left: 50px;
     text-decoration: none;
-    
+    max-width:800px;
 }
 
 #restaurant-cover{
@@ -204,7 +212,7 @@
   background-color: #f9f9f9;
  }
  
- #formpage div {
+ .form-field {
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
@@ -298,4 +306,15 @@
 .restaurant-atribute{
   font-weight: 900;
   font-size: 18px;
+}
+
+#restaurant-star-rating{
+  margin-left: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+#restaurant-star-rating button{
+  margin-top: 20px;
 }

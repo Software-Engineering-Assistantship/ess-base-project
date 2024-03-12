@@ -16,21 +16,21 @@ const user_signup = async (req, res) => {
 
     
     if (name == "" || email == "" || password == "") {
-        return res.json({
+        return res.status(400).json({
             status: "FAILURE",
             message: "Empty input fields"
         });
     }
 
     if (!/^[a-zA-Z]*$/.test(name)) {
-        return res.json({
+        return res.status(400).json({
             status: "FAILURE",
             message: "Invalid name"
         });
     }
 
     if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-        return res.json({
+        return res.status(400).json({
             status: "FAILURE",
             message: "Invalid email"
         });
@@ -38,7 +38,7 @@ const user_signup = async (req, res) => {
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>?]).{8,}$/;
             if (!passwordRegex.test(password)) {
-                return res.status(404).json({ error: 'A senha deve conter no mínimo 1 caracter maiúsculo, 1 caracter minúsculo, 1 simbolo especial e tamanho de pelo menos 8.' });
+                return res.status(400).json({ error: 'A senha deve conter no mínimo 1 caracter maiúsculo, 1 caracter minúsculo, 1 simbolo especial e tamanho de pelo menos 8.' });
             }
 
     try {
@@ -80,7 +80,7 @@ const user_signin = async (req, res) => {
     password = password.trim();
 
     if (email == "" || password == "") {
-        return res.json({
+        return res.status(400).json({
             status: "FAILURE",
             message: "Empty credentials supplied"
         });
@@ -90,7 +90,7 @@ const user_signin = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.json({
+            return res.status(401).json({
                 status: "FAILURE",
                 message: "Invalid credentials"
             });
@@ -109,7 +109,7 @@ const user_signin = async (req, res) => {
                 data: user
             });
         } else {
-            return res.json({
+            return res.status(401).json({
                 status: "FAILURE",
                 message: "Invalid password"
             });
@@ -145,17 +145,35 @@ const getUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    let user = await User.findById(req.params.id, req.body);
+    let user = await User.findById(req.params.id);
 
     if(!user){
         return res.status(404).json({ error: 'Usuário não encontrado' })
     }
     else{
+
+        req.body = JSON.parse(JSON.stringify(req.body))
+
+        let profileImage = user.profileImage
+        let coverImage = user.coverImage
+
+        console.log(req.body)
+
+        if(req.files.file1 !== undefined){
+            const file1 = req.files.file1[0];
+            profileImage = file1.destination + file1.filename
+        }
+
+        if(req.files.file2 !== undefined){
+            const file2 = req.files.file2[0]; 
+            coverImage = file2.destination + file2.filename
+        }
+
         // se achou o usuário
         //atualiza nome, bio, imagem e capa (se houver para troca)
         user = await User.findByIdAndUpdate(
             req.params.id,
-            { name: req.body.name, bio: req.body.bio, profileImage:req.body.profileImage, coverImage:req.body.coverImage }, 
+            { name: req.body.name, bio: req.body.bio, profileImage, coverImage }, 
             { new: true }
         );
     }        
