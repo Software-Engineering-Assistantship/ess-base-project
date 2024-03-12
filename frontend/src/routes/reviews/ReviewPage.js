@@ -1,8 +1,9 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import {IconButton} from "react"
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
+
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE = "http://localhost:3001";
 
@@ -23,13 +24,31 @@ const ReviewPage = () => {
     const [likes, setLikes] = useState(0);
     const [dislikes, setDislikes] = useState(0);
 
-    let userLogin = {
-        name: "pedro",
-        id: "65d51e36c3b06ec45cdd2ac8"
-    }
+    const [idUserLogin, setIdUserLogin] = useState(null);
 
     useEffect(() => {
-        if (iduser === userLogin.id) {
+
+        const getUserInfoFromToken = async () => {
+            const token = localStorage.getItem('token');
+    
+            if (token) {
+                try {
+                    const decoded = jwtDecode(token);
+                    const userID = decoded.userId;
+
+                    setIdUserLogin(userID)
+
+                } catch (error) {
+                    console.error("Failed to decode token", error);
+                }
+            }
+            return null;
+        };
+        getUserInfoFromToken()
+    }, []);
+
+    useEffect(() => {
+        if (iduser === idUserLogin) {
             setIsOwner(true)
         }
         async function fetchData() {
@@ -241,7 +260,7 @@ const ReviewPage = () => {
                         </button>
                         
                         </div>
-                    ): (<p></p>)}
+                    ): ("")}
                     <div className="restaurant-actions">
                         <p>Avalie este review:</p>
                         <div>
