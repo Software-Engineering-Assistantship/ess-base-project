@@ -173,7 +173,7 @@ const updateUser = async (req, res) => {
         //atualiza nome, bio, imagem e capa (se houver para troca)
         user = await User.findByIdAndUpdate(
             req.params.id,
-            { name: req.body.name, bio: req.body.bio, profileImage:profileImage, coverImage:coverImage }, 
+            { name: req.body.name, bio: req.body.bio, profileImage:req.body.profileImage, coverImage:req.body.coverImage }, 
             { new: true }
         );
     }        
