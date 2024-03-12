@@ -145,17 +145,35 @@ const getUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    let user = await User.findById(req.params.id, req.body);
+    let user = await User.findById(req.params.id);
 
     if(!user){
         return res.status(404).json({ error: 'Usuário não encontrado' })
     }
     else{
+
+        req.body = JSON.parse(JSON.stringify(req.body))
+
+        let profileImage = user.profileImage
+        let coverImage = user.coverImage
+
+        console.log(req.body)
+
+        if(req.files.file1 !== undefined){
+            const file1 = req.files.file1[0];
+            profileImage = file1.destination + file1.filename
+        }
+
+        if(req.files.file2 !== undefined){
+            const file2 = req.files.file2[0]; 
+            coverImage = file2.destination + file2.filename
+        }
+
         // se achou o usuário
         //atualiza nome, bio, imagem e capa (se houver para troca)
         user = await User.findByIdAndUpdate(
             req.params.id,
-            { name: req.body.name, bio: req.body.bio, profileImage:req.body.profileImage, coverImage:req.body.coverImage }, 
+            { name: req.body.name, bio: req.body.bio, profileImage, coverImage }, 
             { new: true }
         );
     }        
