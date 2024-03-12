@@ -14,7 +14,7 @@ const LandingPage = () => {
     return (
         <div> 
         <div className ="headerinicial">
-            <img src={logo} alt="logo" className="logo"/>
+            <img src={logo} alt="logo" className="logo4"/>
         </div>
 
         <div className="main-content">
