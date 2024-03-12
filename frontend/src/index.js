@@ -20,7 +20,7 @@ import UserEdit from './routes/UserEdit';
 
 import Feed from './routes/feed/Feed'
 import SearchResult from './routes/search/SearchResult'
-
+import Users from './routes/Users'
 const router = createBrowserRouter([
   {
     path:"/",
@@ -67,6 +67,11 @@ const router = createBrowserRouter([
         path: "/users/following/:id",
         element: <FollowingList />
       },
+      {
+        path: "/users",
+        element: <Users />
+      }
+      
     ]
   },
 
