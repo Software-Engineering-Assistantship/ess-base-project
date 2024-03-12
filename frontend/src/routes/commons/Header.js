@@ -50,6 +50,10 @@ const Header = () => {
         check = true;
     }
 
+    const handleRedirection = () => {
+        navigate("/users/" + loggedUserId)
+        window.location.reload()
+    }
 
     return (
     <div> 
@@ -83,7 +87,7 @@ const Header = () => {
                 {user === null ? (
                     <img src={noprofileimage} alt="noprofileimage" className="noprofileimage"/>
                 ) : (    
-                    <img src={renderImage(user)} alt="profileimage" className="noprofileimage"/>
+                    <img src={renderImage(user)} alt="profileimage" className="noprofileimage" onClick = {handleRedirection}/>
                 )}
         </div>
     </div>
