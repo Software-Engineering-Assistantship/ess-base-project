@@ -98,6 +98,10 @@ const router = createBrowserRouter([
       {
         path: "/users/edit/:id",
         element: <UserEdit />
+      },
+      {
+        path: "/users",
+        element: <Users />
       }
     ]
   },
