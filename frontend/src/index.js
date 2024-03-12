@@ -102,7 +102,27 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <Users />
-      }
+      },
+      {
+        path: "/reviews/:idrest/:iduser/create",
+        element: <ReviewCreate />
+      },
+      {
+        path: "/reviews/:idrest/:iduser/edit",
+        element: <ReviewEdit /> 
+      },
+      {
+        path: "/reviews/:idrest/:iduser",
+        element: <ReviewPage /> 
+      },
+      {
+        path: "/reviews/:idrest/",
+        element: <ReviewsRestaurant /> 
+      },
+      {
+        path: "/reviews/:iduser",
+        element: <ReviewsUser /> 
+      },
     ]
   },
 ])
