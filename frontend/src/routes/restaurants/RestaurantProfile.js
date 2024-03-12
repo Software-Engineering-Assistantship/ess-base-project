@@ -144,7 +144,7 @@ const RestaurantProfile = () => {
     return ( 
         <div>
             { restaurant && (
-                <div id="restaaurant-profile">
+                <div id="restaurant-profile">
                     {restaurant.coverImage !== "Noneundefined" && <img id="restaurant-cover" src={`${API_BASE}/${restaurant.coverImage}`} />}
                     <div className="restaurant-details">
                             <div id="img-and-data">
@@ -179,6 +179,82 @@ const RestaurantProfile = () => {
                                     </div>
                                     { restaurant.site && <a className="restaurant-atribute" id="restaurant-site" href={restaurant.site}> Site oficial </a>}
                                 </div>
+
+                                {ratingBool ? (
+                        <form id="restaurant-star-rating" onSubmit={editRating}>
+                        <h3>Sua avaliação</h3>
+                        <div id="restaurant-stars"> 
+                            {[...Array(totalStars)].map((star, index) => {
+                                const currentRating = index + 1;
+
+                                return (
+                                    <label key={index}>
+                                    <input
+                                        type="radio"
+                                        name="rating"
+                                        value={currentRating}
+                                        onChange={() => setRating(currentRating)}
+                                        required
+                                    />
+                                    <span
+                                        className="star"
+                                        style={{
+                                        color:
+                                            currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
+                                        }}
+                                        onMouseEnter={() => setHover(currentRating)}
+                                        onMouseLeave={() => setHover(null)}
+                                    >
+                                        &#9733;
+                                    </span>
+                                    </label>
+                                );
+                            })}
+                        </div>
+                        
+                        <button className="simple-button" id="create-button" type = "submit">
+                                <p>Atualizar Nota</p>
+                            </button>
+
+                        </form>
+                        ) : (
+                            <form id="restaurant-star-rating" onSubmit={createRating}>
+
+                                <h3 >Avalie esse restaurante</h3>
+                                <div id="restaurant-stars"> 
+                                    {[...Array(totalStars)].map((star, index) => {
+                                        const currentRating = index + 1;
+
+                                        return (
+                                            <label key={index}>
+                                            <input
+                                                type="radio"
+                                                name="rating"
+                                                value={currentRating}
+                                                onChange={() => setRating(currentRating)}
+                                                required
+                                            />
+                                            <span
+                                                className="star"
+                                                style={{
+                                                color:
+                                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
+                                                }}
+                                                onMouseEnter={() => setHover(currentRating)}
+                                                onMouseLeave={() => setHover(null)}
+                                            >
+                                                &#9733;
+                                            </span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+
+                                <button className="simple-button" id="create-button" type = "submit">
+                                        <p>Adicionar Nota</p>
+                                </button>
+
+                            </form>)}
                             </div>
 
                         <div id="add-and-map"> 
@@ -219,79 +295,6 @@ const RestaurantProfile = () => {
                 </div>
             )}
         <div>
-            {ratingBool ? (
-                <form onSubmit={editRating}>
-                    <p>Nota</p>
-                    {[...Array(totalStars)].map((star, index) => {
-                        const currentRating = index + 1;
-
-                        return (
-                            <label key={index}>
-                            <input
-                                type="radio"
-                                name="rating"
-                                value={currentRating}
-                                onChange={() => setRating(currentRating)}
-                                required
-                            />
-                            <span
-                                className="star"
-                                style={{
-                                color:
-                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
-                                }}
-                                onMouseEnter={() => setHover(currentRating)}
-                                onMouseLeave={() => setHover(null)}
-                            >
-                                &#9733;
-                            </span>
-                            </label>
-                        );
-                    })}
-                    
-                    <button className="simple-button" id="create-button" type = "submit">
-                            <p>Atualizar Nota</p>
-                        </button>
-
-                </form>
-            ) : (
-                <form onSubmit={createRating}>
-
-                    <p>Nota</p>
-                    {[...Array(totalStars)].map((star, index) => {
-                        const currentRating = index + 1;
-
-                        return (
-                            <label key={index}>
-                            <input
-                                type="radio"
-                                name="rating"
-                                value={currentRating}
-                                onChange={() => setRating(currentRating)}
-                                required
-                            />
-                            <span
-                                className="star"
-                                style={{
-                                color:
-                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
-                                }}
-                                onMouseEnter={() => setHover(currentRating)}
-                                onMouseLeave={() => setHover(null)}
-                            >
-                                &#9733;
-                            </span>
-                            </label>
-                        );
-                    })}
-                    
-                    <button className="simple-button" id="create-button" type = "submit">
-                            <p>Adicionar Nota</p>
-                        </button>
-
-                </form>
-            )}
-            
         </div>
         </div>
 );
