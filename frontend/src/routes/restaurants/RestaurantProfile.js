@@ -12,7 +12,7 @@ const RestaurantProfile = () => {
     const navigate = useNavigate()
     let user = {
         name: "pedro",
-        id: "65d558b610b3232a7a179dcb"
+        id: "65d51e36c3b06ec45cdd2ac8"
     }
 
     useEffect(() => {
