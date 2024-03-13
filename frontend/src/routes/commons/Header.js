@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import '../../style/Header.css'
 import logo from "../../assets/logo.svg";
-import noprofileimage from "../../assets/noprofileimage.png";
+import noprofileimage from "../../images/noprofileimage.png";
 import searchicon from "../../assets/searchicon.png";
 
 const API_BASE = "http://localhost:3001"
@@ -23,10 +23,11 @@ function getUserIdFromToken() {
 }
 
 function renderImage(user){
-    if(user.profileImage){
+    if(user.profileImage !== undefined){
         const image = `${API_BASE}/${user.profileImage}`
         return image
     }
+    console.log("oiii")
     return noprofileimage
 }
 
