@@ -62,7 +62,7 @@ const UserProfile = () => {
                 'Content-Type': 'application/json',
             }})
             .then(response => { if (response.ok)
-                setModalUnfollow(true); 
+                setModalFollow(true); 
                 setTimeout(() => {
                     setModalFollow(false);
                     window.location.reload(false)}, 

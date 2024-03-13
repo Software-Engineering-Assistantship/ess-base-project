@@ -197,20 +197,14 @@ const FollowingList = () => {
         </div>
 
         ) : (
-            followeds ? (
-            <div className="body-follow-no-user">
-                <div className="error-no-follow">   
-                    <h2>Usuário não segue outros usuários!</h2>
-                    <Link className="view-button-follow" to={`/users/${id}`}> voltar </Link>
-                </div>    
-            </div> 
-            ) : (
+            
             <div className="body-follow-no-user">
                 <div className="error-no-follow">   
                     <h2>Loading</h2>
+                    <Link className="view-button-follow" to={`/users/${id}`}> voltar </Link>
                 </div>    
             </div>
-            )
+            
             
         )
     )
