@@ -146,7 +146,7 @@ const FollowersList = () => {
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link-follow" onClick={(e) => {follow(follower._id, e)}} alert="Você seguiu com sucesso">
+                                        <Link className="link-follow" onClick={(e) => {follow(follower._id, e)}}>
                                             <div className="follow-button">
                                                 <p>Seguir</p>
                                             </div>
@@ -159,7 +159,7 @@ const FollowersList = () => {
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link-follow" onClick={(e) => {unfollow(follower._id, e)}} alert="Você deixou de seguir com sucesso">
+                                        <Link className="link-follow" onClick={(e) => {unfollow(follower._id, e)}}>
                                             <div className="unfollow-button">
                                                 <p>Deixar de seguir</p>
                                             </div>

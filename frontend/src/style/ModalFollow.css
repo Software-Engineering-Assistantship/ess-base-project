@@ -37,12 +37,3 @@
     color: #0a0200;
     font-weight: bolder;
 }
-
-    .modal-follow-close:hover {
-        transform: scale(1.2);
-    }
-
-    .modal-follow-close:active {
-        box-shadow: 0.2em 0.2em 0.3em rgba(0, 0, 0, 0.3);
-        transform: scale(1.1);
-    }

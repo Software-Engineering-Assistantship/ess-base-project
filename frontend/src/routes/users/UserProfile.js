@@ -121,7 +121,7 @@ const UserProfile = () => {
                             )}
                         </div>
                         <div class="profileInfo">
-                            <p class="nameuser">{user.name}</p>
+                            <p className="nameuser">{user.name}</p>
                             <p class="biouser">{user.bio}</p>
                             <div class="followuser">
                                 <Link class="followersuser" to={`/users/followers/${id}`} data-cy="num-seguidores">
