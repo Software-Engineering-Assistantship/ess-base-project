@@ -166,7 +166,7 @@ const user_unfollow = async (req, res) => {
     //user that will be unfollowed 
     //ID in the parameters
     const user_page = await User.findById(req.params.idp)
-    console.log("user_page", user_page)
+    
     if(!user_page){
         return res.status(404).json({ error: 'Usuário não encontrado'})
 
@@ -175,7 +175,7 @@ const user_unfollow = async (req, res) => {
         //user unfollowing
         //ID in body
         const user_log = await User.findById(req.params.idl) 
-        console.log("user_log", user_log)
+        
         try{
             
             //if user_page is followed by user_log

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
 
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
-
 import '../../style/Restaurants.css';
+
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE = "http://localhost:3001";
 
@@ -16,6 +16,29 @@ const ReviewsRestaurant = () => {
     const [avg, setAvg] = useState(0);
 
     const { idrest } = useParams();
+
+    const [idUserLogin, setIdUserLogin] = useState(null);
+
+    useEffect(() => {
+
+        const getUserInfoFromToken = async () => {
+            const token = localStorage.getItem('token');
+    
+            if (token) {
+                try {
+                    const decoded = jwtDecode(token);
+                    const userID = decoded.userId;
+
+                    setIdUserLogin(userID)
+
+                } catch (error) {
+                    console.error("Failed to decode token", error);
+                }
+            }
+            return null;
+        };
+        getUserInfoFromToken()
+    }, []);
 
     let user = {
         name: "pedro",
@@ -92,7 +115,7 @@ const ReviewsRestaurant = () => {
             }
         };
         getUsernames();
-    }, [reviews, user.id]);
+    }, [reviews, idUserLogin]);
 
     return (
         <div>
@@ -154,7 +177,7 @@ const ReviewsRestaurant = () => {
                                     })}
                                 </div>
                                 <p>{usernames[review.user]}</p>
-                                {review.user == user.id ? (
+                                {review.user == idUserLogin ? (
                                     <p>(você)</p>
                                 ):(
                                     <p></p>

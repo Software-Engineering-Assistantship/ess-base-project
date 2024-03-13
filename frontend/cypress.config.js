@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+
 const cucumberPreprocessor = require("@badeball/cypress-cucumber-preprocessor");
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const { createEsbuildPlugin } = require("@badeball/cypress-cucumber-preprocessor/esbuild");
@@ -34,5 +35,23 @@ module.exports = defineConfig({
     },
     baseUrl: "http://localhost:3000",
     specPattern: "cypress/e2e/**/*.feature",
+
+const cucumber = require('cypress-cucumber-preprocessor').default
+
+module.exports = defineConfig({
+
+  e2e: {
+    setupNodeEvents(on, config) {
+      on('file:preprocessor', cucumber())
+    },
+    specPattern: "cypress/e2e/*.feature",
+  },
+
+  component: {
+    devServer: {
+      framework: "create-react-app",
+      bundler: "webpack",
+    },
+
   },
 });

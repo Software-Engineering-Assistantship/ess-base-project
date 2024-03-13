@@ -1,10 +1,10 @@
 import React from 'react';
 import { Form, useNavigate, useParams } from "react-router-dom"
-import { useState, useEffect, useRef } from "react"
-import '../style/ProfileCard.css'
-import noProfileImage from "../images/noprofileimage.png"
-import noCoverImage from "../images/nocoverimage.png"
-import iconPencil from "../images/iconpencil.png"
+import {  useState, useEffect, useRef  } from "react"
+import '../../style/ProfileCard.css'
+import noProfileImage from "../../images/noprofileimage.png"
+import noCoverImage from "../../images/nocoverimage.png"
+import iconPencil from "../../images/iconpencil.png"
 import axios from "axios";
 
 const API_BASE = "http://localhost:3001"

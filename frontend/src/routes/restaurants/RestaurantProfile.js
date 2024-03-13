@@ -3,17 +3,16 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from 'axios';
 
+import { jwtDecode } from "jwt-decode";
 const API_BASE = "http://localhost:3001"
 
 const RestaurantProfile = () => {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams()
 
+    const [idUserLogin, setIdUserLogin] = useState(null);
+
     const navigate = useNavigate()
-    let user = {
-        name: "pedro",
-        id: "65d51e36c3b06ec45cdd2ac8"
-    }
 
     useEffect(() => {
         fetch( API_BASE + '/restaurants/' + id)
@@ -27,7 +26,6 @@ const RestaurantProfile = () => {
                 })
             })
     }, []); 
-
     const [rating, setRating] = useState('');
     const [hover, setHover] = useState(null);
     const [totalStars, setTotalStars] = useState(5);
@@ -37,74 +35,91 @@ const RestaurantProfile = () => {
     const [hasReview, setHasReview] = useState(false)
 
     useEffect(() => {
-        const getOldRating = async () => {
-            try {
-                const oldRating = await axios.get(`${API_BASE}/ratings/${id}/${user.id}`);
 
-                if (oldRating.status === 200) {
-                    setRatingBool(true);
-                    setRating(oldRating.data.rating);
-                }
-            } catch (error) {
-                if (error.response && error.response.status !== 404) {
-                    console.error('Erro ao fazer a solicitação para a API', error);
-                }
-            }
-        };
+        const getUserInfoFromToken = async () => {
+            const token = localStorage.getItem('token');
+    
+            if (token) {
+                try {
+                    const decoded = jwtDecode(token);
+                    const userID = decoded.userId;
 
-        const getAvg = async () => {
-            try {
-                const response = await axios.get(`${API_BASE}/ratings/${id}/avg`);
+                    setIdUserLogin(userID)
 
-                if (response.status === 200) {
-                    setAvg(response.data);
-                }
-            } catch (error) {
-                if (error.response && error.response.status !== 404) {
-                    console.error('Erro ao fazer a solicitação para a API', error);
+                    await getOldRating(userID);
+                    await getAvg(userID);
+                    await getRatings(userID);
+                    await getReview(userID);
+                } catch (error) {
+                    console.error("Failed to decode token", error);
                 }
             }
+            return null;
         };
+        getUserInfoFromToken()
+    }, []);
 
-        const getRatings = async () => {
-            try {
-                const response = await axios.get(`${API_BASE}/ratings/${id}`);
+    async function getOldRating(userID) {
+        try {
+            const oldRating = await axios.get(`${API_BASE}/ratings/${id}/${userID}`);
 
-                if (response.status === 200) {
-                    setNumRatings(response.data.length);
-                }
-            } catch (error) {
-                if (error.response && error.response.status !== 404) {
-                    console.error('Erro ao fazer a solicitação para a API', error);
-                }
+            if (oldRating.status === 200) {
+                setRatingBool(true);
+                setRating(oldRating.data.rating);
             }
-        };
-
-        const getReview = async () => {
-            try {
-                const response = await axios.get(`${API_BASE}/reviews/${id}/${user.id}`);
-
-                if (response.status === 200) {
-                    setHasReview(true)
-                }
-            } catch (error) {
-                if (error.response && error.response.status !== 404) {
-                    console.error('Erro ao fazer a solicitação para a API', error);
-                }
+        } catch (error) {
+            if (error.response && error.response.status !== 404) {
+                console.error('Erro ao fazer a solicitação para a API', error);
             }
-        };
+        }
+    };
 
-        getOldRating();
-        getAvg();
-        getRatings();
-        getReview();
-    }, [id, user.id]);
+    async function getAvg() {
+        try {
+            const response = await axios.get(`${API_BASE}/ratings/${id}/avg`);
 
+            if (response.status === 200) {
+                setAvg(response.data);
+            }
+        } catch (error) {
+            if (error.response && error.response.status !== 404) {
+                console.error('Erro ao fazer a solicitação para a API', error);
+            }
+        }
+    };
+
+    async function getRatings() {
+        try {
+            const response = await axios.get(`${API_BASE}/ratings/${id}`);
+
+            if (response.status === 200) {
+                setNumRatings(response.data.length);
+            }
+        } catch (error) {
+            if (error.response && error.response.status !== 404) {
+                console.error('Erro ao fazer a solicitação para a API', error);
+            }
+        }
+    };
+
+    async function getReview (userID) {
+        try {
+            const response = await axios.get(`${API_BASE}/reviews/${id}/${userID}`);
+
+            if (response.status === 200) {
+                setHasReview(true)
+            }
+        } catch (error) {
+            if (error.response && error.response.status !== 404) {
+                console.error('Erro ao fazer a solicitação para a API', error);
+            }
+        }
+    };
 
     async function createRating(ev) {
         try {
-            const response = await axios.post(`${API_BASE}/ratings/${id}/${user.id}/create`, {
-                user: user.id,
+            const response = await axios.post(`${API_BASE}/ratings/${id}/${idUserLogin}/create`, {
+                user: idUserLogin,
                 restaurant: id,
                 rating: rating,
             });
@@ -116,8 +131,8 @@ const RestaurantProfile = () => {
     async function editRating(ev) {
 
         try {
-            const response = await axios.put(`${API_BASE}/ratings/${id}/${user.id}/edit`, {
-                user: user.id,
+            const response = await axios.put(`${API_BASE}/ratings/${id}/${idUserLogin}/edit`, {
+                user: idUserLogin,
                 restaurant: id,
                 rating: rating,
             });
@@ -129,7 +144,7 @@ const RestaurantProfile = () => {
     async function deleteReview(ev) {
         
         try {
-            const response = await axios.delete(`${API_BASE}/reviews/${id}/${user.id}/delete`);
+            const response = await axios.delete(`${API_BASE}/reviews/${id}/${idUserLogin}/delete`);
 
             if (response.status === 200) {
                 window.location.reload(false);
@@ -144,7 +159,7 @@ const RestaurantProfile = () => {
     return ( 
         <div>
             { restaurant && (
-                <div id="restaaurant-profile">
+                <div id="restaurant-profile">
                     {restaurant.coverImage !== "Noneundefined" && <img id="restaurant-cover" src={`${API_BASE}/${restaurant.coverImage}`} />}
                     <div className="restaurant-details">
                             <div id="img-and-data">
@@ -155,11 +170,11 @@ const RestaurantProfile = () => {
                                     <p className="restaurant-atribute"> Tipo de comida: {restaurant.typeOfFood}</p>
                                     {numRatings !== 1 ? (
                                         <div>
-                                            {numRatings} Reviews
+                                            {numRatings} Avaliações
                                         </div>
                                     ) : (
                                         <div>
-                                            {numRatings} Review
+                                            {numRatings} Avaliação
                                         </div>
                                         
                                     )}
@@ -179,6 +194,82 @@ const RestaurantProfile = () => {
                                     </div>
                                     { restaurant.site && <a className="restaurant-atribute" id="restaurant-site" href={restaurant.site}> Site oficial </a>}
                                 </div>
+
+                                {ratingBool ? (
+                        <form id="restaurant-star-rating" onSubmit={editRating}>
+                        <h3>Sua avaliação</h3>
+                        <div id="restaurant-stars"> 
+                            {[...Array(totalStars)].map((star, index) => {
+                                const currentRating = index + 1;
+
+                                return (
+                                    <label key={index}>
+                                    <input
+                                        type="radio"
+                                        name="rating"
+                                        value={currentRating}
+                                        onChange={() => setRating(currentRating)}
+                                        required
+                                    />
+                                    <span
+                                        className="star"
+                                        style={{
+                                        color:
+                                            currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
+                                        }}
+                                        onMouseEnter={() => setHover(currentRating)}
+                                        onMouseLeave={() => setHover(null)}
+                                    >
+                                        &#9733;
+                                    </span>
+                                    </label>
+                                );
+                            })}
+                        </div>
+                        
+                        <button className="simple-button" id="create-button" type = "submit">
+                                <p>Atualizar Nota</p>
+                            </button>
+
+                        </form>
+                        ) : (
+                            <form id="restaurant-star-rating" onSubmit={createRating}>
+
+                                <h3 >Avalie esse restaurante</h3>
+                                <div id="restaurant-stars"> 
+                                    {[...Array(totalStars)].map((star, index) => {
+                                        const currentRating = index + 1;
+
+                                        return (
+                                            <label key={index}>
+                                            <input
+                                                type="radio"
+                                                name="rating"
+                                                value={currentRating}
+                                                onChange={() => setRating(currentRating)}
+                                                required
+                                            />
+                                            <span
+                                                className="star"
+                                                style={{
+                                                color:
+                                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
+                                                }}
+                                                onMouseEnter={() => setHover(currentRating)}
+                                                onMouseLeave={() => setHover(null)}
+                                            >
+                                                &#9733;
+                                            </span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+
+                                <button className="simple-button" id="create-button" type = "submit">
+                                        <p>Adicionar Nota</p>
+                                </button>
+
+                            </form>)}
                             </div>
 
                         <div id="add-and-map"> 
@@ -198,7 +289,7 @@ const RestaurantProfile = () => {
                         </Link>
                         {hasReview ? (
                             <div>
-                                <Link id="edit-review" to={'/reviews/'+id+'/'+user.id+'/edit'}>
+                                <Link id="edit-review" to={'/reviews/'+id+'/'+idUserLogin+'/edit'}>
                                 Editar review
                                 </Link>
                                 <button className="simple-button" id="create-button" onClick={() => deleteReview()}>
@@ -207,7 +298,7 @@ const RestaurantProfile = () => {
                             </div>
                             
                         ) : (
-                            <Link id="create-review" to={'/reviews/'+id+'/'+user.id+'/create'}>
+                            <Link id="create-review" to={'/reviews/'+id+'/'+idUserLogin+'/create'}>
                             Criar review
                             </Link>
                         )}
@@ -219,79 +310,6 @@ const RestaurantProfile = () => {
                 </div>
             )}
         <div>
-            {ratingBool ? (
-                <form onSubmit={editRating}>
-                    <p>Nota</p>
-                    {[...Array(totalStars)].map((star, index) => {
-                        const currentRating = index + 1;
-
-                        return (
-                            <label key={index}>
-                            <input
-                                type="radio"
-                                name="rating"
-                                value={currentRating}
-                                onChange={() => setRating(currentRating)}
-                                required
-                            />
-                            <span
-                                className="star"
-                                style={{
-                                color:
-                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
-                                }}
-                                onMouseEnter={() => setHover(currentRating)}
-                                onMouseLeave={() => setHover(null)}
-                            >
-                                &#9733;
-                            </span>
-                            </label>
-                        );
-                    })}
-                    
-                    <button className="simple-button" id="create-button" type = "submit">
-                            <p>Atualizar Nota</p>
-                        </button>
-
-                </form>
-            ) : (
-                <form onSubmit={createRating}>
-
-                    <p>Nota</p>
-                    {[...Array(totalStars)].map((star, index) => {
-                        const currentRating = index + 1;
-
-                        return (
-                            <label key={index}>
-                            <input
-                                type="radio"
-                                name="rating"
-                                value={currentRating}
-                                onChange={() => setRating(currentRating)}
-                                required
-                            />
-                            <span
-                                className="star"
-                                style={{
-                                color:
-                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
-                                }}
-                                onMouseEnter={() => setHover(currentRating)}
-                                onMouseLeave={() => setHover(null)}
-                            >
-                                &#9733;
-                            </span>
-                            </label>
-                        );
-                    })}
-                    
-                    <button className="simple-button" id="create-button" type = "submit">
-                            <p>Adicionar Nota</p>
-                        </button>
-
-                </form>
-            )}
-            
         </div>
         </div>
 );

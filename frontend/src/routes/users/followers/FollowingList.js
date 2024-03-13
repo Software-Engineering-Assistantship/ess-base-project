@@ -1,7 +1,7 @@
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import ProfileImage from "../images/noprofileimage.png"
-import '../style/FollowList.css'
+import ProfileImage from "../../../images/noprofileimage.png"
+import '../../../style/FollowList.css'
 
 const API_BASE = "http://localhost:3001"
 
@@ -120,7 +120,7 @@ const FollowingList = () => {
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link-follow" onClick={(e) => {follow(followed._id, e)}}>
+                                        <Link className="link-follow" onClick={(e) => {follow(followed._id, e)}} alert="Você seguiu com sucesso">
                                             <div className="follow-button">
                                                 <p>Seguir</p>
                                             </div>
@@ -133,7 +133,7 @@ const FollowingList = () => {
                                                 <p>Ver perfil</p>
                                             </div>
                                         </Link>
-                                        <Link className="link-follow" onClick={(e) => {unfollow(followed._id, e)}}>
+                                        <Link className="link-follow" onClick={(e) => {unfollow(followed._id, e)}} alert="Você deixou de seguir com sucesso">
                                             <div className="unfollow-button">
                                                 <p>Deixar de seguir</p>
                                             </div>

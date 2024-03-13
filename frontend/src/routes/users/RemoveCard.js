@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
-import '../style/RemoveCard.css'
+import '../../style/RemoveCard.css'
 import axios from "axios";
-import Modal from "./commons/Modal.js"
+import Modal from "../commons/Modal.js"
 
 const API_BASE = "http://localhost:3001"
 

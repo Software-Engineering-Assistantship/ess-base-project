@@ -1,9 +1,9 @@
 import { useParams, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
-import ProfileImage from "../images/noprofileimage.png"
-import CoverImage from "../images/nocoverimage.png"
+import ProfileImage from "../../images/noprofileimage.png"
+import CoverImage from "../../images/nocoverimage.png"
 
-import '../style/UserProfile.css'
+import '../../style/UserProfile.css'
 
 const API_BASE = "http://localhost:3001"
 
@@ -37,6 +37,9 @@ const UserProfile = () => {
                 response.json().then(data => {
                     setUser(data)
                 })
+            }).catch(err => {
+                console.error("Error: ", err);
+                setError(err.message);
             }).then(fetch( API_BASE + '/users/' + currentUserId)
             .then(response => {
                 response.json().then(data => {
@@ -81,7 +84,6 @@ const UserProfile = () => {
 
     const check1 = user && user.profileImage;
     const check2 = user && user.coverImage;
-    const check3 = user && (currentUserId === id)
 
     return (user && currentUser ? (
             <div class="tudinho">
@@ -105,23 +107,23 @@ const UserProfile = () => {
                             <p class="nameuser">{user.name}</p>
                             <p class="biouser">{user.bio}</p>
                             <div class="followuser">
-                                <Link class="followersuser" to={`/users/followers/${id}`}>
+                                <Link class="followersuser" to={`/users/followers/${id}`} data-cy="num-seguidores">
                                     {user.followers.length ?? 0} SEGUIDORES
                                 </Link>
-                                <Link class="followinguser" to={`/users/following/${id}`}>
+                                <Link class="followinguser" to={`/users/following/${id}`} data-cy="num-seguindo">
                                     {user.following.length ?? 0} SEGUINDO
                                 </Link> 
                             </div>
                         </div>
                         <div className="followbutton">
                             
-                                {!check3 ? (
+                                {(currentUser._id !== id) ? (
                         
                                     ((currentUser.following) ? 
                                     
                                         (!currentUser.following.includes(id) ? (
                                             
-                                            <Link className="link-follow" onClick={(e) => {follow(id, e)}}>
+                                            <Link className="link-follow" data-cy="seguir-profile" onClick={(e) => {follow(id, e)}}>
                                                 <div className="follow-button-user-page">
                                                     <p>Seguir</p>
                                                 </div>
@@ -129,7 +131,7 @@ const UserProfile = () => {
                                             
                                             ) : (
                                             
-                                            <Link className="link-follow" onClick={(e) => {unfollow(id, e)}}>
+                                            <Link className="link-follow" data-cy="deixar-de-seguir-profile" onClick={(e) => {unfollow(id, e)}}>
                                                 <div className="unfollow-button-user-page">
                                                     <p>Deixar de seguir</p>
                                                 </div>
@@ -151,7 +153,7 @@ const UserProfile = () => {
                 </div>
                 <div class="buttonsuserprofile" >
                     <button class="buttonreviews"> REVIEWS </button>
-                    {check3 ? (
+                    {(currentUser._id !== id) ? (
                         <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                     ) : null
                     }

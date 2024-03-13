@@ -9,14 +9,15 @@ import RestaurantProfile from './routes/restaurants/RestaurantProfile'
 import RestaurantCreate from './routes/restaurants/RestaurantCreate'
 import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
-import UserProfile from './routes/UserProfile'
-import FollowersList from './routes/FollowersList'
-import FollowingList from './routes/FollowingList' 
+import UserProfile from './routes/users/UserProfile'
+import UserEdit from './routes/users/UserEdit'
+import FollowersList from './routes/users/followers/FollowersList'
+import FollowingList from './routes/users/followers/FollowingList' 
 
 import LandingPage from './routes/landingpage/LandingPage'
 import Login from './routes/login/login'
 import Signup from './routes/signup/Signup'
-import UserEdit from './routes/UserEdit';
+
 
 import Feed from './routes/feed/Feed'
 import SearchResult from './routes/search/SearchResult'

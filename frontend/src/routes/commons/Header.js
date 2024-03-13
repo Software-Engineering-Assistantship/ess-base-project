@@ -32,6 +32,7 @@ function renderImage(user){
 
 const Header = () => {
     let navigate = useNavigate()
+    const [error, setError] = useState(null)
     const [restaurant, setRestaurant] = useState("");
     const loggedUserId = getUserIdFromToken()
     const [user, setUser] = useState(null);
@@ -42,6 +43,9 @@ const Header = () => {
                 response.json().then(data =>{
                     setUser(data)
                 })
+            }).catch(err => {
+                console.error("Error: ", err);
+                setError(err.message);
             })
     }, []);
 
