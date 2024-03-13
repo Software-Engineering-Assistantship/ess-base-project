@@ -57,17 +57,18 @@
     text-decoration: underline;
   }
 
-  .input-field1 .input-field2 {
-    width: 25%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #9FA0A5;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
-    background-color: #F0E7DE;
+.input-field1 .input-field2 {
+  width: 25%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #9FA0A5;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #F0E7DE;
 }
+
 
 .left-align {
   text-align: left;

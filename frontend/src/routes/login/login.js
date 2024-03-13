@@ -76,7 +76,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)} 
                     className="input-field2"
                 />
-                {loginFailed && <p style={{ color: 'red' }}>Login falhou, por favor tente novamente.</p>}
+                {loginFailed && <p style={{ color: 'red' }} className="loginfalha">Login falhou, por favor tente novamente.</p>}
                 <button onClick={handleLogin} className="loginbutton">Login</button>
                 <p className="login-link"><Link to="/Signup" className="blue-text">Não possui conta?</Link></p>
             </div>
