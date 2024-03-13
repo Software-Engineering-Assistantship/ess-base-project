@@ -41,8 +41,8 @@ export async function getAllCategories({
   return response.data
 }
 
-export async function createMenuItem(menuItem: MenuItemBody) {
-  await api.post('/menu', {
+async function sendMenuItemRequest(endpoint: string, menuItem: MenuItemBody) {
+  await api.post(endpoint, {
     title: menuItem.title,
     description: menuItem.description,
     price: menuItem.price,
@@ -51,15 +51,14 @@ export async function createMenuItem(menuItem: MenuItemBody) {
   })
 }
 
-export async function updateMenuItem(menuItem: MenuItemBody) {
-  await api.patch(`/menu/item/${menuItem.id}`, {
-    title: menuItem.title,
-    description: menuItem.description,
-    price: menuItem.price,
-    quantity: menuItem.quantity,
-    categoryId: menuItem.categoryId,
-  })
+export async function createMenuItem(menuItem: MenuItemBody) {
+  await sendMenuItemRequest('/menu', menuItem);
 }
+
+export async function updateMenuItem(menuItem: MenuItemBody) {
+  await sendMenuItemRequest(`/menu/item/${menuItem.id}`, menuItem);
+}
+
 
 export async function deleteMenuItem(menuItemId: string) {
   await api.delete(`/menu/item/${menuItemId}`)
