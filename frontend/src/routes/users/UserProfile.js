@@ -37,6 +37,9 @@ const UserProfile = () => {
                 response.json().then(data => {
                     setUser(data)
                 })
+            }).catch(err => {
+                console.error("Error: ", err);
+                setError(err.message);
             }).then(fetch( API_BASE + '/users/' + currentUserId)
             .then(response => {
                 response.json().then(data => {
@@ -150,7 +153,7 @@ const UserProfile = () => {
                 </div>
                 <div class="buttonsuserprofile" >
                     <button class="buttonreviews"> REVIEWS </button>
-                    {check3 ? (
+                    {(currentUser._id !== id) ? (
                         <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                     ) : null
                     }
