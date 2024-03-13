@@ -10,28 +10,22 @@
   font-size: 16px;
 }
 
-.headerinicial{
-    width: 100%;
-    height: 85px;
-    background-color: #B92727;
-    display: flex;
-    justify-content: center;
-}
+
 .users-page {
     max-width: 960px;
     margin: 30px auto;
     padding: 20px;
-    background: #ffffff;
+    background: #B92727;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .users-page h1 {
-    color: #333;
+    color: white;
     text-align: center;
     padding-bottom: 20px;
-    border-bottom: 1px solid #F0E7DE;
-    margin-bottom: 30px;
+    border-bottom: 1px solid #B92727;
+    margin-bottom: 5px;
 }
 
 .alluserinfo {
@@ -43,11 +37,11 @@
 
 .infouser {
     padding: 15px;
-    border-bottom: 1px solid #F0E7DE;
+    border-bottom: 1px solid #B92727;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #ffffff;
+    
 }
 
 .infouser:last-child {
@@ -57,26 +51,26 @@
 .user-details {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
+    
     
 }
 
 .user-details h2 {
     margin: 0 10px 0 0;
-    color: #007bff;
+    color: #B92727;
     font-size: 1.2rem;
-    background-color: #ffffff;
+    
 }
 
 .user-details p {
     margin: 0;
     color: #666;
-    background-color: #ffffff;
+    
 }
 
 .buttonuserpage {
     padding: 8px 16px;
-    background-color: #007bff;
+    background-color: #F09682;
     color: white;
     border: none;
     border-radius: 4px;
@@ -85,7 +79,7 @@
 }
 
 .buttonuserpage:hover {
-    background-color: #0056b3;
+    background-color: #af6e5f;
 }
 
 .loading {
@@ -102,7 +96,7 @@
 .buttonuserpage {
     display: inline-block;
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #F09682;
     color: white;
     text-align: center;
     border: none;
@@ -110,3 +104,31 @@
     border-radius: 5px; /* Optional: adds rounded corners */
     cursor: pointer;
 }
+
+.nameuserlist2 {
+    text-align: center;
+    color: white;
+    font-size: 2em; /* Adjust this value as needed */
+}
+
+/* Estilos para a barra de pesquisa */
+.search-bar {
+    padding: 10px;
+    margin: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .user-image-container {
+    flex-shrink: 0; /* Prevents image from shrinking */
+  }
+  
+  .user-image {
+    width: 70px; /* Adjust size as needed */
+    height: 70px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes image circular */
+    object-fit: cover; /* Ensures image covers the area without distortion */
+  }
+  

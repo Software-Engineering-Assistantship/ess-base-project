@@ -1,0 +1,9 @@
+
+
+.headerinicial{
+    width: 100%;
+    height: 85px;
+    background-color: #B92727;
+    display: flex;
+    justify-content: center;
+}

@@ -4,7 +4,7 @@ import '../../style/Login.css';
 import React from "react";
 import logo from "../../assets/logo.svg";
 import axios from "axios";
-
+import Headerinicial from "../../components/headerinicial/headerinicial";
 const API_BASE = "http://localhost:3001";
 
 function getUserIdFromToken() {
@@ -56,9 +56,7 @@ const Login = () => {
     
     return (
         <div>
-            <div className="headerinicial">
-                <img src={logo} alt="logo" className="logo4"/>
-            </div>
+            <Headerinicial />
             <div className="main-content">
                 <p className="titlelogin">Login</p>
                 <div className="line"></div>
