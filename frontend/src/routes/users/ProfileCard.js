@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import {  useState, useEffect, useRef  } from "react"
 import '../../style/ProfileCard.css'
 import noProfileImage from "../../images/noprofileimage.png"
@@ -46,16 +46,6 @@ const ProfileCard = () => {
             })
     }, []); 
 
-    
-    // let check1 = false;
-    // if(user && !user.profileImage) {
-    //     check1 = true;    
-    // }
-   
-    // let check2 = false;
-    // if(user && !user.coverImage) {
-    //     check2 = true;
-    // }
     
     if(user && !user.bio){
         user.bio = "";
