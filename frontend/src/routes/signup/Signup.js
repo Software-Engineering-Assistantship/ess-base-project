@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Step 1: Import useNavigate
 import { useState } from "react";
 import axios from "axios";
 import logo from "../../assets/logo.svg";
@@ -15,6 +15,7 @@ const Signup = () => {
         password: ""
     });
     const [passwordError, setPasswordError] = useState(false);
+    const navigate = useNavigate(); // Step 2: Initialize useNavigate
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +34,8 @@ const Signup = () => {
         try {
             const response = await axios.post(`${API_BASE}/users/signup`, formData);
             console.log("Signup successful:", response.data);
-            // Redirect the user or show a success message here
+            // Redirect the user to the login page
+            navigate('/login'); // Step 3: Navigate to login page
         } catch (error) {
             console.error("Signup failed:", error.response.data);
             // Show an error message to the user
