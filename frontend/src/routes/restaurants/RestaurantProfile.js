@@ -2,14 +2,11 @@ import { useParams } from "react-router-dom"
 import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import axios from 'axios';
-
-import { jwtDecode } from "jwt-decode";
-
-
 import NoImg from "../../assets/almocin_logo_red.png"
 import EditIcon from "../../assets/pencil.png"
 import AddIcon from "../../assets/add.png"
 import PageIcon from "../../assets/page.png"
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE = "http://localhost:3001"
 

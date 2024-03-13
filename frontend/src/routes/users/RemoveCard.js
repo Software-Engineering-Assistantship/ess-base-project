@@ -39,7 +39,7 @@ const RemoveCard = () => {
                 console.error('Error making PUT request:', error);
             })
             .finally(() => {
-                navigate('/landingpage')
+                navigate('/login')
             });
         }
     };

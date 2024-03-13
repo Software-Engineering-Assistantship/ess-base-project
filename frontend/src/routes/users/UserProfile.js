@@ -170,7 +170,7 @@ const UserProfile = () => {
                 </div>
                 <div class="buttonsuserprofile" >
                     <button class="buttonreviews"> REVIEWS </button>
-                    {(currentUser._id !== id) ? (
+                    {!(currentUser._id !== id) ? (
                         <button class="buttonedit" onClick={() => navigate("/users/edit/" + id)}></button>
                     ) : null
                     }
