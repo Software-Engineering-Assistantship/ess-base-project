@@ -11,8 +11,7 @@ import RestaurantUpdate from './routes/restaurants/RestaurantUpdate'
 import ErrorPage from './routes/ErrorPage'
 import UserProfile from './routes/users/UserProfile'
 import UserEdit from './routes/users/UserEdit'
-import FollowersList from './routes/users/followers/FollowersList'
-import FollowingList from './routes/users/followers/FollowingList' 
+import FollowList from './routes/users/followers/FollowList' 
 
 import LandingPage from './routes/landingpage/LandingPage'
 import Login from './routes/login/login'
@@ -58,11 +57,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/users/followers/:id",
-        element: <FollowersList />
+        element: <FollowList followers = {true}/>
       },
       {
         path: "/users/following/:id",
-        element: <FollowingList />
+        element: <FollowList followers = {false}/>
       },
       {
         path: "/feed",
@@ -75,14 +74,6 @@ const router = createBrowserRouter([
       {
         path: "/users/:id",
         element: <UserProfile />,
-      },
-      {
-        path: "/users/followers/:id",
-        element: <FollowersList />
-      },
-      {
-        path: "/users/following/:id",
-        element: <FollowingList />
       },
       {
         path: "/users/edit/:id",
