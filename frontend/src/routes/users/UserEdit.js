@@ -46,7 +46,7 @@ const UserEdit = () => {
         setRemoveCard(!removeCard);
     };
 
-    return ( userImageExists(user) ? (
+    return ( (user) ? (
             <div class="tudinhoo">
                 <div class="cardmenu">
                     <div class="topinfo">
