@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom";
-import Header from "../commons/Header.js";
 
 import '../../style/Restaurants.css'
+import NoImg from "../../assets/almocin_logo_red.png"
 
 const API_BASE = "http://localhost:3001"
 
@@ -40,7 +40,11 @@ const Restaurants = () => {
                 {restaurants.map(restaurant => (
                     <div className="restaurant-preview" key={restaurant.id}> 
                         <div id="img-and-description">
-                            <img id="restaurant-img-preview" src={`${API_BASE}/${restaurant.profileImage}`} />
+
+                            {restaurant.profileImage !== "Noneundefined" && <img id="restaurant-img-preview" src={`${API_BASE}/${restaurant.profileImage}`} />}
+                            
+                            {restaurant.profileImage == "Noneundefined" && <img id="restaurant-img-preview" src={NoImg} />}
+
                             <div id = "preview-description">
                                 <h2>{restaurant.name}</h2>
                                 <p>{restaurant.address.neighborhood} - {restaurant.address.city}</p>

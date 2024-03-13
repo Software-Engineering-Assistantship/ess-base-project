@@ -6,6 +6,11 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 const API_BASE = "http://localhost:3001"
 
+import NoImg from "../../assets/almocin_logo_red.png"
+import EditIcon from "../../assets/pencil.png"
+import AddIcon from "../../assets/add.png"
+import PageIcon from "../../assets/page.png"
+
 const RestaurantProfile = () => {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams()
@@ -160,157 +165,174 @@ const RestaurantProfile = () => {
         <div>
             { restaurant && (
                 <div id="restaurant-profile">
-                    {restaurant.coverImage !== "Noneundefined" && <img id="restaurant-cover" src={`${API_BASE}/${restaurant.coverImage}`} />}
-                    <div className="restaurant-details">
-                            <div id="img-and-data">
-                                {restaurant.profileImage == "Noneundefined" && <img id="restaurant-img" src="%PUBLIC_URL%/no_restaurant_img.jpg" />}
-                                {restaurant.profileImage !== "Noneundefined" && (<img id="restaurant-img" src={`${API_BASE}/${restaurant.profileImage}`} />)}
-                                <div id="restaurant-main-data">
-                                    <h2 id="restaurant-name">{ restaurant.name }</h2>
-                                    <p className="restaurant-atribute"> Tipo de comida: {restaurant.typeOfFood}</p>
-                                    {numRatings !== 1 ? (
-                                        <div>
-                                            {numRatings} Avaliações
+
+                        {restaurant.coverImage !== "Noneundefined" && <img id="restaurant-cover" src={`${API_BASE}/${restaurant.coverImage}`} />}
+                        <div className="restaurant-details">
+                                <div id="img-and-data">
+
+                                <div id="restaurant-profile-main-data">
+                                            {restaurant.profileImage == "Noneundefined" && <img id="restaurant-img" src={NoImg} />}
+
+                                            {restaurant.profileImage !== "Noneundefined" && (<img id="restaurant-img" src={`${API_BASE}/${restaurant.profileImage}`} />)}
+
+                                        <div id="restaurant-main-data">
+                                            <h2 id="restaurant-name">{ restaurant.name }</h2>
+                                            <p className="restaurant-atribute"> Tipo de comida: {restaurant.typeOfFood}</p>
+                                            { restaurant.site && <a className="restaurant-atribute" id="restaurant-site" href={restaurant.site}> Site oficial </a>}
+                                            {numRatings !== 1 ? (
+                                                <div>
+                                                    {numRatings} Avaliações
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    {numRatings} Avaliação
+                                                </div>
+                                                
+                                            )}
+                                            <div>
+                                                {[...Array(5)].map((star, index) => {
+                                                    const starValue = index + 1;
+
+                                                    return (
+                                                    <span className="little-star"
+                                                        key={index}
+                                                        style={{ color: starValue <= avg ? '#ffc107' : '#524d39' }}
+                                                    >
+                                                        &#9733;
+                                                    </span>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                    ) : (
-                                        <div>
-                                            {numRatings} Avaliação
-                                        </div>
-                                        
-                                    )}
-                                    <div>
-                                        {[...Array(5)].map((star, index) => {
-                                            const starValue = index + 1;
+                                    </div>
+
+                                    {ratingBool ? (
+                            <form id="restaurant-star-rating" onSubmit={editRating}>
+                            <h2>Sua avaliação</h2>
+                            <div id="restaurant-stars"> 
+                                {[...Array(totalStars)].map((star, index) => {
+                                    const currentRating = index + 1;
+
+                                    return (
+                                        <label key={index}>
+                                        <input
+                                            type="radio"
+                                            name="rating"
+                                            value={currentRating}
+                                            onChange={() => setRating(currentRating)}
+                                            required
+                                        />
+                                        <span
+                                            className="star"
+                                            style={{
+                                            color:
+                                                currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
+                                            }}
+                                            onMouseEnter={() => setHover(currentRating)}
+                                            onMouseLeave={() => setHover(null)}
+                                        >
+                                            &#9733;
+                                        </span>
+                                        </label>
+                                    );
+                                })}
+                            </div>
+                            
+                            <button className="simple-button" id="create-button" type = "submit">
+                                    <p>Atualizar Nota</p>
+                                </button>
+
+                            </form>
+                            ) : (
+                                <form id="restaurant-star-rating" onSubmit={createRating}>
+
+                                    <h3 >Avalie esse restaurante</h3>
+                                    <div id="restaurant-stars"> 
+                                        {[...Array(totalStars)].map((star, index) => {
+                                            const currentRating = index + 1;
 
                                             return (
-                                            <span
-                                                key={index}
-                                                style={{ color: starValue <= avg ? '#ffc107' : '#524d39' }}
-                                            >
-                                                &#9733;
-                                            </span>
+                                                <label key={index}>
+                                                <input
+                                                    type="radio"
+                                                    name="rating"
+                                                    value={currentRating}
+                                                    onChange={() => setRating(currentRating)}
+                                                    required
+                                                />
+                                                <span
+                                                    className="star"
+                                                    style={{
+                                                    color:
+                                                        currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
+                                                    }}
+                                                    onMouseEnter={() => setHover(currentRating)}
+                                                    onMouseLeave={() => setHover(null)}
+                                                >
+                                                    &#9733;
+                                                </span>
+                                                </label>
                                             );
                                         })}
                                     </div>
-                                    { restaurant.site && <a className="restaurant-atribute" id="restaurant-site" href={restaurant.site}> Site oficial </a>}
+
+                                    <button className="simple-button" id="create-button" type = "submit">
+                                            <p>Adicionar Nota</p>
+                                    </button>
+
+                                </form>)}
                                 </div>
 
-                                {ratingBool ? (
-                        <form id="restaurant-star-rating" onSubmit={editRating}>
-                        <h3>Sua avaliação</h3>
-                        <div id="restaurant-stars"> 
-                            {[...Array(totalStars)].map((star, index) => {
-                                const currentRating = index + 1;
-
-                                return (
-                                    <label key={index}>
-                                    <input
-                                        type="radio"
-                                        name="rating"
-                                        value={currentRating}
-                                        onChange={() => setRating(currentRating)}
-                                        required
-                                    />
-                                    <span
-                                        className="star"
-                                        style={{
-                                        color:
-                                            currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
-                                        }}
-                                        onMouseEnter={() => setHover(currentRating)}
-                                        onMouseLeave={() => setHover(null)}
-                                    >
-                                        &#9733;
-                                    </span>
-                                    </label>
-                                );
-                            })}
-                        </div>
-                        
-                        <button className="simple-button" id="create-button" type = "submit">
-                                <p>Atualizar Nota</p>
-                            </button>
-
-                        </form>
-                        ) : (
-                            <form id="restaurant-star-rating" onSubmit={createRating}>
-
-                                <h3 >Avalie esse restaurante</h3>
-                                <div id="restaurant-stars"> 
-                                    {[...Array(totalStars)].map((star, index) => {
-                                        const currentRating = index + 1;
-
-                                        return (
-                                            <label key={index}>
-                                            <input
-                                                type="radio"
-                                                name="rating"
-                                                value={currentRating}
-                                                onChange={() => setRating(currentRating)}
-                                                required
-                                            />
-                                            <span
-                                                className="star"
-                                                style={{
-                                                color:
-                                                    currentRating <= (hover || rating) ? "#ffc107" : "#524d39"
-                                                }}
-                                                onMouseEnter={() => setHover(currentRating)}
-                                                onMouseLeave={() => setHover(null)}
-                                            >
-                                                &#9733;
-                                            </span>
-                                            </label>
-                                        );
-                                    })}
+                            <div id="add-and-map"> 
+                                <div id="address-div"> 
+                                    <p className="restaurant-atribute" id="address">Endereço: {restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
                                 </div>
-
-                                <button className="simple-button" id="create-button" type = "submit">
-                                        <p>Adicionar Nota</p>
-                                </button>
-
-                            </form>)}
+                                <iframe className="map"
+                                allowfullscreen
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDiNcS5K4Fr7kcD_acuX17sgIwsNS3sqnA
+                                &q=${restaurant.address.street},+${restaurant.address.number}-+${restaurant.address.neighborhood}`}>
+                                </iframe>
                             </div>
-
-                        <div id="add-and-map"> 
-                            <p className="restaurant-atribute" id="address">{restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
-                            <iframe className="map"
-                            allowfullscreen
-                            referrerpolicy="no-referrer-when-downgrade"
-                            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDiNcS5K4Fr7kcD_acuX17sgIwsNS3sqnA
-                            &q=${restaurant.address.street},+${restaurant.address.number}-+${restaurant.address.neighborhood}`}>
-                            </iframe>
                         </div>
                     </div>
-
-                    <div className="restaurant-actions">
-                        <Link id="reviews-page" to={'/reviews/'+id}>
-                            Reviews de usuários
-                        </Link>
-                        {hasReview ? (
-                            <div>
-                                <Link id="edit-review" to={'/reviews/'+id+'/'+idUserLogin+'/edit'}>
-                                Editar review
+                )}
+            <div>
+            <div className="restaurant-actions">
+                            <div id="action"> 
+                                <img src={PageIcon}/>
+                                <Link id="reviews-page" to={'/reviews/'+id}>
+                                    Reviews de usuários
                                 </Link>
-                                <button className="simple-button" id="create-button" onClick={() => deleteReview()}>
-                                <p>Deletar Review</p>
-                                </button>
                             </div>
-                            
-                        ) : (
-                            <Link id="create-review" to={'/reviews/'+id+'/'+idUserLogin+'/create'}>
-                            Criar review
-                            </Link>
-                        )}
-                        
-                        <Link id="edit-page" to={'/restaurants/update/'+id}>
-                            Editar Página
-                        </Link>
-                    </div>
+                            {hasReview ? (
+                                <div>
+                                    <Link id="edit-review" to={'/reviews/'+id+'/'+idUserLogin+'/edit'}>
+                                    Editar review
+                                    </Link>
+                                    <button className="simple-button" id="create-button" onClick={() => deleteReview()}>
+                                    <p>Deletar Review</p>
+                                    </button>
+                                </div>
+                                
+                            ) : (
+
+                                <div id="action">
+                                    <img src={AddIcon}/>
+                                    <Link id="create-review" to={'/reviews/'+id+'/'+idUserLogin+'/create'}>
+                                    Criar review
+                                    </Link>
+                                </div>
+                            )}
+                                
+                            <div id="action">
+                                <img src={EditIcon}/>
+                                <Link id="edit-page" to={'/restaurants/update/'+id}>
+                                Editar Página
+                                </Link>
+                            </div>
                 </div>
-            )}
-        <div>
-        </div>
+            </div>
         </div>
 );
 

@@ -24,12 +24,21 @@
     color: #F0E7DE;
 }
 
-/* .restaurant-profile{
+.restaurant-actions Link{
+  cursor: pointer;
+}
+
+#action{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 100px;
-} */
+}
+
+#action img{
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
 
 .restaurant-list h2{
     font-size: 20px;
@@ -149,8 +158,9 @@
 
 .restaurant-actions{
     margin: auto;
-    margin-bottom: 100px;
-    max-width: 900px;
+    margin-bottom: 80px;
+    margin-top: 20px;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     text-decoration: none;
@@ -177,14 +187,16 @@
 
 .restaurant-details{
     margin-top: 50px;
-    margin-left: 50px;
     text-decoration: none;
-    max-width:800px;
+}
+
+.restaurant-details h2{
+  font-size: 18px;
 }
 
 #restaurant-cover{
   height: 250px;
-  width: 100vw;
+  width: 100%;
   background-color: #3793df;
 }
 
@@ -264,14 +276,13 @@
  }
 
  .map{
-  width: 600px;
   height: 300px;
+  width: 100%;
   border-radius: 15px;
   border: solid 3px ;
  }
 
 #add-and-map{
-  width: 600px;
   height: 400px;
   margin-top: 50px;
   display: flex;
@@ -279,8 +290,16 @@
   align-items: center;
 }
 
+#address-div{
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
 #address{
   margin-bottom: 20px;
+  text-align: left;
 }
 
 #restaurant-name{
@@ -288,7 +307,9 @@
 }
 
 #img-and-data{
+  width: 90vw;
   display: flex;
+  justify-content: space-between;
 }
 
 #restaurant-main-data{
@@ -296,11 +317,24 @@
   flex-direction: column;
   margin-left: 20px;
   justify-content: space-between;
+  align-items: flex-start;
   height: 100px;
+}
+
+#restaurant-profile-main-data{
+  display: flex;
+}
+
+#restaurant-profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:100%;
 }
 
 #restaurant-site{
   color: #d63d1b;
+  margin-bottom: 30px;
 }
 
 .restaurant-atribute{
@@ -309,7 +343,6 @@
 }
 
 #restaurant-star-rating{
-  margin-left: 100px;
   display: flex;
   flex-direction: column;
 }

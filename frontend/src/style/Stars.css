@@ -11,3 +11,9 @@
     font-size: 2rem;
     margin: 5px;
   }
+
+  .little-star {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin: 5px;
+  }
