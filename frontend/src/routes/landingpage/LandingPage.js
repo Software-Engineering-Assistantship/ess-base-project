@@ -5,6 +5,7 @@ import '../../style/LandingPage.css'
 import React from "react"
 import logo from "../../assets/logo.svg";
 import logo2 from "../../assets/logo2.svg";
+import HeaderInicial from "../../components/headerinicial/headerinicial";
 const API_BASE = "http://localhost:3001"
 
 const LandingPage = () => {
@@ -13,9 +14,7 @@ const LandingPage = () => {
     };
     return (
         <div> 
-        <div className ="headerinicial">
-            <img src={logo} alt="logo" className="logo4"/>
-        </div>
+        <HeaderInicial/>
 
         <div className="main-content">
                 <h1 className="titlelanddingpage">O melhor site de reviews gastronômicas do Brasil!</h1>

@@ -4,6 +4,7 @@ import axios from "axios";
 import logo from "../../assets/logo.svg";
 import logo3 from "../../assets/logo3.svg";
 import "../../style/Signup.css";
+import HeaderInicial from "../../components/headerinicial/headerinicial";
 
 const API_BASE = "http://localhost:3001";
 
@@ -41,9 +42,7 @@ const Signup = () => {
 
     return (
         <div>
-            <div className="headerinicial">
-                <img src={logo} alt="logo" className="logo4" />
-            </div>
+            <HeaderInicial/>
             <div className="signup-container">
                 <form className="signup-form" onSubmit={handleSubmit}>
                     <div className="headersignup">

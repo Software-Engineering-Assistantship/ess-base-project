@@ -9,13 +9,7 @@
   font-size: 16px;
 }
 
-.headerinicial{
-    width: 100%;
-    height: 85px;
-    background-color: #B92727;
-    display: flex;
-    justify-content: center;
-}
+
 
 .titlelogin{
     font-size: 45px; /* Adjust font size as needed */
