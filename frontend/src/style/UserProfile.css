@@ -15,6 +15,7 @@
     display: flex;
     justify-content: space-between;
     padding: 10px; 
+    background: transparent !important;
 }
 
 .buttonedit {
@@ -34,7 +35,7 @@
     width: 100px;
     height: 40px;
     border-radius: 10px;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 .containerProfile {

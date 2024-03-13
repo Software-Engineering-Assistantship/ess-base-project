@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import ProfileImage from "../../images/noprofileimage.png"
 import CoverImage from "../../images/nocoverimage.png"
+import ModalFollow from "./followers/ModalFollow.js"
 
 import '../../style/UserProfile.css'
 
@@ -29,7 +30,9 @@ const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState(null)
     const [user, setUser] = useState(null);
     const { id } = useParams()
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(null)    
+    const [modalFollow, setModalFollow] = useState(false)
+    const [modalUnfollow, setModalUnfollow] = useState(false)
     console.log(currentUser);
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
@@ -58,7 +61,13 @@ const UserProfile = () => {
             headers: {
                 'Content-Type': 'application/json',
             }})
-            .then(response => response.ok.then(window.location.reload(false)))
+            .then(response => { if (response.ok)
+                setModalUnfollow(true); 
+                setTimeout(() => {
+                    setModalFollow(false);
+                    window.location.reload(false)}, 
+                    3000)
+                })
             .catch(err => {
                     console.error("Error: ", err);
                     setError(err.message);
@@ -73,7 +82,13 @@ const UserProfile = () => {
             headers: {
                 'Content-Type': 'application/json',
             }})
-            .then(response => response.ok.then(window.location.reload(false)))
+            .then(response => { if (response.ok)
+                setModalUnfollow(true); 
+                setTimeout(() => {
+                    setModalUnfollow(false);
+                    window.location.reload(false)}, 
+                    3000)
+                })
             .catch(err => {
                     console.error("Error: ", err);
                     setError(err.message);
@@ -87,6 +102,8 @@ const UserProfile = () => {
 
     return (user && currentUser ? (
             <div class="tudinho">
+                {modalFollow && <ModalFollow closeModal={setModalFollow} body={"Seguiu com sucesso. Uma mensagem foi enviada para o usuário!"}/>}
+                {modalUnfollow && <ModalFollow closeModal={setModalUnfollow} body={"Deixou de seguir com sucesso!"}/>}
                 <div class="containerProfile">
                     <div class="coverImageContainer">
                         {check2 ? (

@@ -4,12 +4,14 @@ import { useState, useEffect } from "react"
 import axios from 'axios';
 
 import { jwtDecode } from "jwt-decode";
-const API_BASE = "http://localhost:3001"
+
 
 import NoImg from "../../assets/almocin_logo_red.png"
 import EditIcon from "../../assets/pencil.png"
 import AddIcon from "../../assets/add.png"
 import PageIcon from "../../assets/page.png"
+
+const API_BASE = "http://localhost:3001"
 
 const RestaurantProfile = () => {
     const [restaurant, setRestaurant] = useState(null);

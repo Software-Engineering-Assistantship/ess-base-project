@@ -1,23 +1,36 @@
-import { useParams, useNavigate, Link } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Axios } from 'axios'
 import ProfileImage from "../../../images/noprofileimage.png"
 import '../../../style/FollowList.css'
+import '../../../style/Error.css'
+import ModalFollow from "./ModalFollow.js"
 
 const API_BASE = "http://localhost:3001"
 
+function getUserIdFromToken() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+        const payload = token.split('.')[1];
+        const decodedPayload = JSON.parse(atob(payload));
+        return decodedPayload.userId; // Ensure this matches your JWT payload
+    } catch (error) {
+        console.error('Error decoding token:', error);
+        return null;
+    }
+}
 
 const FollowersList = () => {
 
-    let navigate = useNavigate()
-
-    const currentUserId = "65d51f9ac3b06ec45cdd2acb"
+    const currentUserId = getUserIdFromToken()
 
     const [error, setError] = useState(null)
     const [followersL, setFollowersL] = useState(null)
     const [currentUser, setCurrentUser] = useState(null)
     const [userPage, setUserPage] = useState(null)
-    const [userTargetId, setUserTargetId] = useState(null)
+    const [modalFollow, setModalFollow] = useState(false)
+    const [modalUnfollow, setModalUnfollow] = useState(false)
     const { id } = useParams()
 
     useEffect(() => {
@@ -55,7 +68,13 @@ const FollowersList = () => {
             headers: {
                 'Content-Type': 'application/json',
             }})
-            .then(response => response.ok.then(window.location.reload(false)))
+            .then(response => { if (response.ok)
+                setModalFollow(true); 
+                setTimeout(() => {
+                    setModalFollow(false);
+                    window.location.reload(false)}, 
+                    3000)
+                })
             .catch(err => {
                     console.error("Error: ", err);
                     setError(err.message);
@@ -70,7 +89,13 @@ const FollowersList = () => {
             headers: {
                 'Content-Type': 'application/json',
             }})
-            .then(response => response.ok.then(window.location.reload(false)))
+            .then(response => { if (response.ok)
+                setModalUnfollow(true); 
+                setTimeout(() => {
+                    setModalUnfollow(false);
+                    window.location.reload(false)}, 
+                    3000)
+                })
             .catch(err => {
                     console.error("Error: ", err);
                     setError(err.message);
@@ -82,6 +107,9 @@ const FollowersList = () => {
     const allSet = ((userPage !== null) && (followersL !== null)) && (currentUser !== null)
 
     return ( allSet  ? (
+        <div>
+            {modalFollow && <ModalFollow closeModal={setModalFollow} body={"Seguiu com sucesso. Uma mensagem foi enviada para o usuário!"}/>}
+            {modalUnfollow && <ModalFollow closeModal={setModalUnfollow} body={"Deixou de seguir com sucesso!"}/>}
         <div className="page-follow-list">
             <div className="body-follow-list">
                 <div className="list-follow-top">   
@@ -164,16 +192,24 @@ const FollowersList = () => {
 
         </div>
 
+        </div>
 
         ) : (
-            <div className="page-follow-list">
-            <div className="body-follow-list">
-                <div className="list-follow-top">   
-                    <h2 className="list-follow-title"></h2>
-                    <Link className="close-button-follow" to={`/users/${id}`}> x </Link>
-                </div> 
+            followersL ? (
+            <div className="body-follow-no-user">
+                <div className="error-no-follow">   
+                    <h2>Usuário não tem seguidores!</h2>
+                    <Link className="view-button-follow" to={`/users/${id}`}> voltar </Link>
+                </div>    
+            </div> 
+            ) : (
+            <div className="body-follow-no-user">
+                <div className="error-no-follow">   
+                    <h2>Loading</h2>
+                </div>    
             </div>
-            </div>
+            )
+            
         )
     )
 }
