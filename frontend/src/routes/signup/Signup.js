@@ -57,6 +57,7 @@ const Signup = () => {
                             type="text"
                             id="name"
                             name="name"
+                            className="namesignin"
                             value={formData.name}
                             onChange={handleChange}
                         />
@@ -67,6 +68,7 @@ const Signup = () => {
                             type="email"
                             id="email"
                             name="email"
+                            className="emailsignin"
                             value={formData.email}
                             onChange={handleChange}
                         />
