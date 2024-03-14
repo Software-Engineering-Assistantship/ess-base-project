@@ -150,4 +150,26 @@
   ],
   "reviews": [],
   "__v": 0
+}, 
+{
+  "_id": {
+    "$oid": "65f11386ac06cba390ece79a"
+  },
+  "name": "omena",
+  "email": "omena@gmail.com",
+  "password": "$2b$10$5805LFj63fNCsfvs1G8PW.nsNqHPTXHcFvWTghsn8dyx3BnuVo1eW",
+  "following": [],
+  "followers": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65f141644af0af2c019c2e1a"
+  },
+  "name": "taylors",
+  "email": "taylors@gmail.com",
+  "password": "$2b$10$2X3S6qS43.6Adv3JYGonYel4pK9bOvn0wXyHCpP5/edT3VCijNbsy",
+  "following": [],
+  "followers": [],
+  "__v": 0
 }]

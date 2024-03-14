@@ -9,4 +9,3 @@ Feature:Signin
         Given o usuário está na página de cadastro
         When o usuário insere o nome "joao", o email "mergulhao@gmail.com" e a senha "senha123"
         Then eu tenho um cadastro falho
-

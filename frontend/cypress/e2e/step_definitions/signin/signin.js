@@ -33,4 +33,3 @@ Then("eu tenho um cadastro falho", () => {
     cy.url().should('include', '/signup');
     
 });
-
