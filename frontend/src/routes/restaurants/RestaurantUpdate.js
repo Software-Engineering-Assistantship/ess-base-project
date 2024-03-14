@@ -128,7 +128,7 @@ const RestaurantUpdate = () => {
                     </div>
 
                     <div className="form-field">
-                        <label htmlFor="typeofFood" >Tipo de comida</label>
+                        <label data-cy="typeOfFood" htmlFor="typeofFood" >Tipo de comida</label>
                         <input type="text" id="typeofFood" placeholder="Pizza" value={typeOfFood} 
                             onChange={ev => setTypeOfFood(ev.target.value)}/>
                     </div>
