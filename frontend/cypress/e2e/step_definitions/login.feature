@@ -7,7 +7,6 @@ Feature: Login
         Then eu tenho um login de sucesso
     
     Scenario:Falha no login com credenciais inválidas
-        Given usuário está na página "/login"
-        When o usuário insere o email "jvrco@gmail.com" e a senha "senhaerrada"
-        And seleciona "login"
-        Then o aviso "Credenciais inválidas" é exibido
+        Given usuário está na página login
+        When o usuário insere o email "omena@gmail.com" e a senha "senhaerrada"
+        Then eu tenho um login falhado
