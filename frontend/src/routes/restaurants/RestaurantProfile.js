@@ -10,7 +10,6 @@ import { jwtDecode } from "jwt-decode";
 
 const API_BASE = "http://localhost:3001"
 
-
 const RestaurantProfile = () => {
     const [restaurant, setRestaurant] = useState(null);
     const { id } = useParams()
@@ -177,7 +176,7 @@ const RestaurantProfile = () => {
 
                                         <div id="restaurant-main-data">
                                             <h2 id="restaurant-name">{ restaurant.name }</h2>
-                                            <p className="restaurant-atribute"> Tipo de comida: {restaurant.typeOfFood}</p>
+                                            <p className="restaurant-atribute" data-cy="typeOfFood"> Tipo de comida: {restaurant.typeOfFood}</p>
                                             { restaurant.site && <a className="restaurant-atribute" id="restaurant-site" href={restaurant.site}> Site oficial </a>}
                                             {numRatings !== 1 ? (
                                                 <div>
@@ -285,7 +284,7 @@ const RestaurantProfile = () => {
 
                             <div id="add-and-map"> 
                                 <div id="address-div"> 
-                                    <p className="restaurant-atribute" id="address">Endereço: {restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
+                                    <p data-cy="typeOfFood" className="restaurant-atribute" id="address">Endereço: {restaurant.address.street}, {restaurant.address.number} - {restaurant.address.neighborhood}, {restaurant.address.city}</p>
                                 </div>
                                 <iframe className="map"
                                 allowfullscreen

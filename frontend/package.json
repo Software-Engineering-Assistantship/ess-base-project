@@ -53,7 +53,7 @@
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true,
-    "step_definitions": "cypress/e2e/newtours",
+    "step_definitions": "cypress/e2e/step_definitions",
     "esbuild": "^0.20.1"
   }
 }
