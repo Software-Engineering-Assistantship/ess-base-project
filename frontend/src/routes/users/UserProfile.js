@@ -15,7 +15,7 @@ function getUserIdFromToken() {
     try {
         const payload = token.split('.')[1];
         const decodedPayload = JSON.parse(atob(payload));
-        return decodedPayload.userId; // Ensure this matches your JWT payload
+        return decodedPayload.userId;
     } catch (error) {
         console.error('Error decoding token:', error);
         return null;
@@ -30,10 +30,11 @@ const UserProfile = () => {
     const [currentUser, setCurrentUser] = useState(null)
     const [user, setUser] = useState(null);
     const { id } = useParams()
+
     const [error, setError] = useState(null)    
     const [modalFollow, setModalFollow] = useState(false)
     const [modalUnfollow, setModalUnfollow] = useState(false)
-    console.log(currentUser);
+
     useEffect(() => {
         fetch( API_BASE + '/users/' + id)
             .then(response => {

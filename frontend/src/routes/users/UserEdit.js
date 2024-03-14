@@ -8,6 +8,9 @@ import RemoveCard from "./RemoveCard"
 
 const API_BASE = "http://localhost:3001"
 
+const userImageExists = (user) => {
+    return user && !user.profileImage
+}
 const UserEdit = () => {
 
     const [user, setUser] = useState(null);
@@ -24,11 +27,6 @@ const UserEdit = () => {
                 })
             })
     }, []); 
-
-    let check = false;
-    if(user && !user.profileImage) {
-        check = true;
-    }
 
     const showProfileInfo = () => {
         setRemoveCard(false);
@@ -48,13 +46,13 @@ const UserEdit = () => {
         setRemoveCard(!removeCard);
     };
 
-    return ( user ? (
+    return ( (user) ? (
             <div class="tudinhoo">
                 <div class="cardmenu">
                     <div class="topinfo">
                         <p class="titleusereditcard">Menu de Edição</p>
                         {
-                            check ? (
+                            userImageExists(user) ? (
                                 <img src={noProfileImage}  class="profilepictureusercard"></img>
                             ):(
                                 <img src={`${API_BASE}/${user.profileImage}`}  class="profilepictureusercard"></img>

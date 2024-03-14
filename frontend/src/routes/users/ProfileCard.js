@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import {  useState, useEffect, useRef  } from "react"
 import '../../style/ProfileCard.css'
 import noProfileImage from "../../images/noprofileimage.png"
@@ -8,6 +8,15 @@ import iconPencil from "../../images/iconpencil.png"
 import axios from "axios";
 
 const API_BASE = "http://localhost:3001"
+
+const checkUser = (user, param) => {
+    if(user){
+        if(param === "i"){
+            return user && !user.profileImage
+        }
+        return user && !user.coverImage
+    }
+}
 
 const ProfileCard = () => {
     const clickCover = useRef(null);
@@ -37,16 +46,6 @@ const ProfileCard = () => {
             })
     }, []); 
 
-    
-    let check1 = false;
-    if(user && !user.profileImage) {
-        check1 = true;    
-    }
-   
-    let check2 = false;
-    if(user && !user.coverImage) {
-        check2 = true;
-    }
     
     if(user && !user.bio){
         user.bio = "";
@@ -89,7 +88,7 @@ const ProfileCard = () => {
         <div class="profilecard">
             <div class="coverContainer">
                 {
-                    check2 ? (
+                    checkUser(user, "c") ? (
                         <img class="coverimage" src={noCoverImage}></img>
                     ) : (
                         <img class="coverimage" src={`${API_BASE}/${user.coverImage}`}></img>
@@ -104,7 +103,7 @@ const ProfileCard = () => {
             </div>
             <div class="perfilcontainer">
                 {
-                    check1 ? (
+                    checkUser(user, "i") ? (
                         <img class="profileimage" src={noProfileImage}></img>
                     ) : (
                         <img class="profileimage" src={`${API_BASE}/${user.profileImage}`}></img>
