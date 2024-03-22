@@ -1,0 +1,18 @@
+[{
+  "_id": {
+    "$oid": "65d58ca2c3082d4949f7cd06"
+  },
+  "name": "Restaurantes que amei",
+  "author": "Joaozinho",
+  "restaurants": [],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65d58d6cc3082d4949f7cd0a"
+  },
+  "name": "restaurantes que to amando",
+  "author": "Joaozinho",
+  "restaurants": [],
+  "__v": 0
+}]

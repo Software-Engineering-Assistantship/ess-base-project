@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+    margin: 0;
+    font-family: "Quicksand";
+    color: #333333;
+    background-color: #F0E7DE;
+    font-size: 16px;
+}
+
+.header{
+    width: 100%;
+    height: 20%;
+    background-color: #B92727;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.logo{
+    height: 75px;
+    margin-top: 4px;
+    margin-left: 10px;
+    margin-right: 70px;
+}
+
+.link{
+    background-color: #B92727;
+}
+
+.restaurants{
+    height: 10px;
+    margin-top: 35px;
+    margin-right: 45px;
+    background-color: #B92727;
+    color: #F0E7DD;
+    transition: color 0.3s;
+}
+
+.restaurants:hover{
+    color: #2c2b2b;
+}
+
+.users{
+    height: 10px;
+    margin-top: 35px;
+    margin-right: 45px;
+    background-color: #B92727;
+    color: #F0E7DD;
+}
+
+.lists{
+    height: 10px;
+    margin-top: 35px;
+    margin-right: 45px;
+    background-color: #B92727;
+    color: #F0E7DD;
+}
+
+.forum{
+    height: 10px;
+    margin-top: 35px;
+    margin-right: 70px;
+    background-color: #B92727;
+    color: #F0E7DD;
+}
+
+.search-field {
+    width: 380px; 
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px; 
+    background-color: rgb(250, 249, 249);
+}
+
+.searchicon{
+    height: 30px;
+    width: 35px;
+    margin-left: 20px;
+    border-radius: 10px;
+    background-color: rgb(250, 249, 249);
+}
+
+.noprofileimage{
+    height: 51px;
+    width: 51px;
+    border-radius: 25px;
+    margin-top: 15px;
+    margin-left: 1%;
+    background-color: #B92727;
+}
+
+#input-and-icon{
+    background-color: inherit;
+    display: flex;
+    align-items: center;
+}

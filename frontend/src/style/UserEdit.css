@@ -1,0 +1,93 @@
+.cardmenu {
+    padding: 65px;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 120px;
+    background-color: #7C0101;
+    align-items: center;
+    transform: translateY(-4%);
+}
+
+.topinfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background-color: #7C0101;
+}
+
+.profilepictureusercard{
+    width: 160px;
+    height: 160px;
+    border-radius: 80px;
+}
+
+.bottominfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background-color: #7C0101;
+}
+
+.titleusereditcard {
+    background-color: transparent;
+    font-size: 25px;
+    color: #F0E7DE;
+}
+
+.usernameuseredit{
+    background-color: transparent;
+    font-size: 22px;
+    color: #F0E7DE;
+}
+
+.profileuseredit {
+    background-color: transparent;
+    font-size: 22px;
+    color: #F0E7DE;
+    text-decoration: underline;
+    border: none;
+}
+
+.passworduseredit {
+    background-color: transparent;
+    font-size: 22px;
+    color: #F0E7DE;
+    text-decoration: underline;
+    border: none;
+}
+
+.advanceduseredit {
+    background-color: transparent;
+    font-size: 22px;
+    color: #F0E7DE;
+    text-decoration: underline;
+    border: none;
+}
+
+.advanceduseredit:hover{
+    background-color: #f0e7dedb;
+    border-radius: 10px;
+}
+
+.passworduseredit:hover{
+    background-color: #f0e7dedb;
+    border-radius: 10px;
+}
+
+.profileuseredit:hover{
+    background-color: #f0e7dedb;
+    border-radius: 10px;
+}
+
+.tudinhoo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3.5%;
+    gap: 10px;
+}

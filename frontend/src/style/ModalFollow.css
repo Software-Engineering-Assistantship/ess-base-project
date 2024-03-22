@@ -1,0 +1,39 @@
+.modal-follow-background {
+    background-color: transparent;
+    position: absolute;
+    display: flex;
+    justify-content: left;
+    height: 30%;
+  }
+  
+  
+.modal-follow-container {
+    width: 300px;
+    height: 80px;
+    margin-top: 15px;
+    background-color: #3ce667;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+.modal-follow-body p{
+    background-color: #3ce667;
+    font-size: 20px;
+    font-weight: 400;
+    border: none;
+}
+   
+.modal-follow-close .link-modal-follow{
+    background-color: #3ce667;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.modal-follow-close p{
+    background-color: #3ce667;
+    color: #0a0200;
+    font-weight: bolder;
+}

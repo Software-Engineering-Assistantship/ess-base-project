@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333333;
+  background-color: #F0E7DE;
+  font-size: 16px;
+}
+
+
+
+
+.sign-up-button {
+  background-color: #B92727; /* Blue color for button */
+  color: white; /* White text color */
+  border: none; /* No border */
+  padding: 10px 10px; /* Padding for button */
+  font-size: 40px; /* Font size */
+  cursor: pointer; /* Cursor style */
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s ease; 
+  margin-top: 90px; 
+  width: 25%;
+  text-decoration: none; /* Remove underline */
+  
+}
+
+/* Hover effect for button */
+.sign-in-button:hover {
+  background-color: #5f1313; /* Darker blue color on hover */
+  
+}
+
+.titlelanddingpage {
+  font-size: 45px; /* Adjust font size as needed */
+  margin-bottom: 20px; /* Add margin to provide space below the title */
+  text-align: center; /* Center align the title */
+  margin-top:35px;
+  
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  text-align: center; /* Center align the content */
+  margin-top: 20px;
+}
+
+.login-link {
+  font-size: 14px;
+  color: #007bff;
+  margin-top: 10px;
+}
+
+.login-link {
+  font-size: 14px;
+  color: #007bff;
+  margin-top: 10px;
+}
+
+.login-link .blue-text {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link .blue-text:hover {
+  text-decoration: underline;
+}
+
+.login-link .blue-text:hover {
+  text-decoration: underline;
+}
+

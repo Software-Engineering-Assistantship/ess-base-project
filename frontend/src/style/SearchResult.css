@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333333;
+  background-color: #F0E7DE;
+  font-size: 16px;
+}
+
+.restaurant-list{
+    border: 6px solid #B92727;
+    border-radius: 20px;
+
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+}
+
+.category{
+    padding: 10px;
+    background-color: #B92727;
+    color: #F0E7DE;
+}
+
+.noData{
+  width: 60%;
+  height: 20%;
+  margin-top: 15%;
+  margin-left: 18%;
+  margin-bottom: 20%;
+  padding: 2%;
+  color: #FFFFFF;
+  background-color: #EA1313;
+  border-radius: 10px;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+
+.restaurant-list h2{
+  font-size: 20px;
+}
+
+.restaurants-page{
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.restaurant-preview{
+    padding: 10px 16px;
+    border-top: 6px solid #B92727;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+#restaurant-img-preview{
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+ }
+
+ #preview-description{
+  margin-left: 20px;
+ }
+
+.simple-button {
+  padding: 0.7em 1.2em;
+  width: 200px;
+  border: none;
+  border-radius: 0.5em;
+  color: #333333;
+  box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+  text-align: center;
+  cursor: pointer;
+}
+
+#delete-button{
+  background-color: #f66645;
+  margin: 30px;
+}
+
+#delete-button p{
+    background-color: inherit;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#delete-button:hover{
+  background-color: #d63d1b;
+}
+
+.link{
+  text-decoration: none;
+}
+
+.view-button {
+    position: relative;
+    padding: 0.7em 1.2em;
+    background-color: #F09682;
+    width: 80px;
+    border: none;
+    border-radius: 0.5em;
+    color: #333333;
+    box-shadow: 0.5em 0.5em 0.5em rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+  .view-button p{
+    background-color: #F09682;
+    text-decoration: none !important; 
+    font-weight: bold;
+  }
+  
+  .view-button::before {
+    position: absolute;
+    content: '';
+    height: 0;
+    width: 0;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #F0E7DE 0%, #F0E7DE 50%, #F09682 50%);
+    border-radius: 0 0 0.5em 0;
+    box-shadow: 0.2em 0.2em 0.2em rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+  }
+  
+  .view-button:hover::before {
+    width: 1.6em;
+    height: 1.6em;
+  }

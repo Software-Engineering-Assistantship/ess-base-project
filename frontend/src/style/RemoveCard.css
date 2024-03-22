@@ -1,0 +1,89 @@
+.tudosenha {
+    background-color: #7C0101;
+    padding: 65px;
+    border-radius: 40px;
+    height: 469.2px;
+    width: 621px;
+    display: flex;
+    flex-direction: column;
+    gap: 150px;
+    align-items: center;
+    transform: translateY(-4%);
+}
+
+.containertudosenha {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    gap: 25px;
+    background-color: transparent;
+}
+
+.senhaatualcontainer {
+    display: flex;
+    gap: 40px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.confirmarsenhacontainer {
+    display: flex;
+    gap: 40px;
+    background-color: transparent;
+    margin-bottom: 10px;
+}
+
+.botaobox {
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    gap: 7px;
+    transform: translateY(-15%);
+}
+
+.fraseirreversivel {
+    background-color: transparent;
+    color: #F0E7DE;
+}
+
+.confirmardelete {
+    height: 57px;
+    width: 182px;
+    border-radius: 35px;
+    padding: 7px;
+    font-weight: bold;
+    background-color: transparent;
+    box-shadow: 0 0 10px black;
+    color: #F0E7DE;
+    border-color: #F0E7DE;
+}
+
+.frasetrocarsenha {
+    background-color: transparent;
+    font-weight: medium;
+    color: #F0E7DE;
+    font-size: 30px;
+}
+
+.frasesenha {
+    background-color: transparent;
+    font-weight: medium;
+    color: #F0E7DE;
+}
+
+.fraseconfirmarsenha{
+    background-color: transparent;
+    font-weight: medium;
+    color: #F0E7DE;
+}
+
+.inputfrasesenha{
+    background-color: #BCBCBC;
+    border-radius: 7px;
+}
+
+.inputconfirmarsenha{
+    background-color: #BCBCBC;
+    border-radius: 7px;
+}
+
