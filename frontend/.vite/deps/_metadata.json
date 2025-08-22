@@ -1,0 +1,44 @@
+{
+  "hash": "507740cb",
+  "browserHash": "47690933",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "dfa895ab",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "09a3d86a",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "98c4acfe",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "c4ac7133",
+      "needsInterop": false
+    },
+    "@tanstack/react-query": {
+      "src": "../../node_modules/@tanstack/react-query/build/modern/index.js",
+      "file": "@tanstack_react-query.js",
+      "fileHash": "6d88438c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-PPTARTVE": {
+      "file": "chunk-PPTARTVE.js"
+    },
+    "chunk-QYRHV5PW": {
+      "file": "chunk-QYRHV5PW.js"
+    }
+  }
+}

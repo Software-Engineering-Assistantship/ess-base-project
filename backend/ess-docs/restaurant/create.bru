@@ -1,0 +1,20 @@
+meta {
+  name: create
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3333/restaurants
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Teste",
+    "address": "rua",
+    "closingTime": "2024-03-10T16:40:25.553Z",
+    "type": "sushi"
+  }
+}
