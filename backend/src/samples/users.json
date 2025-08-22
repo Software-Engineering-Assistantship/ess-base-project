@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "fullName": "Felipe Henrique",
+    "username": "felipehenrique2",
+    "birth_date": "20/05/1994",
+    "gender": "M",
+    "photo": "felipe_image.jpg",
+    "password": "$2b$10$cxnUWvdJ6RoWi2JNeWGf5OrVAmQhioEm1euJso8q68U6yXV5q7zL."
+  },
+  {
+    "id": "2",
+    "fullName": "Ester Marques",
+    "username": "estermarques",
+    "birth_date": "10/05/2004",
+    "gender": "F",
+    "photo": "ester_photo.jpg",
+    "password": "$2b$10$26Nm4t7RSBgCSfTQpVRtUuAheoQgoAb.yl29IYbsqL5BsCdLBGBM6"
+  }
+]
