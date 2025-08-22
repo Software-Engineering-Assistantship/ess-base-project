@@ -1,0 +1,20 @@
+[
+  {
+    "id": "2",
+    "fullName": "Lucas",
+    "username": "lhns",
+    "birth_date": "2004-02-20",
+    "gender": "M",
+    "photo": "lucas.jpg",
+    "password": "$2b$10$jZ5AerGBqje9RaiYcWXj5.ja7Hw30ProorX7S0f4XXukWa9WGZ0aS"
+  },
+  {
+    "id": "2",
+    "fullName": "felipe",
+    "username": "fhns",
+    "birth_date": "1998-05-20",
+    "gender": "m",
+    "photo": "foto",
+    "password": "$2b$10$ChzKD5RtAmCQP.7jvsOuLuDTIzpW8drhmtWXIyW4ev26XV.7CwShK"
+  }
+]

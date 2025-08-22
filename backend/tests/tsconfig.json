@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "moduleResolution": "node",
+      "target": "ESNext",
+      "module": "ESNext",
+      "outDir": "dist",
+      "strict": true,
+      "esModuleInterop": true,
+      "strictPropertyInitialization": false,
+      "experimentalDecorators": true
+    }
+  }

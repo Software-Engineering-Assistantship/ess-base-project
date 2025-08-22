@@ -3,3 +3,7 @@ __pycache__/
 
 *.log
 *.swp
+
+# Dependency directories
+node_modules/
+**/node_modules/

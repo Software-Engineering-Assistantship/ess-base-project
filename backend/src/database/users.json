@@ -1,0 +1,52 @@
+[
+  {
+    "user": "Sistema",
+    "top10": [
+      "howls-moving-castle",
+      "the-hangover",
+      "superbad",
+      "la-la-land",
+      "the-notebook",
+      "a-quiet-place",
+      "it",
+      "jumanji",
+      "mad-max",
+      "alien"
+    ],
+    "terror": [
+      "A Freira",
+      "Sorria"
+    ],
+    "acao": [
+      "Homem Aranha, de volta ao lar",
+      "The Batman"
+    ],
+    "geral": [
+      "black-panther",
+      "alien",
+      "mad-max",
+      "jumanji"
+    ],
+    "id": 1
+  },
+  {
+    "user": "Ykaro",
+    "Séries Curtidas": [
+      "mad-max",
+      "black-panther",
+      "howls-moving-castle"
+    ],
+    "historicoDeVisualizacao": [
+      "O Incrível Hulk",
+      "Homem-Formiga",
+      "Invocação do mal"
+    ],
+    "id": "1"
+  },
+  {
+    "user": "João",
+    "Séries Curtidas": [],
+    "historicoDeVisualizacao": [],
+    "id": "2"
+  }
+]
