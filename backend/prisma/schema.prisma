@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PromotionType {
+    ILIMITADA
+    LIMITE_QUARTO
+}
+
+enum CardType {
+    CREDITO
+    DEBITO
+}
+
+model Hotelier {
+   id           Int        @id @default(autoincrement())
+   name         String
+   email        String     @unique 
+   username     String     @unique  
+   password     String
+   hotel        String 
+   city         String
+   cep          String
+   address      String
+   n_address    String
+   UF           String
+   cnpj         String     @unique 
+   reservations PublishedReservation[]
+   @@map("hotelier")
+}
+
+model Client {
+  id                      Int @id @default(autoincrement())
+  name                    String
+  email                   String @unique
+  username                String @unique 
+  phone                   String
+  password                String
+  cpf                     String @unique 
+  birthDate               String
+  rateReservations        RateReservation[]
+  clientSavedReservations ClientSavedReservation[]  
+  paymentMethods          PaymentMethod[]
+  reservations            Reserve[]
+  @@map("client")
+}
+
+model PublishedReservation {
+  id                      Int        @id @default(autoincrement())
+  name                    String 
+  rooms                   Int
+  people                  Int
+  wifi                    Boolean
+  breakfast               Boolean
+  airConditioner          Boolean
+  parking                 Boolean
+  room_service            Boolean
+  price                   Float
+  new_price               Float
+  promotion               Promotion? @relation(fields: [promotion_id], references: [id])
+  promotion_id            Int?
+  hotelier                Hotelier? @relation(fields: [hotelier_id], references: [id])
+  hotelier_id             Int
+  imageUrl                String?
+  reservations            Reserve[]
+  clientSavedReservations ClientSavedReservation[] 
+  @@map("publishedReservation")
+}
+
+model Reserve {
+  id                     Int @id @default(autoincrement())
+  num_rooms              Int 
+  checkin                String
+  checkout               String
+  num_adults             Int 
+  num_children           Int 
+  paymentMethodName      String 
+  price                  Float
+  publishedReservationId Int
+  clientId               Int 
+  paymentMethodId        Int 
+  rate                   RateReservation?
+  PublishedReservation   PublishedReservation? @relation(fields: [publishedReservationId], references: [id])
+  Client                 Client? @relation(fields: [clientId], references: [id])
+  PaymentMethod          PaymentMethod? @relation(fields: [paymentMethodId], references: [id]) 
+  @@map("reserve")
+}
+
+model Promotion {
+  id           Int @id @default(autoincrement())
+  discount     Int
+  type         PromotionType
+  num_rooms    Int?
+  reservations PublishedReservation[]
+  @@map("promotion")
+}
+
+model ClientSavedReservation {
+  client         Client @relation(fields: [client_id], references: [id])
+  reservation    PublishedReservation @relation(fields: [reservation_id], references: [id]) 
+  client_id      Int 
+  reservation_id Int
+  @@id([client_id, reservation_id])
+  @@map("clientSavedReservation")
+}
+
+model RateReservation {
+  client         Client @relation(fields: [client_id], references: [id])
+  reserve        Reserve @relation(fields: [reservation_id], references: [id]) 
+  client_id      Int 
+  reservation_id Int @unique
+  rating         Float 
+  comments       String?
+  @@id([client_id, reservation_id])
+  @@map("rateReservation")
+}
+
+model PaymentMethod {
+  id           Int @id @default(autoincrement())
+  name         String
+  numCard      String 
+  cvv          Int 
+  expiryDate   String
+  type         CardType
+  clientId     Int 
+  cpf          String 
+  Client       Client? @relation(fields: [clientId], references: [id])
+  reservations Reserve[]
+  @@unique ([clientId, numCard])
+}

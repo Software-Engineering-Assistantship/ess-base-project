@@ -1,65 +1,121 @@
-# Bem-vindo ao ESS Base Project! 🗂  🛠
+<img src="https://i.imgur.com/45KAhZK.png" alt="logo" width="200" />
 
-Este projeto serve como ponto de partida para o desenvolvimento de aplicações utilizando os *frameworks* de *backend* e *frontend* escolhidos pela equipe.
+# Hotel Trancinvânia
 
----
+Hotel Trancinvânia é um projeto de sistema de gerenciamento de reservas de hotel, desenvolvido para a disciplina de Engenharia de Software e Sistemas (IF682) do CIn-UFPE, no curso de Engenharia da Computação. Este repositório contém tanto o backend quanto o frontend da aplicação.
 
-## Sobre o Projeto
+## Índice
 
-O Projeto Base de ESS utiliza o conceito de ***[Subtrees]('https://www.atlassian.com/br/git/tutorials/git-subtree')*** do Git para integrar dois repositórios separados, um para o *backend* e outro para o *frontend*. Esses repositórios são clonados dentro deste projeto, em pastas separadas, permitindo o desenvolvimento simultâneo das camadas de *frontend* e *backend*.
+- [Visão Geral](#visão-geral)
+- [Equipe](#equipe)
+- [Tecnologias Utiizadas](#tecnologias-utilizadas)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Configuração e Instalação](#configuração-e-instalação)
+- [Comandos Úteis](#comandos-úteis)
+
+## Visão Geral
+Este projeto é um sistema completo de gerenciamento de hotel, permitindo as seguintes features:
+- Cadastro e Login
+  - Usuário Hoteleiro e Cliente
+  - Login com autenticação local e JWT
+  - Alteração de cadastro, podendo alterar e-mail, username e senha
+  - Recuperação de senha através de token enviado por e-mail
+- Publicar, Gerenciar e Realizar Reservas
+- Salvar, Gostar, Compartilhar e Avaliar Reservas
+- Busca de Reservas com Filtros
+- Cadastro e Manutenção de Métodos de Pagamento
+- Cadastro e Manutenção de Promoções
+- Disparo de E-mails
+
+### Tipos de Usuário
+#### Cliente
+O usuário cliente é aquele que pode realizar, salvar, gostar e compartilhar reservas. Reservas só podem ser avaliadas após ter passado o período de estadia.
+#### Hoteleiro
+O usuário hoteleiro é aquele que publica e gerencia reservas en seu hotel, podendo cadastrar e gerenciar promoções. 
+
+## Equipe
+As pessoas que compõem a equipe são:
+- Amanda Cristina Fernandes Medeiros de Lima (acfml)
+- Bianca Duarte Santos (bds)
+- Maria Letícia do Nascimento Gaspar (mlng)
+- Matheus Augusto Monte Silva (mams4)
+- Mateus Galdino de Lima Guilherme (mglg)
+- Victoria Barbosa Cesar Figueiredo (vbcf)
+
+## Tecnologias Utilizadas
+
+### Back-End
+- Node.js, Express e TypeScript
+- WSL, Docker, Prisma, PostgreSQL
+- Zod
+- Passport, JWT e bcrypt
+
+### Front-End
+- React e TypeScript
+  - React Hook Form
+- Chakra UI e Aceternity UI
+- ViaCEP API 
+
+### Deployment
+- Render (back-end)
+- Vercel (front-end)
+
+### Testes
+- Jest-Cucumber (back-end)
+- Cypress (front-end)
+
+### Outras Ferramentas
+- **Gerenciamento de Projetos**: Notion
+- **Design**: Figma, Canva e Calligraphr
+- **Comunicação**: Discord e WhatsApp
+
+## Estrutura do Projeto
+Abaixo está a estrutura principal dos diretórios e arquivos do projeto:
+- **backend**: Contém o código fonte do backend da aplicação.
+  - **docker**: Configurações e dados do Docker.
+  - **prisma**: Configurações e migrações do Prisma.
+  - **src**: Código fonte do backend, incluindo controllers, services, repositories, entitites, enums, middleware, routes, utils, etc.
+  - **tests**: Testes do backend.
+- **config**: Scripts e configurações adicionais.
+- **frontend**: Contém o código fonte do frontend da aplicação, que segue a estrutura abaixo:
+![image](https://github.com/user-attachments/assets/109668d6-59a8-4ab0-a136-f9e3a025b534)
 
 
-## Passo a Passo 🚶
+## Configuração e Instalação
 
-### Crie um *Fork* 
+### Pré-requisitos
 
-Se você ainda não tem, faça um *fork* **[deste repositório](https://github.com/Software-Engineering-Assistantship/ess-base-project)** para a sua conta do GitHub.
+- Node.js
+- Docker
+- Docker Compose
+- React
 
-### Clone o seu *Fork* 
+### Passos de Instalação
 
-Clone o repositório forkado para o seu ambiente de desenvolvimento local.
-### Instale o *Python 3* 🐍
-
-Certifique-se de ter o *Python* instalado em seu sistema. Se necessário, faça o download e a instalação do *Python* em https://www.python.org/.
-
-### Abra o seu projeto localmente 💻
-
-Abra o terminal e navegue até o diretório do seu projeto base.
-
-### Escolha os *Frameworks* 📝
-
-Para prosseguir com a criação do projeto base, é importante que você e sua equipe tenham decidido previamente quais *frameworks* de *backend* e *frontend* serão utilizados. 
-
-#### *Frameworks* Suportados:
-
-- ***Frontend*:** React ⚛️, Angular 🅰️, Vue.js 🔥 e Next.js 🇳
-- ***Backend*:** NodeJS 🚀 e FastAPI ⚡️
-
-Certifique-se de que todos estejam alinhados na escolha dos *frameworks* antes de prosseguir com o processo de criação do projeto. Isso garantirá que você esteja utilizando as tecnologias desejadas e poderá aproveitar ao máximo o potencial oferecido por cada *framework* selecionado.
-
-### Crie o Projeto Base 📁
-
-Para criar o projeto, execute o comando abaixo:
-```sh
-pip install inquirer && python3 ./config/cli.py
-
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/duartebianca/hotel-trancinvania.git
+   cd hotel-trancinvania
+    ```
+2. Configure e inicie o backend:
+   ```bash
+    cd backend
+    npm install
+    docker compose up
+    npx prisma migrate dev
+    npm run start
+    ```
+3. Configure e inicie o frontend:
+```bash
+    cd frontend
+    npm install
+    npm run dev
 ```
-ou, caso o comando ```python3``` não exista em sua máquina, execute:
+### Configuração do Banco de Dados
+O banco de dados é configurado e gerenciado pelo Prisma. Certifique-se de que o Docker está em execução e que o serviço de banco de dados está ativo.
 
-```sh
-pip install inquirer && python ./config/cli.py
-```
-
-Esse comando instalará a biblioteca [inquirer](https://python-inquirer.readthedocs.io/en/latest/) e executará o arquivo cli.py localizado na pasta config. A partir desse momento, você terá acesso a um processo interativo que irá guiá-lo durante a configuração do projeto.
-
-### Comece a desenvolver! 🚀
-
-Comece a desenvolver sua aplicação utilizando esse projeto base como ponto de partida!
-Após a conclusão do processo de criação, o projeto já estará estruturado com os diretórios de *backend* e *frontend* separados. Cada um desses projetos é baseado nos *frameworks* que você escolheu, e eles contêm um arquivo README com instruções detalhadas sobre como configurar e executar cada um deles. Portanto, é altamente recomendado que você leia os respectivos READMEs para obter as informações necessárias. Não deixe essa etapa de lado, pois os READMEs fornecerão orientações valiosas para começar a trabalhar nos projetos de *backend* e *frontend* com facilidade.
-
-*Que a força esteja com vocês! 🪐💪✨*
-
----
-## Contribuindo 🤝
-
-Se você tiver sugestões de melhorias ou encontrar problemas no projeto base, sinta-se à vontade para abrir uma issue neste repositório. Sua contribuição é valiosa para aprimorarmos continuamente o projeto.
+## Comandos Úteis
+- npm run start: Inicia o servidor.
+- npm run test: Executa os testes.
+- npm run dev: Inicia o frontend.
+- npx prisma migrate dev: Executa migrações de banco de dados.
